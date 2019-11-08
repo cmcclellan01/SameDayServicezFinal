@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -17,6 +19,18 @@ namespace SameDayServicezFinal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private string MainProfilePath = "/Uploads/ProfileImages/";
+        private string MainProjectPath = "/Uploads/Projects/";
+        private ApplicationDbContext db = new ApplicationDbContext();
+
+
+        public enum DatabaseTypeToRemove
+        {
+            Profile,
+            ProjectDoument,
+            ProfileID
+        }
+
 
         public AccountController()
         {
@@ -52,14 +66,60 @@ namespace SameDayServicezFinal.Controllers
             }
         }
 
+        public async Task LoginTime(string email)
+        {
+            var user = await UserManager.FindByNameAsync(email);
+            //  var user = db.LoginHistory.Where(x=> x.UserId == userName).FirstOrDefault();
+
+            var model = new LoginHistory
+            {
+                UserId = user.UserName,
+                LoginTime = DateTime.Now,
+                LogoutTime = null,
+            };
+            db.LoginHistory.Add(model);
+            db.SaveChanges();
+
+        }
+        public void LogOutTime(string email)
+        {
+            var model = db.LoginHistory.Where(u => u.UserId == email).OrderByDescending(u => u.Id).FirstOrDefault();
+            if (model != null)
+            {
+                model.LogoutTime = DateTime.Now;
+                db.SaveChanges();
+            }
+
+
+        }
+
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        public ActionResult Login(bool IsContractor = true)
         {
-            ViewBag.ReturnUrl = returnUrl;
-            return View();
+          
+            LoginViewModel model = new LoginViewModel();
+
+            if (IsContractor)
+            {
+
+                model.Type = "Contractor";
+                Utils.Extensions.IsInContractorMode = true;
+                Utils.Extensions.IsInCustomerMode = false;
+            }
+            else
+            {
+                model.Type = "Customer";
+                Utils.Extensions.IsInCustomerMode = true;
+                Utils.Extensions.IsInContractorMode = false;
+            }
+
+            return View(model);
         }
+
+       
 
         //
         // POST: /Account/Login
@@ -73,18 +133,49 @@ namespace SameDayServicezFinal.Controllers
                 return View(model);
             }
 
+        
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+            if (result == SignInStatus.Success)
+            {
+                var user = await UserManager.FindByNameAsync(model.Email);
+
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+
+
+              //  user.IsInContractorMode = samedayservicez.Utils.Extensions.IsInContractorMode;
+               // user.IsInCustomerMode = samedayservicez.Utils.Extensions.IsInCustomerMode;
+                await UserManager.UpdateAsync(user);
+
+
+                await LoginTime(model.Email);
+            }
+
+
+
+
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (returnUrl == "")
+                    {
+                        return RedirectToAction("DashBoard", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    }
+                    else
+                    {
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
+                    TempData["loginError"] = "Invalid login attempt. Please check your username or password";
+                    ViewBag.ErrorResult = "Invalid login attempt. Please check your username or password";
+                    return View(model);
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
@@ -139,8 +230,37 @@ namespace SameDayServicezFinal.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var states = Utils.Extensions.GetStatesList();
+
+            var model = new RegisterViewModel
+            {
+                States = GetSelectListItems(states)
+            };
+
+            return View(model);
         }
+
+        private IEnumerable<SelectListItem> GetSelectListItems(IEnumerable<SelectListItem> elements)
+        {
+            // Create an empty list to hold result of the operation
+            var selectList = new List<SelectListItem>();
+
+            // For each string in the 'elements' variable, create a new SelectListItem object
+            // that has both its Value and Text properties set to a particular value.
+            // This will result in MVC rendering each item as:
+            //     <option value="State Name">State Name</option>
+            foreach (var element in elements)
+            {
+                selectList.Add(new SelectListItem
+                {
+                    Value = element.Value,
+                    Text = element.Text
+                });
+            }
+
+            return selectList;
+        }
+
 
         //
         // POST: /Account/Register
@@ -149,14 +269,40 @@ namespace SameDayServicezFinal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
+            var states = Utils.Extensions.GetStatesList();
+
+            model.States = GetSelectListItems(states);
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    MiddleName = model.MiddleName,
+                    LastName = model.LastName,
+                    Address = model.Address,
+                    City = model.City,
+                    State = model.State,
+                    ZipCode = model.ZipCode,
+                    BirthDate = model.BirthDate,
+                    Bio = model.Bio,
+                    IsInContractorMode = model.IsInContractorMode,
+                    IsInCustomerMode = model.IsInCustomerMode,
+                    PhoneNumber = model.PhoneNumber,
+                    PercentDone = 20,
+                    longitude = model.longitude,
+                    latitude = model.latitude
+
+                };
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -392,6 +538,7 @@ namespace SameDayServicezFinal.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            LogOutTime(User.Identity.Name);
             return RedirectToAction("Index", "Home");
         }
 
@@ -402,6 +549,9 @@ namespace SameDayServicezFinal.Controllers
         {
             return View();
         }
+
+
+
 
         protected override void Dispose(bool disposing)
         {

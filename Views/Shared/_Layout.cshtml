@@ -6,39 +6,107 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+
+        @*<a class="navbar-brand" href="#">
+                <img src="~/Content/logo.png" class="img-fluid d-none d-lg-block logo-img"  />
+            </a>*@
+
+        <div class="container-fluid ">
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                <img src="~/Content/images/logo.png" class="img-fluid " style="height:54px" />
+            </button>
+
+
+
+
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                <img src="~/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px" onclick="location.href='@Url.Action("index", "Home")'" />
+
+                <ul class="nav navbar-nav mr-auto">
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>
+                    @if (Request.IsAuthenticated == false)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Contractors
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Login", "Account", new { IsContractor = true })">Login</a>
+                                <a class="dropdown-item" href="@Url.Action("Register", "Account", new { IsContractor = true })">Sign Up</a>
+                                <div class="dropdown-divider"></div>
+                                @*<a class="dropdown-item" href="#">Something else here</a>*@
+                            </div>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Customers
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("Login", "Account", new { IsContractor = false })">Login</a>
+                                <a class="dropdown-item" href="@Url.Action("Register", "Account", new { IsContractor = false })">Sign Up</a>
+                                <div class="dropdown-divider"></div>
+                                @*<a class="dropdown-item" href="#">Something else here</a>*@
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Projects
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="@Url.Action("NewProject", "Account", new { IsContractor = SameDayServicezFinal.Utils.Extensions.IsInContractorMode })">New Project</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="@Url.Action("DashBoard", "Account", new { IsContractor = SameDayServicezFinal.Utils.Extensions.IsInContractorMode })">My Projects</a>
+                            </div>
+
+                        </li>
+                    }
+
                 </ul>
-                @Html.Partial("_LoginPartial")
+
+                <div class="form-group">
+                    @Html.Partial("_LoginPartial")
+                </div>
+
             </div>
+
         </div>
-    </div>
-    <div class="container body-content">
+    </nav>
+    <div class="container-fluid body-content">
         @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
     </div>
 
+
+
+
+
+    <script src="~/Scripts/umd/popper.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+    <script src="~/Scripts/utilities.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
