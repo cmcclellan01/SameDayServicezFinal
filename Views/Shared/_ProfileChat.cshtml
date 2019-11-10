@@ -1,0 +1,938 @@
+﻿<style>
+    @@media print {
+        *, :after, :before {
+            text-shadow: none !important;
+            -webkit-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+
+        a, a:visited {
+            text-decoration: underline;
+        }
+
+        img {
+            page-break-inside: avoid;
+        }
+    }
+
+    *, :after, :before {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    h6 {
+        margin-top: 0;
+        margin-bottom: 8px;
+        margin-bottom: .5rem;
+    }
+
+    small {
+        font-size: 80%;
+    }
+
+    a {
+        color: #2196f3;
+        text-decoration: none;
+        background-color: transparent;
+        -webkit-text-decoration-skip: objects;
+    }
+
+        a:hover {
+            color: #0a6ebd;
+            text-decoration: underline;
+        }
+
+    img {
+        vertical-align: middle;
+        border-style: none;
+    }
+
+    a, button, input: not([type=range]) {
+        -ms-touch-action: manipulation;
+        touch-action: manipulation;
+    }
+
+    button {
+        border-radius: 0;
+    }
+
+        button:focus {
+            outline: 1px dotted;
+            outline: 5px auto -webkit-focus-ring-color;
+        }
+
+    button, input {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    button, input {
+        overflow: visible;
+    }
+
+    button {
+        text-transform: none;
+    }
+
+    button, html [type=button] {
+        -webkit-appearance: button;
+    }
+
+        [type=button]:: -moz-focus-inner, button:: -moz-focus-inner {
+            padding: 0;
+            border-style: none;
+        }
+
+    h6 {
+        margin-bottom: 8px;
+        margin-bottom: .5rem;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+    }
+
+    h6 {
+        font-size: 14px;
+        font-size: .875rem;
+    }
+
+    small {
+        font-size: 80%;
+        font-weight: 400;
+    }
+
+    .form-control {
+        display: block;
+        width: 100%;
+        padding: 6px 12px;
+        padding: .375rem .75rem;
+        font-size: 14px;
+        font-size: .875rem;
+        line-height: 1.5;
+        color: #495057;
+        background-color: #fff;
+        background-image: none;
+        background-clip: padding-box;
+        border: 1px solid #ced4da;
+        border-radius: .25rem;
+        -webkit-transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+        -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    }
+
+        .form-control:: -ms-expand {
+            background-color: transparent;
+            border: 0;
+        }
+
+        .form-control:focus {
+            color: #495057;
+            background-color: #fff;
+            border-color: #9acffa;
+            outline: none;
+            -webkit-box-shadow: 0 0 0 .2rem rgba(33,150,243,.25);
+            box-shadow: 0 0 0 .2rem rgba(33,150,243,.25);
+        }
+
+        .form-control:: -webkit-input-placeholder {
+            color: #868e96;
+            opacity: 1;
+        }
+
+        .form-control: -ms-input-placeholder, .form-control:: -ms-input-placeholder {
+            color: #868e96;
+            opacity: 1;
+        }
+
+        .form-control:: placeholder {
+            color: #868e96;
+            opacity: 1;
+        }
+
+        .form-control: disabled {
+            background-color: #e9ecef;
+            opacity: 1;
+        }
+
+    .btn {
+        display: inline-block;
+        font-weight: 400;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 6px 12px;
+        padding: .375rem .75rem;
+        font-size: 14px;
+        font-size: .875rem;
+        line-height: 1.5;
+        border-radius: .25rem;
+        -webkit-transition: background-color .15s ease-in-out,border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+        transition: background-color .15s ease-in-out,border-color .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+        -o-transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+    }
+
+        .btn:focus, .btn:hover {
+            text-decoration: none;
+        }
+
+        .btn:focus {
+            outline: 0;
+            -webkit-box-shadow: 0 0 0 .2rem rgba(33,150,243,.25);
+            box-shadow: 0 0 0 .2rem rgba(33,150,243,.25);
+        }
+
+        .btn: disabled {
+            opacity: .65;
+        }
+
+        .btn: not([disabled]): not(.disabled):active {
+            background-image: none;
+        }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #2196f3;
+        border-color: #2196f3;
+    }
+
+        .btn-primary:hover {
+            color: #fff;
+            background-color: #0c83e2;
+            border-color: #0c7cd5;
+        }
+
+        .btn-primary:focus {
+            -webkit-box-shadow: 0 0 0 .2rem rgba(33,150,243,.5);
+            box-shadow: 0 0 0 .2rem rgba(33,150,243,.5);
+        }
+
+        .btn-primary: disabled {
+            background-color: #2196f3;
+            border-color: #2196f3;
+        }
+
+        .btn-primary: not([disabled]): not(.disabled):active {
+            color: #fff;
+            background-color: #0c7cd5;
+            border-color: #0b75c9;
+            -webkit-box-shadow: 0 0 0 .2rem rgba(33,150,243,.5);
+            box-shadow: 0 0 0 .2rem rgba(33,150,243,.5);
+        }
+
+    .w-100 {
+        width: 100% !important;
+    }
+
+    .h-100 {
+        height: 100% !important;
+    }
+
+    html a {
+        -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+        -webkit-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        transition: all .3s ease-in-out;
+    }
+
+    h6 {
+        font-family: Roboto,-apple-system,system-ui,BlinkMacSystemFont,Segoe UI,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Arial,sans-serif;
+        line-height: 1.5;
+    }
+
+    h6 {
+        letter-spacing: .5px;
+    }
+
+    a {
+        color: #0f9aee;
+    }
+
+        a:focus, a:hover {
+            text-decoration: none;
+            color: #0c7bbe;
+        }
+
+        a:focus {
+            outline: none;
+        }
+
+    :focus {
+        outline: none;
+    }
+
+    #chat-sidebar {
+        width: 250px;
+        height: calc(100vh - 125px);
+        overflow: auto;
+    }
+
+    #chat-box {
+        height: calc(100vh - 125px);
+        overflow: auto;
+    }
+
+    [class*=gap] {
+        width: auto !important;
+        overflow: hidden !important;
+    }
+
+    .gapY-5 {
+        margin-top: -2.5px !important;
+        margin-bottom: -2.5px !important;
+    }
+
+        .gapY-5 > * {
+            padding-top: 2.5px !important;
+            padding-bottom: 2.5px !important;
+        }
+
+    .gapY-10 {
+        margin-top: -5px !important;
+        margin-bottom: -5px !important;
+    }
+
+        .gapY-10 > * {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+        }
+
+    .gapY-15 {
+        margin-top: -7.5px !important;
+        margin-bottom: -7.5px !important;
+    }
+
+        .gapY-15 > * {
+            padding-top: 7.5px !important;
+            padding-bottom: 7.5px !important;
+        }
+
+    .peers {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+        flex-flow: row wrap;
+        height: auto;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .peer {
+        display: block;
+        height: auto;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+    }
+
+    .peer-greed {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+    }
+
+    .peer > img {
+        max-width: none;
+    }
+
+    .layers {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+        flex-flow: column nowrap;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .layers {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+    }
+
+    .fxw-nw {
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    }
+
+    .ai-fs {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+    }
+
+    .ai-fe {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+        align-items: flex-end;
+    }
+
+    .ai-c {
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+    }
+
+    .jc-sb {
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
+    }
+
+    .fxg-1 {
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        flex-grow: 1;
+    }
+
+    .ord-0 {
+        -webkit-box-ordinal-group: 1;
+        -ms-flex-order: 0;
+        order: 0;
+    }
+
+    .ord-1 {
+        -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+        order: 1;
+    }
+
+    .pos-r {
+        position: relative !important;
+    }
+
+    .pos-a {
+        position: absolute !important;
+    }
+
+    .m-0 {
+        margin: 0 !important;
+    }
+
+    .mB-0 {
+        margin-bottom: 0 !important;
+    }
+
+    .mR-10 {
+        margin-right: 10px !important;
+    }
+
+    .mL-10 {
+        margin-left: 10px !important;
+    }
+
+    .mR-20 {
+        margin-right: 20px !important;
+    }
+
+    .mL-20 {
+        margin-left: 20px !important;
+    }
+
+    .mR-30 {
+        margin-right: 30px !important;
+    }
+
+    .cur-p {
+        cursor: pointer;
+    }
+
+    .p-0 {
+        padding: 0 !important;
+    }
+
+    .pY-3 {
+        padding-top: 3px !important;
+        padding-bottom: 3px !important;
+    }
+
+    .pX-10 {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+
+    .p-15 {
+        padding: 15px !important;
+    }
+
+    .p-20 {
+        padding: 20px !important;
+    }
+
+    .pL-20 {
+        padding-left: 20px !important;
+    }
+
+    .pY-20 {
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+    }
+
+    .pX-30 {
+        padding-left: 30px !important;
+        padding-right: 30px !important;
+    }
+
+    .t-1 {
+        top: 1px;
+    }
+
+    .r-1 {
+        right: 1px;
+    }
+
+    .w-2r {
+        width: 32px;
+        width: 2rem;
+    }
+
+    .w-3r {
+        width: 48px;
+        width: 3rem;
+    }
+
+    .h-2r {
+        height: 32px;
+        height: 2rem;
+    }
+
+    .h-3r {
+        height: 48px;
+        height: 3rem;
+    }
+
+    .td-n {
+        text-decoration: none !important;
+    }
+
+    .fsz-sm {
+        font-size: 13.92px !important;
+        font-size: .87rem !important;
+    }
+
+    .fsz-md {
+        font-size: 18.4px !important;
+        font-size: 1.15rem !important;
+    }
+
+    .fw-400 {
+        font-weight: 400 !important;
+    }
+
+    .lh-1 {
+        line-height: 1 !important;
+    }
+
+    .lh-3\/2 {
+        line-height: 1.5 !important;
+    }
+
+    .bdT {
+        border-top: 1px solid rgba(0,0,0,.0625) !important;
+    }
+
+    .bdR {
+        border-right: 1px solid rgba(0,0,0,.0625) !important;
+    }
+
+    .bdB {
+        border-bottom: 1px solid rgba(0,0,0,.0625) !important;
+    }
+
+    .bdw-0 {
+        border-width: 0 !important;
+    }
+
+    .bdrs-0 {
+        border-radius: 0 !important;
+    }
+
+    .bdrs-2 {
+        border-radius: 2px !important;
+    }
+
+    .bdrs-50p {
+        border-radius: 50% !important;
+    }
+
+    .bdrs-10em {
+        border-radius: 10em !important;
+    }
+
+    .bgc-white {
+        background-color: #fff !important;
+    }
+
+    .c-red-500 {
+        color: #f44336 !important;
+    }
+
+    .cH-blue-500:hover {
+        color: #2196f3 !important;
+    }
+
+    .c-green-500 {
+        color: #4caf50 !important;
+    }
+
+    .c-amber-500 {
+        color: #ffc107 !important;
+    }
+
+    .bgcH-grey-50:hover {
+        background-color: #fafafa !important;
+    }
+
+    .bgc-grey-200 {
+        background-color: #eee !important;
+    }
+
+    .c-grey-500 {
+        color: #9e9e9e !important;
+    }
+
+    .c-grey-900 {
+        color: #212121 !important;
+    }
+
+    .bgc-grey-200 {
+        background-color: #f2f3f5 !important;
+    }
+
+    .c-grey-500 {
+        color: #b9c2d0 !important;
+    }
+
+    .c-grey-900 {
+        color: #313435 !important;
+    }
+
+    .ps {
+        overflow: hidden !important;
+        overflow-anchor: none;
+        -ms-overflow-style: none;
+        touch-action: auto;
+        -ms-touch-action: auto;
+    }
+
+    .ps__rail-x {
+        height: 15px;
+        bottom: 0;
+    }
+
+    .ps__rail-x, .ps__rail-y {
+        display: none;
+        opacity: 0;
+        -o-transition: background-color .2s linear,opacity .2s linear;
+        transition: background-color .2s linear,opacity .2s linear;
+        -webkit-transition: background-color .2s linear,opacity .2s linear;
+        position: absolute;
+    }
+
+    .ps__rail-y {
+        width: 15px;
+        right: 0;
+    }
+
+    .ps:hover > .ps__rail-x, .ps:hover > .ps__rail-y {
+        opacity: .6;
+    }
+
+    .ps__rail-x:focus, .ps__rail-x:hover, .ps__rail-y:focus, .ps__rail-y:hover {
+        background-color: #eee;
+        opacity: .9;
+    }
+
+    .ps__thumb-x {
+        -o-transition: background-color .2s linear,height .2s ease-in-out;
+        transition: background-color .2s linear,height .2s ease-in-out;
+        -webkit-transition: background-color .2s linear,height .2s ease-in-out;
+        height: 6px;
+        bottom: 2px;
+    }
+
+    .ps__thumb-x, .ps__thumb-y {
+        background-color: #aaa;
+        border-radius: 6px;
+        position: absolute;
+    }
+
+    .ps__thumb-y {
+        -o-transition: background-color .2s linear,width .2s ease-in-out;
+        transition: background-color .2s linear,width .2s ease-in-out;
+        -webkit-transition: background-color .2s linear,width .2s ease-in-out;
+        width: 6px;
+        right: 2px;
+    }
+
+    .ps__rail-x:focus > .ps__thumb-x, .ps__rail-x:hover > .ps__thumb-x {
+        background-color: #999;
+        height: 11px;
+    }
+
+    .ps__rail-y:focus > .ps__thumb-y, .ps__rail-y:hover > .ps__thumb-y {
+        background-color: #999;
+        width: 11px;
+    }
+
+    [class^=ti-] {
+        font-family: themify;
+        speak: none;
+        font-style: normal;
+        font-weight: 400;
+        -webkit-font-feature-settings: normal;
+        font-feature-settings: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .ti-menu:before {
+        content: "\E68E";
+    }
+
+    .ti-headphone:before {
+        content: "\E69D";
+    }
+
+    .ti-video-camera:before {
+        content: "\E6CF";
+    }
+
+    .ti-more:before {
+        content: "\E6E1";
+    }
+
+    .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .fa-paper-plane-o:before {
+        content: "\F1D9";
+    }
+
+    .ps__rail-y {
+        right: 0 !important;
+        left: auto !important;
+    }
+
+    @@media (-ms-high-contrast: none),screen and (-ms-high-contrast:active) {
+        .ps {
+            overflow: auto !important;
+        }
+    }
+
+    @@media screen and (min-width: 992px) {
+        .d-n\@@md\+ {
+            display: none !important;
+        }
+    }
+
+    @@media screen and (max-width: 991px) {
+        #chat-sidebar {
+            -webkit-transition: all .3s ease-in-out;
+            -o-transition: all .3s ease-in-out;
+            transition: all .3s ease-in-out;
+            margin-left: -250px;
+        }
+    }
+</style>
+
+
+<div>
+    <div class="peers fxw-nw pos-r">
+        <div class="peer bdR" id="chat-sidebar">
+            <div class="layers h-100">
+                <div class="bdB layer w-100"><input type="text" placeholder="Search contacts..." name="chatSearch" class="form-constrol p-15 bdrs-0 w-100 bdw-0"></div>
+                <div class="layer w-100 fxg-1 scrollable pos-r ps">
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">John Doe</h6>
+                            <small class="lh-1 c-green-500">Online</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/2.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">Moo Doe</h6>
+                            <small class="lh-1 c-amber-500">Away</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/3.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">Adam Jones</h6>
+                            <small class="lh-1 c-grey-500">Offline</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/4.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">Mizo Doe</h6>
+                            <small class="lh-1 c-red-500">Busy</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">John Doe</h6>
+                            <small class="lh-1 c-green-500">Online</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/2.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">Moo Doe</h6>
+                            <small class="lh-1 c-amber-500">Away</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/3.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">Adam Jones</h6>
+                            <small class="lh-1 c-grey-500">Offline</small>
+                        </div>
+                    </div>
+                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/4.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                        <div class="peer peer-greed pL-20">
+                            <h6 class="mB-0 lh-1 fw-400">Mizo Doe</h6>
+                            <small class="lh-1 c-red-500">Busy</small>
+                        </div>
+                    </div>
+                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="peer peer-greed" id="chat-box">
+            <div class="layers h-100">
+                <div class="layer w-100">
+                    <div class="peers fxw-nw jc-sb ai-c pY-20 pX-30 bgc-white">
+                        <div class="peers ai-c">
+                            <div class="peer d-n@md+"><a href="#" title="" id="chat-sidebar-toggle" class="td-n c-grey-900 cH-blue-500 mR-30"><i class="fas fa-bars"></i></a></div>
+                            <div class="peer mR-20"><img src="https://randomuser.me/api/portraits/men/12.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                            <div class="peer">
+                                <h6 class="lh-1 mB-0">John Doe</h6>
+                                <i class="fsz-sm lh-1">Typing...</i>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="layer w-100 fxg-1 bgc-grey-200 scrollable pos-r ps">
+                    <div class="p-20 gapY-15">
+                        <div class="peers fxw-nw">
+                            <div class="peer mR-20"><img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/11.jpg" alt=""></div>
+                            <div class="peer peer-greed">
+                                <div class="layers ai-fs gapY-5">
+                                    <div class="layer">
+                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                            <div class="peer mR-10"><small>10:00 AM</small></div>
+                                            <div class="peer-greed"><span>Lorem Ipsum is simply dummy text of</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="layer">
+                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                            <div class="peer mR-10"><small>10:00 AM</small></div>
+                                            <div class="peer-greed"><span>the printing and typesetting industry.</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="layer">
+                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                            <div class="peer mR-10"><small>10:00 AM</small></div>
+                                            <div class="peer-greed"><span>Lorem Ipsum has been the industry's</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="peers fxw-nw ai-fe">
+                            <div class="peer ord-1 mL-20"><img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/12.jpg" alt=""></div>
+                            <div class="peer peer-greed ord-0">
+                                <div class="layers ai-fe gapY-10">
+                                    <div class="layer">
+                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                            <div class="peer mL-10 ord-1"><small>10:00 AM</small></div>
+                                            <div class="peer-greed ord-0"><span>Heloo</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="layer">
+                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                            <div class="peer mL-10 ord-1"><small>10:00 AM</small></div>
+                                            <div class="peer-greed ord-0"><span>??</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
+                        <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps__rail-y" style="top: 0px; right: 0px;">
+                        <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
+                    </div>
+                </div>
+                <div class="layer w-100">
+                    <div class="p-20 bdT bgc-white">
+                        <div class="pos-r"><input type="text" class="form-control bdrs-10em m-0" placeholder="Say something..."> <button type="button" class="btn btn-primary bdrs-50p w-2r p-0 h-2r pos-a r-1 t-1"><i class="fa fa-paper-plane-o"></i></button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $('#chat-sidebar-toggle').on('click', function (event) {
+            event.preventDefault();
+            $("body").toggleClass("nav-toggle");
+        });
+
+    });
+
+</script>

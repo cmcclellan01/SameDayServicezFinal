@@ -64,6 +64,11 @@ namespace SameDayServicezFinal.Models
         public int Rating { get; set; }
         public string RatingClass { get; set; }
 
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        public string DisplayName { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

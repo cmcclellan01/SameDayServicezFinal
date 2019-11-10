@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
+using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -550,6 +552,791 @@ namespace SameDayServicezFinal.Controllers
             return View();
         }
 
+        [HttpPost]
+
+        public async Task<ActionResult> Profile(ApplicationUser model)
+        {
+            var states = Utils.Extensions.GetStatesList();
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+
+            if (user != null)
+            {
+                user.Address = model.Address;
+                user.State = model.State;
+                user.States = GetSelectListItems(states);
+                user.Professions = new List<SelectListItem>();
+                user.SubProfessions = new List<SelectListItem>(); ;
+                //user.SelectedProfession = model.SelectedProfession;
+                user.InfoTabOpen = model.InfoTabOpen;
+                user.longitude = model.longitude;
+                user.latitude = model.latitude;
+
+                if (model.JsonProfession != null)
+                {
+                    foreach (var item in model.JsonProfession.Trim(',').Split(','))
+                    {
+
+                        var m = long.Parse(item.Split('_')[0]);
+                        var s = long.Parse(item.Split('_')[1]);
+
+                        var MainCatName = db.Categories.Where(p => p.Id == m).Select(p => p.MainCatName).FirstOrDefault();
+                        var SubCatName = db.Subcategories.Where(p => p.Id == s).Select(p => p.SubCatNames).FirstOrDefault();
+                        var UserCategories = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId && p.MainCatId == m && p.SubCatId == s).ToList();
+
+                        if (UserCategories.Count() == 0)
+                        {
+                            ContractorCustomerCategories SelectedProfession = new ContractorCustomerCategories
+                            {
+                                ContractorCustomerId = userId,
+                                MainCatId = long.Parse(item.Split('_')[0]),
+                                SubCatId = long.Parse(item.Split('_')[1]),
+                                MainCatName = MainCatName,
+                                SubCatName = SubCatName
+                            };
+
+                            db.ContractorCustomerCategories.Add(SelectedProfession);
+                            db.SaveChanges();
+                        }
+
+                    }
+                }
+
+
+
+
+                await UserManager.UpdateAsync(user);
+
+                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+
+            return View(user);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Profile()
+        {
+            var states = Utils.Extensions.GetStatesList();
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+                user.States = GetSelectListItems(states);
+                user.Professions = new List<SelectListItem>();
+                user.SubProfessions = new List<SelectListItem>();
+
+
+                user.InfoTabOpen = "0";
+
+                var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId);
+
+                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View(user);
+        }
+
+     
+
+
+        public JsonResult GetSubCategoryList(int Id)
+        {
+
+            var userId = User.Identity.GetUserId();
+
+            var UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+            var wholeList = db.Subcategories.Where(x => x.MainCatId == Id).ToList();
+            List<Subcategories> catList = new List<Subcategories>();
+
+            wholeList.RemoveAll(x => UserProfessions.Any(y => y.SubCatId == x.Id));
+
+            return Json(wholeList, JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult RemoveUserContractorCustomerCategories(int mainId, int subId)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId && p.SubCatId == subId && p.MainCatId == mainId).ToList();
+
+            foreach (var item in UserProfessions)
+            {
+                db.ContractorCustomerCategories.Remove(item);
+                db.SaveChanges();
+            }
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetProjectSubCategoryList(int Id)
+        {
+
+            var userId = User.Identity.GetUserId();
+
+            var UserProfessions = db.ProjectCategories.Where(p => p.ProjectsUsersId == userId).ToList();
+
+            var wholeList = db.Subcategories.Where(x => x.MainCatId == Id).ToList();
+            List<Subcategories> catList = new List<Subcategories>();
+
+            wholeList.RemoveAll(x => UserProfessions.Any(y => y.ProjectsSubCatId == x.Id));
+
+            return Json(wholeList, JsonRequestBehavior.AllowGet);
+
+        }
+        public ActionResult AddProjectContractorCustomerCategories(int mainId, int subId, int projectId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+
+                if (userId != null)
+                {
+                    ProjectCategories projectCatagory = new ProjectCategories
+                    {
+                        ProjectsId = projectId,
+                        ProjectsMainCatId = mainId,
+                        ProjectsSubCatId = subId,
+                        ProjectsMainCatName = db.Categories.Where(p => p.Id == mainId).Select(p => p.MainCatName).FirstOrDefault(),
+                        ProjectsSubCatName = db.Subcategories.Where(p => p.Id == subId).Select(p => p.SubCatNames).FirstOrDefault(),
+                        ProjectsUsersId = userId
+                    };
+
+                    db.ProjectCategories.Add(projectCatagory);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+                return Json("", JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception)
+            {
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult RemoveProjectContractorCustomerCategories(int mainId, int subId, int projectId)
+        {
+
+            try
+            {
+                var userId = User.Identity.GetUserId();
+
+                if (userId != null)
+                {
+                    var UserProfessions = db.ProjectCategories.Where(p => p.ProjectsUsersId == userId && p.ProjectsSubCatId == subId && p.ProjectsMainCatId == mainId && p.ProjectsId == projectId).ToList();
+
+                    foreach (var item in UserProfessions)
+                    {
+                        db.ProjectCategories.Remove(item);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+            }
+            catch (Exception)
+            {
+
+                return Json("ERROR", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult AutoComplete(string term)
+        {
+            if (!String.IsNullOrEmpty(term))
+            {
+                var list = db.Categories.Where(c => c.MainCatName.ToUpper().StartsWith(term.ToUpper())).Select(c => new { Name = c.MainCatName, ID = c.Id })
+                    .ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var list = db.Categories.Select(c => new { Name = c.MainCatName, ID = c.Id })
+                    .ToList();
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult AutoCompleteCity(string term)
+        {
+            if (!String.IsNullOrEmpty(term))
+            {
+                var list = db.StateInfo.OrderBy(p => p.City).Where(c => c.City.ToUpper().StartsWith(term.ToUpper())).Select(c => new { Name = c.City, ID = c.Id })
+                    .ToList().DistinctBy(p => p.Name);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var list = db.StateInfo.OrderBy(p => p.City).Select(c => new { Name = c.City, ID = c.Id })
+                    .ToList().DistinctBy(p => p.Name);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+        }
+        public ActionResult AutoCompleteZipCode(string city, string term)
+        {
+            if (!String.IsNullOrEmpty(term))
+            {
+                var list = db.StateInfo.OrderBy(p => p.ZipCode).Where(c => c.City.ToUpper() == city.ToUpper() && c.ZipCode.StartsWith(term)).Select(c => new { Name = c.ZipCode, ID = c.Id })
+                    .ToList().DistinctBy(p => p.Name);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                var list = db.StateInfo.OrderBy(p => p.ZipCode).Select(c => new { Name = c.ZipCode, ID = c.Id })
+                    .ToList().DistinctBy(p => p.Name);
+                return Json(list, JsonRequestBehavior.AllowGet);
+            }
+        }
+        private bool RemoveFromDatabase(DatabaseTypeToRemove type, string imagename = "")
+        {
+
+            try
+            {
+                if (type == DatabaseTypeToRemove.ProjectDoument)
+                {
+                    var document = db.ProjectDocuments.Where(p => p.ImageName == imagename).FirstOrDefault();
+                    db.ProjectDocuments.Remove(document);
+                    db.SaveChanges();
+                }
+
+                if (type == DatabaseTypeToRemove.Profile)
+                {
+
+                }
+
+
+
+                if (type == DatabaseTypeToRemove.ProfileID)
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+            }
+
+
+
+
+
+
+            return true;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> RemoveUpload(string type, int projectId = 0, string imagename = "")
+        {
+            bool isSavedSuccessfully = true;
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var ProfilePath = "/Uploads/ProfileImages/" + User.Identity.GetUserId() + "/";
+            try
+            {
+
+                if (type == "project")
+                {
+
+                    var path = Path.Combine(Server.MapPath("/Uploads/Projects/" + projectId + "/" + User.Identity.GetUserId() + "/"));
+                    string pathString = System.IO.Path.Combine(path.ToString() + Path.GetFileName(imagename));
+
+                    if (System.IO.File.Exists(pathString))
+                    {
+                        System.IO.File.Delete(pathString);
+
+                        RemoveFromDatabase(DatabaseTypeToRemove.ProjectDoument, Path.GetFileName(imagename));
+                    }
+
+                }
+
+
+                if (type == "profile")
+                {
+                    if (user.ProfileImage != null)
+                    {
+                        var path = Path.Combine(Server.MapPath(ProfilePath));
+                        string pathString = System.IO.Path.Combine(path.ToString() + "profile_" + userId + Path.GetExtension(user.ProfileImage));
+
+                        if (System.IO.File.Exists(pathString))
+                        {
+                            System.IO.File.Delete(pathString);
+                        }
+
+                        user.ProfileImage = null;
+                        await UserManager.UpdateAsync(user);
+                    }
+                }
+
+                if (type == "id")
+                {
+                    if (user.IdImage != null)
+                    {
+                        var path = Path.Combine(Server.MapPath(ProfilePath));
+                        string pathString = System.IO.Path.Combine(path.ToString() + "id_" + userId + Path.GetExtension(user.IdImage));
+
+                        if (System.IO.File.Exists(pathString))
+                        {
+                            System.IO.File.Delete(pathString);
+                        }
+                        user.IdImage = null;
+                        await UserManager.UpdateAsync(user);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+            if (isSavedSuccessfully)
+            {
+                return Json(new
+                {
+                    Message = true
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    Message = false
+                });
+            }
+        }
+
+        public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+
+        private static int GetImageCountFromFolder(string path)
+        {
+
+            int i = 0;
+
+            foreach (var item in Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly))
+            {
+                if (ImageExtensions.Contains(Path.GetExtension(item).ToUpperInvariant()))
+                {
+                    i++;
+                }
+            }
+
+
+            return i++;
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Upload(string type, int projectId = 0)
+        {
+
+            string fName = "";
+            bool isSavedSuccessfully = true;
+
+            List<JsonProjectDocumentList> returnList = new List<JsonProjectDocumentList>();
+            try
+            {
+
+                foreach (string fileName in Request.Files)
+                {
+                    HttpPostedFileBase file = Request.Files[fileName];
+
+
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        if (type == "project")
+                        {
+                            fName = SaveProjectFile(projectId, file);
+                            JsonProjectDocumentList returnImage = new JsonProjectDocumentList
+                            {
+                                ImageName = fName.Split(':')[0]
+                            };
+
+                            returnList.Add(returnImage);
+                        }
+
+
+                        if (type == "profile")
+                        {
+
+                            fName = await SaveProfileFile(file, "profile");
+
+                        }
+
+                        if (type == "id")
+                        {
+                            fName = await SaveProfileFile(file, "id");
+
+                        }
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+            if (isSavedSuccessfully)
+            {
+                if (type == "profile")
+                {
+
+                    return Json(new
+                    {
+                        Message = fName
+                    }); ;
+                }
+
+                if (type == "id")
+                {
+                    return Json(new
+                    {
+                        Message = fName
+                    }); ;
+                }
+
+                if (type == "project")
+                {
+                    return Json(new
+                    {
+                        Message = returnList
+                    });
+                }
+
+                return Json(new
+                {
+                    Message = "default"
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    Message = "Error in saving file"
+                });
+            }
+        }
+
+        [HttpPost]
+        public ActionResult SaveProjectImageComment(string ImageName, string comment)
+        {
+
+            try
+            {
+                var document = db.ProjectDocuments.Where(p => p.ImageName == ImageName).FirstOrDefault();
+                document.ImageComment = comment;
+                db.SaveChanges();
+
+
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    Message = "Error in saving file"
+                });
+
+            }
+
+
+            return Json(new
+            {
+                Message = "OK"
+            });
+
+        }
+        private string SaveProjectFile(int projectId, HttpPostedFileBase file)
+        {
+            string fName;
+            var ProjectPath = Path.Combine(Server.MapPath(MainProjectPath + projectId + "/" + User.Identity.GetUserId() + "/"));
+            if (!System.IO.Directory.Exists(ProjectPath)) System.IO.Directory.CreateDirectory(ProjectPath);
+            int fCount = GetImageCountFromFolder(ProjectPath) + 1;
+            //fName = "PID_" + projectId + "_Num_" + fCount + Path.GetExtension(file.FileName);
+            fName = Guid.NewGuid().ToString("N") + Path.GetExtension(file.FileName);
+            file.SaveAs(string.Format("{0}{1}", ProjectPath, fName));
+
+
+            ProjectDocuments pd = new ProjectDocuments
+            {
+                CreationDate = DateTime.Now,
+                ImageName = fName,
+                ProjectId = projectId,
+                UsersId = User.Identity.GetUserId()
+            };
+            db.ProjectDocuments.Add(pd);
+            db.SaveChanges();
+
+
+            return fName + ":" + pd.Id.ToString();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> SaveProjectCompensationPackage(int projectId, long ProjectCompensationType, decimal ByTheHourRate = 0, decimal ByTheProjectRate = 0, decimal StartingBidRate = 0, decimal EndingBidRate = 0, decimal FloatingBidRate = 0, DateTime StartingBidDate = default, DateTime EndingBidDate = default)
+        {
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            bool isSavedSuccessfully = true;
+            try
+            {
+                if (user != null)
+                {
+
+                    //change the date to be acceptable but still have it to where we know its blank
+                    if (StartingBidDate == Convert.ToDateTime("01/01/0001 12:00 AM")) { StartingBidDate = Convert.ToDateTime("01/01/2000 12:00 AM"); }
+                    if (EndingBidDate == Convert.ToDateTime("01/01/0001 12:00 AM")) { EndingBidDate = Convert.ToDateTime("01/01/2000 12:00 AM"); }
+
+                    var pcomp = db.ProjectCompensationPackage.Where(p => p.ProjectId == projectId).FirstOrDefault();
+
+
+
+
+
+
+
+
+
+                    if (pcomp != null)
+                    {
+                        pcomp.ProjectId = projectId;
+                        pcomp.ProjectCompensationType = ProjectCompensationType;
+                        pcomp.ByTheHourRate = ByTheHourRate;
+                        pcomp.ByTheProjectRate = ByTheProjectRate;
+                        pcomp.StartingBidRate = StartingBidRate;
+                        pcomp.EndingBidRate = EndingBidRate;
+                        pcomp.FloatingBidRate = FloatingBidRate;
+                        pcomp.StartingBidDate = StartingBidDate;
+                        pcomp.EndingBidDate = EndingBidDate;
+                        pcomp.UsersId = User.Identity.GetUserId();
+
+
+
+                        switch (ProjectCompensationType)
+                        {
+                            case 1:
+                                pcomp.ByTheProjectRate = 0;
+                                pcomp.StartingBidRate = 0;
+                                pcomp.EndingBidRate = 0;
+                                pcomp.FloatingBidRate = 0;
+                                break;
+
+
+                            case 2:
+                                pcomp.ByTheHourRate = 0;
+
+                                pcomp.StartingBidRate = 0;
+                                pcomp.EndingBidRate = 0;
+                                pcomp.FloatingBidRate = 0;
+                                break;
+
+                            case 3:
+                                pcomp.ByTheHourRate = 0;
+                                pcomp.ByTheProjectRate = 0;
+
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                    }
+
+
+
+                    if (pcomp == null)
+                    {
+                        ProjectCompensationPackage package = new ProjectCompensationPackage
+                        {
+                            ProjectId = projectId,
+                            ProjectCompensationType = ProjectCompensationType,
+                            ByTheHourRate = ByTheHourRate,
+                            ByTheProjectRate = ByTheProjectRate,
+                            StartingBidRate = StartingBidRate,
+                            EndingBidRate = EndingBidRate,
+                            FloatingBidRate = FloatingBidRate,
+                            StartingBidDate = StartingBidDate,
+                            EndingBidDate = EndingBidDate,
+                            UsersId = User.Identity.GetUserId(),
+                            CreationDate = DateTime.Now,
+                        };
+
+                        using (var db = new ApplicationDbContext())
+                        {
+                            db.ProjectCompensationPackage.Add(package);
+                            db.SaveChanges();
+                        }
+                    }
+                    else
+                    {
+                        using (var db = new ApplicationDbContext())
+                        {
+                            db.Entry(pcomp).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                isSavedSuccessfully = false;
+            }
+            if (isSavedSuccessfully)
+            {
+                return Json(new
+                {
+                    Message = "OK"
+                });
+            }
+            else
+            {
+                return Json(new
+                {
+                    Message = "Error"
+                });
+            }
+
+
+
+
+
+
+        }
+
+        private async Task<string> SaveProfileFile(HttpPostedFileBase file, string type)
+        {
+            string fName;
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            if (type == "profile")
+            {
+                fName = "profile_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
+            }
+            else
+            {
+                fName = "id_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
+            }
+
+            var ProfilePath = Path.Combine(Server.MapPath(MainProfilePath + User.Identity.GetUserId() + "/"));
+            if (!System.IO.Directory.Exists(ProfilePath)) System.IO.Directory.CreateDirectory(ProfilePath);
+            file.SaveAs(string.Format("{0}{1}", ProfilePath, fName));
+
+
+            if (type == "profile")
+            {
+                user.ProfileImage = fName;
+            }
+            else
+            {
+                user.IdImage = fName;
+            }
+
+
+            await UserManager.UpdateAsync(user);
+
+            return fName;
+        }
+
+
+        public ActionResult DashBoard()
+        {
+            var userId = User.Identity.GetUserId();
+            var projects = db.Project.Where(p => p.ProjectsUsersId == userId);
+            var assignedProjects = db.ProjectAssignment.Where(p => p.UsersId == userId);
+
+            PortalList portal = new PortalList();
+            if (projects != null && assignedProjects != null)
+            {
+                foreach (var item in projects)
+                {
+                    foreach (var project in assignedProjects)
+                    {
+                        if (project.ProjectId == item.ProjectsId)
+                        {
+                            portal.Projects.Add(item);
+                        }
+                    }
+                }
+            }
+
+
+            return View(portal);
+        }
+
+        public ActionResult GetPublicPortalList()
+        {
+            var userId = User.Identity.GetUserId();
+            var projects = db.Project.Select(p => p);
+            var ProjectCompensationPackage = db.ProjectCompensationPackage.Select(p => p).ToList();
+
+
+            PortalList portal = new PortalList();
+            if (projects != null && ProjectCompensationPackage != null)
+            {
+                foreach (var item in projects)
+                {
+                    foreach (var pack in ProjectCompensationPackage)
+                    {
+                        if (pack.ProjectId == item.ProjectsId)
+                        {
+                            item.ByTheHourRate = pack.ByTheHourRate;
+                            item.ByTheProjectRate = pack.ByTheProjectRate;
+
+                            portal.Projects.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return Json(portal, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult GetPortalList()
+        {
+            var userId = User.Identity.GetUserId();
+            var projects = db.Project.Where(p => p.ProjectsUsersId == userId);
+            var assignedProjects = db.ProjectAssignment.Where(p => p.UsersId == userId);
+
+            PortalList portal = new PortalList();
+            if (projects != null && assignedProjects != null)
+            {
+                foreach (var item in projects)
+                {
+                    foreach (var project in assignedProjects)
+                    {
+                        if (project.ProjectId == item.ProjectsId)
+                        {
+                            portal.Projects.Add(item);
+                        }
+                    }
+                }
+            }
+
+            return Json(portal, JsonRequestBehavior.AllowGet);
+
+        }
+
+     
 
 
 
