@@ -11,10 +11,21 @@ using System.Web.Mvc;
 
 namespace SameDayServicezFinal.Utils
 {
-
-
     public static class Extensions
     {
+
+        public static MvcHtmlString Image(this HtmlHelper helper, string src, string classname,string altText, string height)
+        {
+            var builder = new TagBuilder("img");
+            builder.MergeAttribute("class", classname);
+            builder.MergeAttribute("src", src);
+            builder.MergeAttribute("alt", altText);
+            builder.MergeAttribute("height", height);
+            return MvcHtmlString.Create(builder.ToString(TagRenderMode.SelfClosing));
+        }
+
+
+
 
         public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
         {

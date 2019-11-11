@@ -9,161 +9,228 @@
 
     @Html.ValidationSummary("", new { @class = "text-danger" })
 
+
+    <style>
+        .card-img {
+            width: 100%;
+            border-radius: calc(.25rem - 1px);
+        }
+
+        .card-img-overlay {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            padding: 1.25rem;
+        }
+
+        .main_tagLine {
+            color: #222;
+            text-transform: uppercase;
+            font-weight: 500;
+            font-family: "Raleway",Tahoma, Geneva, sans-serif;
+            margin-bottom: 20px;
+            /* text-shadow: 2px 2px 5px black, 2px 2px 100px black; */
+            text-align: center;
+        }
+
+
+        .sub_tagLine {
+            color: #333;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-family: 'Raleway',Arial, Helvetica, sans-serif;
+            margin-bottom: 30px;
+            /* text-shadow: 2px 2px 5px black, 2px 2px 100px black; */
+            text-align: center;
+            margin: auto;
+            width: 1000px;
+        }
+
+        .main_area_homepg {
+            text-align: center;
+            margin: auto;
+            width: 100%;
+            /*padding-top: 110px;*/
+        }
+    </style>
+
+
     <form class="needs-validation" data-toggle="validator">
 
-        <div id="accordion">
-            <h3>
-                Start
-                @if (bool.Parse(Request.QueryString["IsContractor"]))
-                {
-                    <text>Contractor</text>
 
-                    Model.IsInContractorMode = true;
-                    Model.IsInCustomerMode = false;
-                }
-                else
-                {
-                    <text>Customer</text>
-
-                    Model.IsInContractorMode = false;
-                    Model.IsInCustomerMode = true;
-                }
-
-
-                Registration
-            </h3>
+        <div class="card">           
             <div class="card-body">
+                <div class="row" style="margin-top: 29px;">
+                    <div class="col-md-12 form-group ">
 
-                <div class="card card-custom">
-
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            @Html.LabelFor(m => m.FirstName, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.FirstName)
-
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            @Html.LabelFor(m => m.MiddleName, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.MiddleName)
-                        </div>
-
-                        <div class="form-group col-md-4">
-                            @Html.LabelFor(m => m.LastName, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.LastName)
-                        </div>
-                    </div>
+                        <div class="main_area_homepg my-auto" style="background-image:url('/Content/images/sc1.jpg');height: 50vh;background-position: center center;background-size: cover;">
+                            <div style="position: absolute;transform: translate(-50%, -50%);left: 50%;top: 50%;">
 
 
-                    <div class="form-row">
-                        <div class="form-group col-md-4 ">
-                            @Html.LabelFor(m => m.Address, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Address)
-                        </div>
+                                @{
+                                    try
+                                    {
+                                        if (bool.Parse(Request.QueryString["IsContractor"]))
+                                        {
+                                            <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Make money on your own schedule</h1></div>
+                                            <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">fill out the information below to get started making money</h2></div>
+                                            <input class="form-control d-none" id="IsInContractorMode" name="IsInContractorMode" type="text" value="true" />
+                                            <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="false" />                                        
+                                        }
+                                        else
+                                        {
+                                            <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Let us find the same day help you need.</h1></div>
+                                            <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">fill out the information below to get started</h2></div>
+                                            <input class="form-control d-none" id="IsInContractorMode" name="IsInContractorMode" type="text" value="false" />
+                                            <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="true" />                                           
+                                        }
+                                    }
+                                    catch (Exception)
+                                    {
+                                        <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Make money on your own schedule</h1></div>
+                                        <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">fill out the information below to get started making money</h2></div>
+                                        <input class="form-control d-none" id="IsInContractorMode" name="IsInContractorMode" type="text" value="true" />
+                                        <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="false" />
 
-                        <div class="form-group  col-md-4">
-                            <!-- City-->
-                            @Html.LabelFor(m => m.City, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.City)
-                        </div>
-
-
-                        <div class="form-group col-md-4 ">
-                            @Html.LabelFor(x => x.State, new { @class = "control-label text-light" })
-                            @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.State)
-                        </div>
-
-
-                    </div>
-
-                    <div class="form-row">
-
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.ZipCode)
-                        </div>
-
-                        <div class="form-group col-md-4 ">
-                            @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.PhoneNumber)
-                        </div>
-
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Email)
-                        </div>
-
-                    </div>
+                                    }
+                                }
 
 
 
 
-                    <div class="form-row">
-
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.BirthDate)
-                        </div>
 
 
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
-                            @Html.ValidationMessageFor(model => model.Password)
-                        </div>
 
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password" })
-                            @Html.ValidationMessageFor(model => model.ConfirmPassword)
-                        </div>
 
-                        @if (bool.Parse(Request.QueryString["IsContractor"]))
-                        {
-                            <div class="form-group  col-md-4">
-                                @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
-                                @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => model.ByTheHourRate)
                             </div>
-                        }
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group  col-md-8">
-                            @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
-                            @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", @style = "max-width:500px!important" })
-                            @Html.ValidationMessageFor(model => model.Bio)
                         </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.FirstName, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.FirstName)
 
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        @Html.LabelFor(m => m.LastName, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.LastName)
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-3">
+                        @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-3">
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group  col-md-3">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                    </div>
+                </div>
+
+           
+
+            @*<div class="form-row">
+
+                    <div class="form-group  col-md-4">
+                        @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.ZipCode)
+                    </div>
+
+                    <div class="form-group col-md-4 ">
+                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.PhoneNumber)
+                    </div>
+
+                    <div class="form-group  col-md-4">
+                        @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Email)
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+
+                    <div class="form-group  col-md-4">
+                        @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.BirthDate)
                     </div>
 
 
+                    <div class="form-group  col-md-4">
+                        @Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.Password)
+                    </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-md-12 ">
-                            <div class="form-group row">
-                                <div class="form-group col-md-12">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </div>
+                    <div class="form-group  col-md-4">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label text-light" })
+                        @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password" })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
+                    </div>
+
+                    @if (bool.Parse(Request.QueryString["IsContractor"]))
+                    {
+                        <div class="form-group  col-md-4">
+                            @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
+                            @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ByTheHourRate)
+                        </div>
+                    }
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group  col-md-4">
+                        @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
+                        @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", @style = "max-width:500px!important" })
+                        @Html.ValidationMessageFor(model => model.Bio)
+                    </div>
+
+                </div>*@
+
+            <div class="form-row">
+                <div class="form-group col-md-12 ">
+                    <div class="form-group row">
+                        <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-primary">Submit</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        </div>
 
-        <input class="form-control d-none" id="latitude" name="latitude" type="text" value="@Model.latitude" />
-        <input class="form-control d-none" id="longitude" name="longitude" type="text" value="@Model.longitude" />
+        @*<div class="card">
+                <div class="card">
+                    <img src="~/Content/images/hire-a-handyman-home-repair-microjb-temp-worker-white.jpg" class="card-img" />
+
+                </div>
+
+            </div>*@
+
+
+       
 
     </form>
 }

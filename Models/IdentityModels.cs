@@ -66,8 +66,11 @@ namespace SameDayServicezFinal.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        public string Password { get; set; }
+        [NotMapped]
+        public string OldPassword { get; set; }
 
+        [NotMapped]
+        public string NewPassword { get; set; }
         public string DisplayName { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

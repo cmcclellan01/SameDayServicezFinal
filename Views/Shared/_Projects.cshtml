@@ -1,0 +1,523 @@
+﻿
+@model SameDayServicezFinal.Models.PortalList
+
+
+<style>
+
+    .project-table .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .project-table .pull-right {
+        float: right;
+    }
+
+    .project-table .fa-clock-o:before {
+        content: "\f017";
+    }
+
+    .project-table .fa-pencil:before {
+        content: "\f040";
+    }
+
+    .project-table .fa-folder:before {
+        content: "\f07b";
+    }
+
+    .project-table .fa-sticky-note:before {
+        content: "\f249";
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    .project-table small {
+        font-size: 80%;
+    }
+
+    .project-table a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+        .project-table a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    .project-table img {
+        vertical-align: middle;
+        border-style: none;
+    }
+
+    .project-table table {
+        border-collapse: collapse;
+    }
+
+    .project-table th {
+        text-align: inherit;
+    }
+
+    .project-table button {
+        border-radius: 0;
+    }
+
+        .project-table button:focus {
+            outline: 1px dotted;
+            outline: 5px auto -webkit-focus-ring-color;
+        }
+
+    .project-table button {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    .project-table button {
+        overflow: visible;
+    }
+
+    .project-table button {
+        text-transform: none;
+    }
+
+    .project-table button {
+        -webkit-appearance: button;
+    }
+
+        .project-table button::-moz-focus-inner {
+            padding: 0;
+            border-style: none;
+        }
+
+    .project-table small, .small {
+        font-size: 80%;
+        font-weight: 400;
+    }
+
+    .project-table .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+
+        .project-table .table th, .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .project-table .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    @@media (max-width: 575.98px) {
+        .project-table .table-responsive-sm {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+    }
+
+    .project-table .btn {
+        display: inline-block;
+        font-weight: 400;
+        color: #212529;
+        text-align: center;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: transparent;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    @@media screen and (prefers-reduced-motion: reduce) {
+        .project-table .btn {
+            transition: none;
+        }
+    }
+
+    .project-table .btn:hover {
+        color: #212529;
+        text-decoration: none;
+    }
+
+    .project-table .btn:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .project-table .btn:disabled {
+        opacity: 0.65;
+    }
+
+    .project-table .btn-group {
+        position: relative;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+        .project-table .btn-group > .btn {
+            position: relative;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+            .project-table .btn-group > .btn:hover {
+                z-index: 1;
+            }
+
+            .project-table .btn-group > .btn:focus, .btn-group > .btn:active {
+                z-index: 1;
+            }
+
+            .project-table .btn-group > .btn:not(:first-child) {
+                margin-left: -1px;
+            }
+
+            .project-table .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .project-table .btn-group > .btn:not(:first-child) {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+    .project-table .progress {
+        display: -ms-flexbox;
+        display: flex;
+        height: 1rem;
+        overflow: hidden;
+        font-size: 0.75rem;
+        background-color: #e9ecef;
+        border-radius: 0.25rem;
+    }
+
+    .project-table .progress-bar {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-pack: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #007bff;
+        transition: width 0.6s ease;
+    }
+
+    @@media screen and (prefers-reduced-motion: reduce) {
+        .project-table .progress-bar {
+            transition: none;
+        }
+    }
+
+    .project-table .rounded {
+        border-radius: 0.25rem !important;
+    }
+
+    .project-table .text-right {
+        text-align: right !important;
+    }
+
+    @@media print {
+        *, *::before, *::after {
+            text-shadow: none !important;
+            box-shadow: none !important;
+        }
+
+        .project-table a:not(.btn) {
+            text-decoration: underline;
+        }
+
+        .project-table thead {
+            display: table-header-group;
+        }
+
+        .project-table tr, img {
+            page-break-inside: avoid;
+        }
+
+        .project-table .table {
+            border-collapse: collapse !important;
+        }
+
+            .project-table .table td, .table th {
+                background-color: #fff !important;
+            }
+    }
+
+    .project-table .pull-right {
+        float: right;
+    }
+
+    i {
+        font-family: 'stroke';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .project-table .btn:active {
+        box-shadow: none;
+    }
+
+    .project-table .btn {
+        color: inherit;
+        background-color: transparent;
+        font-size: 0.9rem;
+    }
+
+    .project-table .btn-default {
+        border-color: #585d6e;
+    }
+
+    .project-table .btn-default {
+        color: #949ba2;
+        background-color: transparent;
+        border-color: #616779;
+    }
+
+        .project-table .btn-default:hover {
+            color: #ffffff;
+            background-color: rgba(97, 103, 121, 0.1);
+            border-color: #616779;
+        }
+
+        .project-table .btn-default:active {
+            background-image: none;
+        }
+
+        .project-table .btn-default:hover, .btn-default:active, .btn-default:active:focus, .btn-default:focus {
+            background-color: #3d404c;
+        }
+
+    .project-table .btn-xs {
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
+    .project-table .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+    .project-table .label-accent {
+        background-color: #f6a821;
+    }
+
+    .project-table a {
+        color: #f6a821;
+        text-decoration: none;
+    }
+
+        .project-table a:hover, a:focus {
+            color: #f8bb52;
+            outline: none;
+            text-decoration: none;
+        }
+
+    .project-table small, .small {
+        font-size: 83%;
+        color: grey
+    }
+
+    .project-table .label {
+        display: inline;
+        padding: .2em .6em .3em;
+        font-size: 75%;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+    }
+
+    .project-table .label-default {
+        background-color: #44464f;
+    }
+
+    .project-table .label:empty {
+        display: none;
+    }
+
+    .project-table img.image-md {
+        width: 32px;
+        height: 32px;
+    }
+
+    .project-table .progress {
+        border-radius: 2px;
+        margin-bottom: 10px;
+    }
+
+    .project-table .progress-bar {
+        background-color: #2f323b;
+        text-align: right;
+        padding-right: 10px;
+        color: #949ba2;
+    }
+
+    .project-table .progress-small, .progress-small .progress-bar {
+        height: 10px;
+    }
+
+    .project-table .progress-bar-warning {
+        border-right: 4px solid #f6a526;
+    }
+
+    .project-table .full .progress-bar-warning {
+        background-color: #f7af3e;
+        border-right: 4px solid #f6a526;
+    }
+
+    .project-table .full .progress-bar {
+        color: #ffffff;
+    }
+
+    .project-table .label-default {
+        background-color: #44464f;
+    }
+
+    .project-table .table > thead > tr > th, .table > tbody > tr > td {
+        border-top: 1px solid #3d404c;
+    }
+
+    .project-table .table > thead > tr > th {
+        border-bottom: none;
+    }
+
+    .project-table th {
+        color: #ffffff;
+    }
+
+    .project-table .table.table-vertical-align-middle tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    .project-table .table th, .table td {
+        padding: 8px;
+    }
+
+    .project-table .table > thead:first-child > tr:first-child > th {
+        border-top: 0;
+    }
+
+
+    i {
+        font-family: 'stroke';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+   
+</style>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <table class="table table-vertical-align-middle table-responsive-sm project-table">
+                <thead>
+                    <tr>
+                        <th>
+                            Status
+                        </th>
+                        <th>
+                            Project name
+                        </th>
+                        <th>
+                            Participate
+                        </th>
+                        <th>
+                            Progress
+                        </th>
+                        <th class="text-right">
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Projects)
+                    {
+                        <tr>
+                            <td>
+                                @if (item.IsActive)
+                                {
+                                    <span class="label label-accent">Active</span>
+                                }
+                                else
+                                {
+                                    <span class="label label-accent">Complete</span>
+                                }
+
+
+                            </td>
+                            <td>
+                                <a href="#">@item.ProjectTitle</a>
+
+                                <div class="small"><i class="fas fa-clock-o"></i> Created @item.CreationDate</div>
+                            </td>
+                            <td>
+                                <a href=""><img alt="image" class="rounded image-md" src="/Uploads/ProfileImages/@Model.ApplicationUser.Id/@Model.ApplicationUser.ProfileImage"></a>
+
+                            </td>
+                            <td>
+                                <div class="progress m-b-none full progress-small">
+                                    <div style="width: 35%" class="progress-bar progress-bar-warning"></div>
+                                </div>
+                                <small>35% completed:</small>
+                            </td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-default btn-xs"><i class="fas fa-folder"></i> View</button>
+                                    <button class="btn btn-default btn-xs"><i class="fas fa-pencil-alt"></i>Edit</button>
+                                    <button class="btn btn-default btn-xs"><i class="fas fa-sticky-note"></i> Notes</button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+</div>

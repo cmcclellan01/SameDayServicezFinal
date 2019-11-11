@@ -8,7 +8,7 @@ namespace SameDayServicezFinal.Migrations
         public override void Up()
         {
 
-            return;
+           // return;
 
 
 

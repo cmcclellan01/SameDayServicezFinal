@@ -19,7 +19,7 @@ $('.IsContractor').checkboxpicker({
 
 });
 
-Dropzone.autoDiscover = false;
+
 $("#dropzoneProfilePic").dropzone({
     init: function () {
         this.on("error", function (file, message, xhr) {
@@ -41,7 +41,7 @@ $("#dropzoneProfilePic").dropzone({
         $('.remove-profileimage').click(function () {
             $.ajax({
                 type: "POST",
-                url: 'Account/RemoveUpload?type=profile',
+                url: '/Account/RemoveUpload?type=profile',
                 success: function () {
                     $('.ProfileImage').empty();
                 }
@@ -60,7 +60,7 @@ $("#dropzoneProfilePic").dropzone({
 
 
 $("#dropzoneIdPic").dropzone({
-    url: "Account/Upload?type=id",
+    url: "/Account/Upload?type=id",
     init: function () {
         this.on("error", function (file, message, xhr) {
             if (xhr === null) this.removeFile(file);
@@ -75,7 +75,7 @@ $("#dropzoneIdPic").dropzone({
     dictDefaultMessage: "Upload a scan of your driver's license or government issued photo ID.",
     success: function (file, response) {
         $('.IdImage').empty();
-        $('.IdImage').append('<img style="margin-bottom:10px;" class="img-thumbnail" src="/Uploads/ProfileImages/' + $('#Id').val() + '/' + response.Message + '"> <button class="btn remove-idiimage">X</button>');
+        $('.IdImage').append('<img style="margin-bottom:10px;" class="img-thumbnail" src="/Uploads/ProfileImages/' + $('#Id').val() + '/' + response.Message + '"> <button class="btn remove-idimage">X</button>');
 
         $('.remove-idimage').click(function () {
             $.ajax({
@@ -134,10 +134,6 @@ $(document).ready(function () {
         return false;
     });
 
-
-
-
-
     $('.Alphabetical').click(function () {
         $('.Professions').show();
         $.getJSON('/Account/AutoComplete', { term: this.innerText }, function (item) {
@@ -151,8 +147,6 @@ $(document).ready(function () {
 
         });
     });
-
-
 
     $('#Professions').change(function (event, ui) {
         $.get('/Account/GetSubCategoryList', { Id: this.value }, function (data) {
@@ -169,7 +163,6 @@ $(document).ready(function () {
 
         });
     });
-
 
     // add new sub(s) from list
     $('.add').click(function () {
@@ -210,16 +203,10 @@ $(document).ready(function () {
 
     });
 
-
-   
-
-   
-
     $('#BirthDate').datepicker({
         uiLibrary: 'bootstrap4',
         dateFormat: 'mm/dd/yy'
     });
-
 
     $('.save-profile').on('click', function (event) {
         $("#form-profile").submit();

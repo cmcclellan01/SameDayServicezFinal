@@ -1,4 +1,5 @@
-﻿@model SameDayServicezFinal.Models.ApplicationUser
+﻿@model SameDayServicezFinal.Models.PortalList
+
 @{
     ViewBag.Title = "Profile";
 }
@@ -7,1822 +8,12 @@
 @using SameDayServicezFinal.Utils
 
 
-<style>
-    *[class*="icon-"] {
-        -webkit-transform: translateY(3px);
-        transform: translateY(3px);
-    }
 
-    .align-items-center {
-        -ms-flex-align: center !important;
-        align-items: center !important;
-    }
-
-    .align-items-stretch {
-        -ms-flex-align: stretch !important;
-        align-items: stretch !important;
-    }
-
-    .avatar.avatar-lg {
-        width: 4rem;
-        height: 4rem;
-    }
-
-    .avatar.avatar-md {
-        width: 3rem;
-        height: 3rem;
-    }
-
-    .avatar.avatar-xl {
-        width: 5rem;
-        height: 5rem;
-    }
-
-    .avatar {
-        width: 2rem;
-        height: 2rem;
-        line-height: 2rem;
-        border-radius: 50%;
-        display: inline-block;
-        background: #ced4da no-repeat center/cover;
-        position: relative;
-        text-align: center;
-        color: #868e96;
-        font-weight: 600;
-        vertical-align: bottom;
-    }
-
-    .badge:empty {
-        display: none;
-    }
-
-    .badge {
-        display: inline-block;
-        padding: .25em .4em;
-        font-size: 75%;
-        font-weight: 700;
-        line-height: 1;
-        text-align: center;
-        white-space: nowrap;
-        vertical-align: baseline;
-        border-radius: .25rem;
-    }
-
-    .badge {
-        font-weight: 400;
-    }
-
-    .bg-blue:hover {
-        color: #fff;
-    }
-
-    .bg-blue {
-        background: #85b4f2 !important;
-        color: #fff;
-    }
-
-    .bg-green:hover {
-        color: #fff;
-    }
-
-    .bg-green {
-        background: #54e69d !important;
-        color: #fff;
-    }
-
-    .bg-orange:hover {
-        color: #fff;
-    }
-
-    .bg-orange {
-        background: #ffc36d !important;
-        color: #fff;
-    }
-
-    .bg-red:hover {
-        color: #fff;
-    }
-
-    .bg-red {
-        background: #ff7676 !important;
-        color: #fff;
-    }
-
-    .breadcrumb li.breadcrumb-item {
-        color: #aaa;
-        font-weight: 300;
-    }
-
-    .breadcrumb-holder {
-        background: #fff;
-    }
-
-    .breadcrumb-item + .breadcrumb-item::before {
-        display: inline-block;
-        padding-right: .5rem;
-        color: #6c757d;
-        content: "/";
-    }
-
-    .breadcrumb-item + .breadcrumb-item:hover::before {
-        text-decoration: none;
-    }
-
-    .breadcrumb-item + .breadcrumb-item:hover::before {
-        text-decoration: underline;
-    }
-
-    .breadcrumb-item + .breadcrumb-item {
-        padding-left: .5rem;
-    }
-
-    .breadcrumb-item.active {
-        color: #6c757d;
-    }
-
-    .breadcrumb {
-        background: #fff;
-        position: relative;
-        z-index: 7;
-        border-radius: 0;
-        padding: 15px 0;
-        margin-bottom: 0;
-    }
-
-    .breadcrumb {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        padding: .75rem 1rem;
-        margin-bottom: 1rem;
-        list-style: none;
-        background-color: #e9ecef;
-        border-radius: .25rem;
-    }
-
-    .btn-outline-dark:disabled {
-        color: #343a40;
-        background-color: transparent;
-    }
-
-    .btn-outline-dark:focus {
-        -webkit-box-shadow: 0 0 0 .2rem rgba(52, 58, 64, 0.5);
-        box-shadow: 0 0 0 .2rem rgba(52, 58, 64, 0.5);
-    }
-
-    .btn-outline-dark:focus {
-        box-shadow: 0 0 0 .2rem rgba(52, 58, 64, .5);
-    }
-
-    .btn-outline-dark:hover {
-        color: #fff;
-        background-color: #343a40;
-        border-color: #343a40;
-    }
-
-    .btn-outline-dark {
-        color: #343a40;
-        background-color: transparent;
-        background-image: none;
-        border-color: #343a40;
-    }
-
-    .btn-outline-dark {
-        color: #343a40;
-        border-color: #343a40;
-    }
-
-    .btn-outline-secondary:disabled {
-        color: #6c757d;
-        background-color: transparent;
-    }
-
-    .btn-outline-secondary:disabled {
-        color: #868e96;
-        background-color: transparent;
-    }
-
-    .btn-outline-secondary:focus {
-        -webkit-box-shadow: 0 0 0 .2rem rgba(134, 142, 150, 0.5);
-        box-shadow: 0 0 0 .2rem rgba(134, 142, 150, 0.5);
-    }
-
-    .btn-outline-secondary:focus {
-        box-shadow: 0 0 0 .2rem rgba(108, 117, 125, .5);
-    }
-
-    .btn-outline-secondary:hover {
-        color: #fff;
-        background-color: #6c757d;
-        border-color: #6c757d;
-    }
-
-    .btn-outline-secondary:hover {
-        color: #fff;
-        background-color: #868e96;
-        border-color: #868e96;
-    }
-
-    .btn-outline-secondary {
-        color: #6c757d;
-        border-color: #6c757d;
-    }
-
-    .btn-outline-secondary {
-        color: #868e96;
-        background-color: transparent;
-        background-image: none;
-        border-color: #868e96;
-    }
-
-    .btn-primary:disabled {
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-    .btn-primary:disabled {
-        color: color-yiq(#2b90d9);
-        background-color: #2b90d9;
-        border-color: #2b90d9;
-    }
-
-    .btn-primary:disabled {
-        color: color-yiq(#796AEE);
-        background-color: #796AEE;
-        border-color: #796AEE;
-    }
-
-    .btn-primary:focus {
-        -webkit-box-shadow: 0 0 0 .2rem rgba(43, 144, 217, 0.5);
-        box-shadow: 0 0 0 .2rem rgba(43, 144, 217, 0.5);
-    }
-
-    .btn-primary:focus {
-        -webkit-box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.5);
-        box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.5);
-    }
-
-    .btn-primary:focus {
-        box-shadow: 0 0 0 .2rem rgba(38, 143, 255, .5);
-    }
-
-    .btn-primary:hover {
-        color: #fff;
-        background-color: #0069d9;
-        border-color: #0062cc;
-    }
-
-    .btn-primary:hover {
-        color: color-yiq(#5a48ea);
-        background-color: #5a48ea;
-        border-color: #503ce9;
-    }
-
-    .btn-primary:hover {
-        color: color-yiq(#227bbc);
-        background-color: #227bbc;
-        border-color: #2074b1;
-    }
-
-    .btn-primary {
-        color: #fff;
-        background-color: #007bff;
-        border-color: #007bff;
-    }
-
-    .btn-primary {
-        color: color-yiq(#2b90d9);
-        background-color: #2b90d9;
-        border-color: #2b90d9;
-    }
-
-    .btn-primary {
-        color: color-yiq(#796AEE);
-        background-color: #796AEE;
-        border-color: #796AEE;
-    }
-
-    .btn-sm {
-        padding: .25rem .5rem;
-        font-size: .875rem;
-        line-height: 1.5;
-        border-radius: .2rem;
-    }
-
-    .btn:disabled {
-        opacity: .65;
-    }
-
-    .btn:focus {
-        outline: 0;
-        -webkit-box-shadow: 0 0 0 .2rem rgba(43, 144, 217, 0.25);
-        box-shadow: 0 0 0 .2rem rgba(43, 144, 217, 0.25);
-    }
-
-    .btn:focus {
-        outline: 0;
-        -webkit-box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.25);
-        box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.25);
-    }
-
-    .btn:focus {
-        outline: 0;
-        box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
-    }
-
-    .btn:hover {
-        color: #212529;
-        text-decoration: none;
-    }
-
-    .btn:not([disabled]):not(.disabled):active {
-        background-image: none;
-    }
-
-    .btn {
-        display: inline-block;
-        font-weight: 400;
-        color: #212529;
-        text-align: center;
-        vertical-align: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        background-color: transparent;
-        border: 1px solid transparent;
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: .25rem;
-        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-
-    .btn {
-        font-weight: 400;
-        border: 1px solid transparent;
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        line-height: 1.5;
-        border-radius: .25rem;
-        -webkit-transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-    }
-
-    .card-body {
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        padding: 1.25rem;
-    }
-
-    .card-body {
-        padding: 1.25rem;
-    }
-
-    .card-footer:last-child {
-        border-radius: 0 0 0 0;
-    }
-
-    .card-footer:last-child {
-        border-radius: 0 0 calc(.25rem - 1px) calc(.25rem - 1px);
-    }
-
-    .card-footer {
-        padding: 1rem 1.25rem;
-        background-color: #f8f9fa;
-        border-top: 1px solid #eee;
-    }
-
-    .card-footer {
-        padding: .75rem 1.25rem;
-        background-color: rgba(0, 0, 0, .03);
-        border-top: 1px solid rgba(0, 0, 0, .125);
-    }
-
-    .card-header h3 {
-        margin-bottom: 0;
-    }
-
-    .card-header + .list-group .list-group-item:first-child {
-        border-top: 0;
-    }
-
-    .card-header:first-child {
-        border-radius: 0 0 0 0;
-    }
-
-    .card-header:first-child {
-        border-radius: calc(.25rem - 1px) calc(.25rem - 1px) 0 0;
-    }
-
-    .card-header {
-        -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-header {
-        padding: 1rem 1.25rem;
-        background-color: #fff;
-        border-bottom: 1px solid #eee;
-    }
-
-    .card-header {
-        padding: .75rem 1.25rem;
-        margin-bottom: 0;
-        color: inherit;
-        background-color: rgba(0, 0, 0, .03);
-        border-bottom: 1px solid rgba(0, 0, 0, .125);
-    }
-
-    .card-profile .card-header {
-        height: 9rem;
-        background-size: cover;
-        background-position: center center;
-    }
-
-    .card-profile-img {
-        max-width: 8rem;
-        margin-top: -6rem;
-        margin-bottom: 1rem;
-        border: 3px solid #fff;
-        border-radius: 100%;
-    }
-
-    .card-title {
-        margin-bottom: 1rem;
-    }
-
-    .card-title {
-        margin-bottom: .75rem;
-    }
-
-    .card > .list-group:last-child .list-group-item:last-child {
-        border-bottom-right-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .card > .list-group:last-child .list-group-item:last-child {
-        border-bottom-right-radius: .25rem;
-        border-bottom-left-radius: .25rem;
-    }
-
-    .card {
-        background-color: #fff;
-        border: 0 solid #eee;
-        border-radius: 0;
-    }
-
-    .card {
-        margin-bottom: 30px;
-        -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1), -1px 0 2px rgba(0, 0, 0, 0.05);
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1), -1px 0 2px rgba(0, 0, 0, 0.05);
-    }
-
-    .card {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        min-width: 0;
-        word-wrap: break-word;
-        background-color: #fff;
-        background-clip: border-box;
-        border: 1px solid rgba(0, 0, 0, .125);
-        border-radius: .25rem;
-    }
-
-    .col, .col-auto, .col-lg-4, .col-lg-8, .col-md-12, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-sm-6 {
-        position: relative;
-        width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-    }
-
-    .col-auto {
-        -ms-flex: 0 0 auto;
-        flex: 0 0 auto;
-        width: auto;
-        max-width: 100%;
-    }
-
-    .col-md-4 {
-        -ms-flex: 0 0 33.333333%;
-        flex: 0 0 33.333333%;
-        max-width: 33.333333%;
-    }
-
-    .col-md-5 {
-        -ms-flex: 0 0 41.666667%;
-        flex: 0 0 41.666667%;
-        max-width: 41.666667%;
-    }
-
-    .col-md-6 {
-        -ms-flex: 0 0 50%;
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
-
-    .col-md-12 {
-        -ms-flex: 0 0 100%;
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
-
-    }
-
-    .col {
-        -ms-flex-preferred-size: 0;
-        flex-basis: 0;
-        -ms-flex-positive: 1;
-        flex-grow: 1;
-        max-width: 100%;
-    }
-
-    .container-fluid {
-        padding: 0 30px;
-    }
-
-    .container-fluid {
-        width: 100%;
-        padding-right: 15px;
-        padding-left: 15px;
-        margin-right: auto;
-        margin-left: auto;
-    }
-
-    .content-inner {
-        position: relative;
-        width: calc(100% - 250px);
-        min-height: calc(100vh - 70px);
-        padding-bottom: 60px;
-    }
-
-    .custom-select::-ms-expand {
-        opacity: 0;
-    }
-
-    .custom-select:disabled {
-        color: #6c757d;
-        background-color: #e9ecef;
-    }
-
-    .custom-select:disabled {
-        color: #868e96;
-        background-color: #e9ecef;
-    }
-
-    .custom-select:focus {
-        border-color: #2b90d9;
-        outline: 0;
-        -webkit-box-shadow: 0 0 0 .2rem rgba(43, 144, 217, 0.5);
-        box-shadow: 0 0 0 .2rem rgba(43, 144, 217, 0.5);
-    }
-
-    .custom-select:focus {
-        border-color: #80bdff;
-        outline: 0;
-        box-shadow: 0 0 0 .2rem rgba(128, 189, 255, .5);
-    }
-
-    .custom-select:focus {
-        border-color: #796AEE;
-        outline: 0;
-        -webkit-box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.5);
-        box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.5);
-    }
-
-    .custom-select {
-        display: inline-block;
-        width: 100%;
-        height: calc(2.25rem + 2px);
-        padding: .375rem 1.75rem .375rem .75rem;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #495057;
-        vertical-align: middle;
-        background: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e") no-repeat right .75rem center/8px 10px;
-        background-color: #fff;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-    }
-
-    .custom-select {
-        height: calc(2.25rem + 2px);
-        padding: .375rem 1.75rem .375rem .75rem;
-        line-height: 1.5;
-        color: #495057;
-        vertical-align: middle;
-        background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .75rem center;
-        background-size: 8px 10px;
-        border: 1px solid #ced4da;
-        border-radius: 0;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-    }
-
-    .custom-select {
-        transition: background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-
-    .d-flex {
-        display: -ms-flexbox !important;
-        display: flex !important;
-    }
-
-    .d-none {
-        display: none !important;
-    }
-
-    .dropdown-item:active {
-        color: #fff;
-        text-decoration: none;
-        background-color: #007bff;
-    }
-
-    .dropdown-item:disabled {
-        color: #6c757d;
-        pointer-events: none;
-        background-color: transparent;
-    }
-
-    .dropdown-item:first-child {
-        border-top-left-radius: calc(.25rem - 1px);
-        border-top-right-radius: calc(.25rem - 1px);
-    }
-
-    .dropdown-item:focus, .dropdown-item:hover {
-        color: #16181b;
-        text-decoration: none;
-        background-color: #f8f9fa;
-    }
-
-    .dropdown-item:last-child {
-        border-bottom-right-radius: calc(.25rem - 1px);
-        border-bottom-left-radius: calc(.25rem - 1px);
-    }
-
-    .dropdown-item {
-        display: block;
-        width: 100%;
-        padding: .25rem 1.5rem;
-        clear: both;
-        font-weight: 400;
-        color: #212529;
-        text-align: inherit;
-        white-space: nowrap;
-        background-color: transparent;
-        border: 0;
-    }
-
-    .dropdown-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        z-index: 1000;
-        display: none;
-        float: left;
-        min-width: 10rem;
-        padding: .5rem 0;
-        margin: .125rem 0 0;
-        font-size: 1rem;
-        color: #212529;
-        text-align: left;
-        list-style: none;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid rgba(0, 0, 0, .15);
-        border-radius: .25rem;
-    }
-
-    .dropdown {
-        position: relative;
-    }
-
-    .float-right {
-        float: right !important;
-    }
-
-    .form-control:-ms-input-placeholder {
-        color: #6c757d;
-        opacity: 1;
-    }
-
-    .form-control:-ms-input-placeholder {
-        font-size: 0.9em;
-        font-weight: 300;
-        font-family: "Poppins", sans-serif;
-        color: #aaa;
-    }
-
-    .form-control::-moz-placeholder {
-        color: #6c757d;
-        opacity: 1;
-    }
-
-    .form-control::-moz-placeholder {
-        font-size: 0.9em;
-        font-weight: 300;
-        font-family: "Poppins", sans-serif;
-        color: #aaa;
-    }
-
-    .form-control::-ms-expand {
-        background-color: transparent;
-        border: 0;
-    }
-
-    .form-control::-ms-input-placeholder {
-        color: #6c757d;
-        opacity: 1;
-    }
-
-    .form-control::-webkit-input-placeholder {
-        color: #6c757d;
-        opacity: 1;
-    }
-
-    .form-control::-webkit-input-placeholder {
-        font-size: 0.9em;
-        font-weight: 300;
-        font-family: "Poppins", sans-serif;
-        color: #aaa;
-    }
-
-    .form-control::placeholder {
-        color: #6c757d;
-        opacity: 1;
-    }
-
-    .form-control:disabled {
-        background-color: #e9ecef;
-        opacity: 1;
-    }
-
-    .form-control:focus {
-        color: #495057;
-        background-color: #fff;
-        border-color: #796AEE;
-        outline: none;
-        -webkit-box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.25);
-        box-shadow: 0 0 0 .2rem rgba(121, 106, 238, 0.25);
-    }
-
-    .form-control {
-        display: block;
-        width: 100%;
-        height: calc(2.25rem + 2px);
-        padding: .375rem .75rem;
-        font-size: 1rem;
-        font-weight: 400;
-        line-height: 1.5;
-        color: #495057;
-        background-color: #fff;
-        background-clip: padding-box;
-        border: 1px solid #ced4da;
-        border-radius: .25rem;
-        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    }
-
-    .form-group {
-        margin-bottom: 1rem;
-    }
-
-    .h4, .h5, h1, h2, h3, h4, h5 {
-        margin-bottom: .5rem;
-        font-family: inherit;
-        font-weight: 500;
-        line-height: 1.2;
-        color: inherit;
-    }
-
-    .h4, h4 {
-        font-size: 1.5rem;
-    }
-
-    .h5, h5 {
-        font-size: 1.25rem;
-    }
-
-    .page .icon-close:before {
-        content: "\79";
-    }
-
-    .page .icon-search:before {
-        content: "\7a";
-    }
-
-    .img-fluid {
-        max-width: 100%;
-        height: auto;
-    }
-
-    .input-group-append .btn:focus {
-        z-index: 3;
-    }
-
-    .input-group-append .btn {
-        position: relative;
-        z-index: 2;
-    }
-
-    .input-group-append {
-        display: -ms-flexbox;
-        display: flex;
-    }
-
-    .input-group-append {
-        margin-left: -1px;
-    }
-
-    .input-group > .form-control:focus {
-        z-index: 3;
-    }
-
-    .input-group > .form-control:not(:last-child) {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
-
-    .input-group > .form-control {
-        position: relative;
-        -ms-flex: 1 1 auto;
-        flex: 1 1 auto;
-        width: 1%;
-        margin-bottom: 0;
-    }
-
-    .input-group > .input-group-append > .btn {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-    }
-
-    .input-group {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        -ms-flex-align: stretch;
-        align-items: stretch;
-        width: 100%;
-    }
-
-    .justify-content-between {
-        -ms-flex-pack: justify !important;
-        justify-content: space-between !important;
-    }
-
-    .list-group-item:disabled {
-        color: #6c757d;
-        pointer-events: none;
-        background-color: #fff;
-    }
-
-    .list-group-item:first-child, .list-group-item:last-child {
-        border-radius: 0;
-    }
-
-    .list-group-item:first-child {
-        border-top-left-radius: .25rem;
-        border-top-right-radius: .25rem;
-    }
-
-    .list-group-item:focus, .list-group-item:hover {
-        z-index: 1;
-        text-decoration: none;
-    }
-
-    .list-group-item:last-child {
-        margin-bottom: 0;
-        border-bottom-right-radius: .25rem;
-        border-bottom-left-radius: .25rem;
-    }
-
-    .list-group-item {
-        border-right: 0;
-        border-left: 0;
-    }
-
-    .list-group-item {
-        position: relative;
-        display: block;
-        padding: .75rem 1.25rem;
-        margin-bottom: -1px;
-        background-color: #fff;
-        border: 1px solid rgba(0, 0, 0, .125);
-    }
-
-    .list-group {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-direction: column;
-        flex-direction: column;
-        padding-left: 0;
-        margin-bottom: 0;
-    }
-
-    .list-inline-item:not(:last-child) {
-        margin-right: .5rem;
-    }
-
-    .list-inline-item {
-        display: inline-block;
-    }
-
-    .list-inline {
-        padding-left: 0;
-        list-style: none;
-    }
-
-    .list-unstyled {
-        padding-left: 0;
-        list-style: none;
-    }
-
-    .mb-0 {
-        margin-bottom: 0 !important;
-    }
-
-    .mb-3 {
-        margin-bottom: 1rem !important;
-    }
-
-    .mb-4 {
-        margin-bottom: 1.5rem !important;
-    }
-
-    .media-body {
-        -ms-flex: 1;
-        flex: 1;
-    }
-
-    .media {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-align: start;
-        align-items: flex-start;
-    }
-
-    .mr-3 {
-        margin-right: 1rem !important;
-    }
-
-    .mt-2 {
-        margin-top: .5rem !important;
-    }
-
-    .mt-4 {
-        margin-top: 1.5rem !important;
-    }
-
-    .no-margin-bottom {
-        margin-bottom: 0 !important;
-    }
-
-    .page .nav-link:focus, .nav-link:hover {
-        text-decoration: none;
-    }
-
-    .page .nav-link {
-        display: block;
-        padding: .5rem 1rem;
-    }
-
-    .page .nav-link {
-        padding: .5rem 1rem;
-    }
-
-    .page .navbar-brand:focus, .navbar-brand:hover {
-        text-decoration: none;
-    }
-
-    .page .navbar-brand {
-        display: inline-block;
-        padding-top: .3125rem;
-        padding-bottom: .3125rem;
-        margin-right: 1rem;
-        font-size: 1.25rem;
-        line-height: inherit;
-        white-space: nowrap;
-    }
-
-    .page .navbar-brand {
-        display: inline-block;
-        padding-top: .3125rem;
-        padding-bottom: .3125rem;
-        margin-right: 1rem;
-        font-size: 1.25rem;
-    }
-
-    .page .navbar > .container-fluid {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        -ms-flex-align: center;
-        align-items: center;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-    }
-
-    .page .navbar {
-        padding: .5rem 1rem;
-    }
-
-    .page .navbar {
-        position: relative;
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        -ms-flex-align: center;
-        align-items: center;
-        -ms-flex-pack: justify;
-        justify-content: space-between;
-        padding: .5rem 1rem;
-    }
-
-    .page nav.navbar .badge {
-        width: 19px;
-        height: 19px;
-    }
-
-    .page nav.navbar .badge {
-        width: 22px;
-        height: 22px;
-        line-height: 22px;
-        text-align: center;
-        padding: 0;
-        border-radius: 50%;
-    }
-
-    .page nav.navbar .container-fluid {
-        width: 100%;
-    }
-
-    .page nav.navbar .dropdown-menu .dropdown-item i {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        background: #2b90d9;
-        text-align: center;
-        color: #fff;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .page nav.navbar .dropdown-menu .dropdown-item i {
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        background: #796AEE;
-        text-align: center;
-        color: #fff;
-        border-radius: 50%;
-        margin-right: 10px;
-    }
-
-    .page nav.navbar .dropdown-menu .dropdown-item small {
-        margin-left: 40px;
-    }
-
-    .page nav.navbar .dropdown-menu .dropdown-item:hover {
-        background: #f5f5f5;
-    }
-
-    .page nav.navbar .dropdown-menu .dropdown-item {
-        background: #fff;
-        padding: 10px 20px;
-        font-size: 0.8rem;
-        color: #777;
-        width: 100%;
-    }
-
-    .page nav.navbar .dropdown-menu .msg-profile {
-        width: 45px;
-        height: 45px;
-        margin-right: 10px;
-    }
-
-    .page nav.navbar .dropdown-menu h3 {
-        font-weight: 500;
-    }
-
-    .page nav.navbar .dropdown-menu span {
-        position: static;
-        font-size: 0.9em;
-        color: #999;
-    }
-
-    .page nav.navbar .dropdown-menu strong {
-        font-weight: 700;
-    }
-
-    .page nav.navbar .dropdown-menu {
-        right: 0;
-        min-width: 250px;
-        left: auto;
-        margin-top: 15px;
-        margin-bottom: 0;
-        padding: 15px 0;
-        max-width: 400px;
-        border-radius: 0;
-        border: none;
-        -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1), -2px 0 2px rgba(0, 0, 0, 0.1);
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1), -2px 0 2px rgba(0, 0, 0, 0.1);
-    }
-
-    .page nav.navbar .dropdown-menu {
-        width: 90vw;
-        right: 2.5vw;
-        left: 2.5vw;
-        margin: 0 auto;
-    }
-
-    }
-
-    .page nav.navbar .dropdown {
-        position: static;
-    }
-
-    .page nav.navbar .menu-btn span:first-of-type {
-        -webkit-transform: translateY(12px);
-        transform: translateY(12px);
-    }
-
-    .page nav.navbar .menu-btn span:last-of-type {
-        -webkit-transform: translateY(-12px);
-        transform: translateY(-12px);
-    }
-
-    .page nav.navbar .menu-btn span:nth-of-type(2)::after {
-        -webkit-transform: rotate(145deg);
-        transform: rotate(145deg);
-        position: absolute;
-        top: -2px;
-        left: 0;
-    }
-
-    .page nav.navbar .menu-btn span:nth-of-type(2)::before, nav.navbar .menu-btn span:nth-of-type(2)::after {
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-    }
-
-    .page nav.navbar .menu-btn span:nth-of-type(2)::before, nav.navbar .menu-btn span:nth-of-type(2)::after {
-        content: '';
-        width: 6px;
-        height: 2px;
-        display: block;
-        background: #fff;
-        -webkit-transform: rotate(45deg);
-        transform: rotate(45deg);
-        position: absolute;
-        top: 2px;
-        left: 0;
-        -webkit-transition: all 0.7s;
-        transition: all 0.7s;
-    }
-
-    .page nav.navbar .menu-btn span:nth-of-type(2) {
-        -webkit-transform: none;
-        transform: none;
-    }
-
-    .page nav.navbar .menu-btn span:nth-of-type(2) {
-        position: relative;
-        width: 35px;
-        -webkit-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-
-    .page nav.navbar .menu-btn span {
-        width: 20px;
-        height: 2px;
-        background: #fff;
-        display: block;
-        margin: 4px auto 0;
-        -webkit-transition: all 0.3s cubic-bezier(0.81, -0.33, 0.345, 1.375);
-        transition: all 0.3s cubic-bezier(0.81, -0.33, 0.345, 1.375);
-    }
-
-    .page nav.navbar .menu-btn.active span:first-of-type {
-        -webkit-transform: none;
-        transform: none;
-    }
-
-    .page nav.navbar .menu-btn.active span:first-of-type {
-        -webkit-transform: translateY(12px);
-        transform: translateY(12px);
-    }
-
-    .page nav.navbar .menu-btn.active span:last-of-type {
-        -webkit-transform: none;
-        transform: none;
-    }
-
-    }
-
-    .page nav.navbar .menu-btn.active span:last-of-type {
-        -webkit-transform: translateY(-12px);
-        transform: translateY(-12px);
-    }
-
-    .page nav.navbar .menu-btn.active span:nth-of-type(2) {
-        -webkit-transform: none;
-        transform: none;
-    }
-
-    .page nav.navbar .menu-btn.active span:nth-of-type(2) {
-        -webkit-transform: rotateY(180deg);
-        transform: rotateY(180deg);
-    }
-
-    .page nav.navbar .menu-btn {
-        margin-right: 20px;
-        font-size: 1.2em;
-        -webkit-transition: all 0.7s;
-        transition: all 0.7s;
-    }
-
-    .page nav.navbar .nav-item > a {
-        font-size: 13px;
-    }
-
-    .page nav.navbar .nav-link span.badge-corner {
-        position: absolute;
-        top: 0;
-        right: 0;
-        font-weight: 400;
-        font-size: 0.7em;
-    }
-
-    .page nav.navbar .nav-link.logout i {
-        margin-left: 10px;
-    }
-
-    .page nav.navbar .nav-link {
-        position: relative;
-    }
-
-    .page nav.navbar .nav-menu {
-        margin-bottom: 0;
-    }
-
-    .page nav.navbar .navbar-holder {
-        width: 100%;
-    }
-
-    .page nav.navbar .search-box .dismiss {
-        position: absolute;
-        top: 50%;
-        right: 20px;
-        -webkit-transform: translateY(-50%);
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 1.5em;
-        color: #999;
-    }
-
-    .page nav.navbar .search-box form input {
-        height: 100%;
-        border: none;
-        padding: 20px;
-    }
-
-    .page nav.navbar .search-box form {
-        height: 100%;
-    }
-
-    .page nav.navbar .search-box {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        right: 0;
-        padding: 0;
-        background: #fff;
-        z-index: 12;
-        border-radius: 0;
-        display: none;
-    }
-
-    .page nav.navbar a {
-        color: inherit;
-    }
-
-    .page nav.navbar {
-        background: #2f333e;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        color: #fff;
-        position: relative;
-        border-radius: 0;
-        -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .page nav.side-navbar .avatar {
-        width: 55px;
-        height: 55px;
-    }
-
-    .page nav.side-navbar .sidebar-header .title {
-        display: none;
-    }
-
-    .content-inner {
-        width: 100%;
-    }
-
-    }
-
-    .page nav.side-navbar .sidebar-header {
-        padding: 30px 15px;
-    }
-
-    .page nav.side-navbar .title h1 {
-        color: #333;
-    }
-
-    .page nav.side-navbar .title p {
-        font-size: 0.9em;
-        font-weight: 200;
-        margin-bottom: 0;
-        color: #aaa;
-    }
-
-    .page nav.side-navbar .title {
-        margin-left: 10px;
-    }
-
-    .page nav.side-navbar a {
-        color: inherit;
-        position: relative;
-        font-size: 0.9em;
-    }
-
-    .page nav.side-navbar {
-        background: #fff;
-        min-width: 250px;
-        max-width: 250px;
-        color: #686a76;
-        -webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-        box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
-        z-index: 9;
-    }
-
-    .page-header {
-        background: #fff;
-        padding: 20px;
-        -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-        box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-        position: relative;
-        z-index: 8;
-    }
-
-    .page {
-        background: #EEF5F9;
-    }
-
-    .page {
-        overflow-x: hidden;
-    }
-
-    .py-5 {
-        padding-bottom: 3rem !important;
-    }
-
-    .py-5 {
-        padding-top: 3rem !important;
-    }
-
-    .rounded-circle {
-        border-radius: 50% !important;
-    }
-
-    .row {
-        display: -ms-flexbox;
-        display: flex;
-        -ms-flex-wrap: wrap;
-        flex-wrap: wrap;
-        margin-right: -15px;
-        margin-left: -15px;
-    }
-
-    .text-center {
-        text-align: center !important;
-    }
-
-    .text-dark {
-        color: #343a40 !important;
-    }
-
-    .text-muted {
-        color: #6c757d !important;
-    }
-
-    .text-right {
-        text-align: right !important;
-    }
-
-    .text-small {
-        font-size: 0.9rem;
-    }
-
-    [class^="icon-"]:before {
-        font-family: "dashboard" !important;
-        font-style: normal !important;
-        font-weight: normal !important;
-        font-variant: normal !important;
-        text-transform: none !important;
-        speak: none;
-        line-height: 1;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-    }
-
-    [type=button], [type=submit], button {
-        -webkit-appearance: button;
-    }
-
-        [type=button]::-moz-focus-inner, [type=submit]::-moz-focus-inner, button::-moz-focus-inner {
-            padding: 0;
-            border-style: none;
-        }
-
-    [type=search] {
-        outline-offset: -2px;
-        -webkit-appearance: none;
-    }
-
-    a, i, span {
-        display: inline-block;
-        text-decoration: none;
-        -webkit-transition: all 0.3s;
-        transition: all 0.3s;
-    }
-
-        a:focus, a:hover {
-            color: #1c669c;
-            text-decoration: underline;
-        }
-
-        a:focus, a:hover {
-            color: #3b25e6;
-            text-decoration: underline;
-        }
-
-        a:hover, a:focus, i:hover, i:focus, span:hover, span:focus {
-            text-decoration: none;
-        }
-
-        a:hover {
-            color: #0056b3;
-            text-decoration: underline;
-        }
-
-    a {
-        color: #007bff;
-        text-decoration: none;
-        background-color: transparent;
-    }
-
-    a {
-        color: #2b90d9;
-        text-decoration: none;
-    }
-
-    a {
-        color: #796AEE;
-        text-decoration: none;
-    }
-
-    button, input, select, textarea {
-        margin: 0;
-        font-family: inherit;
-        font-size: inherit;
-        line-height: inherit;
-    }
-
-    button, input {
-        outline: none !important;
-    }
-
-    button, input {
-        overflow: visible;
-    }
-
-    button, select {
-        text-transform: none;
-    }
-
-        button:focus {
-            outline: 1px dotted;
-            outline: 5px auto -webkit-focus-ring-color;
-        }
-
-    button {
-        border-radius: 0;
-    }
-
-    button {
-        cursor: pointer;
-        font-family: inherit;
-        font-weight: 300 !important;
-    }
-
-    footer, header, nav, section {
-        display: block;
-    }
-
-        footer.main-footer p {
-            margin: 0;
-            font-size: 0.8em;
-        }
-
-        footer.main-footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            background: #2f333e;
-            color: #fff;
-            padding: 20px 10px;
-        }
-
-    h1, h2, h3, h4, h5, .h4, .h5 {
-        margin-bottom: .5rem;
-        font-family: inherit;
-        font-weight: 700;
-        line-height: 1.1;
-        color: inherit;
-    }
-
-    h1, h2, h3, h4, h5 {
-        margin-top: 0;
-        margin-bottom: .5rem;
-    }
-
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    h1 {
-        font-size: 2.5rem;
-    }
-
-    h2 {
-        font-size: 1.3rem;
-    }
-
-    h2 {
-        font-size: 2rem;
-    }
-
-    h3 {
-        font-size: 1.2rem;
-    }
-
-    h3 {
-        font-size: 1.75rem;
-    }
-
-    h4, .h4 {
-        font-size: 1.1rem;
-    }
-
-    h5, .h5 {
-        font-size: 1rem;
-    }
-
-    header.page-header {
-        padding: 20px 0;
-    }
-
-    img {
-        vertical-align: middle;
-        border-style: none;
-    }
-
-    label {
-        display: inline-block;
-        margin-bottom: .5rem;
-    }
-
-    p {
-        margin-top: 0;
-        margin-bottom: 1rem;
-    }
-
-    section {
-        padding: 50px 0;
-    }
-
-    select.form-control option {
-        color: #999;
-    }
-
-    small {
-        font-size: 80%;
-        font-weight: 400;
-    }
-
-    small {
-        font-size: 80%;
-    }
-
-    strong {
-        font-weight: bolder;
-    }
-
-    textarea.form-control {
-        height: auto;
-    }
-
-    textarea {
-        overflow: auto;
-        resize: vertical;
-    }
-
-    ul ul {
-        margin-bottom: 0;
-    }
-
-    ul {
-        margin-top: 0;
-        margin-bottom: 1rem;
-    }
-
-
-    @@media (max-width:1199px) {
-        .page nav.navbar .menu-btn {
-            margin-right: 20px;
-            font-size: 1.2em;
-            -webkit-transition: all 0.7s;
-            transition: all 0.7s;
-        }
-
-        @@media (max-width:575px) {
-            .page nav.navbar {
-                font-size: 14px;
-            }
-
-            @@media (max-width:575px) {
-                .page footer.main-footer div[class*='col'] {
-                    text-align: center !important;
-                }
-            }
-
-            @@media (max-width:575px) {
-                .page .container-fluid {
-                    padding: 0 15px;
-                }
-            }
-
-            @@media (max-width:1199px) {
-                .page nav.side-navbar {
-                    margin-left: -90px;
-                    min-width: 90px;
-                    max-width: 90px;
-                    text-align: center;
-                    overflow: hidden;
-                }
-
-                    .page nav.side-navbar .sidebar-header .title {
-                        display: none;
-                    }
-
-                .page .content-inner {
-                    width: 100%;
-                }
-            }
-
-            @@media (max-width:1199px) {
-                .page nav.navbar .menu-btn {
-                    margin-right: 20px;
-                    font-size: 1.2em;
-                    -webkit-transition: all 0.7s;
-                    transition: all 0.7s;
-                }
-
-                @@media (max-width:575px) {
-                    .page nav.navbar {
-                        font-size: 14px;
-                    }
-
-                    @@media (max-width:575px) {
-                        .page footer.main-footer div[class*='col'] {
-                            text-align: center !important;
-                        }
-                    }
-
-                    @@font-face {
-                        font-family: 'FontAwesome';
-                        src: url('https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/vendor/font-awesome/fonts/fontawesome-webfont.eot?v=4.7.0');
-                        src: url('https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/vendor/font-awesome/fonts/fontawesome-webfont.eot#iefix&v=4.7.0') format('embedded-opentype'), url('https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/vendor/font-awesome/fonts/fontawesome-webfont.woff2?v=4.7.0') format('woff2'), url('https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/vendor/font-awesome/fonts/fontawesome-webfont.woff?v=4.7.0') format('woff'), url('https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/vendor/font-awesome/fonts/fontawesome-webfont.ttf?v=4.7.0') format('truetype'), url('https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/vendor/font-awesome/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular') format('svg');
-                        font-weight: normal;
-                        font-style: normal;
-                    }
-
-                    @@font-face {
-                        font-family: "dashboard";
-                        src: url("https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/fonts/dashboard.eot");
-                        src: url("https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/fonts/dashboard.eot#iefix") format("embedded-opentype"), url("https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/fonts/dashboard.woff") format("woff"), url("https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/fonts/dashboard.ttf") format("truetype"), url("https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/fonts/dashboard.svg#dashboard") format("svg");
-                        font-weight: normal;
-                        font-style: normal;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 300;
-                        src: local('Poppins Light'), local('Poppins-Light'), url(https://fonts.gstatic.com/s/poppins/v9/pxiByp8kv8JHgFVrLDz8Z11lFc-K.woff2) format('woff2');
-                        unicode-range: U+0900-097F, U+1CD0-1CF6, U+1CF8-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FB;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 300;
-                        src: local('Poppins Light'), local('Poppins-Light'), url(https://fonts.gstatic.com/s/poppins/v9/pxiByp8kv8JHgFVrLDz8Z1JlFc-K.woff2) format('woff2');
-                        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 300;
-                        src: local('Poppins Light'), local('Poppins-Light'), url(https://fonts.gstatic.com/s/poppins/v9/pxiByp8kv8JHgFVrLDz8Z1xlFQ.woff2) format('woff2');
-                        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 400;
-                        src: local('Poppins Regular'), local('Poppins-Regular'), url(https://fonts.gstatic.com/s/poppins/v9/pxiEyp8kv8JHgFVrJJbecmNE.woff2) format('woff2');
-                        unicode-range: U+0900-097F, U+1CD0-1CF6, U+1CF8-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FB;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 400;
-                        src: local('Poppins Regular'), local('Poppins-Regular'), url(https://fonts.gstatic.com/s/poppins/v9/pxiEyp8kv8JHgFVrJJnecmNE.woff2) format('woff2');
-                        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 400;
-                        src: local('Poppins Regular'), local('Poppins-Regular'), url(https://fonts.gstatic.com/s/poppins/v9/pxiEyp8kv8JHgFVrJJfecg.woff2) format('woff2');
-                        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 700;
-                        src: local('Poppins Bold'), local('Poppins-Bold'), url(https://fonts.gstatic.com/s/poppins/v9/pxiByp8kv8JHgFVrLCz7Z11lFc-K.woff2) format('woff2');
-                        unicode-range: U+0900-097F, U+1CD0-1CF6, U+1CF8-1CF9, U+200C-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FB;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 700;
-                        src: local('Poppins Bold'), local('Poppins-Bold'), url(https://fonts.gstatic.com/s/poppins/v9/pxiByp8kv8JHgFVrLCz7Z1JlFc-K.woff2) format('woff2');
-                        unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-                    }
-
-                    @@font-face {
-                        font-family: 'Poppins';
-                        font-style: normal;
-                        font-weight: 700;
-                        src: local('Poppins Bold'), local('Poppins-Bold'), url(https://fonts.gstatic.com/s/poppins/v9/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2) format('woff2');
-                        unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-                    }
-</style>
 
 
 
 <link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" />
-
+<link href="~/Content/profile.css" rel="stylesheet" />
 
 
 @using (Html.BeginForm("Profile", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-profile" }))
@@ -1838,9 +29,14 @@
                     <div class="navbar-holder d-flex align-items-center justify-content-between">
                         <!-- Navbar Header-->
                         <div class="navbar-header">
-                            <!-- Navbar Brand --><a href="index.html" class="navbar-brand d-none d-sm-inline-block">
-                                <div class="brand-text d-none d-lg-inline-block"><strong>Dashboard - Profile</strong></div>
+                            <!-- Navbar Brand --><a href="index.html" class="navbar-brand  d-sm-inline-block">
+                                <div class="brand-text  d-lg-inline-block">
+                                    <strong>Dashboard</strong>
+
+                                </div>
                             </a>
+
+
                         </div>
                         <!-- Navbar Menu -->
                         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
@@ -1848,7 +44,7 @@
                             <li class="nav-item dropdown">
                                 <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fas fa-bell"></i><span class="badge bg-red badge-corner">12</span></a>
                             </li>
-                            <!-- Messages                        -->
+                            <!-- Messages -->
                             <li class="nav-item dropdown">
                                 <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner">10</span></a>
                                 <ul aria-labelledby="notifications" class="dropdown-menu">
@@ -1879,9 +75,8 @@
                                     <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong>Read all messages   </strong></a></li>
                                 </ul>
                             </li>
-                            <!-- Languages dropdown    -->
                             <!-- Logout    -->
-                            <li class="nav-item"><a href="login.html" class="nav-link logout"> <span class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
+                            <li class="nav-item"><a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link logout"> <span class="d-none d-sm-inline">Logout</span><i class="fa fa-sign-out"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -1889,325 +84,370 @@
         </header>
         <div class="page-content d-flex align-items-stretch">
             <div class="content-inner" style="padding-bottom: 59px;">
+                <div class="card" style="    margin-bottom: 0px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
+                    <nav>
+                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Profile</a>
+                            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Projects</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                        </div>
+                    </nav>
+                </div>
                 <section>
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-4">
-                                <div class="card card-profile">
-                                    <div style="background-image: url(/content/images/sc1.jpg);" class="card-header"></div>
-                                    <div class="card-body text-center">
-                                        <img src="https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/img/avatar-7.jpg" class="card-profile-img">
-                                        <h3 class="mb-3">Nathan Andrews</h3>
-                                        <p class="mb-4">One morning, when Gregor Samsa woke from troubled </p>
-                                        <button class="btn btn-outline-dark btn-sm"><span class="fa fa-twitter"></span> Follow</button>
-                                    </div>
-                                </div>
 
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">My Profile</h3>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="row mb-3">
-                                            <div class="col-auto d-flex align-items-center"><span style="background-image: url(https://d19m59y37dris4.cloudfront.net/admin-premium/1-4-5/img/avatar-7.jpg)" class="avatar avatar-lg"></span></div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.DisplayName, "Name", new { @class = "control-label text-light" })
-                                                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.DisplayName)
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5 class="card-title">Profile Completion: @Model.ApplicationUser.PercentDone% of your profile has been completed</h5>
+                                            </div>
+                                            <div class="card-body text-center text-light">
+                                                <div class="progress">
+                                                    <div class="progress-bar bg-success " role="progressbar" style="width: @Model.ApplicationUser.PercentDone%;color:white" aria-valuenow="@Model.ApplicationUser.PercentDone" aria-valuemin="0" aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
-                                            @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
-                                            @Html.ValidationMessageFor(model => model.Bio)
+
+
+                                        <div class="card card-profile">
+                                            <div style="background-image: url(/content/images/sc1.jpg);" class="card-header"></div>
+                                            <div class="card-body text-center text-light">
+                                                @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.ProfileImage, "card-profile-img", "", "")
+                                                <h3 class="mb-3">@Model.ApplicationUser.DisplayName</h3>
+                                                <p class="mb-4"> @Model.ApplicationUser.Bio</p>
+                                                @*<button class="btn btn-outline-dark btn-sm"><span class="fa fa-twitter"></span> Follow</button>*@
+                                            </div>
                                         </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
-                                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.Email)
-                                        </div>
-                                        <div class="form-group">
-                                            @Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
-                                            @Html.TextBoxFor(m => m.Password, new { @class = "form-control" })
-                                            @Html.ValidationMessageFor(model => model.Password)
+
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">My Profile</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row mb-3">
+                                                    <div class="col-auto d-flex align-items-center"><span style="background-image: url(/Uploads/ProfileImages/@User.Identity.GetUserId()/@Model.ApplicationUser.ProfileImage)" class="avatar avatar-lg"></span></div>
+                                                    <div class="col">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(m => m.ApplicationUser.DisplayName, "Display Name", new { @class = "control-label text-light" })
+                                                            @Html.TextBoxFor(m => m.ApplicationUser.DisplayName, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.ApplicationUser.DisplayName)
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.ApplicationUser.Bio, new { @class = "control-label text-light" })
+                                                    @Html.TextAreaFor(m => m.ApplicationUser.Bio, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
+                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.Bio)
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.ApplicationUser.Email, new { @class = "control-label text-light" })
+                                                    @Html.TextBoxFor(m => m.ApplicationUser.Email, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.Email)
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.ApplicationUser.OldPassword, "Old Password", new { @class = "control-label text-light" })
+                                                    @Html.TextBoxFor(m => m.ApplicationUser.OldPassword, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.OldPassword)
+                                                </div>
+                                                <div class="form-group">
+                                                    @Html.LabelFor(m => m.ApplicationUser.NewPassword, "New Password", new { @class = "control-label text-light" })
+                                                    @Html.TextBoxFor(m => m.ApplicationUser.NewPassword, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.NewPassword)
+                                                </div>
+                                            </div>
+                                            <div class="card-footer text-right">
+                                                <button class="btn btn-primary " type="submit">Save</button>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="card-footer text-right">
-                                        <button class="btn btn-primary " type="submit">Save</button>
+
+                                    <div class="col-lg-8">
+                                        @*<div class="card">
+                                            @Html.Partial("_ProfileChat")
+                                        </div>*@
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Edit Profile</h3>
+                                            </div>
+                                            <div class="card-body">
+
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" id="basicinformation-tab" data-toggle="tab" href="#basicinformation" role="tab" aria-controls="basicinformation" aria-selected="true">Basic Information</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="skills-tab" data-toggle="tab" href="#skills" role="tab" aria-controls="skills" aria-selected="false">Skills</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
+                                                    </li>
+                                                </ul>
+
+                                                <div class="tab-content" id="myTabContent">
+                                                    <div class="tab-pane fade show active" id="basicinformation" role="tabpanel" aria-labelledby="basicinformation-tab">
+                                                        <div class="profile1">
+
+
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-4">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.FirstName, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.FirstName, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.FirstName)
+
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.MiddleName, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.MiddleName, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.MiddleName)
+                                                                </div>
+
+                                                                <div class="form-group col-md-4">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.LastName, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.LastName, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.LastName)
+                                                                </div>
+                                                            </div>
+
+
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-4 ">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.Address, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.Address, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.Address)
+                                                                </div>
+
+                                                                <div class="form-group  col-md-4">
+                                                                    <!-- City-->
+                                                                    @Html.LabelFor(m => m.ApplicationUser.City, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.City, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.City)
+                                                                </div>
+
+
+                                                                <div class="form-group col-md-4 ">
+                                                                    @Html.LabelFor(x => x.ApplicationUser.State, new { @class = "control-label text-light" })
+                                                                    @Html.DropDownListFor(m => m.ApplicationUser.State, Model.ApplicationUser.States, "- Please select a state -", new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.State)
+                                                                </div>
+
+
+                                                            </div>
+
+                                                            <div class="form-row">
+
+                                                                <div class="form-group  col-md-4">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.ZipCode, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.ZipCode, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.ZipCode)
+                                                                </div>
+
+                                                                <div class="form-group col-md-4 ">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.PhoneNumber, "Phone Number", new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.PhoneNumber, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.PhoneNumber)
+                                                                </div>
+
+                                                                <div class="form-group  col-sm-4">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.ByTheHourRate, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.ByTheHourRate, new { @class = "form-control currency", @onkeypress = "return validateDec(event)", @type = "number", aria_describedby = "ByTheHourRate" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.ByTheHourRate)
+                                                                </div>
+
+
+                                                            </div>
+
+                                                            <div class="form-row">
+
+                                                                <div class="form-group  col-md-4">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.BirthDate, new { @class = "control-label text-light" })
+                                                                    @Html.TextBoxFor(m => m.ApplicationUser.BirthDate, new { @class = "form-control" })
+                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.BirthDate)
+                                                                </div>
+
+
+                                                                @{
+                                                                    string mode = "";
+
+                                                                    if (Model.ApplicationUser.IsInContractorMode)
+                                                                    {
+                                                                        mode = "Contractor";
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        mode = "Customer";
+                                                                    }
+
+                                                                }
+                                                                <div class="form-group  col-md-4 ">
+                                                                    @Html.LabelFor(m => m.ApplicationUser.IsInContractorMode, "Current Mode: " + @mode, new { @class = "control-label text-light current-mode" })
+                                                                    @Html.CheckBoxFor(m => m.ApplicationUser.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
+                                                        <div class="skills">
+
+                                                            <div class="form-row">
+
+                                                                <div class="form-group col-md-12 ">
+                                                                    <span class=" control-label clearfix" style="color:white">(Choose a letter to start) </span>
+                                                                    <span class=" control-label text-light clearfix">Alphabetical List of Professions</span>
+                                                                    @*@Html.TextBoxFor(model => model.SelectedProfession, new { style = "width:100%;" })*@
+                                                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">A</span>
+                                                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">B</span>
+                                                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">C</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">D</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">E</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">F</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">G</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">H</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">I</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">J</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">K</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">L</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">M</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">N</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">O</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">P</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Q</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">R</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">S</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">T</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">U</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">V</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">W</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">X</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Y</span>
+                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Z</span>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group  col-md-12 Professions ">
+                                                                    @Html.DropDownListFor(m => m.ApplicationUser.Professions, Model.ApplicationUser.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group  col-md-12 SubProfessions ">
+                                                                    @Html.DropDownListFor(m => m.ApplicationUser.SubProfessions, Model.ApplicationUser.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-row SubProfessions">
+                                                                <div class="form-group col-md-12">
+                                                                    <button type="button" class="btn btn-info add">Add Job Title</button>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-12">
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <hr style="width: 100%; color: white; height: 1px; background-color:white;" />
+                                                                Current Selected Profession(s):
+                                                                <div class="form-group col-md-12 results">
+                                                                    @for (int i = 0; i < Model.ApplicationUser.UserProfessions.ToList().Count(); i++)
+                                                                    {
+                                                                        @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
+
+                                                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove " data-id="@Model.ApplicationUser.UserProfessions.ToList()[i].MainCatId @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.ApplicationUser.UserProfessions.ToList()[i].MainCatName -- @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatName</div>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                                                        <div class="documents">
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-12">
+                                                                    <span class="text-light">
+                                                                        For the safety of our users, we must ID verify each contractor. Because of this, we require that a government
+                                                                        issued ID and a contractor headshot be uploaded. Your profile photo is the first thing a customer sees when choosing
+                                                                        a contractor. A clean, professional looking profile photo makes a big difference and can be a determining factor on
+                                                                        whether or not you are selected to complete a job.
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-row">
+                                                                <div class="form-group col-md-6">
+                                                                    <div class="card" style="min-height: 264px">
+                                                                        <div class="card-body">
+                                                                            <div class="dropzone dz-clickable" id="dropzoneProfilePic" style="background-color:#00BFFF;"> </div>
+                                                                            <div class="ProfileImage">
+
+                                                                                @if (Model.ApplicationUser.ProfileImage != null)
+                                                                                {
+                                                                                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.ProfileImage)
+                                                                                    <span class="btn remove-profileimage">X</span>
+                                                                                }
+                                                                            </div>
+
+                                                                            <div style="margin-top: 20px;"><h4 class="text-center dropzone-error text-light small"></h4></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group col-md-6">
+                                                                    <div class="card" style="min-height: 264px">
+                                                                        <div class="card-body">
+                                                                            <div class="dropzone dz-clickable" id="dropzoneIdPic" style="background-color:#00BFFF;"> </div>
+                                                                            <div class="IdImage">
+                                                                                @if (Model.ApplicationUser.IdImage != null)
+                                                                                {
+                                                                                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.IdImage)
+                                                                                    <span class="btn remove-idimage">X</span>
+                                                                                }
+                                                                            </div>
+
+                                                                            <div style="margin-top: 20px;"><h4 class="text-center dropzone-error2 text-light small"></h4></div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+
+                                                        test 3
+                                                    </div>
+                                                </div>
+
+
+
+                                            </div>
+                                            <div class="card-footer text-right">
+                                                <button class="btn btn-primary submit" type="submit">Update Profile</button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-8">
+                        </div>
+                        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                            <div class="container-fluid" style="background-color:#2f323b">
+                                @Html.Partial("_Projects")
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                            <div class="col-lg-6">
                                 <div class="card">
                                     @Html.Partial("_ProfileChat")
-                                </div>
-                                <div class="card">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Edit Profile</h3>
-                                    </div>
-                                    <div class="card-body">
-
-                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                            <li class="nav-item">
-                                                <a class="nav-link active" id="basicinformation-tab" data-toggle="tab" href="#basicinformation" role="tab" aria-controls="basicinformation" aria-selected="true">Basic Information</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="skills-tab" data-toggle="tab" href="#skills" role="tab" aria-controls="skills" aria-selected="false">Skills</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
-                                            </li>
-                                        </ul>
-
-                                        <div class="tab-content" id="myTabContent">
-                                            <div class="tab-pane fade show active" id="basicinformation" role="tabpanel" aria-labelledby="basicinformation-tab">
-                                                <div class="profile1">
-
-
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-4">
-                                                            @Html.LabelFor(m => m.FirstName, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.FirstName)
-
-                                                        </div>
-
-                                                        <div class="form-group col-md-4">
-                                                            @Html.LabelFor(m => m.MiddleName, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.MiddleName)
-                                                        </div>
-
-                                                        <div class="form-group col-md-4">
-                                                            @Html.LabelFor(m => m.LastName, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.LastName)
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-4 ">
-                                                            @Html.LabelFor(m => m.Address, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.Address)
-                                                        </div>
-
-                                                        <div class="form-group  col-md-4">
-                                                            <!-- City-->
-                                                            @Html.LabelFor(m => m.City, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.City)
-                                                        </div>
-
-
-                                                        <div class="form-group col-md-4 ">
-                                                            @Html.LabelFor(x => x.State, new { @class = "control-label text-light" })
-                                                            @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.State)
-                                                        </div>
-
-
-                                                    </div>
-
-                                                    <div class="form-row">
-
-                                                        <div class="form-group  col-md-4">
-                                                            @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.ZipCode)
-                                                        </div>
-
-                                                        <div class="form-group col-md-4 ">
-                                                            @Html.LabelFor(m => m.PhoneNumber, "Phone Number", new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.PhoneNumber)
-                                                        </div>
-
-                                                        <div class="form-group  col-sm-4">
-                                                            @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control currency", @onkeypress = "return validateDec(event)", @type = "number", aria_describedby = "ByTheHourRate" })
-                                                            @Html.ValidationMessageFor(model => model.ByTheHourRate)
-                                                        </div>
-
-
-                                                    </div>
-
-                                                    <div class="form-row">
-
-                                                        <div class="form-group  col-md-4">
-                                                            @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.BirthDate)
-                                                        </div>
-
-
-                                                        @{
-                                                            string mode = "";
-
-                                                            if (Model.IsInContractorMode)
-                                                            {
-                                                                mode = "Contractor";
-                                                            }
-                                                            else
-                                                            {
-                                                                mode = "Customer";
-                                                            }
-
-                                                        }
-                                                        <div class="form-group  col-md-4 ">
-                                                            @Html.LabelFor(m => m.IsInContractorMode, "Current Mode: " + @mode, new { @class = "control-label text-light current-mode" })
-                                                            @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-
-                                            <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-                                                <div class="skills">
-
-                                                    <div class="form-row">
-
-                                                        <div class="form-group col-md-12 ">
-                                                            <span class=" control-label clearfix" style="color:white">(Choose a letter to start) </span>
-                                                            <span class=" control-label text-light clearfix">Alphabetical List of Professions</span>
-                                                            @*@Html.TextBoxFor(model => model.SelectedProfession, new { style = "width:100%;" })*@
-                                                            <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">A</span>
-                                                            <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">B</span>
-                                                            <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">C</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">D</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">E</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">F</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">G</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">H</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">I</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">J</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">K</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">L</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">M</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">N</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">O</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">P</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Q</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">R</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">S</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">T</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">U</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">V</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">W</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">X</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Y</span>
-                                                            <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Z</span>
-
-
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group  col-md-12 Professions ">
-                                                            @Html.DropDownListFor(m => m.Professions, Model.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group  col-md-12 SubProfessions ">
-                                                            @Html.DropDownListFor(m => m.SubProfessions, Model.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-row SubProfessions">
-                                                        <div class="form-group col-md-12">
-                                                            <button type="button" class="btn btn-info add">Add Job Title</button>
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-12">
-
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <hr style="width: 100%; color: white; height: 1px; background-color:white;" />
-                                                        Current Selected Profession(s):
-                                                        <div class="form-group col-md-12 results">
-                                                            @for (int i = 0; i < Model.UserProfessions.ToList().Count(); i++)
-                                                            {
-                                                                @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
-
-                                                                <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove " data-id="@Model.UserProfessions.ToList()[i].MainCatId @Model.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.UserProfessions.ToList()[i].MainCatName -- @Model.UserProfessions.ToList()[i].SubCatName</div>
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                                                <div class="documents">
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-12">
-                                                            <span class="text-light">
-                                                                For the safety of our users, we must ID verify each contractor. Because of this, we require that a government
-                                                                issued ID and a contractor headshot be uploaded. Your profile photo is the first thing a customer sees when choosing
-                                                                a contractor. A clean, professional looking profile photo makes a big difference and can be a determining factor on
-                                                                whether or not you are selected to complete a job.
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-group col-md-6">
-                                                            <div class="card" style="min-height: 264px">
-                                                                <div class="card-body">
-                                                                    <div class="ProfileImage">
-                                                                        <div class="dropzone dz-clickable" id="dropzoneProfilePic" style="background-color:#00BFFF;"> </div>
-                                                                        @if (Model.ProfileImage != null)
-                                                                        {
-                                                                            @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ProfileImage)
-                                                                            <span class="btn remove-profileimage">X</span>
-                                                                        }
-                                                                    </div>
-                                                                   
-                                                                    <div style="margin-top: 20px;"><h4 class="text-center dropzone-error text-light small"></h4></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="form-group col-md-6">
-                                                            <div class="card" style="min-height: 264px">
-                                                                <div class="card-body">
-                                                                    <div class="IdImage">
-                                                                        <div class="dropzone dz-clickable" id="dropzoneIdPic" style="background-color:#00BFFF;"> </div>
-                                                                        @if (Model.IdImage != null)
-                                                                        {
-                                                                            @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.IdImage)
-                                                                            <span class="btn remove-idimage">X</span>
-                                                                        }
-                                                                    </div>
-                                                                 
-                                                                    <div style="margin-top: 20px;"><h4 class="text-center dropzone-error2 text-light small"></h4></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
-
-                                                test 3
-                                            </div>
-                                        </div>
-
-
-
-                                    </div>
-                                    <div class="card-footer text-right">
-                                        <button class="btn btn-primary submit" type="submit">Update Profile</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2220,10 +460,10 @@
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-sm-6">
-                                <p>Your company © 2017-2019</p>
+                                <p>SamedayServicez.com © </p>
                             </div>
                             <div class="col-sm-6 text-right">
-                                <p>Version 1.4.5</p>
+                                <p>Version 1.0.0</p>
                             </div>
                         </div>
                     </div>
@@ -2232,11 +472,11 @@
         </div>
     </div>
 
-    <input class="form-control d-none" id="InfoTabOpen" name="InfoTabOpen" type="text" value="@Model.InfoTabOpen" />
-    <input class="form-control d-none" id="JsonProfession" name="JsonProfession" type="text" value="@Model.JsonProfession" />
-    <input class="form-control d-none" id="latitude" name="latitude" type="text" value="@Model.latitude" />
-    <input class="form-control d-none" id="longitude" name="longitude" type="text" value="@Model.longitude" />
-    <input class="form-control d-none" id="Id" name="Id" type="text" value="@Model.Id" />
+    <input class="form-control d-none" id="InfoTabOpen" name="InfoTabOpen" type="text" value="@Model.ApplicationUser.InfoTabOpen" />
+    <input class="form-control d-none" id="JsonProfession" name="JsonProfession" type="text" value="@Model.ApplicationUser.JsonProfession" />
+    <input class="form-control d-none" id="latitude" name="latitude" type="text" value="@Model.ApplicationUser.latitude" />
+    <input class="form-control d-none" id="longitude" name="longitude" type="text" value="@Model.ApplicationUser.longitude" />
+    <input class="form-control d-none" id="Id" name="Id" type="text" value="@Model.ApplicationUser.Id" />
 }
 
 
@@ -2244,4 +484,7 @@
 
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANM-MNjlvaju8maiq0zZbDk99JXmD_nrA"></script>
 <script src="~/Scripts/dropzone/dropzone.min.js"></script>
+<script>Dropzone.autoDiscover = false;</script>
+
+
 <script async defer src="~/Scripts/profile.js"></script>

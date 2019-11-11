@@ -1,19 +1,14 @@
 ﻿
-$("#accordion").accordion({
-    heightStyle: "content",
-    collapsible: true
-});
-
 $('#BirthDate').datepicker({
     uiLibrary: 'bootstrap4',
     dateFormat: 'mm/dd/yy'
 });
 
 
-$('#Register').on('click', function (event) {
-    event.preventDefault();
-    getGeoCode();
-});
+//$('#Register').on('click', function (event) {
+//    event.preventDefault();
+//    getGeoCode();
+//});
 
 
 function getGeoCode() {

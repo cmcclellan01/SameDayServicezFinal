@@ -164,7 +164,7 @@ namespace SameDayServicezFinal.Controllers
                 case SignInStatus.Success:
                     if (returnUrl == "")
                     {
-                        return RedirectToAction("DashBoard", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                        return RedirectToAction("Profile", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                     }
                     else
                     {
@@ -232,12 +232,13 @@ namespace SameDayServicezFinal.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            var states = Utils.Extensions.GetStatesList();
+            //var states = Utils.Extensions.GetStatesList();
 
-            var model = new RegisterViewModel
-            {
-                States = GetSelectListItems(states)
-            };
+            //var model = new RegisterViewModel
+            //{
+            //    States = GetSelectListItems(states)
+            //};
+            RegisterViewModel model = new RegisterViewModel();
 
             return View(model);
         }
@@ -272,32 +273,22 @@ namespace SameDayServicezFinal.Controllers
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
 
-            var states = Utils.Extensions.GetStatesList();
+            //var states = Utils.Extensions.GetStatesList();
 
-            model.States = GetSelectListItems(states);
+            //model.States = GetSelectListItems(states);
 
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
-                {
-                    UserName = model.Email,
+                {                   
                     Email = model.Email,
-                    FirstName = model.FirstName,
-                    MiddleName = model.MiddleName,
-                    LastName = model.LastName,
-                    Address = model.Address,
-                    City = model.City,
-                    State = model.State,
-                    ZipCode = model.ZipCode,
-                    BirthDate = model.BirthDate,
-                    Bio = model.Bio,
+                    FirstName = model.FirstName,                   
+                    LastName = model.LastName,                   
                     IsInContractorMode = model.IsInContractorMode,
-                    IsInCustomerMode = model.IsInCustomerMode,
-                    PhoneNumber = model.PhoneNumber,
-                    PercentDone = 20,
-                    longitude = model.longitude,
-                    latitude = model.latitude
-
+                    IsInCustomerMode = model.IsInCustomerMode,                   
+                    PercentDone = 20  , 
+                    DisplayName = model.FirstName + " " + model.LastName,
+                    UserName = model.Email
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -311,7 +302,7 @@ namespace SameDayServicezFinal.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Profile", "Account", new { nr = true });
                 }
                 AddErrors(result);
             }
@@ -554,28 +545,44 @@ namespace SameDayServicezFinal.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult> Profile(ApplicationUser model)
+        public async Task<ActionResult> Profile(PortalList model)
         {
             var states = Utils.Extensions.GetStatesList();
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
 
-            if (user != null)
+            if (user != null && ModelState.IsValid)
             {
-                user.Address = model.Address;
-                user.State = model.State;
+
+                user.FirstName = model.ApplicationUser.FirstName;
+                user.MiddleName = model.ApplicationUser.MiddleName;
+                user.LastName = model.ApplicationUser.LastName;
+                user.Address = model.ApplicationUser.Address;
+                user.City = model.ApplicationUser.City;
+                user.State = model.ApplicationUser.State;
+                user.ZipCode = model.ApplicationUser.ZipCode;
+                user.BirthDate = model.ApplicationUser.BirthDate;
+                user.Bio = model.ApplicationUser.Bio;
+                user.IsInContractorMode = model.ApplicationUser.IsInContractorMode;
+                user.IsInCustomerMode = model.ApplicationUser.IsInCustomerMode;
+                user.PhoneNumber = model.ApplicationUser.PhoneNumber;
+                user.State = model.ApplicationUser.State;
                 user.States = GetSelectListItems(states);
                 user.Professions = new List<SelectListItem>();
-                user.SubProfessions = new List<SelectListItem>(); ;
-                //user.SelectedProfession = model.SelectedProfession;
-                user.InfoTabOpen = model.InfoTabOpen;
-                user.longitude = model.longitude;
-                user.latitude = model.latitude;
+                user.SubProfessions = new List<SelectListItem>(); 
+                user.InfoTabOpen = model.ApplicationUser.InfoTabOpen;
+                user.longitude = model.ApplicationUser.longitude;
+                user.latitude = model.ApplicationUser.latitude;
+                user.DisplayName = model.ApplicationUser.DisplayName;
+                user.Email = model.ApplicationUser.Email;
+                user.ByTheHourRate = model.ApplicationUser.ByTheHourRate;
 
-                if (model.JsonProfession != null)
+                
+
+                if (model.ApplicationUser.JsonProfession != null)
                 {
-                    foreach (var item in model.JsonProfession.Trim(',').Split(','))
+                    foreach (var item in model.ApplicationUser.JsonProfession.Trim(',').Split(','))
                     {
 
                         var m = long.Parse(item.Split('_')[0]);
@@ -603,10 +610,13 @@ namespace SameDayServicezFinal.Controllers
                     }
                 }
 
+                if(model.ApplicationUser.OldPassword != null && model.ApplicationUser.NewPassword != null)
+                {
+                    IdentityResult passwordresult = await UserManager.ChangePasswordAsync(userId, model.ApplicationUser.OldPassword, model.ApplicationUser.NewPassword);
+                }               
 
-
-
-                await UserManager.UpdateAsync(user);
+                IdentityResult result =  await UserManager.UpdateAsync(user);
+  
 
                 user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
             }
@@ -615,8 +625,13 @@ namespace SameDayServicezFinal.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            PortalList portal = new PortalList
+            {
+                ApplicationUser = user
+            };
 
-            return View(user);
+            return View(portal);
+            
         }
 
         [HttpGet]
@@ -625,7 +640,7 @@ namespace SameDayServicezFinal.Controllers
             var states = Utils.Extensions.GetStatesList();
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-
+            PortalList portal = new PortalList();
 
 
             if (user != null)
@@ -634,20 +649,24 @@ namespace SameDayServicezFinal.Controllers
                 user.States = GetSelectListItems(states);
                 user.Professions = new List<SelectListItem>();
                 user.SubProfessions = new List<SelectListItem>();
-
-
                 user.InfoTabOpen = "0";
-
                 var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId);
-
                 user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                portal.ApplicationUser = user;
+
+                portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
+
             }
             else
             {
                 return RedirectToAction("Login", "Account");
             }
 
-            return View(user);
+
+           
+           
+
+            return View(portal);
         }
 
      

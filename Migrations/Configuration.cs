@@ -9,7 +9,7 @@ namespace SameDayServicezFinal.Migrations
         {
             AutomaticMigrationsEnabled = true;
             ContextKey = "SameDayServicezFinal.Models.ApplicationDbContext";
-            //AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Models.ApplicationDbContext context)

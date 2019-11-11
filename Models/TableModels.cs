@@ -260,11 +260,11 @@ namespace SameDayServicezFinal.Models
         public PortalList()
         {
             Projects = new List<Project>();
-            ApplicationUser = new List<ApplicationUser>();
+            ApplicationUser = ApplicationUser;
         }
 
         public List<Project> Projects { get; set; }
-        public List<ApplicationUser> ApplicationUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
 
 
 

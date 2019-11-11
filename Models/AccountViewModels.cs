@@ -86,22 +86,16 @@ namespace SameDayServicezFinal.Models
         public string ConfirmPassword { get; set; }
 
 
-
-
-
-
-
-
         [Required(ErrorMessage = "Please Enter Your First Name",
     AllowEmptyStrings = false)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
 
-        [Required(ErrorMessage = "Please Enter Your  Middle Name",
-          AllowEmptyStrings = false)]
-        [Display(Name = "Middle Name")]
-        public string MiddleName { get; set; }
+        //[Required(ErrorMessage = "Please Enter Your  Middle Name",
+        //  AllowEmptyStrings = false)]
+        //[Display(Name = "Middle Name")]
+        //public string MiddleName { get; set; }
 
 
 
@@ -111,38 +105,38 @@ namespace SameDayServicezFinal.Models
         public string LastName { get; set; }
 
 
-        [Required(ErrorMessage = "Please Enter Your Street Address",
-       AllowEmptyStrings = false)]
-        [Display(Name = "Address")]
-        public string Address { get; set; }
+      //  [Required(ErrorMessage = "Please Enter Your Street Address",
+      // AllowEmptyStrings = false)]
+      //  [Display(Name = "Address")]
+      //  public string Address { get; set; }
 
 
-        [Required(ErrorMessage = "Please Enter Your City",
-       AllowEmptyStrings = false)]
-        [Display(Name = "City")]
-        public string City { get; set; }
+      //  [Required(ErrorMessage = "Please Enter Your City",
+      // AllowEmptyStrings = false)]
+      //  [Display(Name = "City")]
+      //  public string City { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Your State",
-         AllowEmptyStrings = false)]
-        [Display(Name = "State")]
-        public string State { get; set; }
-        public IEnumerable<SelectListItem> States { get; set; }
+      //  [Required(ErrorMessage = "Please Enter Your State",
+      //   AllowEmptyStrings = false)]
+      //  [Display(Name = "State")]
+      //  public string State { get; set; }
+      //  public IEnumerable<SelectListItem> States { get; set; }
 
 
-        [Required(ErrorMessage = "Please Enter Your Zip Code",
-       AllowEmptyStrings = false)]
-        [StringLength(5, MinimumLength = 5)]
-        [RegularExpression("(^\\d{5}(-\\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]{1}\\d{1}[A-Z]{1} *\\d{1}[A-Z]{1}\\d{1}$)", ErrorMessage = "Zip code is invalid.")] // US or Canada
+      //  [Required(ErrorMessage = "Please Enter Your Zip Code",
+      // AllowEmptyStrings = false)]
+      //  [StringLength(5, MinimumLength = 5)]
+      //  [RegularExpression("(^\\d{5}(-\\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]{1}\\d{1}[A-Z]{1} *\\d{1}[A-Z]{1}\\d{1}$)", ErrorMessage = "Zip code is invalid.")] // US or Canada
 
-        [Display(Name = "Zip Code")]
-        public string ZipCode { get; set; }
+      //  [Display(Name = "Zip Code")]
+      //  public string ZipCode { get; set; }
 
-        [Required(ErrorMessage = "Please Enter Your Phone Number",
-      AllowEmptyStrings = false)]
-        [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Invalid Phone number")]
-        [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
+      //  [Required(ErrorMessage = "Please Enter Your Phone Number",
+      //AllowEmptyStrings = false)]
+      //  [DataType(DataType.PhoneNumber)]
+      //  [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Invalid Phone number")]
+      //  [Display(Name = "Phone Number")]
+      //  public string PhoneNumber { get; set; }
 
 
         [Required(ErrorMessage = "Please Enter Email Address")]
@@ -163,25 +157,25 @@ namespace SameDayServicezFinal.Models
         //public string ConfirmPassword { get; set; }
 
 
-        [Required(ErrorMessage = "Choose date of birth")]
-        [Display(Name = "Date of Birth")]
-        public string BirthDate { get; set; }
+     //   [Required(ErrorMessage = "Choose date of birth")]
+     //   [Display(Name = "Date of Birth")]
+     //   public string BirthDate { get; set; }
 
 
-        [Required(ErrorMessage = "Please Enter Your Bio",
-     AllowEmptyStrings = false)]
-        [Display(Name = "Bio")]
-        public string Bio { get; set; }
+     //   [Required(ErrorMessage = "Please Enter Your Bio",
+     //AllowEmptyStrings = false)]
+     //   [Display(Name = "Bio")]
+     //   public string Bio { get; set; }
 
 
         public bool IsInContractorMode { get; set; }
         public bool IsInCustomerMode { get; set; }
 
-        public double latitude { get; set; }
-        public double longitude { get; set; }
+        //public double latitude { get; set; }
+        //public double longitude { get; set; }
 
-        [Display(Name = "Hourly Rate")]
-        public decimal ByTheHourRate { get; set; }
+        //[Display(Name = "Hourly Rate")]
+        //public decimal ByTheHourRate { get; set; }
     }
 
     public class ResetPasswordViewModel
