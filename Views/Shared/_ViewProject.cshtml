@@ -1,0 +1,120 @@
+﻿@model SameDayServicezFinal.Models.Project
+@using SameDayServicezFinal.Utils
+@using Microsoft.AspNet.Identity
+
+<div class="card project-id-@Model.ProjectsId">
+    <div class="card-header">
+        <h3 class="card-title">Edit Project</h3>
+    </div>
+    <div class="card-body">
+
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="basicinformation-@Model.ProjectsId-tab" data-toggle="tab" href="#basicinformation-@Model.ProjectsId" role="tab" aria-controls="basicinformation-@Model.ProjectsId" aria-selected="true">Basic Project Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="skills-@Model.ProjectsId-tab" data-toggle="tab" href="#skills-@Model.ProjectsId" role="tab" aria-controls="skills-@Model.ProjectsId" aria-selected="false">Project Professions & Skills</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="documents-@Model.ProjectsId-tab" data-toggle="tab" href="#documents-@Model.ProjectsId" role="tab" aria-controls="documents-@Model.ProjectsId" aria-selected="false">Project Documents</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="basicinformation-@Model.ProjectsId" role="tabpanel" aria-labelledby="basicinformation-@Model.ProjectsId-tab">
+                <div class="basicinformation">
+                    <div class="row">
+                        <div class="col-12 ">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
+                                    @Html.ValidationMessageFor(model => model.ProjectTitle)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12 ">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    @Html.LabelFor(m => m.Description, "Project Description", new { @class = "control-label text-light" })
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
+                                    @Html.ValidationMessageFor(model => model.Description)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-4 ">
+                            @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Address)
+                        </div>
+
+                        <div class="form-group  col-md-4">
+                            <!-- City-->
+                            @Html.LabelFor(m => m.City, "Project City", new { @class = "control-label text-light" })
+                            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.City)
+                        </div>
+
+
+                        <div class="form-group col-md-4 ">
+                            @Html.LabelFor(x => x.State, "Project State", new { @class = "control-label text-light" })
+                            @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control", style = "min-width: 100%!important;" })
+                            @Html.ValidationMessageFor(model => model.State)
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group  col-md-4">
+                            @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
+                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.ZipCode)
+                        </div>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="skills-@Model.ProjectsId" role="tabpanel" aria-labelledby="skills-@Model.ProjectsId-tab">
+                <div class="">
+
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="documents-@Model.ProjectsId" role="tabpanel" aria-labelledby="documents-@Model.ProjectsId-tab">
+                <div class="">
+
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="compensation-@Model.ProjectsId" role="tabpanel" aria-labelledby="compensation-@Model.ProjectsId-tab">
+                <div class="">
+
+                </div>             
+            </div>
+
+        </div>
+
+
+
+    </div>
+    <div class="card-footer text-right">
+        <button class="btn btn-primary submit" type="submit">Update Project</button>
+    </div>
+</div>
+<script>
+    $('.project-id-@Model.ProjectsId').hide();   
+</script>

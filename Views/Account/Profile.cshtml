@@ -113,7 +113,8 @@
 
 
                                         <div class="card card-profile">
-                                            <div style="background-image: url(/content/images/sc1.jpg);" class="card-header"></div>
+                                            <img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);" >
+                                            <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;" class="card-header"></div>
                                             <div class="card-body text-center text-light">
                                                 @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.ProfileImage, "card-profile-img", "", "")
                                                 <h3 class="mb-3">@Model.ApplicationUser.DisplayName</h3>
@@ -165,10 +166,7 @@
                                     </div>
 
                                     <div class="col-lg-8">
-                                        @*<div class="card">
-                                            @Html.Partial("_ProfileChat")
-                                        </div>*@
-                                        <div class="card">
+                                         <div class="card">
                                             <div class="card-header">
                                                 <h3 class="card-title">Edit Profile</h3>
                                             </div>
@@ -440,8 +438,9 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <div class="container-fluid" style="background-color:#2f323b">
+                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
                                 @Html.Partial("_Projects")
+                               
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">

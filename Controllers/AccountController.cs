@@ -650,11 +650,12 @@ namespace SameDayServicezFinal.Controllers
                 user.Professions = new List<SelectListItem>();
                 user.SubProfessions = new List<SelectListItem>();
                 user.InfoTabOpen = "0";
+
                 var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId);
                 user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-                portal.ApplicationUser = user;
+                portal.ApplicationUser = user;            
 
-                portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
+                UpdatePortal(portal);
 
             }
             else
@@ -662,14 +663,62 @@ namespace SameDayServicezFinal.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-
-           
-           
-
             return View(portal);
         }
 
-     
+        public void UpdatePortal(PortalList portal)
+        {
+            var states = Utils.Extensions.GetStatesList();
+          
+            var userId = User.Identity.GetUserId();
+            portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
+
+            var users = db.Users.Select(p => p).ToList();
+
+            List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
+            foreach (var project in portal.Projects)
+            {
+
+                // add the project assignments to the object
+                project.ProjectAssignments = new List<ProjectAssignment>();
+                ProjectAssignments = db.ProjectAssignment.Where(p => p.ProjectId == project.ProjectsId && p.ProjectOwner == userId).ToList();
+                foreach (var Assignment in ProjectAssignments)
+                {
+                    var profileImage = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+
+                    Assignment.ProfileImage = profileImage.ProfileImage;
+                    Assignment.ProfileDisplayName = profileImage.DisplayName;
+
+                    project.ProjectAssignments.Add(Assignment);
+                }
+
+
+                // add the Project Compensation Package to the object
+                var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+                if (ProjectCompensationPackage != null)
+                {
+                    project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                    project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                    project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                    project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                    project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                    project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                    project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+                }
+
+                // add the Project Job Categories to the object
+                project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+
+                // add the Project Documents to the object
+                project.ProjectDocuments = db.ProjectDocuments.Where(p => p.ProjectId == project.ProjectsId).ToList();
+
+                project.States = GetSelectListItems(states);
+
+
+
+            }
+        }
+
 
 
         public JsonResult GetSubCategoryList(int Id)

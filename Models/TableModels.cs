@@ -188,6 +188,9 @@ namespace SameDayServicezFinal.Models
 
         public double latitude { get; set; }
         public double longitude { get; set; }
+
+        [NotMapped]
+        public List<ProjectAssignment> ProjectAssignments { get; set; }
     }
     [Table("ProjectAssignment")]
     public class ProjectAssignment
@@ -200,6 +203,10 @@ namespace SameDayServicezFinal.Models
         public string UsersId { get; set; }
         public long ProjectId { get; set; }
         public string ProjectOwner { get; set; }
+        [NotMapped]
+        public string ProfileImage { get; set; }
+        [NotMapped]
+        public string ProfileDisplayName { get; set; }
     }
 
     [Table("ProjectCompensationPackage")]
@@ -256,19 +263,14 @@ namespace SameDayServicezFinal.Models
 
     public class PortalList
     {
-
         public PortalList()
         {
             Projects = new List<Project>();
             ApplicationUser = ApplicationUser;
         }
 
-        public List<Project> Projects { get; set; }
+        public List<Project> Projects { get; set; }     
         public ApplicationUser ApplicationUser { get; set; }
-
-
-
-
     }
 
 
