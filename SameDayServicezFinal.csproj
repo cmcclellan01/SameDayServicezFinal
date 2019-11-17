@@ -180,9 +180,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201911080312107_InitialCreate.cs" />
-    <Compile Include="Migrations\201911080312107_InitialCreate.Designer.cs">
-      <DependentUpon>201911080312107_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201911150319250_Initial.cs" />
+    <Compile Include="Migrations\201911150319250_Initial.Designer.cs">
+      <DependentUpon>201911150319250_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -357,6 +357,26 @@
     <Content Include="Content\DataTables\media\images\sort_both.png" />
     <Content Include="Content\DataTables\media\images\sort_desc.png" />
     <Content Include="Content\DataTables\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\images\back_disabled.png" />
+    <Content Include="Content\images\back_enabled.png" />
+    <Content Include="Content\images\Calendar-icon.png" />
+    <Content Include="Content\images\default_profile_image.jpg" />
+    <Content Include="Content\images\details_close.png" />
+    <Content Include="Content\images\details_open.png" />
+    <Content Include="Content\images\dollar-sign.ico" />
+    <Content Include="Content\images\dollar-sign.png" />
+    <Content Include="Content\images\forward_disabled.png" />
+    <Content Include="Content\images\forward_enabled.png" />
+    <Content Include="Content\images\hire-a-handyman-home-repair-microjb-temp-worker-white.jpg" />
+    <Content Include="Content\images\kqm_icon.ico" />
+    <Content Include="Content\images\LOGO.png" />
+    <Content Include="Content\images\project_Icon.png" />
+    <Content Include="Content\images\sc1.jpg" />
+    <Content Include="Content\images\sc2.jpg" />
+    <Content Include="Content\images\sc3.jpg" />
+    <Content Include="Content\images\sc4.jpg" />
+    <Content Include="Content\images\sc5.jpg" />
+    <Content Include="Content\images\Untitled.png" />
     <Content Include="Content\login.css" />
     <Content Include="Content\profile.css" />
     <Content Include="Content\regular.css" />
@@ -365,6 +385,8 @@
     <Content Include="Content\solid.min.css" />
     <Content Include="Content\svg-with-js.css" />
     <Content Include="Content\svg-with-js.min.css" />
+    <Content Include="Content\sweetalert.css" />
+    <Content Include="Content\theme.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -621,6 +643,9 @@
     <Content Include="Content\fontawesome-webfont.woff2" />
     <Content Include="Content\fontawesome-webfont.woff" />
     <Content Include="Content\fontawesome-webfont.ttf" />
+    <Content Include="Content\images\LOGO.pdn" />
+    <Content Include="Content\stroke.ttf" />
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\fontawesome\all.js" />
     <Content Include="Scripts\fontawesome\all.min.js" />
@@ -654,6 +679,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\profile.js" />
     <Content Include="Scripts\register.js" />
+    <Content Include="Scripts\sweetalert.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />
     <Content Include="Scripts\umd\popper.js" />
@@ -663,6 +689,8 @@
     <Content Include="SqlScripts\dbo.Subcategories.Table.sql" />
     <Content Include="SqlScripts\StateAndCityInfo.sql" />
     <Content Include="SqlScripts\Users.sql" />
+    <Content Include="Uploads\ProfileImages\2b17cb14-b2e4-4edd-a188-20dfccd390a3\profile_2b17cb14-b2e4-4edd-a188-20dfccd390a3.jpg" />
+    <Content Include="Uploads\ProfileImages\bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539\profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -706,7 +734,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="Views\Account\Portal.cshtml" />
     <Content Include="Views\Shared\_ProfileChat.cshtml" />
     <Content Include="Views\Shared\_Projects.cshtml" />
     <Content Include="webfonts\fa-brands-400.svg" />
@@ -728,9 +756,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
-    <Folder Include="Uploads\ProfileImages\" />
-    <Folder Include="Uploads\Projects\" />
+    <Folder Include="Uploads\Projects\38\2b17cb14-b2e4-4edd-a188-20dfccd390a3\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -744,8 +770,8 @@
     <TypeScriptCompile Include="Scripts\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201911080312107_InitialCreate.resx">
-      <DependentUpon>201911080312107_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201911150319250_Initial.resx">
+      <DependentUpon>201911150319250_Initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

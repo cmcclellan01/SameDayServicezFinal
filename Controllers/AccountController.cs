@@ -164,7 +164,7 @@ namespace SameDayServicezFinal.Controllers
                 case SignInStatus.Success:
                     if (returnUrl == "")
                     {
-                        return RedirectToAction("Profile", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                        return RedirectToAction("Portal", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                     }
                     else
                     {
@@ -526,8 +526,8 @@ namespace SameDayServicezFinal.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
@@ -544,8 +544,8 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
-
-        public async Task<ActionResult> Profile(PortalList model)
+      
+        public async Task<ActionResult> Portal(PortalList model)
         {
             var states = Utils.Extensions.GetStatesList();
             var userId = User.Identity.GetUserId();
@@ -635,7 +635,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> Profile()
+        public async Task<ActionResult> Portal()
         {
             var states = Utils.Extensions.GetStatesList();
             var userId = User.Identity.GetUserId();
@@ -649,9 +649,7 @@ namespace SameDayServicezFinal.Controllers
                 user.States = GetSelectListItems(states);
                 user.Professions = new List<SelectListItem>();
                 user.SubProfessions = new List<SelectListItem>();
-                user.InfoTabOpen = "0";
-
-                var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId);
+                user.InfoTabOpen = "0";             
                 user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
                 portal.ApplicationUser = user;            
 
@@ -674,21 +672,38 @@ namespace SameDayServicezFinal.Controllers
             portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
 
             var users = db.Users.Select(p => p).ToList();
-
+            
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
+
+           
+           
+
             foreach (var project in portal.Projects)
-            {
+            {             
 
                 // add the project assignments to the object
                 project.ProjectAssignments = new List<ProjectAssignment>();
                 ProjectAssignments = db.ProjectAssignment.Where(p => p.ProjectId == project.ProjectsId && p.ProjectOwner == userId).ToList();
+
+                 
                 foreach (var Assignment in ProjectAssignments)
                 {
-                    var profileImage = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                    var profile = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                    var projectOwnerName = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                    var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == Assignment.UsersId);
+                    Assignment.ProfileProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
 
-                    Assignment.ProfileImage = profileImage.ProfileImage;
-                    Assignment.ProfileDisplayName = profileImage.DisplayName;
 
+                    List<Project> ProfilePastProjects = new List<Project>();
+                    ProfilePastProjects = db.Project.Where(p => p.ProjectsUsersId == Assignment.UsersId).ToList(); //.Select(x => new Project { ProjectTitle = x.ProjectTitle, CreationDate = x.CreationDate }).ToList(); 
+
+                    Assignment.ProfileImage = profile.ProfileImage;
+                    Assignment.ProfileDisplayName = profile.DisplayName;
+                    Assignment.ProfileBios = profile.Bio;
+                    Assignment.ProfileRating = profile.Rating;
+                    Assignment.ByTheHourRate = profile.ByTheHourRate;
+                    Assignment.ProfilePastProjects = ProfilePastProjects;
+                    Assignment.ProjectOwnerName = projectOwnerName.DisplayName;
                     project.ProjectAssignments.Add(Assignment);
                 }
 
@@ -697,6 +712,7 @@ namespace SameDayServicezFinal.Controllers
                 var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
                 if (ProjectCompensationPackage != null)
                 {
+                    project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
                     project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
                     project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
                     project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
@@ -712,14 +728,52 @@ namespace SameDayServicezFinal.Controllers
                 // add the Project Documents to the object
                 project.ProjectDocuments = db.ProjectDocuments.Where(p => p.ProjectId == project.ProjectsId).ToList();
 
+                // fill the drops downs on the model
                 project.States = GetSelectListItems(states);
+                project.Professions = new List<SelectListItem>();
+                project.SubProfessions = new List<SelectListItem>();
+                project.CompensationTypeList = Utils.Extensions.GetCompensationType();
 
+                project.Conversations = new List<Conversations>();
+                project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
 
-
+              
             }
         }
 
+        [ValidateInput(false)]
+        public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
+            decimal ByTheHourRate, decimal ByTheProjectRate,decimal StartingBidRate,DateTime StartingBidDate, DateTime EndingBidDate, long SelectedProjectCompensationPackage,string Notes)
+        {
 
+
+            var project = db.Project.Where(p => p.ProjectsId == projectID).FirstOrDefault();
+
+            if(project != null)
+            {
+                project.ProjectTitle = ProjectTitle;
+                project.Description = Description;
+                project.Address = Address;
+                project.City = City;
+                project.State = State;
+                project.ZipCode = ZipCode;
+                project.ByTheHourRate = ByTheHourRate;
+                project.ByTheProjectRate = ByTheProjectRate;
+                project.StartingBidRate = StartingBidRate;
+                project.StartingBidDate = StartingBidDate;
+                project.EndingBidDate = EndingBidDate;
+                project.SelectedProjectCompensationPackage = SelectedProjectCompensationPackage;
+                project.Notes = Notes;
+            }
+
+            using (var db = new ApplicationDbContext())
+            {
+                db.Entry(project).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Json(projectID, JsonRequestBehavior.AllowGet);
+        }
 
         public JsonResult GetSubCategoryList(int Id)
         {

@@ -2,119 +2,981 @@
 @using SameDayServicezFinal.Utils
 @using Microsoft.AspNet.Identity
 
-<div class="card project-id-@Model.ProjectsId">
-    <div class="card-header">
-        <h3 class="card-title">Edit Project</h3>
-    </div>
-    <div class="card-body">
 
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="basicinformation-@Model.ProjectsId-tab" data-toggle="tab" href="#basicinformation-@Model.ProjectsId" role="tab" aria-controls="basicinformation-@Model.ProjectsId" aria-selected="true">Basic Project Information</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="skills-@Model.ProjectsId-tab" data-toggle="tab" href="#skills-@Model.ProjectsId" role="tab" aria-controls="skills-@Model.ProjectsId" aria-selected="false">Project Professions & Skills</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="documents-@Model.ProjectsId-tab" data-toggle="tab" href="#documents-@Model.ProjectsId" role="tab" aria-controls="documents-@Model.ProjectsId" aria-selected="false">Project Documents</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
-            </li>
-        </ul>
+<style>
+    .profile-card-5 {
+        margin-top: 20px;
+        min-height: 460px;
+        max-height: 460px;
+    }
 
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade show active" id="basicinformation-@Model.ProjectsId" role="tabpanel" aria-labelledby="basicinformation-@Model.ProjectsId-tab">
-                <div class="basicinformation">
-                    <div class="row">
-                        <div class="col-12 ">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
-                                    @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
-                                    @Html.ValidationMessageFor(model => model.ProjectTitle)
+        .profile-card-5 .btn {
+            border-radius: 2px;
+            text-transform: uppercase;
+            font-size: 12px;
+            padding: 7px 20px;
+        }
+
+        .profile-card-5 .card-img-block {
+            /*width: 91%;*/
+            margin: 0 auto;
+            position: relative;
+            top: -20px;
+        }
+
+            .profile-card-5 .card-img-block img {
+                border-radius: 5px;
+                box-shadow: 0 0 10px rgba(0,0,0,0.63);
+            }
+
+        .profile-card-5 h5 {
+            color: #4E5E30;
+            font-weight: 600;
+        }
+
+        .profile-card-5 p {
+            font-size: 14px;
+            font-weight: 300;
+        }
+
+    .card-img-top {
+        max-width: 120px !important;
+    }
+
+    .rate-popover {
+        color: #c4c4c4;
+    }
+
+    .oneStar {
+        color: #3d381c;
+    }
+
+    .twoStars {
+        color: #6d6126;
+    }
+
+    .threeStars {
+        color: #c2aa36;
+    }
+
+    .fourStars {
+        color: #e2c327;
+    }
+
+    .fiveStars {
+        color: #f3cb06;
+    }
+
+    .table-responsive {
+        display: table;
+    }
+</style>
+
+<div class="col-auto view-project-main-div">
+    <fieldset>
+        <div class="card project-id-@Model.ProjectsId">
+            <div class="card-header">
+                <h3 class="card-title"><span class="project-editing-type"></span> Project - @Model.ProjectTitle</h3>
+            </div>
+            <div class="card-body">
+
+                <ul class="nav nav-tabs nav-justified" id="myTab-@Model.ProjectsId" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="basicinformation-@Model.ProjectsId-tab" data-toggle="tab" href="#basicinformation-@Model.ProjectsId" role="tab" aria-controls="basicinformation-@Model.ProjectsId" aria-selected="true">Basic Project Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="skills-@Model.ProjectsId-tab" data-toggle="tab" href="#skills-@Model.ProjectsId" role="tab" aria-controls="skills-@Model.ProjectsId" aria-selected="false">Project Professions & Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="documents-@Model.ProjectsId-tab" data-toggle="tab" href="#documents-@Model.ProjectsId" role="tab" aria-controls="documents-@Model.ProjectsId" aria-selected="false">Project Documents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="notes-@Model.ProjectsId-tab" data-toggle="tab" href="#notes-@Model.ProjectsId" role="tab" aria-controls="notes-@Model.ProjectsId" aria-selected="false">Project Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="basicinformation-@Model.ProjectsId" role="tabpanel" aria-labelledby="basicinformation-@Model.ProjectsId-tab">
+                        <div class="basicinformation-@Model.ProjectsId" style="min-height:500px">
+                            <div class="card card-custom">
+                                <div class="row">
+                                    <div class="col-12 ">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
+                                                @Html.ValidationMessageFor(model => model.ProjectTitle)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 ">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                @Html.LabelFor(m => m.Description, "Project Description", new { @class = "control-label text-light" })
+                                                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
+                                                @Html.ValidationMessageFor(model => model.Description)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-4 ">
+                                        @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
+                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Address)
+                                    </div>
+
+                                    <div class="form-group  col-md-4">
+                                        <!-- City-->
+                                        @Html.LabelFor(m => m.City, "Project City", new { @class = "control-label text-light" })
+                                        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.City)
+                                    </div>
+
+
+                                    <div class="form-group col-md-4 ">
+                                        @Html.LabelFor(x => x.State, "Project State", new { @class = "control-label text-light" })
+                                        @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control", style = "min-width: 100%!important;" })
+                                        @Html.ValidationMessageFor(model => model.State)
+                                    </div>
+
+
+                                </div>
+
+                                <div class="form-row">
+
+                                    <div class="form-group  col-md-4">
+                                        @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
+                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.ZipCode)
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-12 ">
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    @Html.LabelFor(m => m.Description, "Project Description", new { @class = "control-label text-light" })
-                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
-                                    @Html.ValidationMessageFor(model => model.Description)
+                    <div class="tab-pane fade" id="skills-@Model.ProjectsId" role="tabpanel" aria-labelledby="skills-@Model.ProjectsId-tab">
+                        <div class="skills-@Model.ProjectsId" style="min-height:500px">
+                            <div class="card card-custom">
+                                <div class="form-row">
+
+                                    <div class="form-group col-md-12 no-edit ">
+                                        <span class=" control-label clearfix" style="color:white">(Choose a letter to start) </span>
+                                        <span class=" control-label text-light clearfix">Alphabetical List of Professions</span>
+                                        <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">A</span>
+                                        <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">B</span>
+                                        <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">C</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">D</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">E</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">F</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">G</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">H</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">I</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">J</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">K</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">L</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">M</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">N</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">O</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">P</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Q</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">R</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">S</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">T</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">U</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">V</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">W</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">X</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Y</span>
+                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Z</span>
+
+
+
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group  col-md-12 Professions ">
+                                        @Html.DropDownListFor(m => m.Professions, Model.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group  col-md-12 SubProfessions ">
+                                        @Html.DropDownListFor(m => m.SubProfessions, Model.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
+
+                                    </div>
+                                </div>
+
+                                <div class="form-row SubProfessions">
+                                    <div class="form-group col-md-12">
+                                        <button type="button" class="btn btn-info add">Add Job Title</button>
+
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <hr style="width: 100%; color: white; height: 1px; background-color:white;" class="no-edit" />
+                                    Current Selected Profession(s):
+                                    <div class="form-group col-md-12 results">
+                                        @for (int i = 0; i < Model.ProjectCategories.ToList().Count(); i++)
+                                        {
+                                            <div class="result-added text-light " style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove no-edit" data-id="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId @Model.ProjectCategories.ToList()[i].ProjectsSubCatId" data-mainId="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId" data-subId="@Model.ProjectCategories.ToList()[i].ProjectsSubCatId" role="button" style="margin: 5px;">remove</span> @Model.ProjectCategories.ToList()[i].ProjectsMainCatName -- @Model.ProjectCategories.ToList()[i].ProjectsSubCatName</div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-md-4 ">
-                            @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Address)
+                    <div class="tab-pane fade" id="documents-@Model.ProjectsId" role="tabpanel" aria-labelledby="documents-@Model.ProjectsId-tab">
+                        <div class="documents-@Model.ProjectsId" style="min-height:500px">
+                            <div class="card card-custom">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12">
+                                        <div class="card" style="min-height: 264px">
+                                            <div class="card-body">
+                                                <div class="dropzone dz-clickable no-edit" id="dropzoneDocumentUpload" style="background-color:#00BFFF;"> </div>
+                                                <div class="ProfileImage "></div>
+
+                                                <div style="margin-top: 20px;"><h4 class="text-center dropzone-error text-light small"></h4></div>
+
+
+                                                @for (int i = 0; i < Model.ProjectDocuments.ToList().Count(); i++)
+                                                {
+                                                    <div class="card  @Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]" style="margin-bottom: 10px;margin-top: 10px;background-color: rgba(255, 255, 255, 0.5) !important;">
+                                                        <div class="card-body">
+                                                            <div class="remove-profileimage-div">
+                                                                <img style="margin-bottom:10px;" class="img-thumbnail js-smartPhoto" src="/Uploads/Projects/@Model.ProjectDocuments.ToList()[i].ProjectId/@Model.ProjectDocuments.ToList()[i].UsersId/@Model.ProjectDocuments.ToList()[i].ImageName">
+                                                                <button class="btn no-edit remove-profileimage-@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]">X</button>
+                                                            </div>
+                                                            <div class="form-inline">
+                                                                <div class="form-group" style="margin-right: 10px !important;">
+                                                                    <label style="padding:5px">Add Comment</label>
+                                                                    <input type="text" class="form-control @Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]_comment" value=" @Model.ProjectDocuments.ToList()[i].ImageComment">
+                                                                </div>
+                                                                <button class="btn btn-primary @Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]_submit" style="margin-left: 5px">Add</button>
+                                                                <div class="@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]-comment-added" style="margin-left: 10px;color: #EAF901 !important;">
+                                                                    <h6>Comment Added</h6>
+                                                                </div>
+
+                                                                <script type="text/javascript">
+                                                $(".@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]-comment-added").hide();
+                                                                </script>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <script>
+                                    //comment button
+                                    $('.@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]_submit').click(function () {
+
+
+                                        // add comment to document/image
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Account/SaveProjectImageComment?ImageName=@Model.ProjectDocuments.ToList()[i].ImageName&comment=" + $('.@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]_submit').parent().find('input').val(),
+                                            success: function () {
+                                                // show them that the comment was added then fade away
+                                                $('.@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]-comment-added').fadeIn(1000).fadeOut(5000);
+                                            }
+                                        });
+                                        return false;
+                                    });
+
+                                    // remove image and comment
+                                    $('.remove-profileimage-@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]').click(function () {
+
+
+                                        if (confirm('Are you sure you want to delete this?')) {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/Account/RemoveUpload?type=project&projectId=" + $('#ProjectsId').val() + "&imagename=" + $(this).parent().find('img').attr('src'),
+                                                success: function () {
+
+                                                    // it has been deleted form the server now delete from the UI
+                                                    $('.@Model.ProjectDocuments.ToList()[i].ImageName.Split('.')[0]').remove();
+
+                                                }
+                                            });
+                                        }
+
+                                        return false;
+                                    });
+                                                    </script>
+
+
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="form-group  col-md-4">
-                            <!-- City-->
-                            @Html.LabelFor(m => m.City, "Project City", new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.City)
-                        </div>
-
-
-                        <div class="form-group col-md-4 ">
-                            @Html.LabelFor(x => x.State, "Project State", new { @class = "control-label text-light" })
-                            @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                            @Html.ValidationMessageFor(model => model.State)
-                        </div>
-
-
                     </div>
 
-                    <div class="form-row">
+                    <div class="tab-pane fade" id="compensation-@Model.ProjectsId" role="tabpanel" aria-labelledby="compensation-@Model.ProjectsId-tab">
+                        <div class="compensation-@Model.ProjectsId" style="min-height:500px">
+                            <div class="card card-custom">
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 ">
+                                        @Html.LabelFor(x => x.SelectedProjectCompensationPackage, "Project Compensation type", new { @class = "control-label text-light" })
+                                        @Html.DropDownListFor(m => m.SelectedProjectCompensationPackage, Model.CompensationTypeList, "- Please Select A Project Compensation Type -", new { @class = "form-control", style = "min-width: 100%!important;" })
+                                        @Html.ValidationMessageFor(model => model.SelectedProjectCompensationPackage)
+                                    </div>
+                                </div>
 
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.ZipCode)
+
+                                @*TYPES OF PROJECT COMP TYPE DESCRIPTIONS*@
+                                <div class="form-row hourly-rate">
+                                    <div class="form-group col-md-12 ">
+                                        <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <span class="text-light small">Pay By The Hour:</span> <span class="table-dark small"> This means that for every billable hour you will be charged by the rate that you list below.</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row project-rate">
+                                    <div class="form-group col-md-12 ">
+                                        <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <span class="text-light small">Pay By The Project:</span> <span class="table-dark small"> This means that you will be charged by the rate that you list below for the whole entire project.</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row project-bid-rate">
+                                    <div class="form-group col-md-12 ">
+                                        <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
+                                            <div class="card-body">
+                                                <p class="card-text">
+                                                    <span class="text-light small">Pay By The Bid You Choose:</span> <span class="table-dark small"> This means that there will be a bidding war for your project</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 ">
+                                        @Html.LabelFor(m => m.ByTheHourRate, "Project Hourly Rate", new { @class = "control-label text-light hourly-rate" })
+                                        <div class="input-group  hourly-rate">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+                                            @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control hourly-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
+                                            @Html.ValidationMessageFor(model => model.ByTheHourRate)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 ">
+                                        @Html.LabelFor(m => m.ByTheProjectRate, "Total Project Rate", new { @class = "control-label text-light project-rate" })
+                                        <div class="input-group  project-rate">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+
+                                            @Html.TextBoxFor(m => m.ByTheProjectRate, new { @class = "form-control project-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
+                                            @Html.ValidationMessageFor(model => model.ByTheProjectRate)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 ">
+                                        @Html.LabelFor(m => m.StartingBidRate, "Starting Project Bid Rate", new { @class = "control-label text-light project-bid-rate" })
+                                        <div class="input-group  project-bid-rate">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">$</span>
+                                            </div>
+
+                                            @Html.TextBoxFor(m => m.StartingBidRate, new { @class = "form-control project-bid-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
+                                            @Html.ValidationMessageFor(model => model.StartingBidRate)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 ">
+                                        @Html.LabelFor(m => m.StartingBidDate, "Starting Project Bid Date", new { @class = "control-label text-light project-bid-rate" })
+                                        <div class="input-group  project-bid-rate startdate-project-datepicker">
+                                            @Html.HiddenFor(m => m.StartingBidDate)
+                                            @Html.ValidationMessageFor(model => model.StartingBidDate)
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group col-md-12 ">
+                                        @Html.LabelFor(m => m.EndingBidDate, "Ending Project Bid Date", new { @class = "control-label text-light project-bid-rate" })
+                                        <div class="input-group  project-bid-rate enddate-project-datepicker">
+                                            @Html.HiddenFor(m => m.EndingBidDate)
+                                            @Html.ValidationMessageFor(model => model.EndingBidDate)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+                    </div>
+                    <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
+                        <div class="card card-custom">
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <div class="form-row">
+                                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control notepad", rows = "6", cols = "15", style = "min-width: 100%!important;", Name = "Notes-" + @Model.ProjectsId, Id = "Notes-" + @Model.ProjectsId })
+                                        <div class="form-group col-md-12 summer-notes-pad">
+                                            @*@Html.LabelFor(m => m.Notes, "Project Notes", new { @class = "control-label text-light" })*@
 
 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="assigned-contactors-@Model.ProjectsId" role="tabpanel" aria-labelledby="assigned-contactors-@Model.ProjectsId-tab">
+                        <div style="min-height:500px">
+                            <div class="card card-custom">
+                                <div class="col-md-12">
+                                    <div class="form-row" style="margin-top:25px">
+                                        @foreach (var profile in Model.ProjectAssignments)
+                                        {
 
+
+                                            <div class="form-group col-md-8 mt-8 mx-auto">
+                                                <div class="card card-profile" style="min-height:700px;border-radius: 58px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
+                                                    @*<img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">*@
+                                                    <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;border-top-right-radius: 16px;    border-top-left-radius: 16px;" class="card-header"></div>
+                                                    <div class="card-body text-center text-light">
+                                                        @Html.Image("/Uploads/ProfileImages/" + @profile.UsersId + "/" + @profile.ProfileImage, "card-profile-img", "", "")
+
+                                                        <div class="container">
+                                                            <span id="rateMe">
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                            </span>
+                                                        </div>
+
+
+                                                        <h3 class="mb-3 ">@profile.ProfileDisplayName</h3>
+
+                                                        <div class="card ">
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">My Bios</h4>
+                                                                <p class="mb-4 text-left"> @profile.ProfileBios</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="container-fluid">
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="card ">
+                                                                        <div class="card-body ">
+                                                                            <h4 class="card-title">My Past Projects</h4>
+                                                                            <table class="mx-auto table-striped past-projects-@profile.UsersId  " style="width:100%;color:grey !important">
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th></th>
+                                                                                        <th></th>
+                                                                                        <th></th>
+                                                                                    </tr>
+                                                                                </thead>
+
+                                                                                <tbody>
+                                                                                    @foreach (var pastProject in profile.ProfilePastProjects)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td style="vertical-align:top;white-space: nowrap;">
+                                                                                                <div class="container">
+                                                                                                    <span id="rateMe">
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                                                    </span>
+                                                                                                    <script>
+                                                                                                        $(document).ready(function () {
+                                                                                                            SetStars($('.rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId'),@profile.ProfileRating);
+                                                                                                        });
+
+                                                                                                    </script>
+                                                                                                </div>
+                                                                                            </td>
+                                                                                            <td style="word-wrap: break-word;vertical-align:top">
+                                                                                                <span>@pastProject.ProjectTitle</span>
+                                                                                            </td>
+                                                                                            <td class="text-left">
+                                                                                                @profile.ProjectOwnerName
+                                                                                            </td>
+                                                                                            @*<td>
+                                                <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
+                                            </td>*@
+
+                                                                                        </tr>
+
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col">
+                                                                    <div class="card ">
+                                                                        <h4 class="card-title">My Job Professions</h4>
+                                                                        <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    @*<th></th>*@
+                                                                                    <th></th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                @foreach (var profession in @profile.ProfileProfessions)
+                                                                                {
+
+
+                                                                                    <tr>
+                                                                                        @*<td style="padding:10px">@profession.MainCatName</td>*@
+                                                                                        <td style="padding:10px">@profession.SubCatName</td>
+                                                                                    </tr>
+
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                            </div>
+
+                                            <script>
+                                                        $(document).ready(function () {
+                                                            SetStars($('.rate-popover-@Model.ProjectsId-@profile.UsersId'),@profile.ProfileRating);
+
+
+                                                        });
+                                            </script>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
+
+                <input class="form-control d-none" id="InfoTabOpen" name="InfoTabOpen" type="number" value="@Model.InfoTabOpen" />
+                <input class="form-control d-none" id="JsonProfession" name="JsonProfession" type="text" value="@Model.JsonProfession" />
+                <input class="form-control d-none" id="ProjectsId" name="ProjectsId" type="text" value="@Model.ProjectsId" />
+                <input class="form-control d-none" id="ProjectsUsersId" name="ProjectsUsersId" type="text" value="@Model.ProjectsUsersId" />
+
             </div>
-
-            <div class="tab-pane fade" id="skills-@Model.ProjectsId" role="tabpanel" aria-labelledby="skills-@Model.ProjectsId-tab">
-                <div class="">
-
-                </div>
+            <div class="card-footer text-right">
+                <span class="btn btn-primary submit-@Model.ProjectsId no-edit">Update Project</span>
+                <span class="btn btn-primary close-@Model.ProjectsId">Close Project</span>
             </div>
-
-            <div class="tab-pane fade" id="documents-@Model.ProjectsId" role="tabpanel" aria-labelledby="documents-@Model.ProjectsId-tab">
-                <div class="">
-
-                </div>
-            </div>
-
-            <div class="tab-pane fade" id="compensation-@Model.ProjectsId" role="tabpanel" aria-labelledby="compensation-@Model.ProjectsId-tab">
-                <div class="">
-
-                </div>             
-            </div>
-
         </div>
-
-
-
-    </div>
-    <div class="card-footer text-right">
-        <button class="btn btn-primary submit" type="submit">Update Project</button>
-    </div>
+    </fieldset>
 </div>
+
 <script>
-    $('.project-id-@Model.ProjectsId').hide();   
+
+
+
+
+    $('.close-@Model.ProjectsId').on('click', function (event) {
+        event.preventDefault();
+        $('.project-id-@Model.ProjectsId').hide();
+    });
+
+
+     $('.submit-@Model.ProjectsId').on('click', function (event) {
+         event.preventDefault();
+
+        var	ProjectTitle =$('.basicinformation-@Model.ProjectsId #ProjectTitle').val();
+        var	Description =$('.basicinformation-@Model.ProjectsId #Description').val();
+        var	Address =$('.basicinformation-@Model.ProjectsId #Address').val();
+        var	City =$('.basicinformation-@Model.ProjectsId #City').val();
+        var	State =$('.basicinformation-@Model.ProjectsId #State option:selected').val();
+        var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
+        var Notes =$('#Notes-@Model.ProjectsId').summernote('code');
+
+        var	ByTheHourRate = $('.compensation-@Model.ProjectsId #ByTheHourRate').val();
+        var	ByTheProjectRate = $('.compensation-@Model.ProjectsId #ByTheProjectRate').val();
+        var	StartingBidRate = $('.compensation-@Model.ProjectsId #StartingBidRate').val();
+        var	StartingBidDate = $('.compensation-@Model.ProjectsId #StartingBidDate').val();
+        var	EndingBidDate = $('.compensation-@Model.ProjectsId #EndingBidDate').val();
+        var	SelectedProjectCompensationPackage = $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage option:selected').val();
+
+         $.ajax({
+             type: "POST",
+             url: "/Account/UpdateProject?ProjectTitle=" + ProjectTitle + "&Description=" + Description + "&Address=" + Address + "&City=" + City + "&State=" + State + "&ZipCode=" + ZipCode + "&projectID=" + @Model.ProjectsId + "&ByTheHourRate=" + ByTheHourRate + "&ByTheProjectRate=" + ByTheProjectRate + "&StartingBidRate=" + StartingBidRate + "&StartingBidDate=" + StartingBidDate + "&EndingBidDate=" + EndingBidDate + "&SelectedProjectCompensationPackage=" + SelectedProjectCompensationPackage + "&Notes=" + Notes,
+             success: function () {
+                 $('.project-id-@Model.ProjectsId').hide();
+                 swal("Project has been updated.", "", "success");
+             }
+         });
+                    return false;
+
+    });
+
+
+
+
+
+    var json = "";
+        Dropzone.autoDiscover = false;
+$(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
+    init: function () {
+        this.on("processing", function (file) {
+            this.options.url = "/Account/upload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val();
+            $('.dropzone-error').empty();
+        });
+
+        this.on("error", function (file, message, xhr) {
+            if (xhr === null) this.removeFile(file);
+
+            $('.dropzone-error').append(message);
+        });
+
+    },
+    url: "/Account/upload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val(),
+    addRemoveLinks: false,
+    autoProcessQueue: true,
+    createImageThumbnails: false,
+    uploadMultiple: true,
+    parallelUploads: 10,
+    acceptedFiles: ".jpeg,.jpg,.png",
+    dictDefaultMessage: "   Add Project Image(s).....",
+    success: function (file, response) {
+
+        var image;
+        var comment;
+
+
+        $.each(response, function (y, k) {
+            $.each(k, function (index, message) {
+                image = "/Uploads/Projects/" + $('.documents-@Model.ProjectsId #ProjectsId').val() + "/" + $('.documents-@Model.ProjectsId #ProjectsUsersId').val() + "/" + message.ImageName;
+
+                // add the image and comment divs
+                $('.documents-@Model.ProjectsId .ProfileImage').append('<div class="card ' + message.ImageName.split('.')[0] + '" style="margin-bottom: 10px;margin-top: 10px;background-color: rgba(255, 255, 255, 0.5) !important;"><div class="card-body"><div class="remove-profileimage-div"><img style="margin-bottom:10px;" class="img-thumbnail" src="' + image + '"><button class="btn remove-profileimage-' + message.ImageName.split('.')[0] + '">X</button></div><div class="form-inline"><div class="form-group" style="margin-right: 10px !important;"><label style="padding:5px">Add Comment</label><input type="text" class="form-control ' + message.ImageName.split('.')[0] + '_comment"></div><button class="btn btn-primary ' + message.ImageName.split('.')[0] + '_submit" style="margin - left: 5px">Add</button><div class="' + message.ImageName.split('.')[0] + '-comment-added" style="margin-left: 10px;color: #EAF901 !important;"><h6>Comment Added</h6></div></div></div></div>');
+
+                //hide all add comment divs
+                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '-comment-added').hide();
+
+                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", true);
+
+                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_comment').on("keyup", action);
+
+                function action() {
+                    if ($('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_comment').val().length > 0) {
+                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", false);
+                    } else {
+                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", true);
+                    }
+                }
+
+                //comment button
+                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').click(function () {
+
+
+                    // add comment to document/image
+                    $.ajax({
+                        type: "POST",
+                        url: "/Account/SaveProjectImageComment?ImageName=" + message.ImageName + "&comment=" + $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').parent().find('input').val(),
+                        success: function () {
+                            // show them that the comment was added then fade away
+                            $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '-comment-added').fadeIn(1000).fadeOut(5000);
+                        }
+                    });
+                    return false;
+                });
+
+                // remove image and comment
+                $('.documents-@Model.ProjectsId .remove-profileimage-' + message.ImageName.split('.')[0]).click(function () {
+
+
+                    if (confirm('Are you sure you want to delete this?')) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/Account/RemoveUpload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val() + "&imagename=" + $(this).parent().find('img').attr('src'),
+                            success: function () {
+
+                                // it has been deleted form the server now delete from the UI
+                                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0]).remove();
+
+                            }
+                        });
+                    }
+
+                    return false;
+                });
+
+                ///////////////
+            });
+        });
+        ////////////////
+    },
+    error: function (file, response) {
+        // file.previewElement.classList.add("dz-error");
+    },
+    complete: function (file, response) {
+        this.removeAllFiles(true);
+    }
+
+});
+
+    $(document).ready(function () {
+
+
+
+        $('#Notes-@Model.ProjectsId').summernote({
+            height: 500, // set editor height
+            minHeight: 500, // set minimum height of editor
+            maxHeight: 1000, // set maximum height of editor
+            focus: false, // set focus to editable area after initializing summernote  ,
+            callbacks: {
+                onChange: function (contents, $editable) {
+
+
+                }
+            }
+        });
+        $('#notes-@Model.ProjectsId .note-editable').html($('#notes-@Model.ProjectsId  #Notes').html())
+
+
+
+         $('.project-id-@Model.ProjectsId').hide();
+
+        // hide the sub cat list until ready
+        $('.skills-@Model.ProjectsId .Professions').hide();
+        $('.skills-@Model.ProjectsId .SubProfessions').hide();
+        $('.skills-@Model.ProjectsId .update-professions').hide();
+
+        $('.skills-@Model.ProjectsId .Alphabetical').click(function () {
+            $('.skills-@Model.ProjectsId .Professions').show();
+            $.getJSON('/Account/AutoComplete', { term: this.innerText }, function (item) {
+
+                $(".skills-@Model.ProjectsId #Professions").empty();
+                $(".skills-@Model.ProjectsId #Professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
+
+                $.each(item, function (index, data) {
+                    $(".skills-@Model.ProjectsId #Professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
+                });
+
+            });
+        });
+
+        $('.skills-@Model.ProjectsId #Professions').change(function (event, ui) {
+            $.get('/Account/GetSubCategoryList', { Id: this.value }, function (data) {
+
+                $(".skills-@Model.ProjectsId #SubProfessions").empty();
+                $(".skills-@Model.ProjectsId .SubProfessions").show();
+
+                $(".skills-@Model.ProjectsId #SubProfessions").append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
+                $.each(data, function (index, row) {
+                    $(".skills-@Model.ProjectsId #SubProfessions").append("<option data-info='" + $(".skills-@Model.ProjectsId #Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
+
+                });
+
+
+            });
+        });
+
+    // add new sub(s) from list
+        $('.skills-@Model.ProjectsId .add').click(function () {
+
+            if ($(".skills-@Model.ProjectsId #SubProfessions option:selected").val() !== '- Please Select A Job Title -') {
+
+                $('.skills-@Model.ProjectsId .update-professions').show();
+
+                //empty the textbox and setup for next search
+                $('.skills-@Model.ProjectsId #SelectedProfession').val('');
+                $('.skills-@Model.ProjectsId .sublist').hide();
+
+                $('.skills-@Model.ProjectsId .results').append('<div class="result-added new" id="' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".skills-@Model.ProjectsId #Professions option:selected").text() + ' -- ' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").text() + '</div>')
+
+                // updates the hidden field
+                $('.skills-@Model.ProjectsId .new').each(function (index, value) {
+                    json += $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + ',';
+                });
+                //sets the hidden field for postback
+                $('.skills-@Model.ProjectsId #JsonProfession').val(json);
+
+                //add cat and sub cat
+                var mainID = $(".skills-@Model.ProjectsId #Professions option:selected").val();
+                var subID = $(".skills-@Model.ProjectsId #SubProfessions option:selected").val().split('_')[1];
+                var projectID = @Model.ProjectsId;
+
+                $.post('/Account/AddProjectContractorCustomerCategories',{ mainId: mainID,subId: subID, projectId: projectID }, function (data) { });
+
+
+                // remove the selected one after we add it
+                $('.skills-@Model.ProjectsId #SubProfessions').find('option:selected').remove().end();
+            }
+            else {
+                alert('Please Select A Job Title');
+            }
+
+        });
+
+        $('.skills-@Model.ProjectsId .remove').click(function (e) {
+
+            $(this).parent().remove();
+
+            $.post('/Account/RemoveUserContractorCustomerCategories', { mainId: $(this).attr('data-id').split(" ")[0], subId: $(this).attr('data-id').split(" ")[1] }, function (data) {
+
+            });
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function Onload() {
+            $('.close-@Model.ProjectsId').hide();
+
+            $('.compensation-@Model.ProjectsId  .startdate-project-datepicker').datepicker('setDate', new Date($('.compensation-@Model.ProjectsId #StartingBidDate').val()));
+            $('.compensation-@Model.ProjectsId .enddate-project-datepicker').datepicker('setDate', new Date($('.compensation-@Model.ProjectsId #EndingBidDate').val()));
+
+            // set up the click event
+            $('.remove').click(function (e) {
+
+                $.post('/Account/RemoveProjectContractorCustomerCategories', { mainId: $(this).attr('data-mainId'), subId: $(this).attr('data-subId'), projectId: $('#ProjectsId').val() }, function (data) { });
+
+                $(this).parent().remove();
+
+            });
+
+            // THIS IS WHEN THE FORM FIRST LOADS TO SHOW THE ITEMS WE NEED
+            if ($('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').val() !== '- Please Select A Project Compensation Type -') {
+                $('.compensation-@Model.ProjectsId .hourly-rate').hide();
+                $('.compensation-@Model.ProjectsId .project-rate').hide();
+                $('.compensation-@Model.ProjectsId .project-bid-rate').hide();
+
+                switch ($('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').val()) {
+                    case "1":
+                        $('.compensation-@Model.ProjectsId .hourly-rate').show();
+                        break;
+
+
+                    case "2":
+                        $('.compensation-@Model.ProjectsId .project-rate').show();
+
+                        break;
+
+                    case "3":
+                        $('.compensation-@Model.ProjectsId .project-bid-rate').show();
+
+                        break;
+                }
+            }
+        }
+
+        $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').change(function (event, ui) {
+
+            $('.compensation-@Model.ProjectsId .hourly-rate').hide();
+            $('.compensation-@Model.ProjectsId .project-rate').hide();
+            $('.compensation-@Model.ProjectsId .project-bid-rate').hide();
+
+            switch ($(this).val()) {
+                case "1":
+                    $('.compensation-@Model.ProjectsId .hourly-rate').val('');
+                    $('.compensation-@Model.ProjectsId .hourly-rate').show();
+                    break;
+
+
+                case "2":
+                    $('.compensation-@Model.ProjectsId .project-rate').val('');
+                    $('.compensation-@Model.ProjectsId .project-rate').show();
+
+                    break;
+
+                case "3":
+                    $('.compensation-@Model.ProjectsId .project-bid-rate').val('');
+                    $('.compensation-@Model.ProjectsId #StartingBidDate').val('');
+                    $('.compensation-@Model.ProjectsId .project-bid-rate').show();
+
+                    break;
+            }
+
+
+
+
+        });
+
+
+        $('.compensation-@Model.ProjectsId .startdate-project-datepicker').datepicker({
+            uiLibrary: 'bootstrap4',
+            dateFormat: 'mm/dd/yy',
+            format: 'LT',
+            onSelect: function (dateText, inst) {
+                $('.compensation-@Model.ProjectsId #StartingBidDate').val(dateText);
+            }
+        });
+
+        $('.compensation-@Model.ProjectsId .enddate-project-datepicker').datepicker({
+            uiLibrary: 'bootstrap4',
+            dateFormat: 'mm/dd/yy',
+            format: 'LT',
+            onSelect: function (dateText, inst) {
+                $('.compensation-@Model.ProjectsId #EndingBidDate').val(dateText);
+            }
+        });
+
+
+        Onload();
+    });
 </script>

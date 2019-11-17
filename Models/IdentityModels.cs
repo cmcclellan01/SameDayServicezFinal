@@ -101,6 +101,8 @@ namespace SameDayServicezFinal.Models
 
         public DbSet<ProjectAssignment> ProjectAssignment { get; set; }
 
+        public DbSet<Conversations> Conversations { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -24,6 +24,72 @@ $('a[data-toggle="tooltip"]').tooltip({
     placement: 'bottom',
     html: true
 });
+function SetStars(star, index) {
+
+
+    //star.on('mouseover', function () {
+    //    var index = $(this).attr('data-index');
+    //    markStarsAsActive(index);
+    //});
+
+    markStarsAsActive('' + index - 1 + '');
+
+    function markStarsAsActive(index) {
+        unmarkActive();
+
+        for (var i = 0; i <= index; i++) {
+            switch (index) {
+                case '0':
+                    $(star.get(i)).addClass('oneStar');
+                    break;
+                case '1':
+                    $(star.get(i)).addClass('twoStars');
+                    break;
+                case '2':
+                    $(star.get(i)).addClass('threeStars');
+                    break;
+                case '3':
+                    $(star.get(i)).addClass('fourStars');
+                    break;
+                case '4':
+                    $(star.get(i)).addClass('fiveStars');
+                    break;
+            }
+        }
+    }
+
+    function unmarkActive() {
+        star.removeClass('oneStar twoStars threeStars fourStars fiveStars');
+    }
+
+    star.on('click', function (e) {
+
+
+        if (star.hasClass("oneStar")) {
+            console.log('1' + $(this).attr('data-contractor'));
+        }
+
+        if (star.hasClass("twoStars")) {
+            console.log('2' + $(this).attr('data-contractor'));
+        }
+
+        if (star.hasClass("threeStars")) {
+            console.log('3' + $(this).attr('data-contractor'));
+        }
+
+        if (star.hasClass("fourStars")) {
+            console.log('4' + $(this).attr('data-contractor'));
+        }
+
+        if (star.hasClass("fiveStars")) {
+            console.log('5' + $(this).attr('data-contractor'));
+        }
+
+    });
+
+
+
+}
 
 
 $("#dropzoneProfilePic").dropzone({
@@ -64,7 +130,7 @@ $("#dropzoneProfilePic").dropzone({
 
 });
 
-
+Dropzone.autoDiscover = false;
 $("#dropzoneIdPic").dropzone({
     url: "/Account/Upload?type=id",
     init: function () {
@@ -112,12 +178,9 @@ $(document).ready(function () {
     $('.currency').currencyFormat();
 
 
-    // hide the sub cat list until ready
-    $('.Professions').hide();
-    $('.SubProfessions').hide();
-    $('.update-professions').hide();
+   
 
-    var json = "";
+
     $('.remove-profileimage').click(function () {
         $.ajax({
             type: "POST",
@@ -140,74 +203,7 @@ $(document).ready(function () {
         return false;
     });
 
-    $('.Alphabetical').click(function () {
-        $('.Professions').show();
-        $.getJSON('/Account/AutoComplete', { term: this.innerText }, function (item) {
 
-            $("#Professions").empty();
-            $("#Professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
-
-            $.each(item, function (index, data) {
-                $("#Professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
-            });
-
-        });
-    });
-
-    $('#Professions').change(function (event, ui) {
-        $.get('/Account/GetSubCategoryList', { Id: this.value }, function (data) {
-
-            $("#SubProfessions").empty();
-            $(".SubProfessions").show();
-
-            $("#SubProfessions").append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
-            $.each(data, function (index, row) {
-                $("#SubProfessions").append("<option data-info='" + $("#Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
-
-            });
-
-
-        });
-    });
-
-    // add new sub(s) from list
-    $('.add').click(function () {
-
-        if ($("#SubProfessions option:selected").val() !== '- Please Select A Job Title -') {
-
-            $('.update-professions').show();
-
-            //empty the textbox and setup for next search
-            $('#SelectedProfession').val('');
-            $('.sublist').hide();
-
-            $('.results').append('<div class="result-added new" id="' + $("#SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $("#Professions option:selected").text() + ' -- ' + $("#SubProfessions option:selected").text() + '</div>')
-
-            // updates the hidden field
-            $('.new').each(function (index, value) {
-                json += $("#SubProfessions option:selected").val() + ',';
-            });
-            //sets the hidden field for postback
-            $('#JsonProfession').val(json);
-
-            // remove the selected one after we add it
-            $('#SubProfessions').find('option:selected').remove().end();
-        }
-        else {
-            alert('Please Select A Job Title');
-        }
-
-    });
-
-    $('.remove').click(function (e) {
-
-        $(this).parent().remove();
-
-        $.post('/Account/RemoveUserContractorCustomerCategories', { mainId: $(this).attr('data-id').split(" ")[0], subId: $(this).attr('data-id').split(" ")[1] }, function (data) {
-
-        });
-
-    });
 
     $('#BirthDate').datepicker({
         uiLibrary: 'bootstrap4',
@@ -246,4 +242,8 @@ $(document).ready(function () {
         });
     }
 
+
+   
 });
+
+$('.currency').currencyFormat();

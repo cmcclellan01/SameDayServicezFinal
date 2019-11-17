@@ -189,8 +189,17 @@ namespace SameDayServicezFinal.Models
         public double latitude { get; set; }
         public double longitude { get; set; }
 
+        [AllowHtml]
+        public string Notes { get; set; }
+
         [NotMapped]
         public List<ProjectAssignment> ProjectAssignments { get; set; }
+
+        [NotMapped]
+        public List<Conversations> Conversations { get; set; }
+        [NotMapped]
+        public string ProjectOwnerName { get; set; }
+
     }
     [Table("ProjectAssignment")]
     public class ProjectAssignment
@@ -207,7 +216,46 @@ namespace SameDayServicezFinal.Models
         public string ProfileImage { get; set; }
         [NotMapped]
         public string ProfileDisplayName { get; set; }
+
+        [NotMapped]
+        public string ProfileBios { get; set; }
+        [NotMapped]
+        public int ProfileRating { get; set; }
+        [NotMapped]
+        public decimal ByTheHourRate { get; set; }
+        [NotMapped]
+        public List<Project> ProfilePastProjects { get; set; }
+        [NotMapped]
+        public string ProjectOwnerName { get; set; }
+
+        [NotMapped]
+        public List<ContractorCustomerCategories> ProfileProfessions { get; set; }
     }
+
+    [Table("Conversations")]
+    public class Conversations
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public long ProjectId { get; set; }
+        public ApplicationUser MessageOwner { get; set; }
+        public List<Messages> Message { get; set; }
+    }
+   
+    public class Messages
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }     
+        public ApplicationUser Contractor { get; set; }
+        public ApplicationUser Customer { get; set; }
+        public string Message { get; set; }
+        public DateTime CreationDate { get; set; }
+        public bool HasBeenRead { get; set; }
+      
+    }
+
 
     [Table("ProjectCompensationPackage")]
     public class ProjectCompensationPackage

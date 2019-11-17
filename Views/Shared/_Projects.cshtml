@@ -901,7 +901,7 @@
                             <td>
                                 @foreach (var profile in item.ProjectAssignments)
                                 {
-                                    <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class="rounded image-md" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"></a>
+                                    <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class="rounded image-md img-thumbnail" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"></a>
                                 }
 
                             </td>
@@ -930,7 +930,7 @@
 <div>
     @foreach (var item in Model.Projects)
     {
-        @Html.Partial("_ViewProject", item)
+        Html.RenderPartial("_ViewProject", item);
     }
 </div>
 
@@ -950,7 +950,7 @@
     });
 
     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
-    var dt = $('.table').DataTable({
+    var dt = $('.project-table').DataTable({
         // responsive: {
         //    details: {
         //        renderer: function (api, rowIdx, columns) {
@@ -1038,27 +1038,58 @@
 
     $('.view-project').click(function () {
 
-        for (i = 0; i < 1000; i++) {
+         for (i = 0; i < 1000; i++) {
             $('.project-id-' + i).hide();
         }
 
+        $('.view-project-main-div  .project-id-' + $(this).attr('data-id')).find('input, textarea, button, select').attr('disabled','disabled');
+        $('#Notes-' + $(this).attr('data-id')).summernote('disable');
+        $('.no-edit').hide();
 
         $('.project-id-' + $(this).attr('data-id')).show();
-
-
-
-
+        $('html,body').animate({ scrollTop: $('.project-id-' + $(this).attr('data-id')).offset().top - 20 });
+        $('.project-editing-type').text('Viewing ')
+        $('.close-' + $(this).attr('data-id')).show();
         return false;
     });
 
     $('.edit-project').click(function () {
-        document.location.href = '/Account/EditProject?projectId=' + $(this).attr('data-id');
+
+        for (i = 0; i < 1000; i++) {
+            $('.project-id-' + i).hide();
+        }
+
+        $('.view-project-main-div  .project-id-' + $(this).attr('data-id')).find('input, textarea, button, select').removeAttr('disabled');
+        $('#Notes-' + $(this).attr('data-id')).summernote('enable');
+        $('.no-edit').show();
+
+
+
+        $('.project-editing-type').text('Editing ')
+        $('.project-id-' + $(this).attr('data-id')).show();
+        $('.close-' + $(this).attr('data-id')).show();
+        $('html,body').animate({scrollTop:$('.project-id-' + $(this).attr('data-id')).offset().top - 20 });
 
         return false;
     });
 
     $('.notes-project').click(function () {
-        document.location.href = '/Account/EditProject?projectId=' + $(this).attr('data-id');
+        for (i = 0; i < 1000; i++) {
+            $('.project-id-' + i).hide();
+        }
+
+        $('.view-project-main-div  .project-id-' + $(this).attr('data-id')).find('input, textarea, button, select').removeAttr('disabled');
+        $('#Notes-' + $(this).attr('data-id')).summernote('enable');
+        $('.no-edit').show();
+
+
+
+
+        $('.project-id-' + $(this).attr('data-id')).show();
+        $('.project-editing-type').text('Editing ')
+        $('html,body').animate({scrollTop:$('.project-id-' + $(this).attr('data-id')).offset().top - 20 });
+        $('.close-' + $(this).attr('data-id')).show();
+        $('#myTab-' + $(this).attr('data-id') + ' li:last-child a').tab('show');
 
         return false;
     });

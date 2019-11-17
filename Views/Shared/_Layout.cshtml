@@ -12,7 +12,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="~/Content/fontawesome-all.css">
 
-
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
     <script src="~/Scripts/umd/popper.js"></script>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
@@ -23,7 +23,14 @@
     <script src="~/Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
     <script src="~/Scripts/utilities.js"></script>
     <script async src="~/Scripts/bootstrap-checkbox.js"></script>
+    <script src="~/Scripts/sweetalert.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
     @RenderSection("scripts", required: false)
+    <style>
+       
+    </style>
 </head>
 <body>
 
@@ -47,63 +54,46 @@
                 <img src="~/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px" onclick="location.href='@Url.Action("index", "Home")'" />
 
                 <ul class="nav navbar-nav mr-auto">
-                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link" })</li>
-                    <li class="nav-item">@Html.ActionLink("Contact", "Contact", "Home", null, new { @class = "nav-link" })</li>
                     @if (Request.IsAuthenticated == false)
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Contractors
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@Url.Action("Login", "Account", new { IsContractor = true })">Login</a>
-                                <a class="dropdown-item" href="@Url.Action("Register", "Account", new { IsContractor = true })">Sign Up</a>
-                                <div class="dropdown-divider"></div>
-                                @*<a class="dropdown-item" href="#">Something else here</a>*@
-                            </div>
-
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Customers
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@Url.Action("Login", "Account", new { IsContractor = false })">Login</a>
-                                <a class="dropdown-item" href="@Url.Action("Register", "Account", new { IsContractor = false })">Sign Up</a>
-                                <div class="dropdown-divider"></div>
-                                @*<a class="dropdown-item" href="#">Something else here</a>*@
-                            </div>
-                        </li>
+                        <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-primary" })</li>
+                        <li class="nav-item">@Html.ActionLink("Register", "Register", "Account", null, new { @class = "nav-link text-primary" })</li>
+                        <li class="nav-item">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "nav-link text-primary" })</li>
                     }
                     else
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Projects
-                            </a>
 
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="@Url.Action("NewProject", "Account", new { IsContractor = SameDayServicezFinal.Utils.Extensions.IsInContractorMode })">New Project</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="@Url.Action("DashBoard", "Account", new { IsContractor = SameDayServicezFinal.Utils.Extensions.IsInContractorMode })">My Projects</a>
-                            </div>
+                       
+                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                        {
+                            @Html.AntiForgeryToken()
 
-                        </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-primary" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @Session["FullName"]
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("Portal", "Account", new { IsContractor = SameDayServicezFinal.Utils.Extensions.IsInContractorMode })">DashBoard</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+                                </div>
+                            </li>
+                        }
                     }
 
-                </ul>
+                    </ul>
 
                 <div class="form-group">
-                    @Html.Partial("_LoginPartial")
+                    @*@Html.Partial("_LoginPartial")*@
                 </div>
 
             </div>
 
         </div>
     </nav>
+
+
     <div class="container-fluid body-content">
         @RenderBody()
     </div>
