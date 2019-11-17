@@ -1,30 +1,4 @@
-﻿// this is for the is contractor checkbox that makes it 'customer or contractor'
-$('.IsContractor').checkboxpicker({
-    html: true,
-    offLabel: 'Customer',
-    onLabel: 'Contractor'
-}).on('change', function () {
-
-
-    switch ($(this).is(":checked")) {
-        case true:
-            $('.IsContractor').prop('checked', true);
-            $('.current-mode').text('Current Mode: Contractor');
-            break;
-        case false:
-            $('.IsContractor').prop('checked', false);
-            $('.current-mode').text('Current Mode: Customer');
-            break;
-    }
-
-});
-
-$('a[data-toggle="tooltip"]').tooltip({
-    animated: 'fade',
-    placement: 'bottom',
-    html: true
-});
-function SetStars(star, index) {
+﻿function SetStars(star, index) {
 
 
     //star.on('mouseover', function () {
@@ -172,7 +146,33 @@ $("#dropzoneIdPic").dropzone({
 
 $(document).ready(function () {
 
-    
+    // this is for the is contractor checkbox that makes it 'customer or contractor'
+    $('.IsContractor').checkboxpicker({
+        html: true,
+        offLabel: 'Customer',
+        onLabel: 'Contractor'
+    }).on('change', function () {
+
+
+        switch ($(this).is(":checked")) {
+            case true:
+                $('.IsContractor').prop('checked', true);
+                $('.current-mode').text('Current Mode: Contractor');
+                break;
+            case false:
+                $('.IsContractor').prop('checked', false);
+                $('.current-mode').text('Current Mode: Customer');
+                break;
+        }
+
+    });
+
+    $('a[data-toggle="tooltip"]').tooltip({
+        animated: 'fade',
+        placement: 'bottom',
+        html: true
+    });
+  
 
     // this sets the hourly amout to a $format 
     $('.currency').currencyFormat();
@@ -243,7 +243,82 @@ $(document).ready(function () {
     }
 
 
-   
+
+
+    $('.ApplicationUser-Professions').hide();
+    $('.ApplicationUser-SubProfessions').hide();
+
+
+    $('.ApplicationUser-skills .Alphabetical').click(function () {
+        $('.ApplicationUser-Professions').show();
+        $.getJSON('/Account/AutoComplete', { term: this.innerText }, function (item) {
+
+            $('.ApplicationUser-Professions').empty();
+            $('.ApplicationUser-Professions').append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
+
+            $.each(item, function (index, data) {
+                $('.ApplicationUser-Professions').append("<option value='" + data.ID + "'>" + data.Name + "</option>");
+            });
+
+        });
+    });
+
+    $('.ApplicationUser-Professions').change(function (event, ui) {
+        $.get('/Account/GetSubCategoryList', { Id: this.value }, function (data) {
+
+            $('.ApplicationUser-SubProfessions').empty();
+            $('.ApplicationUser-SubProfessions').show();
+
+            $('.ApplicationUser-SubProfessions').append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
+            $.each(data, function (index, row) {
+                $('.ApplicationUser-SubProfessions').append("<option data-info='" + $(".ApplicationUser-Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
+
+            });
+        });
+    });
+
+    $('.ApplicationUser-add').click(function () {
+
+        if ($(".ApplicationUser-SubProfessions option:selected").val() !== '- Please Select A Job Title -') {      
+
+            $('.ApplicationUser-result').append('<div class="result-added new" id="' + $(".ApplicationUser-SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".ApplicationUser-Professions option:selected").text() + ' -- ' + $(".ApplicationUser-SubProfessions option:selected").text() + '</div>')
+
+            // updates the hidden field
+            $('.ApplicationUser-skills .new').each(function (index, value) {
+                json += $(".ApplicationUser-SubProfessions option:selected").val() + ',';
+            });
+            //sets the hidden field for postback
+            $('#JsonProfession').val(json);
+
+            //add cat and sub cat
+            var mainID = $(".ApplicationUser-Professions option:selected").val();
+            var subID = $(".ApplicationUser-SubProfessions option:selected").val().split('_')[1];
+           
+            $.post('/Account/AddUserContractorCustomerCategories', { json: $('#JsonProfession').val() }, function (data) { });
+
+            // remove the selected one after we add it
+            $('.ApplicationUser-SubProfessions').find('option:selected').remove().end();
+        }
+        else {
+            alert('Please Select A Job Title');
+        }
+
+    });
+
+    $('.ApplicationUser-remove').click(function (e) {
+
+        $(this).parent().remove();
+
+        $.post('/Account/RemoveUserContractorCustomerCategories', { mainId: $(this).attr('data-id').split(" ")[0], subId: $(this).attr('data-id').split(" ")[1] }, function (data) {
+
+        });
+
+    });
+
+
+
+
+
 });
 
 $('.currency').currencyFormat();

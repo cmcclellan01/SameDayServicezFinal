@@ -94,10 +94,10 @@
                         <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="notes-@Model.ProjectsId-tab" data-toggle="tab" href="#notes-@Model.ProjectsId" role="tab" aria-controls="notes-@Model.ProjectsId" aria-selected="false">Project Notes</a>
+                        <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
+                        <a class="nav-link" id="notes-@Model.ProjectsId-tab" data-toggle="tab" href="#notes-@Model.ProjectsId" role="tab" aria-controls="notes-@Model.ProjectsId" aria-selected="false">Project Notes</a>
                     </li>
                 </ul>
 
@@ -306,7 +306,7 @@
                                         if (confirm('Are you sure you want to delete this?')) {
                                             $.ajax({
                                                 type: "POST",
-                                                url: "/Account/RemoveUpload?type=project&projectId=" + $('#ProjectsId').val() + "&imagename=" + $(this).parent().find('img').attr('src'),
+                                                url: "/Account/RemoveUpload?type=project&projectId=@Model.ProjectsId&imagename=" + $(this).parent().find('img').attr('src'),
                                                 success: function () {
 
                                                     // it has been deleted form the server now delete from the UI
@@ -444,22 +444,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
-                        <div class="card card-custom">
-                            <div class="row">
-                                <div class="col-12 ">
-                                    <div class="form-row">
-                                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control notepad", rows = "6", cols = "15", style = "min-width: 100%!important;", Name = "Notes-" + @Model.ProjectsId, Id = "Notes-" + @Model.ProjectsId })
-                                        <div class="form-group col-md-12 summer-notes-pad">
-                                            @*@Html.LabelFor(m => m.Notes, "Project Notes", new { @class = "control-label text-light" })*@
 
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="tab-pane fade" id="assigned-contactors-@Model.ProjectsId" role="tabpanel" aria-labelledby="assigned-contactors-@Model.ProjectsId-tab">
                         <div style="min-height:500px">
                             <div class="card card-custom">
@@ -513,19 +498,20 @@
                                                                                 <tbody>
                                                                                     @foreach (var pastProject in profile.ProfilePastProjects)
                                                                                     {
+                                                                                        var specialId = Guid.NewGuid();
                                                                                         <tr>
                                                                                             <td style="vertical-align:top;white-space: nowrap;">
                                                                                                 <div class="container">
                                                                                                     <span id="rateMe">
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
                                                                                                     </span>
                                                                                                     <script>
                                                                                                         $(document).ready(function () {
-                                                                                                            SetStars($('.rate-popover-@pastProject.ProjectsId-@pastProject.ProjectsId'),@profile.ProfileRating);
+                                                                                                            SetStars($('.rate-popover-@specialId-@pastProject.ProjectsId'),@profile.ProfileRating);
                                                                                                         });
 
                                                                                                     </script>
@@ -538,8 +524,8 @@
                                                                                                 @profile.ProjectOwnerName
                                                                                             </td>
                                                                                             @*<td>
-                                                <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
-                                            </td>*@
+                                                                                    <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
+                                                                                </td>*@
 
                                                                                         </tr>
 
@@ -576,8 +562,8 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        </div>
                                                     </div>
+                                                </div>
 
                                             </div>
 
@@ -589,6 +575,22 @@
                                                         });
                                             </script>
                                         }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
+                        <div class="card card-custom">
+                            <div class="row">
+                                <div class="col-12 ">
+                                    <div class="form-row">
+                                        @Html.TextAreaFor(m => m.Notes, new { @class = "form-control notepad", rows = "6", cols = "15", style = "min-width: 100%!important;", Name = "Notes-" + @Model.ProjectsId, Id = "Notes-" + @Model.ProjectsId })
+                                        <div class="form-group col-md-12 summer-notes-pad">
+                                            @*@Html.LabelFor(m => m.Notes, "Project Notes", new { @class = "control-label text-light" })*@
+
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>

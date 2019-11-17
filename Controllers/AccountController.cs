@@ -630,6 +630,8 @@ namespace SameDayServicezFinal.Controllers
                 ApplicationUser = user
             };
 
+            UpdatePortal(portal);
+
             return View(portal);
             
         }
@@ -790,6 +792,44 @@ namespace SameDayServicezFinal.Controllers
             return Json(wholeList, JsonRequestBehavior.AllowGet);
 
         }
+
+        public ActionResult AddUserContractorCustomerCategories(string json)
+        {
+            var userId = User.Identity.GetUserId();
+
+            if (json != string.Empty)
+            {
+                foreach (var item in json.Trim(',').Split(','))
+                {
+
+                    var m = long.Parse(item.Split('_')[0]);
+                    var s = long.Parse(item.Split('_')[1]);
+
+                    var MainCatName = db.Categories.Where(p => p.Id == m).Select(p => p.MainCatName).FirstOrDefault();
+                    var SubCatName = db.Subcategories.Where(p => p.Id == s).Select(p => p.SubCatNames).FirstOrDefault();
+                    var UserCategories = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId && p.MainCatId == m && p.SubCatId == s).ToList();
+
+                    if (UserCategories.Count() == 0)
+                    {
+                        ContractorCustomerCategories SelectedProfession = new ContractorCustomerCategories
+                        {
+                            ContractorCustomerId = userId,
+                            MainCatId = long.Parse(item.Split('_')[0]),
+                            SubCatId = long.Parse(item.Split('_')[1]),
+                            MainCatName = MainCatName,
+                            SubCatName = SubCatName
+                        };
+
+                        db.ContractorCustomerCategories.Add(SelectedProfession);
+                        db.SaveChanges();
+                    }
+
+                }
+            }
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
         public ActionResult RemoveUserContractorCustomerCategories(int mainId, int subId)
         {
             var userId = User.Identity.GetUserId();

@@ -97,6 +97,7 @@
                             <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Projects</a>
                             <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Profile</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
                         </div>
                     </nav>
                 </div>
@@ -318,7 +319,7 @@
                                                     </div>
 
                                                     <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-                                                        <div class="skills">
+                                                        <div class="skills ApplicationUser-skills">
 
                                                             <div class="form-row">
 
@@ -359,19 +360,19 @@
                                                             </div>
                                                             <div class="form-row">
                                                                 <div class="form-group  col-md-12 Professions ">
-                                                                    @Html.DropDownListFor(m => m.ApplicationUser.Professions, Model.ApplicationUser.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
+                                                                    @Html.DropDownListFor(m => m.ApplicationUser.Professions, Model.ApplicationUser.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select ApplicationUser-Professions", style = "min-width: 100%!important;" })
                                                                 </div>
                                                             </div>
                                                             <div class="form-row">
                                                                 <div class="form-group  col-md-12 SubProfessions ">
-                                                                    @Html.DropDownListFor(m => m.ApplicationUser.SubProfessions, Model.ApplicationUser.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select", style = "min-width: 100%!important;" })
+                                                                    @Html.DropDownListFor(m => m.ApplicationUser.SubProfessions, Model.ApplicationUser.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select ApplicationUser-SubProfessions", style = "min-width: 100%!important;" })
 
                                                                 </div>
                                                             </div>
 
                                                             <div class="form-row SubProfessions">
                                                                 <div class="form-group col-md-12">
-                                                                    <button type="button" class="btn btn-info add">Add Job Title</button>
+                                                                    <button type="button" class="btn btn-info ApplicationUser-add">Add Job Title</button>
 
                                                                 </div>
                                                             </div>
@@ -383,12 +384,12 @@
                                                             <div class="form-row">
                                                                 <hr style="width: 100%; color: white; height: 1px; background-color:white;" />
                                                                 Current Selected Profession(s):
-                                                                <div class="form-group col-md-12 results">
+                                                                <div class="form-group col-md-12 results ApplicationUser-result">
                                                                     @for (int i = 0; i < Model.ApplicationUser.UserProfessions.ToList().Count(); i++)
                                                                     {
                                                                         @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
 
-                                                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove " data-id="@Model.ApplicationUser.UserProfessions.ToList()[i].MainCatId @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.ApplicationUser.UserProfessions.ToList()[i].MainCatName -- @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatName</div>
+                                                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove ApplicationUser-remove" data-id="@Model.ApplicationUser.UserProfessions.ToList()[i].MainCatId @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.ApplicationUser.UserProfessions.ToList()[i].MainCatName -- @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatName</div>
                                                                     }
                                                                 </div>
                                                             </div>
@@ -463,7 +464,6 @@
                             </div>
                         </div>
 
-
                         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="col-lg-6">
                                 <div class="card">
@@ -471,6 +471,9 @@
                                 </div>
                             </div>
                         </div>
+
+
+
                     </div>
                 </section>
 
