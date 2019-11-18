@@ -824,8 +824,16 @@
         margin-right: 10px !important;
         margin-bottom: 10px !important;
     }
+
+    .dataTables_length label { display:none;}
+
+     #DataTables_Table paginate {
+            margin-right: 10px !important;
+            margin-bottom: 10px !important;
+        }
+    
 </style>
-<div class="row">
+<div class="row project-loading">
     <div class="col-lg-12">
         <div class="panel card" style="padding:10px">
             <div class="panel-body">
@@ -946,7 +954,8 @@
 
     $(document).ready(function () {
         $('#DataTables_Table_0_length > label').hide();
-        
+
+        $(".user-projects").loading('stop');
     });
 
     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';

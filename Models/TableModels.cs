@@ -315,12 +315,20 @@ namespace SameDayServicezFinal.Models
         {
             Projects = new List<Project>();
             ApplicationUser = ApplicationUser;
+            ContractorList = new List<ContractorSearchList>();
         }
 
         public List<Project> Projects { get; set; }     
         public ApplicationUser ApplicationUser { get; set; }
+        public List<ContractorSearchList> ContractorList { get; set; }
     }
 
+    public class ContractorSearchList
+    {
+        public ApplicationUser Contractor { get; set; }
+        public List<Project> PastProjects { get; set; }
+
+    }
 
     public class StarRating
     {

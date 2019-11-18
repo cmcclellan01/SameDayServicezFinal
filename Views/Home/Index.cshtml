@@ -1,31 +1,515 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿
+@{
+    ViewBag.Title = "Home";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+@model SameDayServicezFinal.Models.PortalList
+@using SameDayServicezFinal.Utils
+<style>
+    .body-content {
+        padding-top: 0 !important;
+    }
+
+    #map-projects {
+        height: 42vh;
+        width: 100%;
+        min-height: 100%;
+        max-height: none
+    }
+
+    #map-contractors {
+        height: 42vh;
+        width: 100%;
+        min-height: 100%;
+        max-height: none
+    }
+
+    .login_btn {
+        width: 100%;
+        background: #FF550B !important;
+        color: white !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        color: grey !important;
+    }
+
+    .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper
+    .dataTables_filter,
+    .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+        color: grey !important;
+    }
+
+    body {
+        background-color: #111111 !important;
+    }
+
+    .carousel {
+        margin-bottom: 4rem;
+    }
+
+    .carousel-item {
+        height: 50vh;
+        margin-top: 59px;
+        background-size: cover;
+        background-position: center center;
+        /*background-image: url('https://www.samedayservicez.com/wp-content/themes/ProjectTheme/images/sc1.jpg');*/
+    }
+
+        .carousel-item h1 {
+            margin: 0;
+            color: white;
+        }
+
+    .main_tagLine {
+        color: #222;
+        text-transform: uppercase;
+        font-weight: 500;
+        font-family: "Raleway",Tahoma, Geneva, sans-serif;
+        margin-bottom: 20px;
+        /* text-shadow: 2px 2px 5px black, 2px 2px 100px black; */
+        text-align: center;
+    }
+
+
+    .sub_tagLine {
+        color: #333;
+        font-weight: 500;
+        text-transform: uppercase;
+        font-family: 'Raleway',Arial, Helvetica, sans-serif;
+        margin-bottom: 30px;
+        /* text-shadow: 2px 2px 5px black, 2px 2px 100px black; */
+        text-align: center;
+        margin: auto;
+        width: 1000px;
+    }
+
+    .main_area_homepg {
+        text-align: center;
+        margin: auto;
+        width: 100%;
+        /*padding-top: 110px;*/
+    }
+</style>
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+
+<div class="row" style="    margin-top: 29px;">
+    <div class="col-md-12 form-group ">
+
+        <div class="main_area_homepg my-auto" style="background-image:url('/Content/images/sc1.jpg');height: 50vh;background-position: center center;background-size: cover;">
+            <div style="position: absolute;transform: translate(-50%, -50%);left: 50%;top: 50%;">
+                <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;">FIND WORKERS. GET YOUR PROJECT DONE FAST!</h1></div>
+                <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;">START BY POSTING A CHORE YOU NEED DONE OR REGISTER TO GET A JOB.</h2></div>
+
+                <div class="btn-group mx-auto">
+                    @*<a href="@Url.Action("NewProject", "Account", new { IsContractor="True" })" class="btn btn-primary" style="margin:10px;">Post Your Project</a>*@
+                    <a href="@Url.Action("Register", "Account", new { IsContractor="True" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div class="container">
+
+
+    <div class="row align-items-center" style="height:100%">
+
+        <div class="col-md-4">
+            <div class="card" style="color:white !important;height:100%;margin-top:25px">
+                <div class="card-header text-center text-uppercase;">
+                    <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
+                        <i class="fa fa-edit" aria-hidden="true"></i>
+                    </span>
+                    <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;">Post your project</h6>
+                </div>
+                <div class="card-body ">
+                    <p class="card-text text-light">
+                        Post your project easily with our easy to use interface, then wait for the contractors to submit their proposals. This way you are in total control of your offers and project as well.
+                    </p>
+                    @*<div class="text-center">
+                            <a href="#" class="btn btn-primary">Post your Project</a>
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="color:white !important;height:100%;margin-top:25px">
+                <div class="card-header text-center ">
+                    <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
+                        <i class="fa fa-money" aria-hidden="true"></i>
+                    </span>
+                    <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;"> Get proposals</h6>
+                </div>
+
+
+                <div class="card-body ">
+                    <p class="card-text text-light">
+                        After posting your project , you will wait for the contractors to post their proposals. You have until the end of the project to choose the best fit for contractor and start the work.
+                    </p>
+                    @*<div class="text-center">
+                            <a href="#" class="btn btn-primary">Post your Project</a>
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card" style="color:white !important;height:100%;margin-top:25px">
+                <div class="card-header text-center text-uppercase">
+                    <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
+                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                    </span>
+                    <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;"> Get your project done</h6>
+                </div>
+                <div class="card-body ">
+                    <p class="card-text text-light">
+                        After choosing a contractor, your work will start. You and the contractor will be in total contact and cooperation under a secure workspace inside our site. Exchange files and messages.
+                    </p>
+                    @*<div class="text-center">
+                            <a href="#" class="btn btn-primary">Post your Project</a>
+                        </div>*@
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col-md-6" style="display:none">
+        <div class="jumbotron " style="background-color:#212529 !important;color:grey !important;padding: 1rem 2rem;height:100%">
+            <table id="example" class="display compact" style="width:100%">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var s = 0;}
+                    @foreach (var item in Model.Projects)
+                    {
+
+                        //if (item.CreationDate > DateTime.Now.AddDays(-7))
+                        //{
+                        <tr>
+                            <td>
+                                <a class="marker-link" data-markerid="@s" data-title="@item.ProjectTitle-@item.ProjectsId" href="#">
+                                    <img style="width: 24px; height: 24px;margin:5px" src="/Content/images/project_Icon.png">
+                                </a>
+                            </td>
+                            <td>
+
+                                <p class="media-body pb-3 mb-0 small lh-125 ">
+                                    @item.ProjectTitle
+                                </p>
+                            </td>
+                        </tr>
+
+                        s++;
+
+                        @*}*@
+
+                    }
+
+            </table>
+
+            <small class="d-block text-left mt-3">
+                <a href="@Url.Action("DashBoard", "Account", new { IsContractor = Extensions.IsInContractorMode })" class="text-primary">View your Projects</a>
+            </small>
+
+            @*@{var i = 0;}
+                @foreach (var item in Model.Projects)
+                {
+
+                    if (item.CreationDate > DateTime.Now.AddDays(-7))
+                    {
+                        <div class="media text-muted pt-3">
+                            <a class="marker-link" data-markerid="@i" data-title="@item.ProjectTitle-@item.ProjectsId" href="#">
+                                <img style="width: 24px; height: 24px;margin:5px" src="/Content/project_Icon.png">
+                            </a>
+                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                @item.ProjectTitle
+                            </p>
+                        </div>
+
+                        i++;
+
+                    }
+
+                }*@
+
+        </div>
+    </div>
+
+    <div class="col-md-6" style="margin-top:25px">
+        <div class="card " style="color:white !important;height:100%;">
+            <div class="card-header">
+                Current Projects
+                @*<div class="float-right">
+                    <a href="/account/search?type=p" class="btn btn-primary">Search Projects </a>
+                </div>*@
+            </div>
+            <div class="card-body">
+                <div id="map-projects"></div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-6" style=";margin-top:25px">
+        <div class="card " style="color:white !important;height:100%">
+            <div class="card-header">
+                Current Contractors
+                @*<div class="float-right">
+                    <a href="/account/search?type=c" class="btn btn-primary">Search Contractors </a>
+                </div>*@
+            </div>
+            <div class="card-body">
+                <div id="map-contractors"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<script>
+
+    var lastWindow = null;
+    var last_Window = null;
+    var markers = new Array();
+    var map;
+    var addresess = new Array();
+
+    function mapAddress(addresses, type) {
+        var geocoder = new google.maps.Geocoder();
+        var mapOptions = {
+            zoom: 7,
+            // this is centered over the state of iowa
+            center: { lat: 41.8780025, lng: -93.09770200000003 },
+            gestureHandling: 'cooperative',
+            scaleControl: true,
+            streetViewControl: false,
+            mapTypeControl: false
+        };
+
+        var mapStyles = [
+                {
+                    "stylers": [
+                        {
+                            "hue": "#ff1a00"
+                        },
+                        {
+                            "invert_lightness": true
+                        },
+                        {
+                            "saturation": -80
+                        },
+                        {
+                            "lightness": 33
+                        },
+                        {
+                            "gamma": 0.5
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.neighborhood",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "hue": "#ff0000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#2D333C"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.man_made",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "off"
+                        }
+                    ]
+                },
+
+        ];
+
+        if (type == 'p') {
+            map = new google.maps.Map(document.getElementById('map-projects'), mapOptions);
+            map.set('styles', mapStyles);
+        }
+        else {
+            map = new google.maps.Map(document.getElementById('map-contractors'), mapOptions);
+            map.set('styles', mapStyles);
+        }
+
+        addresses.forEach(function (item) {
+
+                     if (type =='p') {
+
+                         var contentString = '<div class="card border-primary">'+
+                        '<div class="card-header">'+
+                                '<span class=" font-weight-bold">' + item[3] + '</span>'+
+                        '</div>'+
+                        '<div class="card-body">'+
+                            '<p class="card-text">'+
+                                '<span class="text-light small">Description:</span> <span class="table-dark small">' + item[4].replace(/&quot;/g, '') + '</span>'+
+                            '</p>'+
+                        '</div>'+
+                        '</div>';
+
+                        var infowindow = new google.maps.InfoWindow({ content: contentString });
+                        var latlng = new google.maps.LatLng(item[1],item[2]);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: latlng,
+                            icon:'/content/images/dollar-sign.ico',
+                            title: item[3] + '-' + item[5],
+                            animation: google.maps.Animation.DROP
+                        });
+
+                        marker.addListener('click', function () {
+                            if (lastWindow) lastWindow.close();
+                            infowindow.open(map, marker);
+                            lastWindow = infowindow;
+                        });
+
+                        //$('.marker-link').on('click', function () {
+                        //    google.maps.event.trigger(markers.find(p => p.title === $(this).data('title')), 'click');
+                        //});
+
+                        markers.push(marker);
+
+                    } else {
+                         //http://philapark.org/wp-content/uploads/2014/03/contractor-permit-icon.png
+                         var latlng = new google.maps.LatLng(item[1],item[2]);
+                         var marker = new google.maps.Marker({
+                             map: map,
+                             icon:'/content/images/kqm_icon.ico',
+                             position: latlng,
+                             animation: google.maps.Animation.DROP
+                         });
+
+                          markers.push(marker);
+                    }
+        });
+
+         center_map(map,markers);
+         addresess = [];
+
+    }/////
+
+    function initProjectsMap() {
+
+        @foreach (var item in Model.Projects)
+        {
+             <text> addresess.push(['map-projects', '@item.latitude',' @item.longitude','@item.ProjectTitle', '@item.Description', '@item.ProjectsId']);</text>
+        }
+        mapAddress(addresess, 'p');
+
+
+
+
+        @foreach (var item in Model.ContractorList)
+        {
+            <text> addresess.push(['map-contractors', '@item.Contractor.latitude',' @item.Contractor.longitude']);</text>
+        }
+        mapAddress(addresess,'c');
+    }
+
+    function center_map(map,markers) {
+        // vars
+        var bounds = new google.maps.LatLngBounds();
+        // loop through all markers and create bounds
+        $.each(markers, function(i, marker) {
+            var latlng = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+            bounds.extend(latlng);
+        });
+        // only 1 marker?
+        if (markers.length == 1) {
+            // set center of map
+            map.setCenter(bounds.getCenter());
+            map.setZoom(16);
+        } else {
+            // fit to bounds
+            map.fitBounds(bounds);
+        }
+    }
+
+</script>
+
+@*<script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANM-MNjlvaju8maiq0zZbDk99JXmD_nrA&callback=initProjectsMap">
+    </script>*@
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANM-MNjlvaju8maiq0zZbDk99JXmD_nrA"></script>
+
+
+<script>
+    $(document).ready(function () {
+        initProjectsMap();
+    });
+
+
+
+    var table = $('#example').DataTable({
+        "lengthChange": false,
+        "iDisplayLength": 6,
+        "bSort": false,
+        "pagingType": "simple",
+        "language": {
+            "search": "Search Projects:"
+        },
+        "columnDefs": [
+            {
+                "targets": [0],
+                "searchable": false,
+                "orderable": false,
+                "width": "20px",
+
+
+            },
+        ]
+    });
+
+    $('#example tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+
+
+            google.maps.event.trigger(markers.find(p => p.title === $('.selected td a').data('title')), 'click');
+        }
+
+
+    });
+
+    $('#button').click(function () {
+        table.row('.selected').remove().draw(false);
+    });
+</script>
+

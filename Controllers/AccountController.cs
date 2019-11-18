@@ -657,6 +657,21 @@ namespace SameDayServicezFinal.Controllers
 
                 UpdatePortal(portal);
 
+                var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
+                foreach (var contractor in contractors)
+                {
+                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+
+                    ContractorSearchList contractorList = new ContractorSearchList
+                    {
+                        Contractor = contractor,
+                        PastProjects = pastprojects
+                    };
+                    portal.ContractorList.Add(contractorList);
+                }
+
             }
             else
             {
@@ -672,13 +687,13 @@ namespace SameDayServicezFinal.Controllers
           
             var userId = User.Identity.GetUserId();
             portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
-
+           
             var users = db.Users.Select(p => p).ToList();
             
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
 
-           
-           
+            
+
 
             foreach (var project in portal.Projects)
             {             
@@ -739,8 +754,137 @@ namespace SameDayServicezFinal.Controllers
                 project.Conversations = new List<Conversations>();
                 project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
 
-              
+
+             
+
             }
+        }
+
+        public async Task<ActionResult> UpdateProjectPortal()
+        {
+            var states = Utils.Extensions.GetStatesList();
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            PortalList portal = new PortalList();
+
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+                user.States = GetSelectListItems(states);
+                user.Professions = new List<SelectListItem>();
+                user.SubProfessions = new List<SelectListItem>();
+                user.InfoTabOpen = "0";
+                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                portal.ApplicationUser = user;
+
+                UpdatePortal(portal);
+
+                var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
+                foreach (var contractor in contractors)
+                {
+                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+
+                    ContractorSearchList contractorList = new ContractorSearchList
+                    {
+                        Contractor = contractor,
+                        PastProjects = pastprojects
+                    };
+                    portal.ContractorList.Add(contractorList);
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return PartialView("_Projects", portal);
+        }
+
+        public ActionResult ContractorSearch(string json)
+        {
+            PortalList portal = new PortalList();
+            var userId = User.Identity.GetUserId();
+            var allcontractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
+
+            List<ContractorCustomerCategories> UserCategories = new List<ContractorCustomerCategories>();
+            List<ApplicationUser> contractors = new List<ApplicationUser>();
+
+            // get our master list of contractors
+            List<string> MasterList = new List<string>();
+
+            if (json != string.Empty)
+            {
+                foreach (var item in json.Trim(',').Split(','))
+                {
+                    var m = long.Parse(item.Split('_')[0]);
+                    var s = long.Parse(item.Split('_')[1]);
+                   
+                     UserCategories = db.ContractorCustomerCategories.Where(p => p.MainCatId == m && p.SubCatId == s).ToList();
+
+
+                    foreach (var contractor in UserCategories)
+                    {
+                        if (!MasterList.Contains(contractor.ContractorCustomerId))
+                        {
+                            MasterList.Add(contractor.ContractorCustomerId);
+                        }
+                    }
+                }
+
+
+
+
+                foreach (var item in MasterList)
+                {
+                    contractors.Add(allcontractors.Find(x => x.Id == item));
+                }
+
+
+                foreach (var contractor in contractors)
+                {
+                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+                    contractor.Professions = new List<SelectListItem>();
+                    contractor.SubProfessions = new List<SelectListItem>();
+
+                    ContractorSearchList contractorList = new ContractorSearchList
+                    {
+                        Contractor = contractor,
+                        PastProjects = pastprojects
+                    };
+                    portal.ContractorList.Add(contractorList);
+                }
+
+                portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
+            }
+
+            return PartialView("_ContractorSearch", portal);
+        }
+
+        public ActionResult AssignContractor(string contractorId,long projectId)
+        {
+            var userId = User.Identity.GetUserId();
+            ProjectAssignment projectAssignment = new ProjectAssignment
+            {
+                CreationDate = DateTime.Now,
+                LastUpdated = DateTime.Now,
+                ProjectId = projectId,
+                UsersId = contractorId,
+                ProjectOwner = userId
+            };
+           
+            if (db.ProjectAssignment.Where(p => p.UsersId == contractorId && p.ProjectId == projectId).ToList().Count() == 0)
+            {
+                db.ProjectAssignment.Add(projectAssignment);
+                db.SaveChanges();
+            }
+                       
+            return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
         [ValidateInput(false)]

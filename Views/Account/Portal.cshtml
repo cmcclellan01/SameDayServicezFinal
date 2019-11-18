@@ -11,8 +11,8 @@
 
 
 
-    <script src="~/Scripts/dropzone/dropzone.js"></script>
-    <script async defer src="~/Scripts/profile.js"></script>
+<script src="~/Scripts/dropzone/dropzone.js"></script>
+<script async defer src="~/Scripts/profile.js"></script>
 <link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" />
 <link href="~/Content/profile.css" rel="stylesheet" />
 
@@ -77,9 +77,9 @@
                                 </ul>
                             </li>
                             <!-- Logout    -->
-                            <li class="nav-item">                                
-                                <span class="d-sm-inline" style="margin:10px">                                 
-                                    @Ajax.ActionLink("Logout", "LogOff",  new AjaxOptions { HttpMethod = "POST" })
+                            <li class="nav-item">
+                                <span class="d-sm-inline" style="margin:10px">
+                                    @Ajax.ActionLink("Logout", "LogOff", new AjaxOptions { HttpMethod = "POST" })
                                 </span><i class="fa fa-sign-out"></i>
 
 
@@ -91,13 +91,13 @@
         </header>
         <div class="page-content d-flex align-items-stretch">
             <div class="content-inner" style="padding-bottom: 59px;">
-                <div class="card" style="    margin-bottom: 0px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
+                <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Projects</a>
                             <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Profile</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
+                            <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
                         </div>
                     </nav>
                 </div>
@@ -105,7 +105,7 @@
 
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                            <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">
                                 @Html.Partial("_Projects", Model)
                             </div>
                         </div>
@@ -471,9 +471,247 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="tab-pane fade" id="nav-contractor-search" role="tabpanel" aria-labelledby="nav-contractor-search-tab">
+
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <div class="col-md-3">
+                                        <div class="form-row">
+                                            <div class="card card-custom text-light">
+                                                <h3 class="text-center text-primary">Search Options</h3>
+                                                <div class="form-group">
+
+
+                                                    <div class="form-row">
+                                                        @Html.Label("Hourly Rate:", new { @class = "control-label text-light" })
+
+                                                        <select class="form-control max-select" style="min-width: 100%!important;">
+                                                            <option value="">- Please Select A Hourly Rate -</option>
+                                                            @foreach (var item in Extensions.GetHourlyRateList())
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        </select>
+                                                    </div>
 
 
 
+                                                    <div class="form-row " style="margin-top:15px">
+                                                        @Html.Label("Job Professions:", new { @class = "control-label text-light" })
+                                                        <select class="form-control max-select" id="professions-start" style="min-width: 100%!important;">
+                                                            <option value="">Alphabetical List of Professions</option>
+                                                            <option value="A">A</option>
+                                                            <option value="B">B</option>
+                                                            <option value="C">C</option>
+                                                            <option value="D">D</option>
+                                                            <option value="E">E</option>
+                                                            <option value="F">F</option>
+                                                            <option value="G">G</option>
+                                                            <option value="H">H</option>
+                                                            <option value="I">I</option>
+                                                            <option value="J">J</option>
+                                                            <option value="K">K</option>
+                                                            <option value="L">L</option>
+                                                            <option value="M">M</option>
+                                                            <option value="N">N</option>
+                                                            <option value="O">O</option>
+                                                            <option value="P">P</option>
+                                                            <option value="Q">Q</option>
+                                                            <option value="R">R</option>
+                                                            <option value="S">S</option>
+                                                            <option value="T">T</option>
+                                                            <option value="U">U</option>
+                                                            <option value="V">V</option>
+                                                            <option value="W">W</option>
+                                                            <option value="X">X</option>
+                                                            <option value="Y">Y</option>
+                                                            <option value="Z">Z</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-row Professions" style="margin-top:15px">
+
+                                                        <select class="form-control max-select search-professions" style="min-width: 100%!important;">
+                                                            <option value="">- Please Select A Profession Category -</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-row SubProfessions" style="margin-top:15px">
+
+                                                        <select class="form-control max-select search-subprofessions" style="min-width: 100%!important;">
+                                                            <option value="">- Please Select A Job Title -</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="form-row SubProfessions" style="margin-top:15px">
+                                                        <div class="form-group col-md-12">
+                                                            <button type="button" class="btn  btn-info search-add btn-sm">Add Job Title</button>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row SelectedProfession style=" margin-top:15px"">
+                                                        Current Selected Profession(s):
+                                                        <div class="form-group col-md-12 search-results">
+
+                                                        </div>
+                                                    </div>
+
+
+                                                    <button data-url="/Account/ContractorSearch?json=" class="js-reload-details btn btn-primary btn-sm">Search</button>
+
+
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-9">
+                                       
+                                       
+                                        <script>
+
+                                            
+
+                                            $('.js-reload-details').on('click', function (evt) {
+                                                evt.preventDefault();
+                                                evt.stopPropagation();
+
+                                                //$('.search-new').each(function (index, value) {
+                                                //    json += $(".search-subprofessions option:selected").val() + ',';
+                                                //});
+                                           
+                                                //$('#SearchJsonProfession').val(json);
+
+
+
+                                                var $detailDiv = $('#detailsDiv');
+                                               
+
+                                                $detailDiv.empty();
+                                              
+
+                                                //Alphabetical List of Professions
+
+                                                $.get($(this).data('url') + $('#SearchJsonProfession').val(), function (data) {
+                                                    $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');                                                      
+                                                });
+                                            });
+                                        </script>
+                                        <div id="detailsDiv"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                            <script>
+
+                                $(document).ready(function () {
+
+                                  
+                                      
+                         
+                                    $('.search-professions').hide();
+                                    $('.search-subprofessions').hide();
+                                    $('.SelectedProfession').hide();
+                                    $('.search-add').hide();
+
+
+                                    $('#professions-start').change(function (event, ui) {
+
+                                        $.getJSON('/Account/AutoComplete', { term: $("#professions-start option:selected").text() }, function (item) {
+                                            $('.search-professions').show();
+                                            $(".search-professions").empty();
+                                            $(".search-professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
+
+                                            $.each(item, function (index, data) {
+                                                $(".search-professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
+                                            });
+
+                                        });
+                                    });
+
+                                    $('.search-professions').change(function (event, ui) {
+                                        $.get('/Account/GetProjectSubCategoryList', { Id: this.value }, function (data) {
+
+                                            // $(".demo").empty();
+                                            $(".search-subprofessions").empty();
+                                            $(".search-subprofessions").show();
+                                            $('.SelectedProfession').show();
+
+
+                                            
+                                            $('.search-subprofessions').append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
+                                            $.each(data, function (index, row) {
+                                                $('.search-subprofessions').append("<option data-info='" + $(".ApplicationUser-Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
+
+                                            });
+
+
+                                     
+
+                                            $('.search-add').show();
+                                        });
+                                    });
+
+                                    // add new sub(s) from list
+                                    $('.search-add').click(function () {
+
+                                        if ($(".search-subprofessions option:selected").val() !== '- Please Select A Job Title -') {
+
+                                            $('.search-results').append('<div class="search-result-added search-new" id="' + $(".search-subprofessions option:selected").val() + '"><span class="btn btn-danger btn-sm search-remove" data-mainId="' + $(".search-professions option:selected").val() + '" data-subId="' + $(".search-subprofessions option:selected").val() + '" role="button" style="margin: 5px;">remove</span>' + $(".search-professions option:selected").text() + ' -- ' + $(".search-subprofessions option:selected").text() + '</div>')
+
+                                            var json = '';
+
+                                            $('.search-new').each(function (index, value) {
+                                                console.log($(this).find('span').attr('data-subId'))
+                                                json += $(this).find('span').attr('data-subId') + ','
+                                                //json += $(".search-subprofessions option:selected").val() + ',';
+                                             });
+
+
+                                            //sets the hidden field for postback
+                                            $('#SearchJsonProfession').val(json);
+
+
+
+                                            // remove cat and sub cat
+                                            $('.search-remove').click(function (e) {
+                                                $(this).parent().remove();
+                                            });
+
+                                            // remove the selected one after we add it
+                                            $('.search-subprofessions').find('option:selected').remove().end();
+
+                                            $('.search-professions').hide();
+                                            $('.search-subprofessions').hide();
+                                            $('#professions-start').prop("selectedIndex", 0);
+                                            
+
+                                           
+                                            //empty the textbox and setup for next search
+                                            $('.search-subprofessions').val('');
+                                            $('.sublist').hide();
+
+                                            $('.search-add').hide();
+
+                                        }
+                                        else {
+                                            alert('Please Select A Job Title');
+                                        }
+
+                                    });
+                                });
+                            </script>
+
+
+
+                        </div>
                     </div>
                 </section>
 
@@ -500,6 +738,7 @@
     <input class="form-control d-none" id="latitude" name="latitude" type="text" value="@Model.ApplicationUser.latitude" />
     <input class="form-control d-none" id="longitude" name="longitude" type="text" value="@Model.ApplicationUser.longitude" />
     <input class="form-control d-none" id="Id" name="Id" type="text" value="@Model.ApplicationUser.Id" />
+    <input class="form-control d-none" id="SearchJsonProfession" name="SearchJsonProfession" type="text" value="" />
 }
 
 
@@ -514,7 +753,7 @@
 
 <script>
 
-    $(document).ready(function () {      
+    $(document).ready(function () {
 
         SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
     });
