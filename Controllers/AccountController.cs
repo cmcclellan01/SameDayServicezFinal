@@ -887,6 +887,87 @@ namespace SameDayServicezFinal.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetProject(long projectId)
+        {
+            Project project = new Project();
+            var userId = User.Identity.GetUserId();
+            var states = Utils.Extensions.GetStatesList();
+            List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
+
+            var users = db.Users.Select(p => p).ToList();
+
+            project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+
+            
+                // add the project assignments to the object
+                project.ProjectAssignments = new List<ProjectAssignment>();
+                ProjectAssignments = db.ProjectAssignment.Where(p => p.ProjectId == project.ProjectsId && p.ProjectOwner == userId).ToList();
+
+
+                foreach (var Assignment in ProjectAssignments)
+                {
+                    var profile = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                    var projectOwnerName = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                    var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == Assignment.UsersId);
+                    Assignment.ProfileProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+
+                    List<Project> ProfilePastProjects = new List<Project>();
+                    ProfilePastProjects = db.Project.Where(p => p.ProjectsUsersId == Assignment.UsersId).ToList(); //.Select(x => new Project { ProjectTitle = x.ProjectTitle, CreationDate = x.CreationDate }).ToList(); 
+
+                    Assignment.ProfileImage = profile.ProfileImage;
+                    Assignment.ProfileDisplayName = profile.DisplayName;
+                    Assignment.ProfileBios = profile.Bio;
+                    Assignment.ProfileRating = profile.Rating;
+                    Assignment.ByTheHourRate = profile.ByTheHourRate;
+                    Assignment.ProfilePastProjects = ProfilePastProjects;
+                    Assignment.ProjectOwnerName = projectOwnerName.DisplayName;
+                    project.ProjectAssignments.Add(Assignment);
+                }
+
+
+                // add the Project Compensation Package to the object
+                var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+                if (ProjectCompensationPackage != null)
+                {
+                    project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
+                    project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                    project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                    project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                    project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                    project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                    project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                    project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+                }
+
+                // add the Project Job Categories to the object
+                project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+
+                // add the Project Documents to the object
+                project.ProjectDocuments = db.ProjectDocuments.Where(p => p.ProjectId == project.ProjectsId).ToList();
+
+                // fill the drops downs on the model
+                project.States = GetSelectListItems(states);
+                project.Professions = new List<SelectListItem>();
+                project.SubProfessions = new List<SelectListItem>();
+                project.CompensationTypeList = Utils.Extensions.GetCompensationType();
+
+                project.Conversations = new List<Conversations>();
+                project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
+
+
+
+
+            
+
+            return PartialView("_ViewProject", project);
+        }
+
+
+
+
+
+
         [ValidateInput(false)]
         public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
             decimal ByTheHourRate, decimal ByTheProjectRate,decimal StartingBidRate,DateTime StartingBidDate, DateTime EndingBidDate, long SelectedProjectCompensationPackage,string Notes)

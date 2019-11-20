@@ -935,27 +935,25 @@
 
 </div>
 
-<div>
-    @foreach (var item in Model.Projects)
-    {
-        Html.RenderPartial("_ViewProject", item);
-    }
+
+<div class="loader">
+    <div class="project-view">
+
+    </div>
 </div>
 
-
-
-
+<input type="hidden" class="mode" />
 
 
 <script>
 
     var projects = [];
-
+    var $detailDiv = $('.project-view');     
 
     $(document).ready(function () {
         $('#DataTables_Table_0_length > label').hide();
 
-        $(".user-projects").loading('stop');
+        
     });
 
     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
@@ -1045,61 +1043,48 @@
         dt.search(this.value).draw();
     });
 
-    $('.view-project').click(function () {
+    $('.view-project').click(function (event) {
 
-         for (i = 0; i < 1000; i++) {
-            $('.project-id-' + i).hide();
-        }
+         event.preventDefault();   
+       $('.loader').loading('start'); 
+         $detailDiv.empty();
+        $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+            
+              $detailDiv.empty().html(data);
 
-        $('.view-project-main-div  .project-id-' + $(this).attr('data-id')).find('input, textarea, button, select').attr('disabled','disabled');
-        $('#Notes-' + $(this).attr('data-id')).summernote('disable');
-        $('.no-edit').hide();
+            $('.mode').val('v');
+             $('.loader').loading('stop');                    
+        });
 
-        $('.project-id-' + $(this).attr('data-id')).show();
-        $('html,body').animate({ scrollTop: $('.project-id-' + $(this).attr('data-id')).offset().top - 20 });
-        $('.project-editing-type').text('Viewing ')
-        $('.close-' + $(this).attr('data-id')).show();
+       
         return false;
     });
 
-    $('.edit-project').click(function () {
-
-        for (i = 0; i < 1000; i++) {
-            $('.project-id-' + i).hide();
-        }
-
-        $('.view-project-main-div  .project-id-' + $(this).attr('data-id')).find('input, textarea, button, select').removeAttr('disabled');
-        $('#Notes-' + $(this).attr('data-id')).summernote('enable');
-        $('.no-edit').show();
-
-
-
-        $('.project-editing-type').text('Editing ')
-        $('.project-id-' + $(this).attr('data-id')).show();
-        $('.close-' + $(this).attr('data-id')).show();
-        $('html,body').animate({scrollTop:$('.project-id-' + $(this).attr('data-id')).offset().top - 20 });
-
+    $('.edit-project').click(function (event) {
+         event.preventDefault();
+        $('.loader').loading('start');        
+           $detailDiv.empty();
+        $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+         
+             $detailDiv.empty().html(data);
+            $('.mode').val('v');
+            $('.loader').loading('stop');
+           
+        });
         return false;
     });
 
-    $('.notes-project').click(function () {
-        for (i = 0; i < 1000; i++) {
-            $('.project-id-' + i).hide();
-        }
-
-        $('.view-project-main-div  .project-id-' + $(this).attr('data-id')).find('input, textarea, button, select').removeAttr('disabled');
-        $('#Notes-' + $(this).attr('data-id')).summernote('enable');
-        $('.no-edit').show();
-
-
-
-
-        $('.project-id-' + $(this).attr('data-id')).show();
-        $('.project-editing-type').text('Editing ')
-        $('html,body').animate({scrollTop:$('.project-id-' + $(this).attr('data-id')).offset().top - 20 });
-        $('.close-' + $(this).attr('data-id')).show();
-        $('#myTab-' + $(this).attr('data-id') + ' li:last-child a').tab('show');
-
+    $('.notes-project').click(function (event) {
+        event.preventDefault();
+        $('.loader').loading('start');
+           $detailDiv.empty();
+        $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+          
+            $detailDiv.empty().html(data);
+             $('.mode').val('n');
+            $('.loader').loading('stop');
+           
+        });
         return false;
     });
 

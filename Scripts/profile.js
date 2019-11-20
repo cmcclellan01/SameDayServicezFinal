@@ -65,86 +65,11 @@
 
 }
 
-
-$("#dropzoneProfilePic").dropzone({
-    init: function () {
-        this.on("error", function (file, message, xhr) {
-            if (xhr === null) this.removeFile(file);
-
-            $('.dropzone-error').append(message);
-        });
-    },
-    url: "/Account/Upload?type=profile",
-    addRemoveLinks: false,
-    createImageThumbnails: false,
-    uploadMultiple: false,
-    acceptedFiles: ".jpeg,.jpg,.png",
-    dictDefaultMessage: "  Upload a photo of yourself for your contractor profile.",
-    success: function (file, response) {
-        $('.ProfileImage').empty();
-        $('.ProfileImage').append('<img style="margin-bottom:10px;" class="img-thumbnail" src="/Uploads/ProfileImages/' + $('#Id').val() + '/' + response.Message + '"> <button class="btn remove-profileimage">X</button>');
-
-        $('.remove-profileimage').click(function () {
-            $.ajax({
-                type: "POST",
-                url: '/Account/RemoveUpload?type=profile',
-                success: function () {
-                    $('.ProfileImage').empty();
-                }
-            });
-            return false;
-        });
-    },
-    error: function (file, response) {
-        file.previewElement.classList.add("dz-error");
-    },
-    complete: function (file, response) {
-        this.removeAllFiles(true);
-    }
-
-});
-
 Dropzone.autoDiscover = false;
-$("#dropzoneIdPic").dropzone({
-    url: "/Account/Upload?type=id",
-    init: function () {
-        this.on("error", function (file, message, xhr) {
-            if (xhr === null) this.removeFile(file);
-
-            $('.dropzone-error2').append(message);
-        });
-    },
-    addRemoveLinks: false,
-    uploadMultiple: false,
-    createImageThumbnails: false,
-    acceptedFiles: ".jpeg,.jpg,.png",
-    dictDefaultMessage: "Upload a scan of your driver's license or government issued photo ID.",
-    success: function (file, response) {
-        $('.IdImage').empty();
-        $('.IdImage').append('<img style="margin-bottom:10px;" class="img-thumbnail" src="/Uploads/ProfileImages/' + $('#Id').val() + '/' + response.Message + '"> <button class="btn remove-idimage">X</button>');
-
-        $('.remove-idimage').click(function () {
-            $.ajax({
-                type: "POST",
-                url: '/Account/Upload?type=id',
-                success: function () {
-                    $('.IdImage').empty();
-                }
-            });
-            return false;
-        });
-    },
-    error: function (file, response) {
-        file.previewElement.classList.add("dz-error");
-    },
-    complete: function (file, response) {
-        this.removeAllFiles(true);
-    }
-
-
-});
-
 $(document).ready(function () {
+
+
+
 
     // this is for the is contractor checkbox that makes it 'customer or contractor'
     $('.IsContractor').checkboxpicker({
@@ -322,3 +247,81 @@ $(document).ready(function () {
 });
 
 $('.currency').currencyFormat();
+
+$("#dropzoneProfilePic").dropzone({
+    init: function () {
+        this.on("error", function (file, message, xhr) {
+            if (xhr === null) this.removeFile(file);
+
+            $('.dropzone-error').append(message);
+        });
+    },
+    url: "/Account/Upload?type=profile",
+    addRemoveLinks: false,
+    createImageThumbnails: false,
+    uploadMultiple: false,
+    acceptedFiles: ".jpeg,.jpg,.png",
+    dictDefaultMessage: "  Upload a photo of yourself for your contractor profile.",
+    success: function (file, response) {
+        $('.ProfileImage').empty();
+        $('.ProfileImage').append('<img style="margin-bottom:10px;" class="img-thumbnail" src="/Uploads/ProfileImages/' + $('#Id').val() + '/' + response.Message + '"> <button class="btn remove-profileimage">X</button>');
+
+        $('.remove-profileimage').click(function () {
+            $.ajax({
+                type: "POST",
+                url: '/Account/RemoveUpload?type=profile',
+                success: function () {
+                    $('.ProfileImage').empty();
+                }
+            });
+            return false;
+        });
+    },
+    error: function (file, response) {
+        file.previewElement.classList.add("dz-error");
+    },
+    complete: function (file, response) {
+        this.removeAllFiles(true);
+    }
+
+});
+
+
+$("#dropzoneIdPic").dropzone({
+    url: "/Account/Upload?type=id",
+    init: function () {
+        this.on("error", function (file, message, xhr) {
+            if (xhr === null) this.removeFile(file);
+
+            $('.dropzone-error2').append(message);
+        });
+    },
+    addRemoveLinks: false,
+    uploadMultiple: false,
+    createImageThumbnails: false,
+    acceptedFiles: ".jpeg,.jpg,.png",
+    dictDefaultMessage: "Upload a scan of your driver's license or government issued photo ID.",
+    success: function (file, response) {
+        $('.IdImage').empty();
+        $('.IdImage').append('<img style="margin-bottom:10px;" class="img-thumbnail" src="/Uploads/ProfileImages/' + $('#Id').val() + '/' + response.Message + '"> <button class="btn remove-idimage">X</button>');
+
+        $('.remove-idimage').click(function () {
+            $.ajax({
+                type: "POST",
+                url: '/Account/Upload?type=id',
+                success: function () {
+                    $('.IdImage').empty();
+                }
+            });
+            return false;
+        });
+    },
+    error: function (file, response) {
+        file.previewElement.classList.add("dz-error");
+    },
+    complete: function (file, response) {
+        this.removeAllFiles(true);
+    }
+
+
+});

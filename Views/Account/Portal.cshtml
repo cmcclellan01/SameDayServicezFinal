@@ -30,24 +30,25 @@
                     <div class="navbar-holder d-flex align-items-center justify-content-between">
                         <!-- Navbar Header-->
                         <div class="navbar-header">
-                            <!-- Navbar Brand --><a href="index.html" class="navbar-brand  d-sm-inline-block">
+                            <!-- Navbar Brand -->
+                            <a href="/" class="navbar-brand  d-sm-inline-block ">
                                 <div class="brand-text  d-lg-inline-block">
                                     <strong>Dashboard</strong>
-
                                 </div>
                             </a>
 
-
                         </div>
                         <!-- Navbar Menu -->
-                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-
+                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
                             <li class="nav-item dropdown">
-                                <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fas fa-bell"></i><span class="badge bg-red badge-corner">12</span></a>
+                                <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size" title="New Project"><i class="fas fa-file"></i></a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size"><i class="fas fa-bell"></i><span class="badge bg-red badge-corner">12</span></a>
                             </li>
                             <!-- Messages -->
                             <li class="nav-item dropdown">
-                                <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link"><i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner">10</span></a>
+                                <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size"><i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner">10</span></a>
                                 <ul aria-labelledby="notifications" class="dropdown-menu">
                                     <li>
                                         <a rel="nofollow" href="#" class="dropdown-item d-flex">
@@ -77,10 +78,12 @@
                                 </ul>
                             </li>
                             <!-- Logout    -->
-                            <li class="nav-item">
-                                <span class="d-sm-inline" style="margin:10px">
-                                    @Ajax.ActionLink("Logout", "LogOff", new AjaxOptions { HttpMethod = "POST" })
-                                </span><i class="fa fa-sign-out"></i>
+                            <li class="nav-item dropdown">
+
+
+                                @*<i class="fas fa-lock">@Ajax.ActionLink("LogOff", "LogOff", new AjaxOptions { HttpMethod = "POST" })</i>*@
+                                <a href="javascript:document.getElementById('logoutForm').submit()" title="LogOff"  class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-lock"></i></a>
+
 
 
                             </li>
@@ -111,375 +114,28 @@
                         </div>
 
                         <div class="tab-pane fade  " id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <div class="container-fluid">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="card-title">Profile Completion: @Model.ApplicationUser.PercentDone% of your profile has been completed</h5>
-                                            </div>
-                                            <div class="card-body text-center text-light">
-                                                <div class="progress">
-                                                    <div class="progress-bar bg-success " role="progressbar" style="width: @Model.ApplicationUser.PercentDone%;color:white" aria-valuenow="@Model.ApplicationUser.PercentDone" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        <div class="card card-profile">
-                                            <img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">
-                                            <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;" class="card-header"></div>
-                                            <div class="card-body text-center text-light">
-                                                @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.ProfileImage, "card-profile-img", "", "")
-
-                                                <div class="container">
-                                                    <span id="rateMe">
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                    </span>
-                                                </div>
-
-
-                                                <h3 class="mb-3">@Model.ApplicationUser.DisplayName</h3>
-                                                <p class="mb-4"> @Model.ApplicationUser.Bio</p>
-                                                @*<button class="btn btn-outline-dark btn-sm"><span class="fa fa-twitter"></span> Follow</button>*@
-                                            </div>
-                                        </div>
-
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">My Profile</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row mb-3">
-                                                    <div class="col-auto d-flex align-items-center"><span style="background-image: url(/Uploads/ProfileImages/@User.Identity.GetUserId()/@Model.ApplicationUser.ProfileImage)" class="avatar avatar-lg"></span></div>
-                                                    <div class="col">
-                                                        <div class="form-group">
-                                                            @Html.LabelFor(m => m.ApplicationUser.DisplayName, "Display Name", new { @class = "control-label text-light" })
-                                                            @Html.TextBoxFor(m => m.ApplicationUser.DisplayName, new { @class = "form-control" })
-                                                            @Html.ValidationMessageFor(model => model.ApplicationUser.DisplayName)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.ApplicationUser.Bio, new { @class = "control-label text-light" })
-                                                    @Html.TextAreaFor(m => m.ApplicationUser.Bio, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
-                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.Bio)
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.ApplicationUser.Email, new { @class = "control-label text-light" })
-                                                    @Html.TextBoxFor(m => m.ApplicationUser.Email, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.Email)
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.ApplicationUser.OldPassword, "Old Password", new { @class = "control-label text-light" })
-                                                    @Html.TextBoxFor(m => m.ApplicationUser.OldPassword, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.OldPassword)
-                                                </div>
-                                                <div class="form-group">
-                                                    @Html.LabelFor(m => m.ApplicationUser.NewPassword, "New Password", new { @class = "control-label text-light" })
-                                                    @Html.TextBoxFor(m => m.ApplicationUser.NewPassword, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.NewPassword)
-                                                </div>
-                                            </div>
-                                            <div class="card-footer text-right">
-                                                <button class="btn btn-primary " type="submit">Save</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-8">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Edit Profile</h3>
-                                            </div>
-                                            <div class="card-body">
-
-                                                <ul class="nav nav-tabs" id="myTab" role="tablist">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link active" id="basicinformation-tab" data-toggle="tab" href="#basicinformation" role="tab" aria-controls="basicinformation" aria-selected="true">Basic Information</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" id="skills-tab" data-toggle="tab" href="#skills" role="tab" aria-controls="skills" aria-selected="false">Skills</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
-                                                    </li>
-                                                </ul>
-
-                                                <div class="tab-content" id="myTabContent">
-                                                    <div class="tab-pane fade show active" id="basicinformation" role="tabpanel" aria-labelledby="basicinformation-tab">
-                                                        <div class="profile1">
-
-
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-4">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.FirstName, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.FirstName, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.FirstName)
-
-                                                                </div>
-
-                                                                <div class="form-group col-md-4">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.MiddleName, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.MiddleName, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.MiddleName)
-                                                                </div>
-
-                                                                <div class="form-group col-md-4">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.LastName, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.LastName, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.LastName)
-                                                                </div>
-                                                            </div>
-
-
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-4 ">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.Address, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.Address, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.Address)
-                                                                </div>
-
-                                                                <div class="form-group  col-md-4">
-                                                                    <!-- City-->
-                                                                    @Html.LabelFor(m => m.ApplicationUser.City, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.City, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.City)
-                                                                </div>
-
-
-                                                                <div class="form-group col-md-4 ">
-                                                                    @Html.LabelFor(x => x.ApplicationUser.State, new { @class = "control-label text-light" })
-                                                                    @Html.DropDownListFor(m => m.ApplicationUser.State, Model.ApplicationUser.States, "- Please select a state -", new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.State)
-                                                                </div>
-
-
-                                                            </div>
-
-                                                            <div class="form-row">
-
-                                                                <div class="form-group  col-md-4">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.ZipCode, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.ZipCode, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.ZipCode)
-                                                                </div>
-
-                                                                <div class="form-group col-md-4 ">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.PhoneNumber, "Phone Number", new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.PhoneNumber, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.PhoneNumber)
-                                                                </div>
-
-                                                                <div class="form-group  col-sm-4">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.ByTheHourRate, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.ByTheHourRate, new { @class = "form-control currency", @onkeypress = "return validateDec(event)", @type = "number", aria_describedby = "ByTheHourRate" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.ByTheHourRate)
-                                                                </div>
-
-
-                                                            </div>
-
-                                                            <div class="form-row">
-
-                                                                <div class="form-group  col-md-4">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.BirthDate, new { @class = "control-label text-light" })
-                                                                    @Html.TextBoxFor(m => m.ApplicationUser.BirthDate, new { @class = "form-control" })
-                                                                    @Html.ValidationMessageFor(model => model.ApplicationUser.BirthDate)
-                                                                </div>
-
-
-                                                                @{
-                                                                    string mode = "";
-
-                                                                    if (Model.ApplicationUser.IsInContractorMode)
-                                                                    {
-                                                                        mode = "Contractor";
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        mode = "Customer";
-                                                                    }
-
-                                                                }
-                                                                <div class="form-group  col-md-4 ">
-                                                                    @Html.LabelFor(m => m.ApplicationUser.IsInContractorMode, "Current Mode: " + @mode, new { @class = "control-label text-light current-mode" })
-                                                                    @Html.CheckBoxFor(m => m.ApplicationUser.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-                                                        <div class="skills ApplicationUser-skills">
-
-                                                            <div class="form-row">
-
-                                                                <div class="form-group col-md-12 ">
-                                                                    <span class=" control-label clearfix" style="color:white">(Choose a letter to start) </span>
-                                                                    <span class=" control-label text-light clearfix">Alphabetical List of Professions</span>
-                                                                    @*@Html.TextBoxFor(model => model.SelectedProfession, new { style = "width:100%;" })*@
-                                                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">A</span>
-                                                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">B</span>
-                                                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">C</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">D</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">E</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">F</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">G</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">H</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">I</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">J</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">K</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">L</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">M</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">N</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">O</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">P</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Q</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">R</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">S</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">T</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">U</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">V</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">W</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">X</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Y</span>
-                                                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Z</span>
-
-
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group  col-md-12 Professions ">
-                                                                    @Html.DropDownListFor(m => m.ApplicationUser.Professions, Model.ApplicationUser.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select ApplicationUser-Professions", style = "min-width: 100%!important;" })
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group  col-md-12 SubProfessions ">
-                                                                    @Html.DropDownListFor(m => m.ApplicationUser.SubProfessions, Model.ApplicationUser.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select ApplicationUser-SubProfessions", style = "min-width: 100%!important;" })
-
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-row SubProfessions">
-                                                                <div class="form-group col-md-12">
-                                                                    <button type="button" class="btn btn-info ApplicationUser-add">Add Job Title</button>
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-12">
-
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <hr style="width: 100%; color: white; height: 1px; background-color:white;" />
-                                                                Current Selected Profession(s):
-                                                                <div class="form-group col-md-12 results ApplicationUser-result">
-                                                                    @for (int i = 0; i < Model.ApplicationUser.UserProfessions.ToList().Count(); i++)
-                                                                    {
-                                                                        @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
-
-                                                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove ApplicationUser-remove" data-id="@Model.ApplicationUser.UserProfessions.ToList()[i].MainCatId @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.ApplicationUser.UserProfessions.ToList()[i].MainCatName -- @Model.ApplicationUser.UserProfessions.ToList()[i].SubCatName</div>
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                                                        <div class="documents">
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-12">
-                                                                    <span class="text-light">
-                                                                        For the safety of our users, we must ID verify each contractor. Because of this, we require that a government
-                                                                        issued ID and a contractor headshot be uploaded. Your profile photo is the first thing a customer sees when choosing
-                                                                        a contractor. A clean, professional looking profile photo makes a big difference and can be a determining factor on
-                                                                        whether or not you are selected to complete a job.
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="form-row">
-                                                                <div class="form-group col-md-6">
-                                                                    <div class="card" style="min-height: 264px">
-                                                                        <div class="card-body">
-                                                                            <div class="dropzone dz-clickable" id="dropzoneProfilePic" style="background-color:#00BFFF;"> </div>
-                                                                            <div class="ProfileImage">
-
-                                                                                @if (Model.ApplicationUser.ProfileImage != null)
-                                                                                {
-                                                                                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.ProfileImage)
-                                                                                    <span class="btn remove-profileimage">X</span>
-                                                                                }
-                                                                            </div>
-
-                                                                            <div style="margin-top: 20px;"><h4 class="text-center dropzone-error text-light small"></h4></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="form-group col-md-6">
-                                                                    <div class="card" style="min-height: 264px">
-                                                                        <div class="card-body">
-                                                                            <div class="dropzone dz-clickable" id="dropzoneIdPic" style="background-color:#00BFFF;"> </div>
-                                                                            <div class="IdImage">
-                                                                                @if (Model.ApplicationUser.IdImage != null)
-                                                                                {
-                                                                                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ApplicationUser.IdImage)
-                                                                                    <span class="btn remove-idimage">X</span>
-                                                                                }
-                                                                            </div>
-
-                                                                            <div style="margin-top: 20px;"><h4 class="text-center dropzone-error2 text-light small"></h4></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
-
-                                                        test 3
-                                                    </div>
-                                                </div>
-
-
-
-                                            </div>
-                                            <div class="card-footer text-right">
-                                                <button class="btn btn-primary submit" type="submit">Update Profile</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                                @Html.Partial("_Profile", Model.ApplicationUser)
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
-                            <div class="col-lg-6">
-                                <div class="card">
-                                    @Html.Partial("_ProfileChat")
+                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                                <div class="col-lg-6">
+                                    <div class="card">
+                                        @Html.Partial("_ProfileChat")
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-contractor-search" role="tabpanel" aria-labelledby="nav-contractor-search-tab">
-
-                            <div class="container-fluid">
+                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
                                 <div class="row">
 
                                     <div class="col-md-3">
                                         <div class="form-row">
                                             <div class="card card-custom text-light">
-                                                <h3 class="text-center text-primary">Search Options</h3>
+                                                <h3 class="text-center " style="color:#015668 !important">Search Options</h3>
                                                 <div class="form-group">
 
 
@@ -570,147 +226,125 @@
                                     </div>
 
                                     <div class="col-md-9">
-                                       
-                                       
-                                        <script>
 
-                                            
+
+                                        <script>
 
                                             $('.js-reload-details').on('click', function (evt) {
                                                 evt.preventDefault();
                                                 evt.stopPropagation();
 
-                                                //$('.search-new').each(function (index, value) {
-                                                //    json += $(".search-subprofessions option:selected").val() + ',';
-                                                //});
-                                           
-                                                //$('#SearchJsonProfession').val(json);
-
-
-
                                                 var $detailDiv = $('#detailsDiv');
-                                               
-
-                                                $detailDiv.empty();
-                                              
-
-                                                //Alphabetical List of Professions
-
                                                 $.get($(this).data('url') + $('#SearchJsonProfession').val(), function (data) {
-                                                    $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');                                                      
+                                                    $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
                                                 });
                                             });
                                         </script>
+
                                         <div id="detailsDiv"></div>
                                     </div>
 
                                 </div>
+                                <script>
+
+                                    $(document).ready(function () {
+
+
+
+
+                                        $('.search-professions').hide();
+                                        $('.search-subprofessions').hide();
+                                        $('.SelectedProfession').hide();
+                                        $('.search-add').hide();
+
+
+                                        $('#professions-start').change(function (event, ui) {
+
+                                            $.getJSON('/Account/AutoComplete', { term: $("#professions-start option:selected").text() }, function (item) {
+                                                $('.search-professions').show();
+                                                $(".search-professions").empty();
+                                                $(".search-professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
+
+                                                $.each(item, function (index, data) {
+                                                    $(".search-professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
+                                                });
+
+                                            });
+                                        });
+
+                                        $('.search-professions').change(function (event, ui) {
+                                            $.get('/Account/GetProjectSubCategoryList', { Id: this.value }, function (data) {
+
+                                                // $(".demo").empty();
+                                                $(".search-subprofessions").empty();
+                                                $(".search-subprofessions").show();
+                                                $('.SelectedProfession').show();
+
+
+
+                                                $('.search-subprofessions').append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
+                                                $.each(data, function (index, row) {
+                                                    $('.search-subprofessions').append("<option data-info='" + $(".ApplicationUser-Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
+
+                                                });
+
+
+
+
+                                                $('.search-add').show();
+                                            });
+                                        });
+
+                                        // add new sub(s) from list
+                                        $('.search-add').click(function () {
+
+                                            if ($(".search-subprofessions option:selected").val() !== '- Please Select A Job Title -') {
+
+                                                $('.search-results').append('<div class="search-result-added search-new" id="' + $(".search-subprofessions option:selected").val() + '"><span class="btn btn-danger btn-sm search-remove" data-mainId="' + $(".search-professions option:selected").val() + '" data-subId="' + $(".search-subprofessions option:selected").val() + '" role="button" style="margin: 5px;">remove</span>' + $(".search-professions option:selected").text() + ' -- ' + $(".search-subprofessions option:selected").text() + '</div>')
+
+                                                var json = '';
+
+                                                $('.search-new').each(function (index, value) {
+                                                    console.log($(this).find('span').attr('data-subId'))
+                                                    json += $(this).find('span').attr('data-subId') + ','
+                                                    //json += $(".search-subprofessions option:selected").val() + ',';
+                                                });
+
+
+                                                //sets the hidden field for postback
+                                                $('#SearchJsonProfession').val(json);
+
+
+
+                                                // remove cat and sub cat
+                                                $('.search-remove').click(function (e) {
+                                                    $(this).parent().remove();
+                                                });
+
+                                                // remove the selected one after we add it
+                                                $('.search-subprofessions').find('option:selected').remove().end();
+
+                                                $('.search-professions').hide();
+                                                $('.search-subprofessions').hide();
+                                                $('#professions-start').prop("selectedIndex", 0);
+
+
+
+                                                //empty the textbox and setup for next search
+                                                $('.search-subprofessions').val('');
+                                                $('.sublist').hide();
+
+                                                $('.search-add').hide();
+
+                                            }
+                                            else {
+                                                alert('Please Select A Job Title');
+                                            }
+
+                                        });
+                                    });
+                                </script>
                             </div>
-
-
-
-                            <script>
-
-                                $(document).ready(function () {
-
-                                  
-                                      
-                         
-                                    $('.search-professions').hide();
-                                    $('.search-subprofessions').hide();
-                                    $('.SelectedProfession').hide();
-                                    $('.search-add').hide();
-
-
-                                    $('#professions-start').change(function (event, ui) {
-
-                                        $.getJSON('/Account/AutoComplete', { term: $("#professions-start option:selected").text() }, function (item) {
-                                            $('.search-professions').show();
-                                            $(".search-professions").empty();
-                                            $(".search-professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
-
-                                            $.each(item, function (index, data) {
-                                                $(".search-professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
-                                            });
-
-                                        });
-                                    });
-
-                                    $('.search-professions').change(function (event, ui) {
-                                        $.get('/Account/GetProjectSubCategoryList', { Id: this.value }, function (data) {
-
-                                            // $(".demo").empty();
-                                            $(".search-subprofessions").empty();
-                                            $(".search-subprofessions").show();
-                                            $('.SelectedProfession').show();
-
-
-                                            
-                                            $('.search-subprofessions').append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
-                                            $.each(data, function (index, row) {
-                                                $('.search-subprofessions').append("<option data-info='" + $(".ApplicationUser-Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
-
-                                            });
-
-
-                                     
-
-                                            $('.search-add').show();
-                                        });
-                                    });
-
-                                    // add new sub(s) from list
-                                    $('.search-add').click(function () {
-
-                                        if ($(".search-subprofessions option:selected").val() !== '- Please Select A Job Title -') {
-
-                                            $('.search-results').append('<div class="search-result-added search-new" id="' + $(".search-subprofessions option:selected").val() + '"><span class="btn btn-danger btn-sm search-remove" data-mainId="' + $(".search-professions option:selected").val() + '" data-subId="' + $(".search-subprofessions option:selected").val() + '" role="button" style="margin: 5px;">remove</span>' + $(".search-professions option:selected").text() + ' -- ' + $(".search-subprofessions option:selected").text() + '</div>')
-
-                                            var json = '';
-
-                                            $('.search-new').each(function (index, value) {
-                                                console.log($(this).find('span').attr('data-subId'))
-                                                json += $(this).find('span').attr('data-subId') + ','
-                                                //json += $(".search-subprofessions option:selected").val() + ',';
-                                             });
-
-
-                                            //sets the hidden field for postback
-                                            $('#SearchJsonProfession').val(json);
-
-
-
-                                            // remove cat and sub cat
-                                            $('.search-remove').click(function (e) {
-                                                $(this).parent().remove();
-                                            });
-
-                                            // remove the selected one after we add it
-                                            $('.search-subprofessions').find('option:selected').remove().end();
-
-                                            $('.search-professions').hide();
-                                            $('.search-subprofessions').hide();
-                                            $('#professions-start').prop("selectedIndex", 0);
-                                            
-
-                                           
-                                            //empty the textbox and setup for next search
-                                            $('.search-subprofessions').val('');
-                                            $('.sublist').hide();
-
-                                            $('.search-add').hide();
-
-                                        }
-                                        else {
-                                            alert('Please Select A Job Title');
-                                        }
-
-                                    });
-                                });
-                            </script>
-
-
-
                         </div>
                     </div>
                 </section>
@@ -758,3 +392,7 @@
         SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
     });
 </script>
+
+@using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+{
+}

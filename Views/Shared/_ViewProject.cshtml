@@ -614,154 +614,144 @@
 
 <script>
 
-
-
-
-    $('.close-@Model.ProjectsId').on('click', function (event) {
-        event.preventDefault();
-        $('.project-id-@Model.ProjectsId').hide();
-    });
-
-
-     $('.submit-@Model.ProjectsId').on('click', function (event) {
-         event.preventDefault();
-
-        var	ProjectTitle =$('.basicinformation-@Model.ProjectsId #ProjectTitle').val();
-        var	Description =$('.basicinformation-@Model.ProjectsId #Description').val();
-        var	Address =$('.basicinformation-@Model.ProjectsId #Address').val();
-        var	City =$('.basicinformation-@Model.ProjectsId #City').val();
-        var	State =$('.basicinformation-@Model.ProjectsId #State option:selected').val();
-        var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
-        var Notes =$('#Notes-@Model.ProjectsId').summernote('code');
-
-        var	ByTheHourRate = $('.compensation-@Model.ProjectsId #ByTheHourRate').val();
-        var	ByTheProjectRate = $('.compensation-@Model.ProjectsId #ByTheProjectRate').val();
-        var	StartingBidRate = $('.compensation-@Model.ProjectsId #StartingBidRate').val();
-        var	StartingBidDate = $('.compensation-@Model.ProjectsId #StartingBidDate').val();
-        var	EndingBidDate = $('.compensation-@Model.ProjectsId #EndingBidDate').val();
-        var	SelectedProjectCompensationPackage = $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage option:selected').val();
-
-         $.ajax({
-             type: "POST",
-             url: "/Account/UpdateProject?ProjectTitle=" + ProjectTitle + "&Description=" + Description + "&Address=" + Address + "&City=" + City + "&State=" + State + "&ZipCode=" + ZipCode + "&projectID=" + @Model.ProjectsId + "&ByTheHourRate=" + ByTheHourRate + "&ByTheProjectRate=" + ByTheProjectRate + "&StartingBidRate=" + StartingBidRate + "&StartingBidDate=" + StartingBidDate + "&EndingBidDate=" + EndingBidDate + "&SelectedProjectCompensationPackage=" + SelectedProjectCompensationPackage + "&Notes=" + Notes,
-             success: function () {
-                 $('.project-id-@Model.ProjectsId').hide();
-                 swal("Project has been updated.", "", "success");
-             }
-         });
-                    return false;
-
-    });
-
-
-
-
-
+      Dropzone.autoDiscover = false;
     var json = "";
-        Dropzone.autoDiscover = false;
-$(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
-    init: function () {
-        this.on("processing", function (file) {
-            this.options.url = "/Account/upload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val();
-            $('.dropzone-error').empty();
-        });
-
-        this.on("error", function (file, message, xhr) {
-            if (xhr === null) this.removeFile(file);
-
-            $('.dropzone-error').append(message);
-        });
-
-    },
-    url: "/Account/upload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val(),
-    addRemoveLinks: false,
-    autoProcessQueue: true,
-    createImageThumbnails: false,
-    uploadMultiple: true,
-    parallelUploads: 10,
-    acceptedFiles: ".jpeg,.jpg,.png",
-    dictDefaultMessage: "   Add Project Image(s).....",
-    success: function (file, response) {
-
-        var image;
-        var comment;
-
-
-        $.each(response, function (y, k) {
-            $.each(k, function (index, message) {
-                image = "/Uploads/Projects/" + $('.documents-@Model.ProjectsId #ProjectsId').val() + "/" + $('.documents-@Model.ProjectsId #ProjectsUsersId').val() + "/" + message.ImageName;
-
-                // add the image and comment divs
-                $('.documents-@Model.ProjectsId .ProfileImage').append('<div class="card ' + message.ImageName.split('.')[0] + '" style="margin-bottom: 10px;margin-top: 10px;background-color: rgba(255, 255, 255, 0.5) !important;"><div class="card-body"><div class="remove-profileimage-div"><img style="margin-bottom:10px;" class="img-thumbnail" src="' + image + '"><button class="btn remove-profileimage-' + message.ImageName.split('.')[0] + '">X</button></div><div class="form-inline"><div class="form-group" style="margin-right: 10px !important;"><label style="padding:5px">Add Comment</label><input type="text" class="form-control ' + message.ImageName.split('.')[0] + '_comment"></div><button class="btn btn-primary ' + message.ImageName.split('.')[0] + '_submit" style="margin - left: 5px">Add</button><div class="' + message.ImageName.split('.')[0] + '-comment-added" style="margin-left: 10px;color: #EAF901 !important;"><h6>Comment Added</h6></div></div></div></div>');
-
-                //hide all add comment divs
-                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '-comment-added').hide();
-
-                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", true);
-
-                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_comment').on("keyup", action);
-
-                function action() {
-                    if ($('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_comment').val().length > 0) {
-                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", false);
-                    } else {
-                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", true);
-                    }
-                }
-
-                //comment button
-                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').click(function () {
-
-
-                    // add comment to document/image
-                    $.ajax({
-                        type: "POST",
-                        url: "/Account/SaveProjectImageComment?ImageName=" + message.ImageName + "&comment=" + $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').parent().find('input').val(),
-                        success: function () {
-                            // show them that the comment was added then fade away
-                            $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '-comment-added').fadeIn(1000).fadeOut(5000);
-                        }
-                    });
-                    return false;
-                });
-
-                // remove image and comment
-                $('.documents-@Model.ProjectsId .remove-profileimage-' + message.ImageName.split('.')[0]).click(function () {
-
-
-                    if (confirm('Are you sure you want to delete this?')) {
-                        $.ajax({
-                            type: "POST",
-                            url: "/Account/RemoveUpload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val() + "&imagename=" + $(this).parent().find('img').attr('src'),
-                            success: function () {
-
-                                // it has been deleted form the server now delete from the UI
-                                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0]).remove();
-
-                            }
-                        });
-                    }
-
-                    return false;
-                });
-
-                ///////////////
-            });
-        });
-        ////////////////
-    },
-    error: function (file, response) {
-        // file.previewElement.classList.add("dz-error");
-    },
-    complete: function (file, response) {
-        this.removeAllFiles(true);
-    }
-
-});
-
     $(document).ready(function () {
 
+        $('.close-@Model.ProjectsId').on('click', function (event) {
+            event.preventDefault();
+            $('.project-id-@Model.ProjectsId').hide();
+        });
 
+        $('.submit-@Model.ProjectsId').on('click', function (event) {
+            event.preventDefault();
+
+            var ProjectTitle = $('.basicinformation-@Model.ProjectsId #ProjectTitle').val();
+            var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
+            var Address = $('.basicinformation-@Model.ProjectsId #Address').val();
+            var City = $('.basicinformation-@Model.ProjectsId #City').val();
+            var State = $('.basicinformation-@Model.ProjectsId #State option:selected').val();
+            var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
+            var Notes = $('#Notes-@Model.ProjectsId').summernote('code');
+
+            var ByTheHourRate = $('.compensation-@Model.ProjectsId #ByTheHourRate').val();
+            var ByTheProjectRate = $('.compensation-@Model.ProjectsId #ByTheProjectRate').val();
+            var StartingBidRate = $('.compensation-@Model.ProjectsId #StartingBidRate').val();
+            var StartingBidDate = $('.compensation-@Model.ProjectsId #StartingBidDate').val();
+            var EndingBidDate = $('.compensation-@Model.ProjectsId #EndingBidDate').val();
+            var SelectedProjectCompensationPackage = $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage option:selected').val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Account/UpdateProject?ProjectTitle=" + ProjectTitle + "&Description=" + Description + "&Address=" + Address + "&City=" + City + "&State=" + State + "&ZipCode=" + ZipCode + "&projectID=" + @Model.ProjectsId + "&ByTheHourRate=" + ByTheHourRate + "&ByTheProjectRate=" + ByTheProjectRate + "&StartingBidRate=" + StartingBidRate + "&StartingBidDate=" + StartingBidDate + "&EndingBidDate=" + EndingBidDate + "&SelectedProjectCompensationPackage=" + SelectedProjectCompensationPackage + "&Notes=" + Notes,
+                success: function () {
+                    $('.project-id-@Model.ProjectsId').hide();
+                    swal("Project has been updated.", "", "success");
+                }
+            });
+            return false;
+
+        });
+     
+        $(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
+            init: function () {
+                this.on("processing", function (file) {
+                    this.options.url = "/Account/upload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val();
+                    $('.dropzone-error').empty();
+                });
+
+                this.on("error", function (file, message, xhr) {
+                    if (xhr === null) this.removeFile(file);
+
+                    $('.dropzone-error').append(message);
+                });
+
+            },
+            url: "/Account/upload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val(),
+            addRemoveLinks: false,
+            autoProcessQueue: true,
+            createImageThumbnails: false,
+            uploadMultiple: true,
+            parallelUploads: 10,
+            acceptedFiles: ".jpeg,.jpg,.png",
+            dictDefaultMessage: "   Add Project Image(s).....",
+            success: function (file, response) {
+
+                var image;
+                var comment;
+
+
+                $.each(response, function (y, k) {
+                    $.each(k, function (index, message) {
+                        image = "/Uploads/Projects/" + $('.documents-@Model.ProjectsId #ProjectsId').val() + "/" + $('.documents-@Model.ProjectsId #ProjectsUsersId').val() + "/" + message.ImageName;
+
+                        // add the image and comment divs
+                        $('.documents-@Model.ProjectsId .ProfileImage').append('<div class="card ' + message.ImageName.split('.')[0] + '" style="margin-bottom: 10px;margin-top: 10px;background-color: rgba(255, 255, 255, 0.5) !important;"><div class="card-body"><div class="remove-profileimage-div"><img style="margin-bottom:10px;" class="img-thumbnail" src="' + image + '"><button class="btn remove-profileimage-' + message.ImageName.split('.')[0] + '">X</button></div><div class="form-inline"><div class="form-group" style="margin-right: 10px !important;"><label style="padding:5px">Add Comment</label><input type="text" class="form-control ' + message.ImageName.split('.')[0] + '_comment"></div><button class="btn btn-primary ' + message.ImageName.split('.')[0] + '_submit" style="margin - left: 5px">Add</button><div class="' + message.ImageName.split('.')[0] + '-comment-added" style="margin-left: 10px;color: #EAF901 !important;"><h6>Comment Added</h6></div></div></div></div>');
+
+                        //hide all add comment divs
+                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '-comment-added').hide();
+
+                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", true);
+
+                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_comment').on("keyup", action);
+
+                        function action() {
+                            if ($('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_comment').val().length > 0) {
+                                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", false);
+                            } else {
+                                $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').prop("disabled", true);
+                            }
+                        }
+
+                        //comment button
+                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').click(function () {
+
+
+                            // add comment to document/image
+                            $.ajax({
+                                type: "POST",
+                                url: "/Account/SaveProjectImageComment?ImageName=" + message.ImageName + "&comment=" + $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '_submit').parent().find('input').val(),
+                                success: function () {
+                                    // show them that the comment was added then fade away
+                                    $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0] + '-comment-added').fadeIn(1000).fadeOut(5000);
+                                }
+                            });
+                            return false;
+                        });
+
+                        // remove image and comment
+                        $('.documents-@Model.ProjectsId .remove-profileimage-' + message.ImageName.split('.')[0]).click(function () {
+
+
+                            if (confirm('Are you sure you want to delete this?')) {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/Account/RemoveUpload?type=project&projectId=" + $('.documents-@Model.ProjectsId #ProjectsId').val() + "&imagename=" + $(this).parent().find('img').attr('src'),
+                                    success: function () {
+
+                                        // it has been deleted form the server now delete from the UI
+                                        $('.documents-@Model.ProjectsId .' + message.ImageName.split('.')[0]).remove();
+
+                                    }
+                                });
+                            }
+
+                            return false;
+                        });
+
+                        ///////////////
+                    });
+                });
+                ////////////////
+            },
+            error: function (file, response) {
+                // file.previewElement.classList.add("dz-error");
+            },
+            complete: function (file, response) {
+                this.removeAllFiles(true);
+            }
+
+        });
 
         $('#Notes-@Model.ProjectsId').summernote({
             height: 500, // set editor height
@@ -775,11 +765,9 @@ $(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
                 }
             }
         });
+
         $('#notes-@Model.ProjectsId .note-editable').html($('#notes-@Model.ProjectsId  #Notes').html())
 
-
-
-         $('.project-id-@Model.ProjectsId').hide();
 
         // hide the sub cat list until ready
         $('.skills-@Model.ProjectsId .Professions').hide();
@@ -865,30 +853,9 @@ $(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         function Onload() {
-            $('.close-@Model.ProjectsId').hide();
+
+            @*$('.close-@Model.ProjectsId').hide();*@
 
             $('.compensation-@Model.ProjectsId  .startdate-project-datepicker').datepicker('setDate', new Date($('.compensation-@Model.ProjectsId #StartingBidDate').val()));
             $('.compensation-@Model.ProjectsId .enddate-project-datepicker').datepicker('setDate', new Date($('.compensation-@Model.ProjectsId #EndingBidDate').val()));
@@ -925,6 +892,8 @@ $(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
                         break;
                 }
             }
+
+            
         }
 
         $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').change(function (event, ui) {
@@ -979,6 +948,47 @@ $(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
         });
 
 
-        Onload();
+     Onload();
+
+        $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
+      
     });
+
+
+
+
+
+    $(document).ready(function () {
+
+        if ($('.mode').val() == 'v') {
+            $('project-view .view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, button, select').attr('disabled', 'disabled');
+            $('#Notes-@Model.ProjectsId').summernote('disable');
+            $('.no-edit').hide();
+            $('.project-id-@Model.ProjectsId').show();
+            $('.project-editing-type').text('Viewing ');
+            $('.close-@Model.ProjectsId').show();
+        }
+
+
+        if ($('.mode').val() == 'e') {
+            $('.view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, button, select').removeAttr('disabled');
+            $('#Notes-@Model.ProjectsId').summernote('enable');
+            $('.no-edit').show();
+            $('.project-editing-type').text('Editing ')
+            $('.project-id-@Model.ProjectsId').show();
+            $('.close-@Model.ProjectsId').show();
+        }
+
+
+        if ($('.mode').val() == 'n') {
+            $('.view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, button, select').removeAttr('disabled');
+            $('#Notes-@Model.ProjectsId').summernote('enable');
+            $('.no-edit').show();
+            $('.project-id-@Model.ProjectsId').show();
+            $('.project-editing-type').text('Editing ')
+            $('.close-@Model.ProjectsId').show();
+            $('#myTab-@Model.ProjectsId' + ' li:last-child a').tab('show');
+        }
+
+    });  
 </script>

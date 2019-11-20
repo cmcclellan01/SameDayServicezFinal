@@ -756,6 +756,7 @@
     <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="Views\Shared\_ViewProject.cshtml" />
     <Content Include="Views\Shared\_ContractorSearch.cshtml" />
+    <Content Include="Views\Shared\_Profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
