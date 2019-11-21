@@ -379,7 +379,6 @@
     <Content Include="Content\images\Untitled.png" />
     <Content Include="Content\loading.css" />
     <Content Include="Content\login.css" />
-    <Content Include="Content\logo.ico" />
     <Content Include="Content\profile.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
