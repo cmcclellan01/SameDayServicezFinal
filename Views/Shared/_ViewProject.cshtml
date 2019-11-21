@@ -97,6 +97,10 @@
                         <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="maps-@Model.ProjectsId-tab" data-toggle="tab" href="#maps-@Model.ProjectsId" role="tab" aria-controls="maps-@Model.ProjectsId" aria-selected="false">Maps & Locations</a>
+                    </li>
+
+                    <li class="nav-item">
                         <a class="nav-link" id="notes-@Model.ProjectsId-tab" data-toggle="tab" href="#notes-@Model.ProjectsId" role="tab" aria-controls="notes-@Model.ProjectsId" aria-selected="false">Project Notes</a>
                     </li>
                 </ul>
@@ -524,8 +528,8 @@
                                                                                                 @profile.ProjectOwnerName
                                                                                             </td>
                                                                                             @*<td>
-                                                                                    <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
-                                                                                </td>*@
+                                                                                                    <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
+                                                                                                </td>*@
 
                                                                                         </tr>
 
@@ -580,6 +584,10 @@
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="maps-@Model.ProjectsId" role="tabpanel" aria-labelledby="maps-@Model.ProjectsId-tab">
+                        @Html.Partial("_Maps",Model)
+                    </div>
+
                     <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
                         <div class="card card-custom">
                             <div class="row">
@@ -652,7 +660,7 @@
             return false;
 
         });
-     
+
         $(".documents-@Model.ProjectsId #dropzoneDocumentUpload").dropzone({
             init: function () {
                 this.on("processing", function (file) {
@@ -893,7 +901,7 @@
                 }
             }
 
-            
+
         }
 
         $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').change(function (event, ui) {
@@ -951,7 +959,7 @@
      Onload();
 
         $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
-      
+
     });
 
 
@@ -961,7 +969,7 @@
     $(document).ready(function () {
 
         if ($('.mode').val() == 'v') {
-            
+
             $('.project-view .view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, button, select').attr('disabled', 'disabled');
             $('#Notes-@Model.ProjectsId').summernote('disable');
             $('.no-edit').hide();
@@ -991,5 +999,5 @@
             $('#myTab-@Model.ProjectsId' + ' li:last-child a').tab('show');
         }
 
-    });  
+    });
 </script>

@@ -1,0 +1,207 @@
+﻿@model SameDayServicezFinal.Models.Project
+@using SameDayServicezFinal.Utils
+@using Microsoft.AspNet.Identity
+
+
+<style>
+     #map {
+        height: 42vh;
+        width: 100%;
+        min-height: 100%;
+        max-height: none
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card" style="height:100%">
+                <div class="card-header">
+
+                </div>
+                <div class="card-body">
+                    <div id="map"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+    var lastWindow = null;
+    var last_Window = null;
+    var markers = new Array();
+    var map;
+    var addresess = new Array();
+
+    function mapAddress(addresses, type) {
+        var geocoder = new google.maps.Geocoder();
+        var mapOptions = {
+            zoom: 7,
+            // this is centered over the state of iowa
+            center: { lat: 41.8780025, lng: -93.09770200000003 },
+            gestureHandling: 'cooperative',
+            scaleControl: true,
+            streetViewControl: false,
+            mapTypeControl: false
+        };
+
+        var mapStyles = [
+                {
+                    "stylers": [
+                        {
+                            "hue": "#ff1a00"
+                        },
+                        {
+                            "invert_lightness": true
+                        },
+                        {
+                            "saturation": -80
+                        },
+                        {
+                            "lightness": 33
+                        },
+                        {
+                            "gamma": 0.5
+                        }
+                    ]
+                },
+                {
+                    "featureType": "administrative.neighborhood",
+                    "elementType": "geometry.stroke",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        },
+                        {
+                            "hue": "#ff0000"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "water",
+                    "elementType": "geometry",
+                    "stylers": [
+                        {
+                            "color": "#2D333C"
+                        }
+                    ]
+                },
+                {
+                    "featureType": "landscape.man_made",
+                    "elementType": "all",
+                    "stylers": [
+                        {
+                            "visibility": "on"
+                        }
+                    ]
+                },
+
+        ];
+
+       
+            map = new google.maps.Map(document.getElementById('map'), mapOptions);
+            map.set('styles', mapStyles);
+        
+       
+
+        addresses.forEach(function (item) {
+
+                     if (type =='p') {
+
+                         var contentString = '<div class="card border-primary">'+
+                        '<div class="card-header">'+
+                                '<span class=" font-weight-bold">' + item[3] + '</span>'+
+                        '</div>'+
+                        '<div class="card-body">'+
+                            '<p class="card-text">'+
+                                '<span class="text-light small">Description:</span> <span class="table-dark small">' + item[4].replace(/&quot;/g, '') + '</span>'+
+                            '</p>'+
+                        '</div>'+
+                        '</div>';
+
+                        var infowindow = new google.maps.InfoWindow({ content: contentString });
+                        var latlng = new google.maps.LatLng(item[1],item[2]);
+                        var marker = new google.maps.Marker({
+                            map: map,
+                            position: latlng,
+                            icon:'/content/images/logo.ico',
+                            title: item[3] + '-' + item[5],
+                            animation: google.maps.Animation.DROP
+                        });
+
+                        marker.addListener('click', function () {
+                            if (lastWindow) lastWindow.close();
+                            infowindow.open(map, marker);
+                            lastWindow = infowindow;
+                        });
+
+                        //$('.marker-link').on('click', function () {
+                        //    google.maps.event.trigger(markers.find(p => p.title === $(this).data('title')), 'click');
+                        //});
+
+                        markers.push(marker);
+
+                    } else {
+                         //http://philapark.org/wp-content/uploads/2014/03/contractor-permit-icon.png
+                         var latlng = new google.maps.LatLng(item[1],item[2]);
+                         var marker = new google.maps.Marker({
+                             map: map,
+                             icon:'/content/images/kqm_icon.ico',
+                             position: latlng,
+                             animation: google.maps.Animation.DROP
+                         });
+
+                          markers.push(marker);
+                    }
+        });
+
+         center_map(map,markers);
+         addresess = [];
+
+    }/////
+
+    function initProjectsMap() {
+
+        addresess.push(['map', '@Model.latitude',' @Model.longitude','@Model.ProjectTitle', '@Model.Description', '@Model.ProjectsId']);
+       
+        mapAddress(addresess, 'p');
+    }
+
+    function center_map(map,markers) {
+        // vars
+        var bounds = new google.maps.LatLngBounds();
+        // loop through all markers and create bounds
+        $.each(markers, function(i, marker) {
+            var latlng = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+            bounds.extend(latlng);
+        });
+        // only 1 marker?
+        if (markers.length == 1) {
+            // set center of map
+            map.setCenter(bounds.getCenter());
+            map.setZoom(16);
+        } else {
+            // fit to bounds
+            map.fitBounds(bounds);
+        }
+    }
+
+
+    $(document).ready(function () {
+        initProjectsMap();
+    });
+</script>
+
+
+
+
+
+
+

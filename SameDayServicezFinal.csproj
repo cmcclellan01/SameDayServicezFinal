@@ -379,6 +379,7 @@
     <Content Include="Content\images\Untitled.png" />
     <Content Include="Content\loading.css" />
     <Content Include="Content\login.css" />
+    <Content Include="Content\logo.ico" />
     <Content Include="Content\profile.css" />
     <Content Include="Content\regular.css" />
     <Content Include="Content\regular.min.css" />
@@ -757,6 +758,7 @@
     <Content Include="Views\Shared\_ViewProject.cshtml" />
     <Content Include="Views\Shared\_ContractorSearch.cshtml" />
     <Content Include="Views\Shared\_Profile.cshtml" />
+    <Content Include="Views\Shared\_Maps.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
