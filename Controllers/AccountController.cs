@@ -760,48 +760,20 @@ namespace SameDayServicezFinal.Controllers
             }
         }
 
-        public async Task<ActionResult> UpdateProjectPortal()
+        public ActionResult ReloadProfile()
         {
-            var states = Utils.Extensions.GetStatesList();
-            var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             PortalList portal = new PortalList();
+            var userId = User.Identity.GetUserId();
+            var states = Utils.Extensions.GetStatesList();
 
+            portal.ApplicationUser = db.Users.Where(p => p.Id == userId).SingleOrDefault();
 
-            if (user != null)
-            {
-                Session["FullName"] = user.FirstName + " " + user.LastName;
-                user.States = GetSelectListItems(states);
-                user.Professions = new List<SelectListItem>();
-                user.SubProfessions = new List<SelectListItem>();
-                user.InfoTabOpen = "0";
-                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-                portal.ApplicationUser = user;
+            portal.ApplicationUser.States = GetSelectListItems(states);
+            portal.ApplicationUser.Professions = new List<SelectListItem>();
+            portal.ApplicationUser.SubProfessions = new List<SelectListItem>();
+            portal.ApplicationUser.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
 
-                UpdatePortal(portal);
-
-                var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
-                foreach (var contractor in contractors)
-                {
-                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
-                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-
-
-                    ContractorSearchList contractorList = new ContractorSearchList
-                    {
-                        Contractor = contractor,
-                        PastProjects = pastprojects
-                    };
-                    portal.ContractorList.Add(contractorList);
-                }
-
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            return PartialView("_Projects", portal);
+            return PartialView("_Profile", portal.ApplicationUser);
         }
 
         public ActionResult ContractorSearch(string json)
@@ -964,7 +936,47 @@ namespace SameDayServicezFinal.Controllers
         }
 
 
+        public async Task<ActionResult> UpdateProfile(string DisplayName,string Bio,string Email,string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate,bool IsInContractorMode,string OldPassword,string NewPassword)
+        {
 
+            var userId = User.Identity.GetUserId();
+
+            ApplicationUser profile = db.Users.Where(p => p.Id == userId).SingleOrDefault();
+                                  
+            if(profile != null)
+            {
+                profile.DisplayName = DisplayName;
+                profile.Bio = System.Net.WebUtility.UrlDecode(Bio);
+                profile.Email = Email;
+                profile.Address = Address;
+                profile.City = City;
+                profile.State = State;
+                profile.ZipCode = ZipCode;
+                profile.FirstName = FirstName;
+                profile.MiddleName = MiddleName;
+                profile.LastName = LastName;
+                profile.PhoneNumber = PhoneNumber;
+                profile.ByTheHourRate = ByTheHourRate;
+                profile.BirthDate = BirthDate;
+                profile.IsInContractorMode = IsInContractorMode;
+                profile.IsInCustomerMode = !IsInContractorMode;
+
+                if (OldPassword != null && NewPassword != null)
+                {
+                    IdentityResult passwordresult = await UserManager.ChangePasswordAsync(userId, OldPassword, NewPassword);
+                }
+            }
+
+         
+          
+                db.Entry(profile).State = EntityState.Modified;
+                db.SaveChanges();
+            
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+    
 
 
 

@@ -961,7 +961,8 @@
     $(document).ready(function () {
 
         if ($('.mode').val() == 'v') {
-            $('project-view .view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, button, select').attr('disabled', 'disabled');
+            
+            $('.project-view .view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, button, select').attr('disabled', 'disabled');
             $('#Notes-@Model.ProjectsId').summernote('disable');
             $('.no-edit').hide();
             $('.project-id-@Model.ProjectsId').show();

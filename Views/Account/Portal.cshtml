@@ -12,7 +12,6 @@
 
 
 <script src="~/Scripts/dropzone/dropzone.js"></script>
-<script async defer src="~/Scripts/profile.js"></script>
 <link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" />
 <link href="~/Content/profile.css" rel="stylesheet" />
 
@@ -114,7 +113,7 @@
                         </div>
 
                         <div class="tab-pane fade  " id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                            <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
                                 @Html.Partial("_Profile", Model.ApplicationUser)
                             </div>
                         </div>
@@ -387,9 +386,29 @@
 
 <script>
 
+
+    function reloadProfile() {
+         var $detailDiv = $('.profileDiv');     
+        $detailDiv.empty();
+
+        $.get('/Account/ReloadProfile', function (data) {
+          
+            $detailDiv.empty().html(data);
+            SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
+            $('.profileDiv').loading('stop');
+           
+        });
+    }
+
+
+
+
     $(document).ready(function () {
 
         SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
+
+
+
     });
 </script>
 

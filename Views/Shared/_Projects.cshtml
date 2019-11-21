@@ -1067,7 +1067,7 @@
         $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
          
              $detailDiv.empty().html(data);
-            $('.mode').val('v');
+            $('.mode').val('e');
             $('.loader').loading('stop');
            
         });

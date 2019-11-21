@@ -2,358 +2,397 @@
 @using SameDayServicezFinal.Utils
 @using Microsoft.AspNet.Identity
 
-@using (Html.BeginForm("Portal", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "form-profile" }))
-{
-    @Html.AntiForgeryToken()
+<script async defer src="~/Scripts/profile.js"></script>
 
-    <div class="row">
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="card-title">Profile Completion: @Model.PercentDone% of your profile has been completed</h5>
-                </div>
-                <div class="card-body text-center text-light">
-                    <div class="progress">
-                        <div class="progress-bar bg-success " role="progressbar" style="width: @Model.PercentDone%;color:white" aria-valuenow="@Model.PercentDone" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                </div>
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Profile Completion: @Model.PercentDone% of your profile has been completed</h5>
             </div>
-
-
-            <div class="card card-profile">
-                <img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">
-                <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;" class="card-header"></div>
-                <div class="card-body text-center text-light">
-                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ProfileImage, "card-profile-img", "", "")
-
-                    <div class="container">
-                        <span id="rateMe">
-                            <i class="fas fa-star py-2 px-1 rate-popover" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                        </span>
-                    </div>
-
-
-                    <h3 class="mb-3">@Model.DisplayName</h3>
-                    <p class="mb-4"> @Model.Bio</p>
-                    @*<button class="btn btn-outline-dark btn-sm"><span class="fa fa-twitter"></span> Follow</button>*@
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">My Profile</h3>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-auto d-flex align-items-center"><span style="background-image: url(/Uploads/ProfileImages/@User.Identity.GetUserId()/@Model.ProfileImage)" class="avatar avatar-lg"></span></div>
-                        <div class="col">
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.DisplayName, "Display Name", new { @class = "control-label text-light" })
-                                @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(model => Model.DisplayName)
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
-                        @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
-                        @Html.ValidationMessageFor(model => Model.Bio)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.Email)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.OldPassword, "Old Password", new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.OldPassword)
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.NewPassword, "New Password", new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.NewPassword, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => Model.NewPassword)
-                    </div>
-                </div>
-                <div class="card-footer text-right">
-                    <button class="btn btn-primary " type="submit">Save</button>
+            <div class="card-body text-center text-light">
+                <div class="progress">
+                    <div class="progress-bar bg-success " role="progressbar" style="width: @Model.PercentDone%;color:white" aria-valuenow="@Model.PercentDone" aria-valuemin="0" aria-valuemax="100"></div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Edit Profile</h3>
+
+        <div class="card card-profile">
+            <img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">
+            <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;" class="card-header"></div>
+            <div class="card-body text-center text-light">
+                @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ProfileImage, "card-profile-img", "", "")
+
+                <div class="container">
+                    <span id="rateMe">
+                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                    </span>
                 </div>
-                <div class="card-body">
-
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="basicinformation-tab" data-toggle="tab" href="#basicinformation" role="tab" aria-controls="basicinformation" aria-selected="true">Basic Information</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="skills-tab" data-toggle="tab" href="#skills" role="tab" aria-controls="skills" aria-selected="false">Skills</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
-                        </li>
-                    </ul>
-
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="basicinformation" role="tabpanel" aria-labelledby="basicinformation-tab">
-                            <div class="profile1">
 
 
-                                <div class="form-row">
-                                    <div class="form-group col-md-4">
-                                        @Html.LabelFor(m => m.FirstName, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.FirstName)
+                <h3 class="mb-3">@Model.DisplayName</h3>
+                <p class="mb-4"> @Model.Bio</p>
+                @*<button class="btn btn-outline-dark btn-sm"><span class="fa fa-twitter"></span> Follow</button>*@
+            </div>
+        </div>
 
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        @Html.LabelFor(m => m.MiddleName, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.MiddleName)
-                                    </div>
-
-                                    <div class="form-group col-md-4">
-                                        @Html.LabelFor(m => m.LastName, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.LastName)
-                                    </div>
-                                </div>
-
-
-                                <div class="form-row">
-                                    <div class="form-group col-md-4 ">
-                                        @Html.LabelFor(m => m.Address, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.Address)
-                                    </div>
-
-                                    <div class="form-group  col-md-4">
-                                        <!-- City-->
-                                        @Html.LabelFor(m => m.City, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.City)
-                                    </div>
-
-
-                                    <div class="form-group col-md-4 ">
-                                        @Html.LabelFor(x => x.State, new { @class = "control-label text-light" })
-                                        @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.State)
-                                    </div>
-
-
-                                </div>
-
-                                <div class="form-row">
-
-                                    <div class="form-group  col-md-4">
-                                        @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.ZipCode)
-                                    </div>
-
-                                    <div class="form-group col-md-4 ">
-                                        @Html.LabelFor(m => m.PhoneNumber, "Phone Number", new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.PhoneNumber)
-                                    </div>
-
-                                    <div class="form-group  col-sm-4">
-                                        @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control currency", @onkeypress = "return validateDec(event)", @type = "number", aria_describedby = "ByTheHourRate" })
-                                        @Html.ValidationMessageFor(model => Model.ByTheHourRate)
-                                    </div>
-
-
-                                </div>
-
-                                <div class="form-row">
-
-                                    <div class="form-group  col-md-4">
-                                        @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => Model.BirthDate)
-                                    </div>
-
-
-                                    @{
-                                        string mode = "";
-
-                                        if (Model.IsInContractorMode)
-                                        {
-                                            mode = "Contractor";
-                                        }
-                                        else
-                                        {
-                                            mode = "Customer";
-                                        }
-
-                                    }
-                                    <div class="form-group  col-md-4 ">
-                                        @Html.LabelFor(m => m.IsInContractorMode, "Current Mode: " + @mode, new { @class = "control-label text-light current-mode" })
-                                        @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
-                            <div class="skills ApplicationUser-skills">
-
-                                <div class="form-row">
-
-                                    <div class="form-group col-md-12 ">
-                                        <span class=" control-label clearfix" style="color:white">(Choose a letter to start) </span>
-                                        <span class=" control-label text-light clearfix">Alphabetical List of Professions</span>
-                                        @*@Html.TextBoxFor(model => model.SelectedProfession, new { style = "width:100%;" })*@
-                                        <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">A</span>
-                                        <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">B</span>
-                                        <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">C</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">D</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">E</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">F</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">G</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">H</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">I</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">J</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">K</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">L</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">M</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">N</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">O</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">P</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Q</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">R</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">S</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">T</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">U</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">V</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">W</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">X</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Y</span>
-                                        <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Z</span>
-
-
-
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group  col-md-12 Professions ">
-                                        @Html.DropDownListFor(m => m.Professions, Model.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select ApplicationUser-Professions", style = "min-width: 100%!important;" })
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group  col-md-12 SubProfessions ">
-                                        @Html.DropDownListFor(m => m.SubProfessions, Model.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select ApplicationUser-SubProfessions", style = "min-width: 100%!important;" })
-
-                                    </div>
-                                </div>
-
-                                <div class="form-row SubProfessions">
-                                    <div class="form-group col-md-12">
-                                        <button type="button" class="btn btn-info ApplicationUser-add">Add Job Title</button>
-
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <hr style="width: 100%; color: white; height: 1px; background-color:white;" />
-                                    Current Selected Profession(s):
-                                    <div class="form-group col-md-12 results ApplicationUser-result">
-                                        @for (int i = 0; i < Model.UserProfessions.ToList().Count(); i++)
-                                        {
-                                            @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
-
-                                            <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove ApplicationUser-remove" data-id="@Model.UserProfessions.ToList()[i].MainCatId @Model.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.UserProfessions.ToList()[i].MainCatName -- @Model.UserProfessions.ToList()[i].SubCatName</div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
-                            <div class="documents">
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
-                                        <span class="text-light">
-                                            For the safety of our users, we must ID verify each contractor. Because of this, we require that a government
-                                            issued ID and a contractor headshot be uploaded. Your profile photo is the first thing a customer sees when choosing
-                                            a contractor. A clean, professional looking profile photo makes a big difference and can be a determining factor on
-                                            whether or not you are selected to complete a job.
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-6">
-                                        <div class="card" style="min-height: 264px">
-                                            <div class="card-body">
-                                                <div class="dropzone dz-clickable" id="dropzoneProfilePic" style="background-color:#6f6f6f;margin-bottom:20px;"> </div>
-                                                <div class="ProfileImage">
-
-                                                    @if (Model.ProfileImage != null)
-                                                    {
-                                                        @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ProfileImage)
-                                                        <span class="btn remove-profileimage">X</span>
-                                                    }
-                                                </div>
-
-                                                <div style="margin-top: 20px;"><h4 class="text-center dropzone-error text-light small"></h4></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
-                                        <div class="card" style="min-height: 264px">
-                                            <div class="card-body">
-                                                <div class="dropzone dz-clickable" id="dropzoneIdPic" style="background-color:#6f6f6f;margin-bottom:20px;"> </div>
-                                                <div class="IdImage">
-                                                    @if (Model.IdImage != null)
-                                                    {
-                                                        @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.IdImage)
-                                                        <span class="btn remove-idimage">X</span>
-                                                    }
-                                                </div>
-
-                                                <div style="margin-top: 20px;"><h4 class="text-center dropzone-error2 text-light small"></h4></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
-
-                            test 3
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">My Profile</h3>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-auto d-flex align-items-center"><span style="background-image: url(/Uploads/ProfileImages/@User.Identity.GetUserId()/@Model.ProfileImage)" class="avatar avatar-lg"></span></div>
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.DisplayName, "Display Name", new { @class = "control-label text-light" })
+                            @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => Model.DisplayName)
                         </div>
                     </div>
-
-
-
                 </div>
-                <div class="card-footer text-right">
-                    <button class="btn btn-primary submit" type="submit">Update Profile</button>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
+                    @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
+                    @Html.ValidationMessageFor(model => Model.Bio)
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.Email)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.OldPassword, "Old Password", new { @class = "control-label text-light" })
+                    @Html.TextBoxFor(m => m.OldPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.OldPassword)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.NewPassword, "New Password", new { @class = "control-label text-light" })
+                    @Html.TextBoxFor(m => m.NewPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => Model.NewPassword)
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-primary profile-submit">Save</button>
             </div>
         </div>
     </div>
 
-}
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Edit Profile</h3>
+            </div>
+            <div class="card-body">
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="basicinformation-tab" data-toggle="tab" href="#basicinformation" role="tab" aria-controls="basicinformation" aria-selected="true">Basic Information</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="skills-tab" data-toggle="tab" href="#skills" role="tab" aria-controls="skills" aria-selected="false">Skills</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="basicinformation" role="tabpanel" aria-labelledby="basicinformation-tab">
+                        <div class="profile1">
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.FirstName)
+
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(m => m.MiddleName, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.MiddleName)
+                                </div>
+
+                                <div class="form-group col-md-4">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.LastName)
+                                </div>
+                            </div>
+
+
+                            <div class="form-row">
+                                <div class="form-group col-md-4 ">
+                                    @Html.LabelFor(m => m.Address, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.Address)
+                                </div>
+
+                                <div class="form-group  col-md-4">
+                                    <!-- City-->
+                                    @Html.LabelFor(m => m.City, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.City)
+                                </div>
+
+
+                                <div class="form-group col-md-4 ">
+                                    @Html.LabelFor(x => x.State, new { @class = "control-label text-light" })
+                                    @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.State)
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="form-group  col-md-4">
+                                    @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.ZipCode)
+                                </div>
+
+                                <div class="form-group col-md-4 ">
+                                    @Html.LabelFor(m => m.PhoneNumber, "Phone Number", new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.PhoneNumber)
+                                </div>
+
+                                <div class="form-group  col-sm-4">
+                                    @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control currency", @onkeypress = "return validateDec(event)", @type = "number", aria_describedby = "ByTheHourRate" })
+                                    @Html.ValidationMessageFor(model => Model.ByTheHourRate)
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-row">
+
+                                <div class="form-group  col-md-4">
+                                    @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
+                                    @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => Model.BirthDate)
+                                </div>
+
+
+                                @{
+                                    string mode = "";
+
+                                    if (Model.IsInContractorMode)
+                                    {
+                                        mode = "Contractor";
+                                    }
+                                    else
+                                    {
+                                        mode = "Customer";
+                                    }
+
+                                }
+                                <div class="form-group  col-md-4 ">
+                                    @Html.LabelFor(m => m.IsInContractorMode, "Current Mode: " + @mode, new { @class = "control-label text-light current-mode" })
+                                    @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
+                        <div class="skills ApplicationUser-skills">
+
+                            <div class="form-row">
+
+                                <div class="form-group col-md-12 ">
+                                    <span class=" control-label clearfix" style="color:white">(Choose a letter to start) </span>
+                                    <span class=" control-label text-light clearfix">Alphabetical List of Professions</span>
+                                    @*@Html.TextBoxFor(model => model.SelectedProfession, new { style = "width:100%;" })*@
+                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">A</span>
+                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">B</span>
+                                    <span class="btn btn-success Alphabetical  btn-sm" role="button" style="margin: 5px;">C</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">D</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">E</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">F</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">G</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">H</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">I</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">J</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">K</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">L</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">M</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">N</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">O</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">P</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Q</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">R</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">S</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">T</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">U</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">V</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">W</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">X</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Y</span>
+                                    <span class="btn btn-success Alphabetical btn-sm" role="button" style="margin: 5px;">Z</span>
+
+
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group  col-md-12 Professions ">
+                                    @Html.DropDownListFor(m => m.Professions, Model.Professions, "- Please Select A Profession Category -", new { @class = "form-control max-select ApplicationUser-Professions", style = "min-width: 100%!important;" })
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group  col-md-12 SubProfessions ">
+                                    @Html.DropDownListFor(m => m.SubProfessions, Model.SubProfessions, "- Please Select A Job Title -", new { @class = "form-control max-select ApplicationUser-SubProfessions", style = "min-width: 100%!important;" })
+
+                                </div>
+                            </div>
+
+                            <div class="form-row SubProfessions">
+                                <div class="form-group col-md-12">
+                                    <button type="button" class="btn btn-info ApplicationUser-add">Add Job Title</button>
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <hr style="width: 100%; color: white; height: 1px; background-color:white;" />
+                                Current Selected Profession(s):
+                                <div class="form-group col-md-12 results ApplicationUser-result">
+                                    @for (int i = 0; i < Model.UserProfessions.ToList().Count(); i++)
+                                    {
+                                        @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
+
+                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove ApplicationUser-remove" data-id="@Model.UserProfessions.ToList()[i].MainCatId @Model.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.UserProfessions.ToList()[i].MainCatName -- @Model.UserProfessions.ToList()[i].SubCatName</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="documents" role="tabpanel" aria-labelledby="documents-tab">
+                        <div class="documents">
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <span class="text-light">
+                                        For the safety of our users, we must ID verify each contractor. Because of this, we require that a government
+                                        issued ID and a contractor headshot be uploaded. Your profile photo is the first thing a customer sees when choosing
+                                        a contractor. A clean, professional looking profile photo makes a big difference and can be a determining factor on
+                                        whether or not you are selected to complete a job.
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="card" style="min-height: 264px">
+                                        <div class="card-body">
+                                            <div class="dropzone dz-clickable" id="dropzoneProfilePic" style="background-color:#6f6f6f;margin-bottom:20px;"> </div>
+                                            <div class="ProfileImage">
+
+                                                @if (Model.ProfileImage != null)
+                                                {
+                                                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.ProfileImage)
+                                                    <span class="btn remove-profileimage">X</span>
+                                                }
+                                            </div>
+
+                                            <div style="margin-top: 20px;"><h4 class="text-center dropzone-error text-light small"></h4></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <div class="card" style="min-height: 264px">
+                                        <div class="card-body">
+                                            <div class="dropzone dz-clickable" id="dropzoneIdPic" style="background-color:#6f6f6f;margin-bottom:20px;"> </div>
+                                            <div class="IdImage">
+                                                @if (Model.IdImage != null)
+                                                {
+                                                    @Html.Image("/Uploads/ProfileImages/" + @User.Identity.GetUserId() + "/" + @Model.IdImage)
+                                                    <span class="btn remove-idimage">X</span>
+                                                }
+                                            </div>
+
+                                            <div style="margin-top: 20px;"><h4 class="text-center dropzone-error2 text-light small"></h4></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
+
+                        test 3
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="card-footer text-right">
+                <button class="btn btn-primary profile-submit">Update Profile</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+    $('.profile-submit').on('click', function (event) {
+        event.preventDefault();
+        $('.profileDiv').loading('start');
+
+        var DisplayName = $('#DisplayName').val();
+        var Bio = escape($('#Bio').val());
+        var Email = $('#Email').val();
+        var Address = $('#Address').val();
+        var City = $('#City').val();
+        var State = $('#State').val();
+        var ZipCode = $('#ZipCode').val();
+        var FirstName = $('#FirstName').val();
+        var MiddleName = $('#MiddleName').val();
+        var LastName = $('#LastName').val();
+        var PhoneNumber = $('#PhoneNumber').val();
+        var ByTheHourRate = $('#ByTheHourRate').val();
+        var BirthDate = $('#BirthDate').val();
+        var IsInContractorMode = $('#IsInContractorMode').val();
+        var OldPassword = $('#OldPassword').val();
+        var NewPassword = $('#NewPassword').val();
+
+        $.ajax({
+            type: "POST",
+            url: "/Account/UpdateProfile?DisplayName=" + DisplayName + "&Bio=" + Bio + "&Email=" + Email +
+                "&Address=" + Address + "&City=" + City + "&State=" + State +
+                "&ZipCode=" + ZipCode + "&FirstName=" + FirstName + "&MiddleName=" + MiddleName +
+                "&LastName=" + LastName + "&PhoneNumber=" + PhoneNumber + "&ByTheHourRate=" + ByTheHourRate +
+                "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword,
+            success: function () {
+
+                swal("Profile has been updated.", "", "success");
+                reloadProfile();
+            }
+        });
+        return false;
+
+    });
+</script>
