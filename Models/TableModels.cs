@@ -235,25 +235,35 @@ namespace SameDayServicezFinal.Models
     [Table("Conversations")]
     public class Conversations
     {
+        public Conversations()
+        {
+            Message = new List<Messages>();
+        }
+
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long ProjectId { get; set; }
-        public ApplicationUser MessageOwner { get; set; }
+        public DateTime CreationDate { get; set; }
+        public string ConversationOwnerId { get; set; }
+        public string ContractorId { get; set; }
+        public string CustomerId { get; set; }
         public List<Messages> Message { get; set; }
     }
-   
+
+    [Table("Messages")]
     public class Messages
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }     
-        public ApplicationUser Contractor { get; set; }
-        public ApplicationUser Customer { get; set; }
+        public long Id { get; set; }               
         public string Message { get; set; }
         public DateTime CreationDate { get; set; }
-        public bool HasBeenRead { get; set; }
-      
+        public bool Read { get; set; }
+        public bool Delivered { get; set; }
+        public long ConversationsId { get; set; }
+        public string SenderId { get; set; }
+        public string ReceiverId { get; set; }
     }
 
 

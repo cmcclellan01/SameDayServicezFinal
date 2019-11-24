@@ -73,6 +73,12 @@ namespace SameDayServicezFinal.Models
         public string NewPassword { get; set; }
         public string DisplayName { get; set; }
 
+        public bool InWorkMode { get; set; }
+
+        public bool Online { get; set; }
+
+        [NotMapped]
+        public List<Conversations> Conversations { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

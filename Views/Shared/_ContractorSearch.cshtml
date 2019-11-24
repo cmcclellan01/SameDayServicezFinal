@@ -6,156 +6,196 @@
 <div style="min-height:500px">
     <div class="card card-custom">
         <div class="col-md-12">
-            <div class="form-row" style="margin-top:25px">
-                @foreach (var profile in Model.ContractorList)
-                {
-                    var profileGuid = Guid.NewGuid();
+            <div class="panel card" style="padding:10px">
+                <div class="panel-body">
+                    <div class="row">
 
-                    <div class="form-group col-md-8 mt-8 mx-auto">
-                        <div class="card card-profile" style="min-height:700px;border-radius: 58px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
-                            @*<img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">*@
-                            <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;border-top-right-radius: 16px;    border-top-left-radius: 16px;" class="card-header"></div>
-                            <div class="card-body text-center text-light">
+                        <div class="col-lg-3">
+                            <div class="input-group ">
+                                <label class="text-light" style="margin-left:10px">Rating Filter:</label>
+                                <select class="form-control select-status selectpicker" style="width: 100%;margin:10px">
+                                    <option value="">All</option>
+                                    <option data-content="<i class='fas fa-star' aria-hidden='true'></i>"></option>
+                                    <option>Waiting</option>
+                                    <option>Complete</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="input-group ">
+                                <label class="text-light" style="margin-left:10px">Contractor Search:</label>
+                                <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+              <div class="row">
+            <table class="contractors">
+
+                <thead>
+                    <tr>
+                        <th></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var profile in Model.ContractorList)
+                    {
+                        var profileGuid = Guid.NewGuid();
+                        <tr>
+                            <td data-displayname="@profile.Contractor.DisplayName">
+                                <div class="form-row" style="margin-top:25px">
+                                    <div class="form-group col-md-12 mt-12 mx-auto">
+                                        <div class="card card-profile" style="min-height:700px;border-radius: 58px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
+                                            @*<img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">*@
+                                            <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;border-top-right-radius: 16px;    border-top-left-radius: 16px;" class="card-header"></div>
+                                            <div class="card-body text-center text-light">
 
 
 
-                                @if (@profile.Contractor.ProfileImage == null)
-                                {
-                                    @Html.Image("/content/images/default_profile_image.jpg", "card-profile-img", "", "")
-                                }
-                                else
-                                {
-                                    @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "")
-                                }
+                                                @if (@profile.Contractor.ProfileImage == null)
+                                                {
+                                                    @Html.Image("/content/images/default_profile_image.jpg", "card-profile-img", "", "")
+                                                }
+                                                else
+                                                {
+                                                    @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "")
+                                                }
 
 
 
-                                <div class="container">
-                                    <span id="rateMe">
-                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                    </span>
-                                </div>
-                                <script>
+                                                <div class="container">
+                                                    <span id="rateMe">
+                                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                    </span>
+                                                </div>
+                                                <script>
                                         $(document).ready(function () {
                                              SetStars($('.rate-popover-@profileGuid'),@profile.Contractor.Rating);
                                         });
-                                </script>
+                                                </script>
 
 
-                                <h3 class="mb-3 ">@profile.Contractor.DisplayName</h3>
+                                                <h3 class="mb-3 ">@profile.Contractor.DisplayName</h3>
 
-                                <div class="card ">
-                                    <div class="card-body">
-                                        <h4 class="card-title">My Bios</h4>
-                                        <p class="mb-4 text-left"> @profile.Contractor.Bio</p>
-                                    </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="card ">
-                                                <div class="card-body ">
-                                                    <h4 class="card-title">My Past Projects</h4>
-                                                    <table class="mx-auto table-striped past-projects-@profile.Contractor.Id  " style="width:100%;color:grey !important">
-                                                        <thead>
-                                                            <tr>
-                                                                <th></th>
-                                                                <th></th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
+                                                <div class="card ">
+                                                    <div class="card-body">
+                                                        <h4 class="card-title">My Bios</h4>
+                                                        <p class="mb-4 text-left"> @profile.Contractor.Bio</p>
+                                                    </div>
+                                                </div>
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="card ">
+                                                                <div class="card-body ">
+                                                                    <h4 class="card-title">My Past Projects</h4>
+                                                                    <table class="mx-auto table-striped past-projects-@profile.Contractor.Id  " style="width:100%;color:grey !important">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
 
-                                                        <tbody>
-                                                            @foreach (var pastProject in profile.PastProjects)
-                                                            {
-                                                                var specialId = Guid.NewGuid();
-                                                                <tr>
-                                                                    <td style="vertical-align:top;white-space: nowrap;">
-                                                                        <div class="container">
-                                                                            <span id="rateMe">
-                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                                            </span>
-                                                                            <script>
+                                                                        <tbody>
+                                                                            @foreach (var pastProject in profile.PastProjects)
+                                                                            {
+                                                                                var specialId = Guid.NewGuid();
+                                                                                <tr>
+                                                                                    <td style="vertical-align:top;white-space: nowrap;">
+                                                                                        <div class="container">
+                                                                                            <span id="rateMe">
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                                            </span>
+                                                                                            <script>
                                                                                                         $(document).ready(function () {
                                                                                                             SetStars($('.rate-popover-@specialId'),@profile.Contractor.Rating);
                                                                                                         });
 
-                                                                            </script>
-                                                                        </div>
-                                                                    </td>
-                                                                    <td style="word-wrap: break-word;vertical-align:top">
-                                                                        <span>@pastProject.ProjectTitle</span>
-                                                                    </td>
-                                                                    <td class="text-left">
-                                                                        @pastProject.ProjectOwnerName
-                                                                    </td>
-                                                                    @*<td>
-                                                                            <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
-                                                                        </td>*@
+                                                                                            </script>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td style="word-wrap: break-word;vertical-align:top">
+                                                                                        <span>@pastProject.ProjectTitle</span>
+                                                                                    </td>
+                                                                                    <td class="text-left">
+                                                                                        @pastProject.ProjectOwnerName
+                                                                                    </td>
+                                                                                    @*<td>
+                                                                                    <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
+                                                                                </td>*@
 
-                                                                </tr>
+                                                                                </tr>
 
-                                                            }
-                                                        </tbody>
-                                                    </table>
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col">
+                                                            <div class="card ">
+                                                                <h4 class="card-title">My Job Professions</h4>
+                                                                <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            @*<th></th>*@
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach (var profession in @profile.Contractor.UserProfessions)
+                                                                        {
+
+
+                                                                            <tr>
+                                                                                @*<td style="padding:10px">@profession.MainCatName</td>*@
+                                                                                <td style="padding:10px">@profession.SubCatName</td>
+                                                                            </tr>
+
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <select class="select-AssignToProject">
+                                                                @foreach (var project in Model.Projects)
+                                                                {
+                                                                    <option value="@project.ProjectsId">@project.ProjectTitle</option>
+                                                                }
+                                                            </select>
+                                                            <span class="AssignToProject btn btn-primary">Assign Contractor To Project</span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <div class="card ">
-                                                <h4 class="card-title">My Job Professions</h4>
-                                                <table class=" table-striped text-left " style="width:100%;color:grey !important">
-                                                    <thead>
-                                                        <tr>
-                                                            @*<th></th>*@
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var profession in @profile.Contractor.UserProfessions)
-                                                        {
-
-
-                                                            <tr>
-                                                                @*<td style="padding:10px">@profession.MainCatName</td>*@
-                                                                <td style="padding:10px">@profession.SubCatName</td>
-                                                            </tr>
-
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
 
                                     </div>
-                                </div>
-                                <div class="container-fluid">
-                                    <div class="row">
-                                        <div class="col">
-                                            <select class="select-AssignToProject">
-                                                @foreach (var project in Model.Projects)
-                                                {
-                                                    <option value="@project.ProjectsId">@project.ProjectTitle</option>
-                                                }
-                                            </select>
-                                            <span class="AssignToProject btn btn-primary">Assign Contractor To Project</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
-                    </div>
-
-                    <script>
+                                    <script>
                         $(document).ready(function () {
                             $('.AssignToProject').click(function (evt) {
                                 evt.preventDefault();
@@ -169,16 +209,40 @@
                                     });
                                     swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
                                 });
-                                                               
+
                                 return false;
 
                             });
 
 
                         });
-                    </script>
-                }
-            </div>
+                                    </script>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+</div>
         </div>
     </div>
 </div>
+<script>
+     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
+    var dt = $('.contractors').DataTable({
+        paging: true,
+        pagingType: 'simple_numbers',
+        dom: 'lrtip',
+        info: false,
+        pageLength: 10,
+        header: "jqueryui",
+        renderer: "bootstrap",
+    });
+
+     $('.contractor-search').on('keyup', function () {
+        dt.search(this.value).draw();
+     });
+
+    $('.selectpicker').selectpicker();
+</script>

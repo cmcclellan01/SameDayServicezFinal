@@ -82,11 +82,32 @@ $(document).ready(function () {
         switch ($(this).is(":checked")) {
             case true:
                 $('.IsContractor').prop('checked', true);
-                $('.current-mode').text('Current Mode: Contractor');
+                $('.current-mode').html('<span style="color:#015668;font-size:1rem">Contractor</span>');
                 break;
             case false:
                 $('.IsContractor').prop('checked', false);
-                $('.current-mode').text('Current Mode: Customer');
+                $('.current-mode').html('<span style="color:#015668;font-size:1rem">Customer</span>');
+                break;
+        }
+
+    });
+
+
+    $('.InWorkMode').checkboxpicker({
+        html: true,
+        offLabel: 'Off Work',
+        onLabel: 'Ready for hire'
+    }).on('change', function () {
+
+
+        switch ($(this).is(":checked")) {
+            case true:
+                $('.InWorkMode').prop('checked', true);
+                $('.current-work-mode').html('<span style="color:#015668;font-size:1rem">Ready for hire</span>');
+                break;
+            case false:
+                $('.InWorkMode').prop('checked', false);
+                $('.current-work-mode').html('<span style="color:#015668;font-size:1rem">Off Work</span>');
                 break;
         }
 

@@ -13,10 +13,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SameDayServicezFinal.Models;
+using SameDayServicezFinal.Utils;
 
 namespace SameDayServicezFinal.Controllers
 {
     [Authorize]
+
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
@@ -121,7 +123,21 @@ namespace SameDayServicezFinal.Controllers
             return View(model);
         }
 
-       
+        //
+        //POST: //Account/LogOff
+       [HttpPost]
+       [ValidateAntiForgeryToken]
+
+        public async Task<ActionResult> LogOff()
+        {           
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            user.Online = false;
+            await UserManager.UpdateAsync(user);
+
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            LogOutTime(User.Identity.Name);
+            return RedirectToAction("Index", "Home");
+        }
 
         //
         // POST: /Account/Login
@@ -133,9 +149,7 @@ namespace SameDayServicezFinal.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-            }
-
-        
+            }                   
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -144,20 +158,12 @@ namespace SameDayServicezFinal.Controllers
             if (result == SignInStatus.Success)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-
+                user.Online = true;
                 Session["FullName"] = user.FirstName + " " + user.LastName;
-
-
-              //  user.IsInContractorMode = samedayservicez.Utils.Extensions.IsInContractorMode;
-               // user.IsInCustomerMode = samedayservicez.Utils.Extensions.IsInCustomerMode;
+                Session["ID"] = user.Id;
                 await UserManager.UpdateAsync(user);
-
-
                 await LoginTime(model.Email);
             }
-
-
-
 
             switch (result)
             {
@@ -524,16 +530,7 @@ namespace SameDayServicezFinal.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            LogOutTime(User.Identity.Name);
-            return RedirectToAction("Index", "Home");
-        }
+  
 
         //
         // GET: /Account/ExternalLoginFailure
@@ -544,7 +541,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
-      
+        [SessionTimeout]
         public async Task<ActionResult> Portal(PortalList model)
         {
             var states = Utils.Extensions.GetStatesList();
@@ -637,6 +634,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpGet]
+        [SessionTimeout]
         public async Task<ActionResult> Portal()
         {
             var states = Utils.Extensions.GetStatesList();
@@ -653,6 +651,12 @@ namespace SameDayServicezFinal.Controllers
                 user.SubProfessions = new List<SelectListItem>();
                 user.InfoTabOpen = "0";             
                 user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                user.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
+
+
+
+
+
                 portal.ApplicationUser = user;            
 
                 UpdatePortal(portal);
@@ -680,7 +684,7 @@ namespace SameDayServicezFinal.Controllers
 
             return View(portal);
         }
-
+        [SessionTimeout]
         public void UpdatePortal(PortalList portal)
         {
             var states = Utils.Extensions.GetStatesList();
@@ -752,14 +756,14 @@ namespace SameDayServicezFinal.Controllers
                 project.CompensationTypeList = Utils.Extensions.GetCompensationType();
 
                 project.Conversations = new List<Conversations>();
-                project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
+                //project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
 
 
              
 
             }
         }
-
+        [SessionTimeout]
         public ActionResult ReloadProfile()
         {
             PortalList portal = new PortalList();
@@ -772,10 +776,10 @@ namespace SameDayServicezFinal.Controllers
             portal.ApplicationUser.Professions = new List<SelectListItem>();
             portal.ApplicationUser.SubProfessions = new List<SelectListItem>();
             portal.ApplicationUser.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-
+            portal.ApplicationUser.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
             return PartialView("_Profile", portal.ApplicationUser);
         }
-
+        [SessionTimeout]
         public ActionResult ContractorSearch(string json)
         {
             PortalList portal = new PortalList();
@@ -834,10 +838,32 @@ namespace SameDayServicezFinal.Controllers
 
                 portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
             }
+            else
+            {
+
+                foreach (var contractor in allcontractors)
+                {
+                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+                    contractor.Professions = new List<SelectListItem>();
+                    contractor.SubProfessions = new List<SelectListItem>();
+
+                    ContractorSearchList contractorList = new ContractorSearchList
+                    {
+                        Contractor = contractor,
+                        PastProjects = pastprojects
+                    };
+                    portal.ContractorList.Add(contractorList);
+                }
+
+                portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
+
+            }
 
             return PartialView("_ContractorSearch", portal);
         }
-
+        [SessionTimeout]
         public ActionResult AssignContractor(string contractorId,long projectId)
         {
             var userId = User.Identity.GetUserId();
@@ -858,7 +884,7 @@ namespace SameDayServicezFinal.Controllers
                        
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
-
+        [SessionTimeout]
         public ActionResult GetProject(long projectId)
         {
             Project project = new Project();
@@ -925,18 +951,17 @@ namespace SameDayServicezFinal.Controllers
                 project.CompensationTypeList = Utils.Extensions.GetCompensationType();
 
                 project.Conversations = new List<Conversations>();
-                project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
+                project.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
 
 
 
 
-            
+
 
             return PartialView("_ViewProject", project);
         }
-
-
-        public async Task<ActionResult> UpdateProfile(string DisplayName,string Bio,string Email,string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate,bool IsInContractorMode,string OldPassword,string NewPassword)
+        [SessionTimeout]
+        public async Task<ActionResult> UpdateProfile(string DisplayName,string Bio,string Email,string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate,bool IsInContractorMode,string OldPassword,string NewPassword,bool InWorkMode)
         {
 
             var userId = User.Identity.GetUserId();
@@ -960,6 +985,7 @@ namespace SameDayServicezFinal.Controllers
                 profile.BirthDate = BirthDate;
                 profile.IsInContractorMode = IsInContractorMode;
                 profile.IsInCustomerMode = !IsInContractorMode;
+                profile.InWorkMode = InWorkMode;
 
                 if (OldPassword != null && NewPassword != null)
                 {
@@ -976,11 +1002,8 @@ namespace SameDayServicezFinal.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
-    
-
-
-
         [ValidateInput(false)]
+        [SessionTimeout]
         public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
             decimal ByTheHourRate, decimal ByTheProjectRate,decimal StartingBidRate,DateTime StartingBidDate, DateTime EndingBidDate, long SelectedProjectCompensationPackage,string Notes)
         {
@@ -1013,7 +1036,7 @@ namespace SameDayServicezFinal.Controllers
 
             return Json(projectID, JsonRequestBehavior.AllowGet);
         }
-
+        [SessionTimeout]
         public JsonResult GetSubCategoryList(int Id)
         {
 
@@ -1029,7 +1052,7 @@ namespace SameDayServicezFinal.Controllers
             return Json(wholeList, JsonRequestBehavior.AllowGet);
 
         }
-
+        [SessionTimeout]
         public ActionResult AddUserContractorCustomerCategories(string json)
         {
             var userId = User.Identity.GetUserId();
@@ -1066,7 +1089,7 @@ namespace SameDayServicezFinal.Controllers
 
             return Json("", JsonRequestBehavior.AllowGet);
         }
-
+        [SessionTimeout]
         public ActionResult RemoveUserContractorCustomerCategories(int mainId, int subId)
         {
             var userId = User.Identity.GetUserId();
@@ -1081,6 +1104,7 @@ namespace SameDayServicezFinal.Controllers
 
             return Json("", JsonRequestBehavior.AllowGet);
         }
+        [SessionTimeout]
         public JsonResult GetProjectSubCategoryList(int Id)
         {
 
@@ -1096,6 +1120,7 @@ namespace SameDayServicezFinal.Controllers
             return Json(wholeList, JsonRequestBehavior.AllowGet);
 
         }
+        [SessionTimeout]
         public ActionResult AddProjectContractorCustomerCategories(int mainId, int subId, int projectId)
         {
             try
@@ -1130,6 +1155,7 @@ namespace SameDayServicezFinal.Controllers
                 return Json("ERROR", JsonRequestBehavior.AllowGet);
             }
         }
+        [SessionTimeout]
         public ActionResult RemoveProjectContractorCustomerCategories(int mainId, int subId, int projectId)
         {
 
@@ -1160,6 +1186,7 @@ namespace SameDayServicezFinal.Controllers
 
             return Json("", JsonRequestBehavior.AllowGet);
         }
+        [SessionTimeout]
         public ActionResult AutoComplete(string term)
         {
             if (!String.IsNullOrEmpty(term))
@@ -1175,6 +1202,7 @@ namespace SameDayServicezFinal.Controllers
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
+        [SessionTimeout]
         public ActionResult AutoCompleteCity(string term)
         {
             if (!String.IsNullOrEmpty(term))
@@ -1190,6 +1218,7 @@ namespace SameDayServicezFinal.Controllers
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
+        [SessionTimeout]
         public ActionResult AutoCompleteZipCode(string city, string term)
         {
             if (!String.IsNullOrEmpty(term))
@@ -1205,6 +1234,7 @@ namespace SameDayServicezFinal.Controllers
                 return Json(list, JsonRequestBehavior.AllowGet);
             }
         }
+
         private bool RemoveFromDatabase(DatabaseTypeToRemove type, string imagename = "")
         {
 
@@ -1244,6 +1274,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
+        [SessionTimeout]
         public async Task<ActionResult> RemoveUpload(string type, int projectId = 0, string imagename = "")
         {
             bool isSavedSuccessfully = true;
@@ -1324,7 +1355,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
-
+        [SessionTimeout]
         private static int GetImageCountFromFolder(string path)
         {
 
@@ -1343,6 +1374,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
+        [SessionTimeout]
         public async Task<ActionResult> Upload(string type, int projectId = 0)
         {
 
@@ -1436,6 +1468,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
+        [SessionTimeout]
         public ActionResult SaveProjectImageComment(string ImageName, string comment)
         {
 
@@ -1463,6 +1496,8 @@ namespace SameDayServicezFinal.Controllers
             });
 
         }
+
+        [SessionTimeout]
         private string SaveProjectFile(int projectId, HttpPostedFileBase file)
         {
             string fName;
@@ -1489,6 +1524,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
+        [SessionTimeout]
         public async Task<ActionResult> SaveProjectCompensationPackage(int projectId, long ProjectCompensationType, decimal ByTheHourRate = 0, decimal ByTheProjectRate = 0, decimal StartingBidRate = 0, decimal EndingBidRate = 0, decimal FloatingBidRate = 0, DateTime StartingBidDate = default, DateTime EndingBidDate = default)
         {
 
@@ -1620,7 +1656,7 @@ namespace SameDayServicezFinal.Controllers
 
 
         }
-
+        [SessionTimeout]
         private async Task<string> SaveProfileFile(HttpPostedFileBase file, string type)
         {
             string fName;
@@ -1654,33 +1690,7 @@ namespace SameDayServicezFinal.Controllers
 
             return fName;
         }
-
-
-        public ActionResult DashBoard()
-        {
-            var userId = User.Identity.GetUserId();
-            var projects = db.Project.Where(p => p.ProjectsUsersId == userId);
-            var assignedProjects = db.ProjectAssignment.Where(p => p.UsersId == userId);
-
-            PortalList portal = new PortalList();
-            if (projects != null && assignedProjects != null)
-            {
-                foreach (var item in projects)
-                {
-                    foreach (var project in assignedProjects)
-                    {
-                        if (project.ProjectId == item.ProjectsId)
-                        {
-                            portal.Projects.Add(item);
-                        }
-                    }
-                }
-            }
-
-
-            return View(portal);
-        }
-
+        [SessionTimeout]
         public ActionResult GetPublicPortalList()
         {
             var userId = User.Identity.GetUserId();
@@ -1709,7 +1719,7 @@ namespace SameDayServicezFinal.Controllers
             return Json(portal, JsonRequestBehavior.AllowGet);
 
         }
-
+        [SessionTimeout]
         public ActionResult GetPortalList()
         {
             var userId = User.Identity.GetUserId();
@@ -1734,10 +1744,6 @@ namespace SameDayServicezFinal.Controllers
             return Json(portal, JsonRequestBehavior.AllowGet);
 
         }
-
-     
-
-
 
         protected override void Dispose(bool disposing)
         {

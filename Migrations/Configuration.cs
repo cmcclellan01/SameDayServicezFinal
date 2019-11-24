@@ -9,7 +9,7 @@ namespace SameDayServicezFinal.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "SameDayServicezFinal.Models.ApplicationDbContext";
             AutomaticMigrationDataLossAllowed = true;
         }

@@ -867,11 +867,12 @@
             <table class="table   project-table ">
                 <thead>
                     <tr>
-                        <th>
-                            Status
-                        </th>
+                        <th></th>
                         <th>
                             Project name
+                        </th>
+                        <th>
+                            Status
                         </th>
                         <th>
                             Participate
@@ -888,45 +889,47 @@
                 <tbody>
                     @foreach (var item in Model.Projects)
                     {
-                        <tr>
-                            <td>
-                                @if (item.IsActive)
-                                {
-                                    <span class="label label-accent">Active</span>
-                                }
-                                else
-                                {
-                                    <span class="label label-accent">Complete</span>
-                                }
+                    <tr>
+                        <td></td>
+
+                        <td>
+                            <span>@item.ProjectTitle</span>
+
+                            <div class="small"><i class="fas fa-clock-o"></i> Created @item.CreationDate</div>
+                        </td>
+                        <td>
+                            @if (item.IsActive)
+                            {
+                                <span class="label label-accent">Active</span>
+                            }
+                            else
+                            {
+                                <span class="label label-accent">Complete</span>
+                            }
 
 
-                            </td>
-                            <td>
-                                <span>@item.ProjectTitle</span>
+                        </td>
+                        <td>
+                            @foreach (var profile in item.ProjectAssignments)
+                            {
+                                <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class="rounded image-md img-thumbnail" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"></a>
+                            }
 
-                                <div class="small"><i class="fas fa-clock-o"></i> Created @item.CreationDate</div>
-                            </td>
-                            <td>
-                                @foreach (var profile in item.ProjectAssignments)
-                                {
-                                    <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class="rounded image-md img-thumbnail" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"></a>
-                                }
-
-                            </td>
-                            <td>
-                                <div class="progress m-b-none full progress-small">
-                                    <div style="width: 35%" class="progress-bar progress-bar-warning"></div>
-                                </div>
-                                <small>35% completed:</small>
-                            </td>
-                            <td>
-                                <div class="btn-group pull-right">
-                                    <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
-                                    <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
-                                    <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
-                                </div>
-                            </td>
-                        </tr>
+                        </td>
+                        <td>
+                            <div class="progress m-b-none full progress-small">
+                                <div style="width: 35%" class="progress-bar progress-bar-warning"></div>
+                            </div>
+                            <small>35% completed:</small>
+                        </td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
+                                <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
+                                <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
+                            </div>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -958,24 +961,92 @@
 
     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
     var dt = $('.project-table').DataTable({
-        // responsive: {
-        //    details: {
-        //        renderer: function (api, rowIdx, columns) {
-        //            var data = $.map(columns, function (col, i) {
-        //                return col.hidden ?
-        //                    '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
-        //                    '<td>' + col.title + ':' + '</td> ' +
-        //                    '<td>' + col.data + '</td>' +
-        //                    '</tr>' :
-        //                    '';
-        //            }).join('');
+         responsive: {
+            details: {
+                renderer: function (api, rowIdx, columns) {
+                    var data = $.map(columns, function (col, i) {
+                        return col.hidden ?
+                            '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                            '<td  class="text-light">' + col.title + ':' + '</td> ' +
+                            '<td>' + col.data + '</td>' +
+                            '</tr>' :
+                            '';
+                    }).join('');
 
-        //            return data ?
-        //                $('<table/>').append(data) :
-        //                false;
-        //        }
-        //    }
-        //},
+                    return data ?
+                        $('<table/>').append(data) :
+                        false;
+                 }
+
+
+            }
+        },
+        "fnDrawCallback" : function(oSettings) {
+            $('.project-table').on('click', '.view-project', function(event){
+
+                event.preventDefault();
+                $('.loader').loading('start');
+                $detailDiv.empty();
+                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                    $detailDiv.empty().html(data);
+
+                    $('.mode').val('v');
+                    $('.loader').loading('stop');
+                });
+
+
+                return false;
+            });
+
+           
+           $('.project-table').on('click', '.edit-project', function(event){
+                event.preventDefault();
+                $('.loader').loading('start');
+                $detailDiv.empty();
+                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                    $detailDiv.empty().html(data);
+                    $('.mode').val('e');
+                    $('.loader').loading('stop');
+
+                });
+                return false;
+            });
+
+         
+            $('.project-table').on('click', '.notes-project', function(event){
+                event.preventDefault();
+                $('.loader').loading('start');
+                $detailDiv.empty();
+                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                    $detailDiv.empty().html(data);
+                    $('.mode').val('n');
+                    $('.loader').loading('stop');
+
+                });
+                return false;
+            });
+
+
+            $('.project-table tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child().show();
+                    tr.addClass('shown');
+                }
+            });
+
+        },
         initComplete: function () {
 
             this.api().columns([0]).every(function () {
@@ -1009,31 +1080,40 @@
         pageLength: 10,
         header: "jqueryui",
         renderer: "bootstrap",
-        //columns: [
-        //    {
-
-        //    },
-        //    { name: 'Status' },
-        //    { name: 'Project name' },
-        //    { name: 'Participate' },
-        //    { name: 'Progress' },
-        //    { name: 'Actions' },
-        //],
+        columns: [
+            {
+                    "data": null,
+                    "defaultContent": "",
+            },                      
+            { name: 'Project name' },
+            { name: 'Status' },
+            { name: 'Participate' },
+            { name: 'Progress' },
+            { name: 'Actions' },
+       ],
         columnDefs:
             [
-                //{
-                //    className: 'control',
-                //    orderable: false,
-                //    targets: 0,
-                //    width : '5%'
-                //},
                 {
+                    className: 'control',
+                    orderable: true,
+                    targets: 0,
+                   
+                },
+               
+                 {
                     targets: [3],
                     searchable: false,
+                     orderable: false,
                 },
-                {
+                 {
                     targets: [4],
                     searchable: false,
+                     orderable: false,
+                },
+                {
+                    targets: [5],
+                    searchable: false,
+                     orderable: false,
                 },
             ]
     });
@@ -1043,50 +1123,7 @@
         dt.search(this.value).draw();
     });
 
-    $('.view-project').click(function (event) {
-
-         event.preventDefault();   
-       $('.loader').loading('start'); 
-         $detailDiv.empty();
-        $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
-            
-              $detailDiv.empty().html(data);
-
-            $('.mode').val('v');
-             $('.loader').loading('stop');                    
-        });
-
-       
-        return false;
-    });
-
-    $('.edit-project').click(function (event) {
-         event.preventDefault();
-        $('.loader').loading('start');        
-           $detailDiv.empty();
-        $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
-         
-             $detailDiv.empty().html(data);
-            $('.mode').val('e');
-            $('.loader').loading('stop');
-           
-        });
-        return false;
-    });
-
-    $('.notes-project').click(function (event) {
-        event.preventDefault();
-        $('.loader').loading('start');
-           $detailDiv.empty();
-        $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
-          
-            $detailDiv.empty().html(data);
-             $('.mode').val('n');
-            $('.loader').loading('stop');
-           
-        });
-        return false;
-    });
+   
 
 
 

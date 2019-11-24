@@ -11,6 +11,25 @@ using System.Web.Mvc;
 
 namespace SameDayServicezFinal.Utils
 {
+
+    public class SessionTimeoutAttribute : ActionFilterAttribute
+    {
+        public override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            HttpContext ctx = HttpContext.Current;
+            if (HttpContext.Current.Session["ID"] == null)
+            {
+
+                filterContext.Result = new RedirectResult("~/Account/Login");
+                return;
+            }
+            base.OnActionExecuting(filterContext);
+        }
+    }
+
+
+
+
     public static class Extensions
     {
 
@@ -27,10 +46,10 @@ namespace SameDayServicezFinal.Utils
 
 
 
-        public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
-        {
-            return items.GroupBy(property).Select(x => x.First());
-        }
+        //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)
+        //{
+        //    return items.GroupBy(property).Select(x => x.First());
+        //}
 
 
         public static bool IsInContractorMode { get; set; }

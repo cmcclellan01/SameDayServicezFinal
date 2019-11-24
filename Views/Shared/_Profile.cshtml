@@ -202,10 +202,36 @@
                                     }
 
                                 }
-                                <div class="form-group  col-md-4 ">
-                                    @Html.LabelFor(m => m.IsInContractorMode, "Current Mode: " + @mode, new { @class = "control-label text-light current-mode" })
-                                    @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                                </div>
+                            <div class="form-group  col-md-4 ">                              
+                                <span class="control-label text-light ">Login Mode:</span> <span class="current-mode" style='color:#015668;font-size:1rem'>@mode</span>
+                                @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                            </div>
+
+
+
+
+                                @{
+                                    string workmode = "";
+
+                                    if (Model.InWorkMode)
+                                    {
+                                        mode = "Ready for hire";
+                                    }
+                                    else
+                                    {
+                                        mode = "Off Work";
+                                    }
+
+                                }
+
+                                        <div class="form-group  col-md-4 @if (!Model.IsInContractorMode) { <text>d-none</text>} ">
+                                            <span class="control-label text-light ">Work Mode:</span> <span class="current-work-mode" style='color:#015668;font-size:1rem'>@mode</span>
+                                            @Html.CheckBoxFor(m => m.InWorkMode, new { @class = "InWorkMode form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                        </div>
+                                   
+
+                                
+
                             </div>
 
                         </div>
@@ -375,9 +401,10 @@
         var PhoneNumber = $('#PhoneNumber').val();
         var ByTheHourRate = $('#ByTheHourRate').val();
         var BirthDate = $('#BirthDate').val();
-        var IsInContractorMode = $('#IsInContractorMode').val();
+        var IsInContractorMode = $('.IsContractor').prop('checked');
         var OldPassword = $('#OldPassword').val();
         var NewPassword = $('#NewPassword').val();
+        var InWorkMode =  $('.InWorkMode').prop('checked');
 
         $.ajax({
             type: "POST",
@@ -385,7 +412,7 @@
                 "&Address=" + Address + "&City=" + City + "&State=" + State +
                 "&ZipCode=" + ZipCode + "&FirstName=" + FirstName + "&MiddleName=" + MiddleName +
                 "&LastName=" + LastName + "&PhoneNumber=" + PhoneNumber + "&ByTheHourRate=" + ByTheHourRate +
-                "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword,
+                "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode,
             success: function () {
 
                 swal("Profile has been updated.", "", "success");
