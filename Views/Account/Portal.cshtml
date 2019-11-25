@@ -131,101 +131,77 @@
                         <div class="tab-pane fade" id="nav-contractor-search" role="tabpanel" aria-labelledby="nav-contractor-search-tab">
                             <div class="container-fluid" style="background-color:#2f323b;padding:20px">
                                 <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="panel card" style="padding:10px">
+                                            <div class="panel-body">
+                                                <div class="row">
 
-                                    <div class="col-md-3 d-none">
-                                        <div class="form-row">
-                                            <div class="card card-custom text-light">
-                                                <h3 class="text-center " style="color:#015668 !important">Search Options</h3>
-                                                <div class="form-group">
-
-
-                                                    <div class="form-row">
-                                                        @Html.Label("Hourly Rate:", new { @class = "control-label text-light" })
-
-                                                        <select class="form-control max-select" style="min-width: 100%!important;">
-                                                            <option value="">- Please Select A Hourly Rate -</option>
-                                                            @foreach (var item in Extensions.GetHourlyRateList())
-                                                            {
-                                                                <option value="@item.Value">@item.Text</option>
-                                                            }
-                                                        </select>
-                                                    </div>
-
-
-
-                                                    <div class="form-row " style="margin-top:15px">
-                                                        @Html.Label("Job Professions:", new { @class = "control-label text-light" })
-                                                        <select class="form-control max-select" id="professions-start" style="min-width: 100%!important;">
-                                                            <option value="">Alphabetical List of Professions</option>
-                                                            <option value="A">A</option>
-                                                            <option value="B">B</option>
-                                                            <option value="C">C</option>
-                                                            <option value="D">D</option>
-                                                            <option value="E">E</option>
-                                                            <option value="F">F</option>
-                                                            <option value="G">G</option>
-                                                            <option value="H">H</option>
-                                                            <option value="I">I</option>
-                                                            <option value="J">J</option>
-                                                            <option value="K">K</option>
-                                                            <option value="L">L</option>
-                                                            <option value="M">M</option>
-                                                            <option value="N">N</option>
-                                                            <option value="O">O</option>
-                                                            <option value="P">P</option>
-                                                            <option value="Q">Q</option>
-                                                            <option value="R">R</option>
-                                                            <option value="S">S</option>
-                                                            <option value="T">T</option>
-                                                            <option value="U">U</option>
-                                                            <option value="V">V</option>
-                                                            <option value="W">W</option>
-                                                            <option value="X">X</option>
-                                                            <option value="Y">Y</option>
-                                                            <option value="Z">Z</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-row Professions" style="margin-top:15px">
-
-                                                        <select class="form-control max-select search-professions" style="min-width: 100%!important;">
-                                                            <option value="">- Please Select A Profession Category -</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-row SubProfessions" style="margin-top:15px">
-
-                                                        <select class="form-control max-select search-subprofessions" style="min-width: 100%!important;">
-                                                            <option value="">- Please Select A Job Title -</option>
-                                                        </select>
-                                                    </div>
-
-                                                    <div class="form-row SubProfessions" style="margin-top:15px">
-                                                        <div class="form-group col-md-12">
-                                                            <button type="button" class="btn  btn-info search-add btn-sm">Add Job Title</button>
-
+                                                    <div class="col-lg-2">
+                                                        <div class="input-group ">
+                                                            <label class="text-light" style="margin-left:10px">Rating Filter:</label>
+                                                            <select class="form-control rating-select" style="min-width: 100%;margin:10px">
+                                                                <option value="">All</option>
+                                                                <option value="1">1 Star</option>
+                                                                <option value="2">2 Star</option>
+                                                                <option value="3">3 Star</option>
+                                                                <option value="4">4 Star</option>
+                                                                <option value="5">5 Star</option>
+                                                            </select>
                                                         </div>
                                                     </div>
-                                                    <div class="form-row SelectedProfession style=" margin-top:15px"">
-                                                        Current Selected Profession(s):
-                                                        <div class="form-group col-md-12 search-results">
+                                                    <div class="col-lg-2">
+                                                        <div class="input-group">
+                                                            <label class="text-light" style="margin-left:10px">Hourly Rate:</label>
+                                                            <select class="form-control hourly-select" style="width: 100%;margin:10px">
+                                                                <option value="">- Please Select A Hourly Rate -</option>
+                                                                @foreach (var item in Extensions.GetHourlyRateList())
+                                                                {
+                                                                    <option value="@item.Value">@item.Text</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="input-group ">
+                                                            <label class="text-light" style="margin-left:10px">Contractor Search:</label>
+                                                            <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-2">
+                                                        <div class="input-group SubProfessions">
+                                                            <label class="text-light" style="margin-left:10px">Job Title:</label>
+                                                            <select class="form-control  search-profession" style="width: 100%;margin:10px">
+                                                                <option value="">- Please Select A Job Title -</option>
+                                                            </select>
 
                                                         </div>
                                                     </div>
 
+                                                    <div class="col-lg-2 ">
+                                                        <div class="input-group ">
+                                                            <label class="text-light" style="margin-left:10px">Online Status:</label>
+                                                            <select class="form-control  search-online-status" style="width: 100%;margin:10px">
+                                                                <option value="">- Online Status -</option>
+                                                                <option value="true">Online</option>
+                                                                <option value="false">Offline</option>
+                                                            </select>
+                                                            </div>
+                                                        </div>
 
-                                                    <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-primary btn-sm">Search</button>
+                                                        @*int rating,string HourlyRange,string displayName,long Profession,bool OnlineStatus*@
+                                                        <div class="col-lg-2 my-auto">
+                                                            <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-primary btn-sm " style="background-color:#FF550B !important">Search</button>
+                                                        </div>
 
 
-
-                                                </div>
-
+                                                    </div>
                                             </div>
+
                                         </div>
 
-                                    </div>
 
-                                    <div class="col-md-12">
+
                                         <div id="detailsDiv"></div>
                                     </div>
 
@@ -249,10 +225,14 @@
                                             var displayName = $('.contractor-search').val();
                                             var sub =  $('.search-profession option:selected').val();
                                             var onlineStatus =  $('.search-online-status option:selected').val();
+                                            var all = 'false';
+
+                                            if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
+                                                all = true;
+                                            }
 
 
-
-                                            $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=&All=true', function (data) {
+                                            $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=&All=' + all, function (data) {
                                                 $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
                                             });
                                         });

@@ -6,71 +6,7 @@
 <div style="min-height:500px">
     <div class="card card-custom">
         <div class="col-md-12">
-            <div class="panel card" style="padding:10px">
-                <div class="panel-body">
-                    <div class="row">
-
-                        <div class="col-lg-1">
-                            <div class="input-group ">
-                                <label class="text-light" style="margin-left:10px">Rating Filter:</label>
-                                <select class="form-control rating-select" style="width: 100%;margin:10px">
-                                    <option value="">All</option>
-                                    <option value="1">1 Star</option>
-                                    <option value="2">2 Star</option>
-                                    <option value="3">3 Star</option>
-                                    <option value="4">4 Star</option>
-                                    <option value="5">5 Star</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-2">
-                            <div class="input-group">
-                                <label class="text-light" style="margin-left:10px">Hourly Rate:</label>
-                                <select class="form-control hourly-select" style="width: 100%;margin:10px">
-                                    <option value="">- Please Select A Hourly Rate -</option>
-                                    @foreach (var item in Extensions.GetHourlyRateList())
-                                    {
-                                        <option value="@item.Value">@item.Text</option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="input-group ">
-                                <label class="text-light" style="margin-left:10px">Contractor Search:</label>
-                                <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
-                            </div>
-                        </div>
-
-                        <div class="col-lg-2">
-                            <div class="input-group SubProfessions">
-                                <label class="text-light" style="margin-left:10px">Job Title:</label>
-                                <select class="form-control  search-profession" style="width: 100%;margin:10px">
-                                    <option value="">- Please Select A Job Title -</option>
-                                </select>
-
-                            </div>
-                        </div>
-
-                        <div class="col-lg-1 my-auto">
-                            <label class="text-light" style="margin-left:10px">Online Status:</label>
-                            <select class="form-control  search-online-status" style="width: 100%;margin:10px">
-                                <option value="">- Online Status -</option>
-                                <option value="true">Online</option>
-                                <option value="false">Offline</option>
-                            </select>
-                        </div>
-
-                        @*int rating,string HourlyRange,string displayName,long Profession,bool OnlineStatus*@
-                        <div class="col-lg-1 my-auto">
-                            <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-primary btn-sm float-right">Search</button>
-                        </div>
-
-
-                    </div>
-                </div>
-
-            </div>
+           
             <div class="row">
                 <table class="contractors">
 
@@ -290,6 +226,9 @@
 
 
         $.get('/Account/GetFullSubCategoryList', function (data) {
+
+            $('.search-profession').empty();
+            $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
             $.each(data, function (index, row) {               
                 $('.search-profession').append("<option value='" + row.Id + "'>" + row.SubCatName + "</option>");
             });
