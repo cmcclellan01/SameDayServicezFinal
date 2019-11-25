@@ -780,86 +780,121 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_Profile", portal.ApplicationUser);
         }
         [SessionTimeout]
-        public ActionResult ContractorSearch(string json)
+        public ActionResult ContractorSearch(int rating=0,string HourlyRange="",string displayName="",long Profession=0,string OnlineStatus="",bool All=false)
         {
             PortalList portal = new PortalList();
             var userId = User.Identity.GetUserId();
-            var allcontractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
-
-            List<ContractorCustomerCategories> UserCategories = new List<ContractorCustomerCategories>();
-            List<ApplicationUser> contractors = new List<ApplicationUser>();
-
-            // get our master list of contractors
-            List<string> MasterList = new List<string>();
-
-            if (json != string.Empty)
+            List<ApplicationUser> allcontractors = new List<ApplicationUser>();
+            
+            if(rating != 0)
             {
-                foreach (var item in json.Trim(',').Split(','))
+                foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.Rating == rating).ToList())
                 {
-                    var m = long.Parse(item.Split('_')[0]);
-                    var s = long.Parse(item.Split('_')[1]);
-                   
-                     UserCategories = db.ContractorCustomerCategories.Where(p => p.MainCatId == m && p.SubCatId == s).ToList();
+                    allcontractors.Add(user);
+                }               
+            }
 
-
-                    foreach (var contractor in UserCategories)
-                    {
-                        if (!MasterList.Contains(contractor.ContractorCustomerId))
+            if (!string.IsNullOrEmpty(HourlyRange))
+            {
+                switch (HourlyRange)
+                {
+                    case "10":
+                        foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.ByTheHourRate < 10).ToList())
                         {
-                            MasterList.Add(contractor.ContractorCustomerId);
+                            allcontractors.Add(user);
                         }
+                        break;
+
+                    case "10_40":
+                        foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.ByTheHourRate >= 10 && p.ByTheHourRate <= 40).ToList())
+                        {
+                            allcontractors.Add(user);
+                        }
+                        break;
+
+                    case "40_100":
+                        foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.ByTheHourRate >= 40 && p.ByTheHourRate <= 100).ToList())
+                        {
+                            allcontractors.Add(user);
+                        }
+                        break;
+
+                    case "100_plus":
+                        foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.ByTheHourRate > 100 ).ToList())
+                        {
+                            allcontractors.Add(user);
+                        }
+                        break;
+
+
+                }
+            }
+
+            if (!string.IsNullOrEmpty(displayName))
+            {
+                foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.DisplayName.Contains(displayName)).ToList())
+                {
+                    allcontractors.Add(user);
+                }
+            }
+
+            if (Profession != 0)
+            {               
+                foreach (var sub in db.ContractorCustomerCategories.Where(p => p.Id == Profession).Select(p => p.ContractorCustomerId).ToList())
+                {
+                    foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.Id == sub).ToList())
+                    {
+                        allcontractors.Add(user);
+                    }
+                }               
+            }
+
+            if(OnlineStatus != "")
+            {
+                try
+                {
+                    var onlinestatus = bool.Parse(OnlineStatus);
+
+                    foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.Online == onlinestatus).ToList())
+                    {
+                        allcontractors.Add(user);
                     }
                 }
-
-
-
-
-                foreach (var item in MasterList)
+                catch (Exception)
                 {
-                    contractors.Add(allcontractors.Find(x => x.Id == item));
+
+                  
                 }
-
-
-                foreach (var contractor in contractors)
-                {
-                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
-                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-
-                    contractor.Professions = new List<SelectListItem>();
-                    contractor.SubProfessions = new List<SelectListItem>();
-
-                    ContractorSearchList contractorList = new ContractorSearchList
-                    {
-                        Contractor = contractor,
-                        PastProjects = pastprojects
-                    };
-                    portal.ContractorList.Add(contractorList);
-                }
-
-                portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
+               
             }
-            else
+
+
+
+            if (All)
             {
-
-                foreach (var contractor in allcontractors)
-                {
-                    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
-                    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-
-                    contractor.Professions = new List<SelectListItem>();
-                    contractor.SubProfessions = new List<SelectListItem>();
-
-                    ContractorSearchList contractorList = new ContractorSearchList
-                    {
-                        Contractor = contractor,
-                        PastProjects = pastprojects
-                    };
-                    portal.ContractorList.Add(contractorList);
-                }
-
-                portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
-
+                allcontractors.Clear();
+                allcontractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
             }
+
+            foreach (var contractor in allcontractors.DistinctBy(p => p.Id))
+            {
+                var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+                contractor.Professions = new List<SelectListItem>();
+                contractor.SubProfessions = new List<SelectListItem>();
+
+                ContractorSearchList contractorList = new ContractorSearchList
+                {
+                    Contractor = contractor,
+                    PastProjects = pastprojects
+                };
+                portal.ContractorList.Add(contractorList);
+            }
+
+            portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
+
+            portal.ContractorList.OrderBy(p => p.Contractor.DisplayName);
 
             return PartialView("_ContractorSearch", portal);
         }
@@ -1050,6 +1085,20 @@ namespace SameDayServicezFinal.Controllers
             wholeList.RemoveAll(x => UserProfessions.Any(y => y.SubCatId == x.Id));
 
             return Json(wholeList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        [SessionTimeout]
+        public JsonResult GetFullSubCategoryList()
+        {
+
+            // var wholeList = db.Subcategories.OrderBy(p => p.SubCatNames).Select(p => p.SubCatNames).Distinct().ToList();
+            // var users = db.Users.Select(p => p);
+            var subcats = db.ContractorCustomerCategories.Select(p => p).Distinct().ToList().OrderBy(p => p.SubCatName);
+
+
+
+            return Json(subcats, JsonRequestBehavior.AllowGet);
 
         }
         [SessionTimeout]
