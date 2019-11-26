@@ -45,9 +45,9 @@
         background-color: #111111 !important;
     }
 
-    .carousel {
+    /*.carousel {
         margin-bottom: 4rem;
-    }
+    }*/
 
     .carousel-item {
         height: 50vh;
@@ -100,131 +100,171 @@
 
 
     .gm-style-iw {
-	width: 350px !important;
-	top: 15px !important;
-	left: 0px !important;
-	background-color: #fff;
-	box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
-	border: 1px solid rgba(72, 181, 233, 0.6);
-	border-radius: 2px 2px 10px 10px;
-}
-#iw-container {
-	margin-bottom: 10px;
-}
-#iw-container .iw-title {
-	font-family: 'Open Sans Condensed', sans-serif;
-	font-size: 22px;
-	font-weight: 400;
-	padding: 10px;
-	background-color: #48b5e9;
-	color: white;
-	margin: 0;
-	border-radius: 2px 2px 0 0;
-}
-#iw-container .iw-content {
-	font-size: 13px;
-	line-height: 18px;
-	font-weight: 400;
-	margin-right: 1px;
-	padding: 15px 5px 20px 15px;
-	max-height: 140px;
-	overflow-y: auto;
-	overflow-x: hidden;
-}
-.iw-content img {
-	float: right;
-	margin: 0 5px 5px 10px;	
-}
-.iw-subTitle {
-	font-size: 16px;
-	font-weight: 700;
-	padding: 5px 0;
-}
-.iw-bottom-gradient {
-	position: absolute;
-	width: 326px;
-	height: 25px;
-	bottom: 10px;
-	right: 18px;
-	background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-	background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-	background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-	background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
-}
+        width: 350px !important;
+        top: 15px !important;
+        left: 0px !important;
+        background-color: #fff;
+        box-shadow: 0 1px 6px rgba(178, 178, 178, 0.6);
+        border: 1px solid rgba(72, 181, 233, 0.6);
+        border-radius: 2px 2px 10px 10px;
+    }
+
+    #iw-container {
+        margin-bottom: 10px;
+    }
+
+        #iw-container .iw-title {
+            font-family: 'Open Sans Condensed', sans-serif;
+            font-size: 22px;
+            font-weight: 400;
+            padding: 10px;
+            background-color: #48b5e9;
+            color: white;
+            margin: 0;
+            border-radius: 2px 2px 0 0;
+        }
+
+        #iw-container .iw-content {
+            font-size: 13px;
+            line-height: 18px;
+            font-weight: 400;
+            margin-right: 1px;
+            padding: 15px 5px 20px 15px;
+            max-height: 140px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+    .iw-content img {
+        float: right;
+        margin: 0 5px 5px 10px;
+    }
+
+    .iw-subTitle {
+        font-size: 16px;
+        font-weight: 700;
+        padding: 5px 0;
+    }
+
+    .iw-bottom-gradient {
+        position: absolute;
+        width: 326px;
+        height: 25px;
+        bottom: 10px;
+        right: 18px;
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+        background: -ms-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%);
+    }
+
+    div.register {
+        position: relative;
+    }
+
+    div.register a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-decoration: none; /* No underlines on the link */
+        z-index: 10; /* Places the link above everything else in the div */
+        background-color: #FFF; /* Fix to make div clickable in IE */
+        opacity: 0; /* Fix to make div clickable in IE */
+        filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+    }
+
+
 </style>
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 
-<div class="row" style="    margin-top: 29px;">
+
+<div class="row">
     <div class="col-md-12 form-group ">
+        <div id="carouselExampleSlidesOnly" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
 
-        <div class="main_area_homepg my-auto" style="background-image:url('/Content/images/sc1.jpg');height: 50vh;background-position: center center;background-size: cover;">
-            <div style="position: absolute;transform: translate(-50%, -50%);left: 50%;top: 50%;">
-                <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;">FIND WORKERS. GET YOUR PROJECT DONE FAST!</h1></div>
-                <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;">START BY POSTING A CHORE YOU NEED DONE OR REGISTER TO GET A JOB.</h2></div>
-
-                <div class="btn-group mx-auto">
-                    @*<a href="@Url.Action("NewProject", "Account", new { IsContractor="True" })" class="btn btn-primary" style="margin:10px;">Post Your Project</a>*@
-                    <a href="@Url.Action("Register", "Account", new { IsContractor="True" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
+                <div class="carousel-item active">
+                    <div class="main_area_homepg my-auto " style="background-image:url('/Content/images/sc1.jpg');height: 50vh;background-position: center center;background-size: cover;">
+                        <div style="position: absolute;transform: translate(-50%, -50%);left: 50%;top: 50%;">
+                            <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;">FIND WORKERS. GET YOUR PROJECT DONE FAST!</h1></div>
+                            <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;">START BY POSTING A CHORE YOU NEED DONE OR REGISTER TO GET A JOB.</h2></div>
+                            <div class="btn-group mx-auto">
+                                <a href="@Url.Action("Register", "Account", new { IsContractor="False" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="carousel-item">
+                    <div class="main_area_homepg my-auto " style="background-image:url('/Content/images/sc2.jpg');height: 50vh;background-position: center center;background-size: cover;">
+                        <div style="position: absolute;transform: translate(-50%, -50%);left: 50%;top: 50%;">
+                            <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Make money on your own schedule</h1></div>
+                            <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Click below to get started making money</h2></div>
+                            <div class="btn-group mx-auto">
+                                <a href="@Url.Action("Register", "Account", new { IsContractor="True" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
+
+
+
+
     </div>
 </div>
 
 <div class="container">
-
-
     <div class="row align-items-center" style="height:100%">
-
-        <div class="col-md-4">
+        <div class="col-md-4 register">
             <div class="card" style="color:white !important;height:100%;margin-top:25px">
                 <div class="card-header text-center text-uppercase;">
-                    <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
-                        <i class="fa fa-edit" aria-hidden="true"></i>
-                    </span>
+                    <a href="@Url.Action("Register", "Account", new { IsContractor="False" })">
+                        <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                        </span>
+                    </a>
                     <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;">Post your project</h6>
                 </div>
                 <div class="card-body ">
                     <p class="card-text text-light">
                         Post your project easily with our easy to use interface, then wait for the contractors to submit their proposals. This way you are in total control of your offers and project as well.
-                    </p>
-                    @*<div class="text-center">
-                            <a href="#" class="btn btn-primary">Post your Project</a>
-                        </div>*@
-
+                    </p>                  
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 register">
             <div class="card" style="color:white !important;height:100%;margin-top:25px">
                 <div class="card-header text-center ">
-                    <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
-                        <i class="fa fa-money" aria-hidden="true"></i>
-                    </span>
-                    <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;"> Get proposals</h6>
+                    <a href="@Url.Action("Register", "Account", new { IsContractor="False" })">
+                        <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
+                            <i class="fa fa-money" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                        <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;"> Get proposals</h6>
                 </div>
-
-
                 <div class="card-body ">
                     <p class="card-text text-light">
                         After posting your project , you will wait for the contractors to post their proposals. You have until the end of the project to choose the best fit for contractor and start the work.
-                    </p>
-                    @*<div class="text-center">
-                            <a href="#" class="btn btn-primary">Post your Project</a>
-                        </div>*@
-
+                    </p>  
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 register">
             <div class="card" style="color:white !important;height:100%;margin-top:25px">
                 <div class="card-header text-center text-uppercase">
-                    <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
-                        <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                    </span>
-                    <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;"> Get your project done</h6>
+                    <a href="@Url.Action("Register", "Account", new { IsContractor="False" })">
+                        <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        </span>
+                    </a>
+                        <h6 class="text-uppercase" style="text-shadow: 2px 2px 4px #000000;"> Get your project done</h6>
                 </div>
                 <div class="card-body ">
                     <p class="card-text text-light">
@@ -242,8 +282,10 @@
 
 
 <div class="row">
+
+    @*this div to have links outside of the maps*@
     <div class="col-md-6" style="display:none">
-        <div class="jumbotron " style="background-color:#212529 !important;color:grey !important;padding: 1rem 2rem;height:100%">
+        @*<div class="jumbotron " style="background-color:#212529 !important;color:grey !important;padding: 1rem 2rem;height:100%">
             <table id="example" class="display compact" style="width:100%">
                 <thead>
                     <tr>
@@ -255,9 +297,6 @@
                     @{var s = 0;}
                     @foreach (var item in Model.Projects)
                     {
-
-                        //if (item.CreationDate > DateTime.Now.AddDays(-7))
-                        //{
                         <tr>
                             <td>
                                 <a class="marker-link" data-markerid="@s" data-title="@item.ProjectTitle-@item.ProjectsId" href="#">
@@ -265,16 +304,12 @@
                                 </a>
                             </td>
                             <td>
-
                                 <p class="media-body pb-3 mb-0 small lh-125 ">
                                     @item.ProjectTitle
                                 </p>
                             </td>
                         </tr>
-
-                        s++;
-
-                        @*}*@
+                        s++;                      
 
                     }
 
@@ -283,38 +318,13 @@
             <small class="d-block text-left mt-3">
                 <a href="@Url.Action("DashBoard", "Account", new { IsContractor = Extensions.IsInContractorMode })" class="text-primary">View your Projects</a>
             </small>
-
-            @*@{var i = 0;}
-                @foreach (var item in Model.Projects)
-                {
-
-                    if (item.CreationDate > DateTime.Now.AddDays(-7))
-                    {
-                        <div class="media text-muted pt-3">
-                            <a class="marker-link" data-markerid="@i" data-title="@item.ProjectTitle-@item.ProjectsId" href="#">
-                                <img style="width: 24px; height: 24px;margin:5px" src="/Content/project_Icon.png">
-                            </a>
-                            <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                                @item.ProjectTitle
-                            </p>
-                        </div>
-
-                        i++;
-
-                    }
-
-                }*@
-
-        </div>
+        </div>*@
     </div>
 
     <div class="col-md-6" style="margin-top:25px">
         <div class="card " style="color:white !important;height:100%;">
             <div class="card-header">
                 Current Projects
-                @*<div class="float-right">
-                    <a href="/account/search?type=p" class="btn btn-primary">Search Projects </a>
-                </div>*@
             </div>
             <div class="card-body">
                 <div id="map-projects"></div>
@@ -327,9 +337,6 @@
         <div class="card " style="color:white !important;height:100%">
             <div class="card-header">
                 Current Contractors
-                @*<div class="float-right">
-                    <a href="/account/search?type=c" class="btn btn-primary">Search Contractors </a>
-                </div>*@
             </div>
             <div class="card-body">
                 <div id="map-contractors"></div>
@@ -511,8 +518,8 @@
                           $(this).css({opacity: '1'});
                         });
                       });
-                    
-                   
+
+
 
                         //$('.marker-link').on('click', function () {
                         //    google.maps.event.trigger(markers.find(p => p.title === $(this).data('title')), 'click');
@@ -568,7 +575,7 @@
             <text> addresess.push(['map-contractors', '@item.Contractor.latitude', ' @item.Contractor.longitude', '/Uploads/ProfileImages/@item.Contractor.Id/@item.Contractor.ProfileImage','@item.Contractor.DisplayName']);
                     $('body').append('<style>img[src="/Uploads/ProfileImages/@item.Contractor.Id/@item.Contractor.ProfileImage"]{border-radius:25px;border:1px solid #000 !important;} </style>')
             </text>
-                
+
         }
         mapAddress(addresess,'c');
     }
