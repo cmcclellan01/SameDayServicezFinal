@@ -359,6 +359,7 @@
     <Content Include="Content\DataTables\media\images\sort_both.png" />
     <Content Include="Content\DataTables\media\images\sort_desc.png" />
     <Content Include="Content\DataTables\media\images\sort_desc_disabled.png" />
+    <Content Include="Content\images\5d26132c3835b_thumb900.jpg" />
     <Content Include="Content\images\back_disabled.png" />
     <Content Include="Content\images\back_enabled.png" />
     <Content Include="Content\images\Calendar-icon.png" />
@@ -813,8 +814,10 @@
     <Content Include="SqlScripts\dbo.Subcategories.Table.sql" />
     <Content Include="SqlScripts\StateAndCityInfo.sql" />
     <Content Include="SqlScripts\Users.sql" />
+    <Content Include="Uploads\ProfileImages\0ad95804-8675-4d4e-a8c4-a3100c84ac78\profile_2b17cb14-b2e4-4edd-a188-20dfccd390a3.jpg" />
     <Content Include="Uploads\ProfileImages\2b17cb14-b2e4-4edd-a188-20dfccd390a3\profile_2b17cb14-b2e4-4edd-a188-20dfccd390a3.jpg" />
     <Content Include="Uploads\ProfileImages\bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539\profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg" />
+    <Content Include="Uploads\ProfileImages\c349c1cc-2da2-44c8-8ba9-9a556542ca62\profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -156,6 +156,13 @@
     margin-bottom: 20px;
 }
 
+.grayscale {
+   
+    background-color: #fff;
+    background-image: url('/Content/images/5d26132c3835b_thumb900.jpg');
+    background-blend-mode: luminosity;
+}
+
 .card-profile .card-header {
     height: 9rem;
     background-size: cover;
@@ -164,10 +171,12 @@
 
 .card-profile-img {
     max-width: 8rem;
-    margin-top: -6rem;
+    margin-left:10px;
+    margin-top: 1rem;
     margin-bottom: 1rem;
     border: 3px solid #fff;
     border-radius: 100%;
+    float:right
 }
 
 .content-inner {
