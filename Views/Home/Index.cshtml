@@ -572,11 +572,25 @@
 
         @foreach (var item in Model.ContractorList)
         {
-            <text> addresess.push(['map-contractors', '@item.Contractor.latitude', ' @item.Contractor.longitude', '/Uploads/ProfileImages/@item.Contractor.Id/@item.Contractor.ProfileImage','@item.Contractor.DisplayName']);
+            ///
+
+            if(@item.Contractor.ProfileImage == null)
+            {
+                  <text> addresess.push(['map-contractors', '@item.Contractor.latitude', ' @item.Contractor.longitude', 'Uploads/ProfileImages/bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539/profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg','@item.Contractor.DisplayName']);
+                    $('body').append('<style>img[src="/Uploads/ProfileImages/bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539/profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg"]{border-radius:25px;border:1px solid #000 !important;} </style>')
+            </text>
+            }
+            else
+            {
+                  <text> addresess.push(['map-contractors', '@item.Contractor.latitude', ' @item.Contractor.longitude', '/Uploads/ProfileImages/@item.Contractor.Id/@item.Contractor.ProfileImage','@item.Contractor.DisplayName']);
                     $('body').append('<style>img[src="/Uploads/ProfileImages/@item.Contractor.Id/@item.Contractor.ProfileImage"]{border-radius:25px;border:1px solid #000 !important;} </style>')
             </text>
+            }
+
 
         }
+
+
         mapAddress(addresess,'c');
     }
 

@@ -1,0 +1,163 @@
+﻿@model SameDayServicezFinal.Models.PortalList
+@using SameDayServicezFinal.Utils
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                        <div class="card card-custom">
+                            <div class="col-md-12">
+
+                                <div class="row">
+                                    @foreach (var profile in Model.ContractorList.OrderByDescending(p => p.Contractor.Rating))
+                                    {
+                                        var profileGuid = Guid.NewGuid();
+
+                                        <div class="col-lg-12">
+                                            <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
+
+
+                                                <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
+                                                    <div class="row mx-auto">
+                                                        <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
+                                                            @if (@profile.Contractor.ProfileImage == null)
+                                                            {
+                                                                @Html.Image("/content/images/default_profile_image.jpg", "card-profile-img", "", "")
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "")
+                                                            }
+                                                        </div>
+                                                        <div class="card-body col-7 ">
+                                                            <span id="rateMe" data-search="rating" style="font-size:1rem">
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                            </span>
+                                                            <script>
+                                                                $(document).ready(function () {
+                                                                     SetStars($('.rate-popover-@profileGuid'),@profile.Contractor.Rating);
+                                                                });
+                                                            </script>
+                                                            <h4 class="mb-3 " data-search="displayname">@profile.Contractor.DisplayName</h4>
+                                                            <h5 class="mb-3 " data-search="hourlyrate">Hourly Rate: $@profile.Contractor.ByTheHourRate</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="card-body text-center text-light grayscale">
+                                                    <div class="card ">
+                                                        <h4 class="card-title">My Bios</h4>
+                                                        <div class="card-body my-bios " style="max-height:none">
+
+                                                            <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.Contractor.Bio</p>
+                                                        </div>
+                                                    </div>                                                    
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                                                <div class="card-body ">
+                                                                    <h4 class="card-title">My Job Professions</h4>
+                                                                    <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var profession in @profile.Contractor.UserProfessions)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td style="padding:2px">@profession.SubCatName</td>
+                                                                                </tr>
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>   
+                                                    <div class="row">
+                                                        <div class="col">
+                                                            <div class="card " style="min-height:200px;overflow:hidden">
+                                                                <div class="card-body ">
+                                                                    <h4 class="card-title">My Past Projects</h4>
+                                                                    <table class="mx-auto table-striped past-projects-@profile.Contractor.Id  " style="width:100%;color:grey !important">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+
+                                                                        <tbody>
+                                                                            @foreach (var pastProject in profile.PastProjects)
+                                                                            {
+                                                                                var specialId = Guid.NewGuid();
+                                                                                <tr>
+                                                                                    <td style="vertical-align:top;white-space: nowrap;">
+                                                                                        <div class="container">
+                                                                                            <span id="rateMe" style="font-size:0.75rem">
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                                            </span>
+                                                                                            <script>
+                                                                                                        $(document).ready(function () {
+                                                                                                            SetStars($('.rate-popover-@specialId'),@profile.Contractor.Rating);
+                                                                                                        });
+
+                                                                                            </script>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td style="word-wrap: break-word;vertical-align:top">
+                                                                                        <span>@pastProject.ProjectTitle</span>
+                                                                                    </td>
+                                                                                    <td class="text-left">
+                                                                                        @pastProject.ProjectOwnerName
+                                                                                    </td>
+
+                                                                                </tr>
+
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                   
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+

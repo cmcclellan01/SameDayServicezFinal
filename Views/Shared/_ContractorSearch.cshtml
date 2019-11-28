@@ -1,20 +1,38 @@
 ﻿@model SameDayServicezFinal.Models.PortalList
 @using SameDayServicezFinal.Utils
 
+<style>
+      .my-bios {
+            font-size: 16px;
+            line-height: 18px;
+            font-weight: 400;
+            margin-right: 1px;
+            padding: 15px 5px 20px 15px;
+            max-height: 140px;
+            min-height:140px;
+            overflow-y: hidden;
+            overflow-x: hidden;
+        }
 
+        .morecontent span {
+            display: none;
+        }
+        .morelink {
+            display: block;
+        }
+
+</style>
 
 <div style="min-height:500px">
     <div class="card card-custom">
         <div class="col-md-12">
-
             <div class="row">
                 @foreach (var profile in Model.ContractorList.OrderByDescending(p => p.Contractor.Rating))
                 {
                     var profileGuid = Guid.NewGuid();
 
                     <div class="col-lg-4">
-
-                        <div class="card card-profile" style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
+                        <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
 
                             <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
@@ -49,10 +67,11 @@
                             </div>
 
                             <div class="card-body text-center text-light grayscale">
-                                <div class="card " style="min-height:300px;max-height:300px;overflow:hidden">
-                                    <div class="card-body">
-                                        <h4 class="card-title">My Bios</h4>
-                                        <p class="mb-4 text-left" font-size: 1rem;"> @profile.Contractor.Bio</p>
+                                <div class="card ">
+                                    <h4 class="card-title">My Bios</h4>
+                                    <div class="card-body my-bios ">
+
+                                        <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.Contractor.Bio</p>
                                     </div>
                                 </div>
 
@@ -132,7 +151,7 @@
                                 </div>
                                 <div class="row justify-content-end">
                                     <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
-                                    <div class="col-auto"> <span class="btn btn-dark ">View Full Profile</span></div>
+                                    <div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.Contractor.Id">View Full Profile</span></div>
                                     
                                    
                                 </div>
@@ -146,76 +165,151 @@
     </div>
 </div>
 
+<div class="full-profile-view"></div>
+
+
 <script>
-    $(document).ready(function () {
-
-        $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
-        var dt = $('.contractors').DataTable({
-            paging: true,
-            pagingType: 'simple_numbers',
-            dom: 'lrtip',
-            info: false,
-            pageLength: 10,
-            header: "jqueryui",
-            renderer: "bootstrap",
-        });
-
-        $('.contractor-search').on('keyup', function () {
-            dt.search(this.value).draw();
-        });
 
 
 
-        $('.js-reload-details').on('click', function (evt) {
-            evt.preventDefault();
-            evt.stopPropagation();
 
-            var $detailDiv = $('#detailsDiv');
+    // if($('.my-bios').height() < 140){
+    //     var length = $('.my-bios').text().length;
 
-            var rating = $('.rating-select option:selected').val();
-            var hourly = $('.hourly-select option:selected').val();
-            var displayName = $('.contractor-search').val();
-            var sub = $('.search-profession option:selected').val();
-            var onlineStatus = $('.search-online-status option:selected').val();
-            var all = 'false';
+    //      $('.my-bios').text($('.my-bios').text().substring(0, length - 10) + '.......') ;
+    //}
 
-            if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
-                all = true;
+    function SetShowText() {
+       
+        var showChar = 400;  
+        var ellipsestext = "...";
+        var moretext = "Show more >";
+        var lesstext = "Show less";
+
+
+         if ($('.my-bios').width() < 300) {
+              showChar = 200;
+          }
+          else {
+              showChar = 400;
+          }   
+
+         $('.more').each(function () {
+              var content = $(this).html();
+           
+              if (content.length > showChar) {
+                  var c = content.substr(0, showChar);
+                  var h = content.substr(showChar, content.length - showChar);
+                  var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+                  $(this).html(html);
+              }
+
+         });
+
+        $(".morelink").click(function () {
+            if ($(this).hasClass("less")) {
+                $(this).removeClass("less");
+                $(this).html(moretext);
+                $('.my-bios').css('overflow-y', 'hidden')
+            } else {
+                $(this).addClass("less");
+                $(this).html(lesstext);
+                $('.my-bios').css('overflow-y', 'auto')
             }
-
-
-
-            $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=' + onlineStatus + '&All=' + all, function (data) {
-                $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
-            });
-        });
-
-
-        $.get('/Account/GetFullSubCategoryList', function (data) {
-
-            $('.search-profession').empty();
-            $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
-            $.each(data, function (index, row) {
-                $('.search-profession').append("<option value='" + row.Id + "'>" + row.SubCatName + "</option>");
-            });
-        });
-
-        $('.AssignToProject').click(function (evt) {
-            evt.preventDefault();
-            evt.stopPropagation();
-            $.post('/Account/AssignContractor', { contractorId: $(this).attr('data-contractorId').val(), projectId: $('.select-AssignToProject option:selected').val() }, function (data) {
-                $(".user-projects").loading('start');
-                var $userProjectsDiv = $('.user-projects');
-                $userProjectsDiv.empty();
-                $.get('/Account/UpdateProjectPortal', function (data) {
-                    $userProjectsDiv.replaceWith(' <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">' + data + '</div>');
-                });
-                swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
-            });
-
+            $(this).parent().prev().toggle();
+            $(this).prev().toggle();
             return false;
-
         });
+    }
+
+
+  $(document).ready(function () {
+
+      $(window).resize(function () { SetShowText(); });
+
+      SetShowText(); 
+
+      $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
+      var dt = $('.contractors').DataTable({
+          paging: true,
+          pagingType: 'simple_numbers',
+          dom: 'lrtip',
+          info: false,
+          pageLength: 10,
+          header: "jqueryui",
+          renderer: "bootstrap",
+      });
+
+      $('.contractor-search').on('keyup', function () {
+          dt.search(this.value).draw();
+      });
+
+   
+      $('.profile-btn').on('click', function (evt) {
+            var $detailDiv = $('.full-profile-view');
+        
+          $.get('/Account/FullProfile?Id=' + $(this).attr('data-contractor-id'), function (data) {
+              $detailDiv.replaceWith('<div class="full-profile-view">' + data + '</div>');
+              //$detailDiv.replaceWith(data);           
+
+              $('.bd-example-modal-lg').modal('show').on('hidden.bs.modal', function (e) {
+                 
+                 $('.full-profile-view').html('');
+              });
+
+          });
+      });
+
+      $('.js-reload-details').on('click', function (evt) {
+          evt.preventDefault();
+          evt.stopPropagation();
+
+          var $detailDiv = $('#detailsDiv');
+
+          var rating = $('.rating-select option:selected').val();
+          var hourly = $('.hourly-select option:selected').val();
+          var displayName = $('.contractor-search').val();
+          var sub = $('.search-profession option:selected').val();
+          var onlineStatus = $('.search-online-status option:selected').val();
+          var all = 'false';
+
+          if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
+              all = true;
+          }
+
+
+
+          $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=' + onlineStatus + '&All=' + all, function (data) {
+              $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
+          });
+      });
+
+
+      $.get('/Account/GetFullSubCategoryList', function (data) {
+
+          $('.search-profession').empty();
+          $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
+          $.each(data, function (index, row) {
+              $('.search-profession').append("<option value='" + row.SubCatName + "'>" + row.SubCatName + "</option>");
+          });
+      });
+
+      $('.AssignToProject').click(function (evt) {
+          evt.preventDefault();
+          evt.stopPropagation();
+          $.post('/Account/AssignContractor', { contractorId: $(this).attr('data-contractorId').val(), projectId: $('.select-AssignToProject option:selected').val() }, function (data) {
+              $(".user-projects").loading('start');
+              var $userProjectsDiv = $('.user-projects');
+              $userProjectsDiv.empty();
+              $.get('/Account/UpdateProjectPortal', function (data) {
+                  $userProjectsDiv.replaceWith(' <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">' + data + '</div>');
+              });
+              swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
+          });
+
+          return false;
+
+      });
 
     });
 
