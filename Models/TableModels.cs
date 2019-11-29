@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SameDayServicezFinal.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -331,6 +332,7 @@ namespace SameDayServicezFinal.Models
         public List<Project> Projects { get; set; }     
         public ApplicationUser ApplicationUser { get; set; }
         public List<ContractorSearchList> ContractorList { get; set; }
+        public Pager Pager { get; set; }
     }
 
     public class ContractorSearchList

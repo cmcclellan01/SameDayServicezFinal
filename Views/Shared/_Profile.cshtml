@@ -386,7 +386,7 @@
 <script>
     $('.profile-submit').on('click', function (event) {
         event.preventDefault();
-        $('.profileDiv').loading('start');
+       $('body').loading('start');
 
         var DisplayName = $('#DisplayName').val();
         var Bio = escape($('#Bio').val());

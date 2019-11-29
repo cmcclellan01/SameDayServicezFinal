@@ -799,7 +799,7 @@
             <div class="panel-body">
                 <div class="row">
 
-                    <div class="col-lg-3">
+                    <div class="col-lg-2">
                         <div class="input-group ">
                             <label class="text-light" style="margin-left:10px">Status Filter:</label>
                             <select class="form-control select-status" style="width: 100%;margin:10px">
@@ -813,11 +813,35 @@
                     <div class="col-lg-3">
                         <div class="input-group ">
                             <label class="text-light" style="margin-left:10px">Project Search:</label>
-                            <input type="text" class="form-control project-search" placeholder="Search for a Project Name" style="margin:10px">
+                            <input type="text" class="form-control project-search" placeholder="Search for anything" style="margin:10px">
                         </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-2">
+                        <div class="input-group ">
+                            <label class="text-light" style="margin-left:10px">Participate:</label>
+                            <select class="form-control select-participates" style="width: 100%;margin:10px">
+                                <option value="">All</option>
+                                @{
+                                    List<string> participates = new List<string>();
 
+                                    foreach (var item in Model.Projects)
+                                    {
+                                        foreach (var profile in item.ProjectAssignments)
+                                        {
+                                            participates.Add(profile.ProfileDisplayName);
+                                        }
+                                    }
+
+                                    foreach (var item in participates.Distinct().OrderBy(p => p))
+                                    {
+                                        <option>@item</option>
+                                    }
+
+
+                                }
+
+                            </select>
+                        </div>
                     </div>
 
                 </div>
@@ -828,21 +852,13 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>
-                            Project name
-                        </th>
-                        <th>
-                            Status
-                        </th>
-                        <th>
-                            Participate
-                        </th>
-                        <th>
-                            Progress
-                        </th>
-                        <th class="text-right">
-                            Actions
-                        </th>
+                        <th> Project name</th>
+                        <th>Status</th>
+                        <th>Participate</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zipcode</th>
+                        <th class="text-right">Actions</th>
                     </tr>
                 </thead>
 
@@ -855,7 +871,7 @@
                         <td>
                             <span>@item.ProjectTitle</span>
 
-                            <div class="small"><i class="fas fa-clock-o"></i> Created @item.CreationDate</div>
+                          
                         </td>
                         <td>
                             @if (item.IsActive)
@@ -877,11 +893,15 @@
 
                         </td>
                         <td>
-                            <div class="progress m-b-none full progress-small">
-                                <div style="width: 35%" class="progress-bar progress-bar-warning"></div>
-                            </div>
-                            <small>35% completed:</small>
+                            <span>@item.City</span>
                         </td>
+                        <td>
+                            <span>@item.State</span>
+                        </td>
+                        <td>
+                             <span>@item.ZipCode</span>
+                        </td>
+
                         <td>
                             <div class="btn-group pull-right">
                                 <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
@@ -915,7 +935,7 @@
 
     $(document).ready(function () {
         $('#DataTables_Table_0_length > label').hide();
-
+        
         
     });
 
@@ -945,14 +965,14 @@
             $('.project-table').on('click', '.view-project', function(event){
 
                 event.preventDefault();
-                $('.loader').loading('start');
+                $('body').loading('start');
                 $detailDiv.empty();
                 $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
 
                     $detailDiv.empty().html(data);
 
                     $('.mode').val('v');
-                    $('.loader').loading('stop');
+                   $('body').loading('stop');
                 });
 
 
@@ -962,7 +982,7 @@
            
            $('.project-table').on('click', '.edit-project', function(event){
                 event.preventDefault();
-                $('.loader').loading('start');
+                $('body').loading('start');
                 $detailDiv.empty();
                 $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
 
@@ -977,13 +997,13 @@
          
             $('.project-table').on('click', '.notes-project', function(event){
                 event.preventDefault();
-                $('.loader').loading('start');
+                $('body').loading('start');
                 $detailDiv.empty();
                 $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
 
                     $detailDiv.empty().html(data);
                     $('.mode').val('n');
-                    $('.loader').loading('stop');
+                    $('body').loading('stop');
 
                 });
                 return false;
@@ -1009,7 +1029,7 @@
         },
         initComplete: function () {
 
-            this.api().columns([0]).every(function () {
+            this.api().columns([2]).every(function () {
                 var column = this;
                 var select = $('.select-status')
                     // .appendTo( $(column.footer()).empty() )
@@ -1025,11 +1045,21 @@
 
             });
 
+            this.api().columns([3]).every(function () {
+                var column = this;
+                var select = $('.select-participates').on('change', function () {                       
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );                  
+                        column.search(val ? val : '', false, true).draw();
+                    });
+
+            });
 
 
 
 
-
+            
 
 
         },
@@ -1048,7 +1078,9 @@
             { name: 'Project name' },
             { name: 'Status' },
             { name: 'Participate' },
-            { name: 'Progress' },
+            { name: 'City' },
+            { name: 'State' },
+            { name: 'ZipCode' },
             { name: 'Actions' },
        ],
         columnDefs:

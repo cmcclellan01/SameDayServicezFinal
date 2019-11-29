@@ -2,316 +2,381 @@
 @using SameDayServicezFinal.Utils
 
 <style>
-      .my-bios {
-            font-size: 16px;
-            line-height: 18px;
-            font-weight: 400;
-            margin-right: 1px;
-            padding: 15px 5px 20px 15px;
-            max-height: 140px;
-            min-height:140px;
-            overflow-y: hidden;
-            overflow-x: hidden;
-        }
+    .my-bios {
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: 400;
+        margin-right: 1px;
+        padding: 15px 5px 20px 15px;
+        max-height: 140px;
+        min-height: 140px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
 
-        .morecontent span {
-            display: none;
-        }
-        .morelink {
-            display: block;
-        }
+    .morecontent span {
+        display: none;
+    }
 
+    .morelink {
+        display: block;
+    }
 </style>
 
-<div style="min-height:500px">
-    <div class="card card-custom">
-        <div class="col-md-12">
-            <div class="row">
-                @foreach (var profile in Model.ContractorList.OrderByDescending(p => p.Contractor.Rating))
+
+<div class="card card-custom">
+    <div class="col-md-12">
+        <div class="row">
+            @{
+                var i = Model.Pager.CurrentPage;
+                var imagename = "";
+            }
+            @foreach (var profile in Model.ContractorList.OrderByDescending(p => p.Contractor.Rating))
+            {
+                var profileGuid = Guid.NewGuid();
+                if (i > 99)
                 {
-                    var profileGuid = Guid.NewGuid();
+                    i = 1;
+                }
+                <div class="col-lg-4">
+                    <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
-                    <div class="col-lg-4">
-                        <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
+
+                        <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
+                            <div class="row mx-auto">
+                                <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
+                                    @if (@profile.Contractor.ProfileImage == null)
+                                    {
+                                        imagename = "https://randomuser.me/api/portraits/men/" + i + ".jpg";
+
+                                        @Html.Image(imagename, "card-profile-img", "", "");
 
 
-                            <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
-                                <div class="row mx-auto">
-                                    <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
-                                        @if (@profile.Contractor.ProfileImage == null)
-                                        {
-                                            @Html.Image("/content/images/default_profile_image.jpg", "card-profile-img", "", "")
-                                        }
-                                        else
-                                        {
-                                            @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "")
-                                        }
-                                    </div>
-                                    <div class="card-body col-7 ">
-                                        <span id="rateMe" data-search="rating" style="font-size:1rem">
-                                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                        </span>
-                                        <script>
+                                    }
+                                    else
+                                    {
+                                        @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "");
+                                    }
+                                </div>
+                                <div class="card-body col-7 ">
+                                    <span id="rateMe" data-search="rating" style="font-size:1rem">
+                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                    </span>
+                                    <script>
                                                                 $(document).ready(function () {
                                                                      SetStars($('.rate-popover-@profileGuid'),@profile.Contractor.Rating);
                                                                 });
-                                        </script>
-                                        <h4 class="mb-3 " data-search="displayname">@profile.Contractor.DisplayName</h4>
-                                        <h5 class="mb-3 " data-search="hourlyrate">Hourly Rate: $@profile.Contractor.ByTheHourRate</h5>
-                                    </div>
+                                    </script>
+                                    <h4 class="mb-3 " data-search="displayname">@profile.Contractor.DisplayName</h4>
+                                    <h5 class="mb-3 " data-search="hourlyrate">Hourly Rate: $@profile.Contractor.ByTheHourRate</h5>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-body text-center text-light grayscale">
+                            <div class="card ">
+                                <h4 class="card-title">My Bios</h4>
+                                <div class="card-body my-bios ">
+
+                                    <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.Contractor.Bio</p>
                                 </div>
                             </div>
 
-                            <div class="card-body text-center text-light grayscale">
-                                <div class="card ">
-                                    <h4 class="card-title">My Bios</h4>
-                                    <div class="card-body my-bios ">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                        <div class="card-body ">
+                                            <h4 class="card-title">My Past Projects</h4>
+                                            <table class="mx-auto table-striped past-projects-@profile.Contractor.Id  " style="width:100%;color:grey !important">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                        <th></th>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
 
-                                        <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.Contractor.Bio</p>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-                                            <div class="card-body ">
-                                                <h4 class="card-title">My Past Projects</h4>
-                                                <table class="mx-auto table-striped past-projects-@profile.Contractor.Id  " style="width:100%;color:grey !important">
-                                                    <thead>
+                                                <tbody>
+                                                    @foreach (var pastProject in profile.PastProjects)
+                                                    {
+                                                        var specialId = Guid.NewGuid();
                                                         <tr>
-                                                            <th></th>
-                                                            <th></th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-
-                                                    <tbody>
-                                                        @foreach (var pastProject in profile.PastProjects)
-                                                        {
-                                                            var specialId = Guid.NewGuid();
-                                                            <tr>
-                                                                <td style="vertical-align:top;white-space: nowrap;">
-                                                                    <div class="container">
-                                                                        <span id="rateMe" style="font-size:0.75rem">
-                                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                                        </span>
-                                                                        <script>
+                                                            <td style="vertical-align:top;white-space: nowrap;">
+                                                                <div class="container">
+                                                                    <span id="rateMe" style="font-size:0.75rem">
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                    </span>
+                                                                    <script>
                                                                                                         $(document).ready(function () {
                                                                                                             SetStars($('.rate-popover-@specialId'),@profile.Contractor.Rating);
                                                                                                         });
 
-                                                                        </script>
-                                                                    </div>
-                                                                </td>
-                                                                <td style="word-wrap: break-word;vertical-align:top">
-                                                                    <span>@pastProject.ProjectTitle</span>
-                                                                </td>
-                                                                <td class="text-left">
-                                                                    @pastProject.ProjectOwnerName
-                                                                </td>
+                                                                    </script>
+                                                                </div>
+                                                            </td>
+                                                            <td style="word-wrap: break-word;vertical-align:top">
+                                                                <span>@pastProject.ProjectTitle</span>
+                                                            </td>
+                                                            <td class="text-left">
+                                                                @pastProject.ProjectOwnerName
+                                                            </td>
 
-                                                            </tr>
-
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-                                            <div class="card-body ">
-                                                <h4 class="card-title">My Job Professions</h4>
-                                                <table class=" table-striped text-left " style="width:100%;color:grey !important">
-                                                    <thead>
-                                                        <tr>
-                                                            <th></th>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @foreach (var profession in @profile.Contractor.UserProfessions)
-                                                        {
-                                                            <tr>
-                                                                <td style="padding:2px">@profession.SubCatName</td>
-                                                            </tr>
-                                                        }
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                                        i += 1;
+                                                    }
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row justify-content-end">
-                                    <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
-                                    <div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.Contractor.Id">View Full Profile</span></div>
-                                    
-                                   
+                                <div class="col">
+                                    <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                        <div class="card-body ">
+                                            <h4 class="card-title">My Job Professions</h4>
+                                            <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                                                <thead>
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var profession in @profile.Contractor.UserProfessions)
+                                                    {
+                                                        <tr>
+                                                            <td style="padding:2px">@profession.SubCatName</td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
+                                <div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.Contractor.Id">View Full Profile</span></div>
+
 
                             </div>
+
                         </div>
                     </div>
-                }
-            </div>
+                </div>
+
+                i += 1;
+            }
         </div>
     </div>
 </div>
 
-<div class="full-profile-view"></div>
+    <!-- pager -->
+    @if (Model.Pager.EndPage > 1)
+    {
 
+<div style="margin: 0; white-space: nowrap; text-align: right;">
+    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
 
-<script>
+        @if (Model.Pager.CurrentPage > 1)
+        {
+            <a class="btn custom-table-buttons  previous pager" data-page="@(Model.Pager.CurrentPage - 1)" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a>
+        }
 
+        @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+        {
 
-
-
-    // if($('.my-bios').height() < 140){
-    //     var length = $('.my-bios').text().length;
-
-    //      $('.my-bios').text($('.my-bios').text().substring(0, length - 10) + '.......') ;
-    //}
-
-    function SetShowText() {
-       
-        var showChar = 400;  
-        var ellipsestext = "...";
-        var moretext = "Show more >";
-        var lesstext = "Show less";
-
-
-         if ($('.my-bios').width() < 300) {
-              showChar = 200;
-          }
-          else {
-              showChar = 400;
-          }   
-
-         $('.more').each(function () {
-              var content = $(this).html();
-           
-              if (content.length > showChar) {
-                  var c = content.substr(0, showChar);
-                  var h = content.substr(showChar, content.length - showChar);
-                  var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
-                  $(this).html(html);
-              }
-
-         });
-
-        $(".morelink").click(function () {
-            if ($(this).hasClass("less")) {
-                $(this).removeClass("less");
-                $(this).html(moretext);
-                $('.my-bios').css('overflow-y', 'hidden')
-            } else {
-                $(this).addClass("less");
-                $(this).html(lesstext);
-                $('.my-bios').css('overflow-y', 'auto')
+            if (@page == Model.Pager.CurrentPage)
+            {
+                <span>
+                    <a class="btn custom-table-buttons pager current" data-page="@page" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" style="color: white;background-color: transparent;">@page</a>
+                </span>
             }
-            $(this).parent().prev().toggle();
-            $(this).prev().toggle();
-            return false;
-        });
-    }
-
-
-  $(document).ready(function () {
-
-      $(window).resize(function () { SetShowText(); });
-
-      SetShowText(); 
-
-      $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
-      var dt = $('.contractors').DataTable({
-          paging: true,
-          pagingType: 'simple_numbers',
-          dom: 'lrtip',
-          info: false,
-          pageLength: 10,
-          header: "jqueryui",
-          renderer: "bootstrap",
-      });
-
-      $('.contractor-search').on('keyup', function () {
-          dt.search(this.value).draw();
-      });
-
-   
-      $('.profile-btn').on('click', function (evt) {
-            var $detailDiv = $('.full-profile-view');
-        
-          $.get('/Account/FullProfile?Id=' + $(this).attr('data-contractor-id'), function (data) {
-              $detailDiv.replaceWith('<div class="full-profile-view">' + data + '</div>');
-              //$detailDiv.replaceWith(data);           
-
-              $('.bd-example-modal-lg').modal('show').on('hidden.bs.modal', function (e) {
-                 
-                 $('.full-profile-view').html('');
-              });
-
-          });
-      });
-
-      $('.js-reload-details').on('click', function (evt) {
-          evt.preventDefault();
-          evt.stopPropagation();
-
-          var $detailDiv = $('#detailsDiv');
-
-          var rating = $('.rating-select option:selected').val();
-          var hourly = $('.hourly-select option:selected').val();
-          var displayName = $('.contractor-search').val();
-          var sub = $('.search-profession option:selected').val();
-          var onlineStatus = $('.search-online-status option:selected').val();
-          var all = 'false';
-
-          if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
-              all = true;
-          }
+            else
+            {
+                <span>
+                    <a class="btn custom-table-buttons pager" data-page="@page" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">@page</a>
+                </span>
+            }
 
 
 
-          $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=' + onlineStatus + '&All=' + all, function (data) {
-              $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
-          });
-      });
+
+        }
+
+        @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+        {
+            <a class="btn custom-table-buttons pager" data-page="@(Model.Pager.CurrentPage + 1)">Next</a>
+        }
+
+    </div>
+</div>
+
+     }
+        <div class="full-profile-view"></div>
 
 
-      $.get('/Account/GetFullSubCategoryList', function (data) {
+        <script>
 
-          $('.search-profession').empty();
-          $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
-          $.each(data, function (index, row) {
-              $('.search-profession').append("<option value='" + row.SubCatName + "'>" + row.SubCatName + "</option>");
-          });
-      });
 
-      $('.AssignToProject').click(function (evt) {
-          evt.preventDefault();
-          evt.stopPropagation();
-          $.post('/Account/AssignContractor', { contractorId: $(this).attr('data-contractorId').val(), projectId: $('.select-AssignToProject option:selected').val() }, function (data) {
-              $(".user-projects").loading('start');
-              var $userProjectsDiv = $('.user-projects');
-              $userProjectsDiv.empty();
-              $.get('/Account/UpdateProjectPortal', function (data) {
-                  $userProjectsDiv.replaceWith(' <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">' + data + '</div>');
-              });
-              swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
-          });
 
-          return false;
 
-      });
+            // if($('.my-bios').height() < 140){
+            //     var length = $('.my-bios').text().length;
 
-    });
+            //      $('.my-bios').text($('.my-bios').text().substring(0, length - 10) + '.......') ;
+            //}
 
-    //$('.selectpicker').selectpicker();
-</script>
+            function SetShowText() {
+
+                var showChar = 400;
+                var ellipsestext = "...";
+                var moretext = "Show more >";
+                var lesstext = "Show less";
+
+
+                if ($('.my-bios').width() < 300) {
+                    showChar = 200;
+                }
+                else {
+                    showChar = 400;
+                }
+
+                $('.more').each(function () {
+                    var content = $(this).html();
+
+                    if (content.length > showChar) {
+                        var c = content.substr(0, showChar);
+                        var h = content.substr(showChar, content.length - showChar);
+                        var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span><span class="morecontent"><span>' + h + '</span>&nbsp;&nbsp;<a href="" class="morelink">' + moretext + '</a></span>';
+                        $(this).html(html);
+                    }
+
+                });
+
+                $(".morelink").click(function () {
+                    if ($(this).hasClass("less")) {
+                        $(this).removeClass("less");
+                        $(this).html(moretext);
+                        $('.my-bios').css('overflow-y', 'hidden')
+                    } else {
+                        $(this).addClass("less");
+                        $(this).html(lesstext);
+                        $('.my-bios').css('overflow-y', 'auto')
+                    }
+                    $(this).parent().prev().toggle();
+                    $(this).prev().toggle();
+                    return false;
+                });
+            }
+
+
+            $(document).ready(function () {
+
+                $(window).resize(function () { SetShowText(); });
+
+                SetShowText();
+
+                //$.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
+                //var dt = $('.contractors').DataTable({
+                //    paging: true,
+                //    pagingType: 'simple_numbers',
+                //    dom: 'lrtip',
+                //    info: false,
+                //    pageLength: 10,
+                //    header: "jqueryui",
+                //    renderer: "bootstrap",
+                //});
+
+                //$('.contractor-search').on('keyup', function () {
+                //    dt.search(this.value).draw();
+                //});
+
+
+                $('.pager').on('click', function (evt) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+
+                    pageNumber = $(this).attr('data-page'); //.val();
+
+                    $('.js-reload-details').click();
+                    $("html, body").animate({ scrollTop: 0 }, 1000);
+                });
+
+
+                $('.profile-btn').on('click', function (evt) {
+                    var $detailDiv = $('.full-profile-view');
+
+                    $.get('/Account/FullProfile?Id=' + $(this).attr('data-contractor-id'), function (data) {
+                        $detailDiv.replaceWith('<div class="full-profile-view">' + data + '</div>');
+                        //$detailDiv.replaceWith(data);
+
+                        $('.bd-example-modal-lg').modal('show').on('hidden.bs.modal', function (e) {
+
+                            $('.full-profile-view').html('');
+                        });
+
+                    });
+                });
+
+
+
+                //$('.js-reload-details').on('click', function (evt) {
+                //    evt.preventDefault();
+                //    evt.stopPropagation();
+
+                //    $('body').loading('start');
+                //    var $detailDiv = $('#detailsDiv');
+
+                //    var rating = $('.rating-select option:selected').val();
+                //    var hourly = $('.hourly-select option:selected').val();
+                //    var displayName = $('.contractor-search').val();
+                //    var sub = $('.search-profession option:selected').val();
+                //    var onlineStatus = $('.search-online-status option:selected').val();
+                //    var all = 'false';
+
+
+                //    if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
+                //        all = true;
+                //    }
+
+
+
+                //    $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=' + onlineStatus + '&All=' + all + '&page=' + pageNumber, function (data) {
+                //        $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
+                //           $('body').loading('stop');
+                //    });
+
+
+                //});
+
+
+
+
+                $('.AssignToProject').click(function (evt) {
+                    evt.preventDefault();
+                    evt.stopPropagation();
+                    $.post('/Account/AssignContractor', { contractorId: $(this).attr('data-contractorId').val(), projectId: $('.select-AssignToProject option:selected').val() }, function (data) {
+                        $('body').loading('start');
+                        var $userProjectsDiv = $('.user-projects');
+                        $userProjectsDiv.empty();
+                        $.get('/Account/UpdateProjectPortal', function (data) {
+                            $userProjectsDiv.replaceWith(' <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">' + data + '</div>');
+                        });
+                        swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
+                    });
+
+                    return false;
+
+                });
+
+            });
+
+            //$('.selectpicker').selectpicker();
+        </script>

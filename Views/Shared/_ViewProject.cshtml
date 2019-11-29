@@ -451,114 +451,135 @@
 
                     <div class="tab-pane fade" id="assigned-contactors-@Model.ProjectsId" role="tabpanel" aria-labelledby="assigned-contactors-@Model.ProjectsId-tab">
                         <div style="min-height:500px">
+                           
+
+
                             <div class="card card-custom">
                                 <div class="col-md-12">
-                                    <div class="form-row" style="margin-top:25px">
+                                    <div class="row">
+                                        @{
+                                            var s = 1;
+                                            var imagename = "";
+                                        }
                                         @foreach (var profile in Model.ProjectAssignments)
                                         {
+                                            var profileGuid = Guid.NewGuid();
+
+                                            <div class="col-lg-4">
+                                                <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
 
-                                            <div class="form-group col-md-8 mt-8 mx-auto">
-                                                <div class="card card-profile" style="min-height:700px;border-radius: 58px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
-                                                    @*<img src="/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px;position: absolute;width: 80px;top:10%;left:10%;transform: translate(-50%, -50%);">*@
-                                                    <div style="background-image: url(/content/images/sc1.jpg);background-position: center center;border-top-right-radius: 16px;    border-top-left-radius: 16px;" class="card-header"></div>
-                                                    <div class="card-body text-center text-light">
-                                                        @Html.Image("/Uploads/ProfileImages/" + @profile.UsersId + "/" + @profile.ProfileImage, "card-profile-img", "", "")
+                                                    <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
+                                                        <div class="row mx-auto">
+                                                            <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
+                                                                @if (@profile.ProfileImage == null)
+                                                                {
+                                                                    imagename = "https://randomuser.me/api/portraits/men/" + s + ".jpg";
 
-                                                        <div class="container">
-                                                            <span id="rateMe">
-                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                                <i class="fas fa-star py-2 px-1 rate-popover-@Model.ProjectsId-@profile.UsersId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                            </span>
-                                                        </div>
+                                                                    @Html.Image(imagename, "card-profile-img", "", "");
 
 
-                                                        <h3 class="mb-3 ">@profile.ProfileDisplayName</h3>
-
-                                                        <div class="card ">
-                                                            <div class="card-body">
-                                                                <h4 class="card-title">My Bios</h4>
-                                                                <p class="mb-4 text-left"> @profile.ProfileBios</p>
+                                                                }
+                                                                else
+                                                                {
+                                                                    @Html.Image("/Uploads/ProfileImages/" + @profile.UsersId + "/" + @profile.ProfileImage, "card-profile-img", "", "");
+                                                                }
+                                                            </div>
+                                                            <div class="card-body col-7 ">
+                                                                <span id="rateMe" data-search="rating" style="font-size:1rem">
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                </span>
+                                                                <script>
+                                                                $(document).ready(function () {
+                                                                     SetStars($('.rate-popover-@profileGuid'),@profile.ProfileRating);
+                                                                });
+                                                                </script>
+                                                                <h4 class="mb-3 " data-search="displayname">@profile.ProfileDisplayName</h4>
+                                                                <h5 class="mb-3 " data-search="hourlyrate">Hourly Rate: $@profile.ByTheHourRate</h5>
                                                             </div>
                                                         </div>
-                                                        <div class="container-fluid">
-                                                            <div class="row">
-                                                                <div class="col">
-                                                                    <div class="card ">
-                                                                        <div class="card-body ">
-                                                                            <h4 class="card-title">My Past Projects</h4>
-                                                                            <table class="mx-auto table-striped past-projects-@profile.UsersId  " style="width:100%;color:grey !important">
-                                                                                <thead>
-                                                                                    <tr>
-                                                                                        <th></th>
-                                                                                        <th></th>
-                                                                                        <th></th>
-                                                                                    </tr>
-                                                                                </thead>
+                                                    </div>
 
-                                                                                <tbody>
-                                                                                    @foreach (var pastProject in profile.ProfilePastProjects)
-                                                                                    {
-                                                                                        var specialId = Guid.NewGuid();
-                                                                                        <tr>
-                                                                                            <td style="vertical-align:top;white-space: nowrap;">
-                                                                                                <div class="container">
-                                                                                                    <span id="rateMe">
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                                                                        <i class="fas fa-star py-2 px-1 rate-popover-@specialId-@pastProject.ProjectsId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                                                                    </span>
-                                                                                                    <script>
+                                                    <div class="card-body text-center text-light grayscale">
+                                                        <div class="card ">
+                                                            <h4 class="card-title">My Bios</h4>
+                                                            <div class="card-body my-bios " style="max-height:none">
+
+                                                                <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.ProfileBios</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col">
+                                                                <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                                                    <div class="card-body ">
+                                                                        <h4 class="card-title">My Past Projects</h4>
+                                                                        <table class="mx-auto table-striped past-projects-@profile.Id  " style="width:100%;color:grey !important">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                    <th></th>
+                                                                                </tr>
+                                                                            </thead>
+
+                                                                            <tbody>
+                                                                                @foreach (var pastProject in profile.ProfilePastProjects)
+                                                                                {
+                                                                                    var specialId = Guid.NewGuid();
+                                                                                    <tr>
+                                                                                        <td style="vertical-align:top;white-space: nowrap;">
+                                                                                            <div class="container">
+                                                                                                <span id="rateMe" style="font-size:0.75rem">
+                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                                                                </span>
+                                                                                                <script>
                                                                                                         $(document).ready(function () {
-                                                                                                            SetStars($('.rate-popover-@specialId-@pastProject.ProjectsId'),@profile.ProfileRating);
+                                                                                                            SetStars($('.rate-popover-@specialId'),@profile.ProfileRating);
                                                                                                         });
 
-                                                                                                    </script>
-                                                                                                </div>
-                                                                                            </td>
-                                                                                            <td style="word-wrap: break-word;vertical-align:top">
-                                                                                                <span>@pastProject.ProjectTitle</span>
-                                                                                            </td>
-                                                                                            <td class="text-left">
-                                                                                                @profile.ProjectOwnerName
-                                                                                            </td>
-                                                                                            @*<td>
-                                                                                                    <div class="small"><i class="fas fa-clock-o"></i> Created @pastProject.CreationDate.ToShortDateString()</div>
-                                                                                                </td>*@
+                                                                                                </script>
+                                                                                            </div>
+                                                                                        </td>
+                                                                                        <td style="word-wrap: break-word;vertical-align:top">
+                                                                                            <span>@pastProject.ProjectTitle</span>
+                                                                                        </td>
+                                                                                        <td class="text-left">
+                                                                                            @pastProject.ProjectOwnerName
+                                                                                        </td>
 
-                                                                                        </tr>
-
-                                                                                    }
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                                    </tr>
+                                                                                   
+                                                                                }
+                                                                            </tbody>
+                                                                        </table>
                                                                     </div>
                                                                 </div>
-                                                                <div class="col">
-                                                                    <div class="card ">
+                                                            </div>
+                                                            <div class="col">
+                                                                <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                                                    <div class="card-body ">
                                                                         <h4 class="card-title">My Job Professions</h4>
                                                                         <table class=" table-striped text-left " style="width:100%;color:grey !important">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    @*<th></th>*@
                                                                                     <th></th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                                 @foreach (var profession in @profile.ProfileProfessions)
                                                                                 {
-
-
                                                                                     <tr>
-                                                                                        @*<td style="padding:10px">@profession.MainCatName</td>*@
-                                                                                        <td style="padding:10px">@profession.SubCatName</td>
+                                                                                        <td style="padding:2px">@profession.SubCatName</td>
                                                                                     </tr>
-
                                                                                 }
                                                                             </tbody>
                                                                         </table>
@@ -566,22 +587,26 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="row justify-content-end">
+                                                            <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
+                                                            @*<div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.ProjectId">View Full Profile</span></div>*@
+
+
+                                                        </div>
+
                                                     </div>
                                                 </div>
-
                                             </div>
 
-                                            <script>
-                                                        $(document).ready(function () {
-                                                            SetStars($('.rate-popover-@Model.ProjectsId-@profile.UsersId'),@profile.ProfileRating);
-
-
-                                                        });
-                                            </script>
+                                            s += 1;
                                         }
                                     </div>
                                 </div>
                             </div>
+
+
+
+
                         </div>
                     </div>
                     <div class="tab-pane fade" id="maps-@Model.ProjectsId" role="tabpanel" aria-labelledby="maps-@Model.ProjectsId-tab">

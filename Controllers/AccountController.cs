@@ -810,7 +810,7 @@ namespace SameDayServicezFinal.Controllers
 
 
         [SessionTimeout]
-        public ActionResult ContractorSearch(int rating=0,string HourlyRange="",string displayName="",string Profession="",string OnlineStatus="",bool All=false)
+        public ActionResult ContractorSearch(int rating=0,string HourlyRange="",string displayName="",string Profession="",string OnlineStatus="",bool All=false, int page=0)
         {
             PortalList portal = new PortalList();
             var userId = User.Identity.GetUserId();
@@ -903,10 +903,12 @@ namespace SameDayServicezFinal.Controllers
             if (All)
             {
                 allcontractors.Clear();
-                allcontractors = db.Users.Where(p => p.IsInContractorMode == true).Take(10).ToList();
+                allcontractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
             }
 
-            foreach (var contractor in allcontractors)
+            var pager = new Pager(allcontractors.Distinct().Count(), page);
+
+            foreach (var contractor in allcontractors.Distinct().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize))
             {
                 var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
                 contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == contractor.Id).ToList();
@@ -924,7 +926,12 @@ namespace SameDayServicezFinal.Controllers
 
             portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
 
+         
+
             portal.ContractorList.OrderBy(p => p.Contractor.DisplayName);
+            portal.Pager = pager;
+
+        
 
             return PartialView("_ContractorSearch", portal);
         }
@@ -972,7 +979,7 @@ namespace SameDayServicezFinal.Controllers
                     var profile = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
                     var projectOwnerName = users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
                     var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == Assignment.UsersId);
-                    Assignment.ProfileProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                    Assignment.ProfileProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == Assignment.UsersId).ToList();
 
 
                     List<Project> ProfilePastProjects = new List<Project>();
@@ -985,6 +992,7 @@ namespace SameDayServicezFinal.Controllers
                     Assignment.ByTheHourRate = profile.ByTheHourRate;
                     Assignment.ProfilePastProjects = ProfilePastProjects;
                     Assignment.ProjectOwnerName = projectOwnerName.DisplayName;
+                    Assignment.UsersId = profile.Id;
                     project.ProjectAssignments.Add(Assignment);
                 }
 

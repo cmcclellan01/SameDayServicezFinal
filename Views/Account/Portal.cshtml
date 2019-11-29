@@ -201,23 +201,36 @@
                                         </div>
 
 
-
-                                        <div id="detailsDiv"></div>
+                                        <div class="loader">
+                                            <div id="detailsDiv"></div>
+                                        </div>
+                                       
                                     </div>
 
                                 </div>
                                 <script>
-
+                                     var pageNumber = 0;
                                     $(document).ready(function () {
 
+                                        
 
+                                        $.get('/Account/GetFullSubCategoryList', function (data) {
+
+                                            $('.search-profession').empty();
+                                            $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
+                                            $.each(data, function (index, row) {
+                                                $('.search-profession').append("<option value='" + row.SubCatName + "'>" + row.SubCatName + "</option>");
+                                            });
+                                        });
+
+                                      
 
 
 
                                         $('.js-reload-details').on('click', function (evt) {
                                             evt.preventDefault();
                                             evt.stopPropagation();
-
+                                              $('body').loading('start');
                                             var $detailDiv = $('#detailsDiv');
    
                                             var rating = $('.rating-select option:selected').val();
@@ -232,12 +245,13 @@
                                             }
 
 
-                                            $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=&All=' + all, function (data) {
+                                            $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=&All=' + all + '&page=' + pageNumber, function (data) {
                                                 $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
+                                                $('body').loading('stop');
                                             });
                                         });
 
-                                        $('.js-reload-details').click();
+                                       
 
                                         $('.search-professions').hide();
                                         $('.search-subprofessions').hide();
@@ -388,7 +402,7 @@
           
             $detailDiv.empty().html(data);
             SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
-            $('.profileDiv').loading('stop');
+           $('body').loading('stop');
            
         });
     }
@@ -400,8 +414,13 @@
 
         SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
 
-
-
+        $('body').loading({
+            start: true,
+            theme: 'dark',
+            message:'Loading Your Dashboard..'
+        });
+        $('.js-reload-details').click();
+      
     });
 </script>
 

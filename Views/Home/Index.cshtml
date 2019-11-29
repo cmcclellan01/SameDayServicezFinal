@@ -568,7 +568,11 @@
         mapAddress(addresess, 'p');
 
 
+        @{ 
+             var i = 1;
+             var imagename = "";
 
+        }
 
         @foreach (var item in Model.ContractorList)
         {
@@ -576,8 +580,9 @@
 
             if(@item.Contractor.ProfileImage == null)
             {
-                  <text> addresess.push(['map-contractors', '@item.Contractor.latitude', ' @item.Contractor.longitude', 'Uploads/ProfileImages/bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539/profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg','@item.Contractor.DisplayName']);
-                    $('body').append('<style>img[src="/Uploads/ProfileImages/bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539/profile_bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539.jpg"]{border-radius:25px;border:1px solid #000 !important;} </style>')
+                 imagename = "https://randomuser.me/api/portraits/men/" + i + ".jpg";
+                  <text> addresess.push(['map-contractors', '@item.Contractor.latitude', ' @item.Contractor.longitude', '@imagename','@item.Contractor.DisplayName']);
+                    $('body').append('<style>img[src="@imagename"]{border-radius:25px;border:1px solid #000 !important;} </style>')
             </text>
             }
             else
@@ -587,7 +592,7 @@
             </text>
             }
 
-
+            i += 1;
         }
 
 
