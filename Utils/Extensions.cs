@@ -59,14 +59,14 @@ namespace SameDayServicezFinal.Utils
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            HttpContext ctx = HttpContext.Current;
-            if (HttpContext.Current.Session["ID"] == null)
-            {
+            //HttpContext ctx = HttpContext.Current;
+            //if (HttpContext.Current.Session["ID"] == null)
+            //{
 
-                filterContext.Result = new RedirectResult("~/Account/Login");
-                return;
-            }
-            base.OnActionExecuting(filterContext);
+            //    filterContext.Result = new RedirectResult("~/Account/Login");
+            //    return;
+            //}
+            //base.OnActionExecuting(filterContext);
         }
     }
 

@@ -96,8 +96,8 @@
                 <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Projects</a>
-                            <a class="nav-item nav-link " id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="false">Profile</a>
+                            <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Projects</a>
+                            <a class="nav-item nav-link " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
                             <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
                             <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
@@ -107,15 +107,19 @@
                 <section>
 
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="tab-pane fade show active" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
                             <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">
-                                @Html.Partial("_Projects", Model)
+                                <div class="partial-loader">
+                                    @Html.Partial("_Projects", Model)
+                                </div>
                             </div>
                         </div>
 
-                        <div class="tab-pane fade  " id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
-                                @Html.Partial("_Profile", Model.ApplicationUser)
+                                <div class="partial-loader">
+                                    @Html.Partial("_Profile", Model.ApplicationUser)
+                                </div>
                             </div>
                         </div>
 
@@ -394,19 +398,7 @@
 <script>
 
 
-    function reloadProfile() {
-         var $detailDiv = $('.profileDiv');     
-        $detailDiv.empty();
-
-        $.get('/Account/ReloadProfile', function (data) {
-          
-            $detailDiv.empty().html(data);
-            SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
-           $('body').loading('stop');
-           
-        });
-    }
-
+      
 
 
 
@@ -419,7 +411,16 @@
             theme: 'dark',
             message:'Loading Your Dashboard..'
         });
+
         $('.js-reload-details').click();
+
+
+
+      
+
+
+
+
       
     });
 </script>

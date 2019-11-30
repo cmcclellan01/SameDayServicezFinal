@@ -1,4 +1,225 @@
-﻿function SetStars(star, index) {
+﻿
+
+function LoadProjectTable() {
+    console.log('Loading table');
+    var $detailDiv = $('.project-view');
+    $('.project-table').DataTable().destroy();
+
+    $('#DataTables_Table_0_length > label').hide();
+
+    $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
+
+    var dt = $('.project-table').DataTable({
+        responsive: {
+            details: {
+                renderer: function (api, rowIdx, columns) {
+                    var data = $.map(columns, function (col, i) {
+                        return col.hidden ?
+                            '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                            '<td  class="text-light">' + col.title + ':' + '</td> ' +
+                            '<td>' + col.data + '</td>' +
+                            '</tr>' :
+                            '';
+                    }).join('');
+
+                    return data ?
+                        $('<table/>').append(data) :
+                        false;
+                }
+
+
+            }
+        },
+        "fnDrawCallback": function (oSettings) {
+
+            $('.project-table').on('click', '.view-project', function (event) {
+
+                event.preventDefault();
+                $('body').loading('start');
+                $detailDiv.empty();
+                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                    $detailDiv.empty().html(data);
+
+                    $('.mode').val('v');
+                  
+                });
+
+
+                return false;
+            });
+
+
+            $('.project-table').on('click', '.edit-project', function (event) {
+                event.preventDefault();
+                $('body').loading('start');
+                $detailDiv.empty();
+                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                    $detailDiv.empty().html(data);
+                    $('.mode').val('e');
+            
+
+                });
+                return false;
+            });
+
+
+            $('.project-table').on('click', '.notes-project', function (event) {
+                event.preventDefault();
+                $('body').loading('start');
+                $detailDiv.empty();
+                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                    $detailDiv.empty().html(data);
+                    $('.mode').val('n');
+                   
+
+                });
+                return false;
+            });
+
+
+            $('.project-table tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child().show();
+                    tr.addClass('shown');
+                }
+            });
+
+        },
+        initComplete: function () {
+
+            this.api().columns([2]).every(function () {
+                var column = this;
+                var select = $('.select-status')
+                    // .appendTo( $(column.footer()).empty() )
+                    .on('change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+
+                        column
+                            .search(val ? val : '', false, true)
+                            .draw();
+                    });
+
+            });
+
+            this.api().columns([3]).every(function () {
+                var column = this;
+                var select = $('.select-participates').on('change', function () {
+                    var val = $.fn.dataTable.util.escapeRegex(
+                        $(this).val()
+                    );
+                    column.search(val ? val : '', false, true).draw();
+                });
+
+            });
+
+
+
+
+
+
+
+        },
+        paging: true,
+        pagingType: 'simple_numbers',
+        dom: 'lrtip',
+        info: false,
+        pageLength: 10,
+        header: "jqueryui",
+        renderer: "bootstrap",
+        columns: [
+            {
+                "data": null,
+                "defaultContent": ""
+            },
+            { name: 'Project name' },
+            { name: 'Status' },
+            { name: 'Participate' },
+            { name: 'City' },
+            { name: 'State' },
+            { name: 'ZipCode' },
+            { name: 'Actions' },
+        ],
+        columnDefs:
+            [
+                {
+                    className: 'control',
+                    orderable: true,
+                    targets: 0,
+
+                },
+                {
+
+                    targets: 1,
+                    className: 'text-center',
+
+                },
+                {
+
+                    targets: 2,
+
+                    className: 'text-center'
+                },
+                {
+
+                    targets: 3,
+                    className: 'text-center'
+                },
+                {
+
+                    targets: 4,
+                    className: 'text-center',
+
+                },
+                {
+
+                    targets: 5,
+                    className: 'text-center',
+
+                },
+                {
+
+                    targets: 6,
+                    className: 'text-center',
+
+                },
+
+                {
+                    targets: [7],
+                    searchable: false,
+                    orderable: false,
+                }
+            ]
+    });
+
+
+    $('.project-search').on('keyup', function () {
+        dt.search(this.value).draw();
+    });
+}
+
+
+
+
+
+
+
+
+
+function SetStars(star, index) {
 
 
     //star.on('mouseover', function () {

@@ -24,16 +24,15 @@
 
     <script src="~/Scripts/DataTables/media/js/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
-    <script src="~/Scripts/utilities.js"></script>
     <script async src="~/Scripts/bootstrap-checkbox.js"></script>
     <script src="~/Scripts/sweetalert.js"></script>
     <script src="~/Scripts/jquery.loading.js"></script>
     <script src="~/Scripts/bootstrap-select.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.js"></script>
+    <script src="~/Scripts/utilities.js"></script>
     @RenderSection("scripts", required: false)
-    <style>
-    </style>
+
 
     <script>
         $(function () {
@@ -44,7 +43,8 @@
     </script>
 
     @Styles.Render("~/Content/css")
-
+    <style>
+    </style>
 </head>
 <body>
 

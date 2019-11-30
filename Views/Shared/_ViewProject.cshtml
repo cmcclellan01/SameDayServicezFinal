@@ -451,7 +451,7 @@
 
                     <div class="tab-pane fade" id="assigned-contactors-@Model.ProjectsId" role="tabpanel" aria-labelledby="assigned-contactors-@Model.ProjectsId-tab">
                         <div style="min-height:500px">
-                           
+
 
 
                             <div class="card card-custom">
@@ -557,7 +557,7 @@
                                                                                         </td>
 
                                                                                     </tr>
-                                                                                   
+
                                                                                 }
                                                                             </tbody>
                                                                         </table>
@@ -610,7 +610,7 @@
                         </div>
                     </div>
                     <div class="tab-pane fade" id="maps-@Model.ProjectsId" role="tabpanel" aria-labelledby="maps-@Model.ProjectsId-tab">
-                        @Html.Partial("_Maps",Model)
+                        @Html.Partial("_Maps", Model)
                     </div>
 
                     <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
@@ -650,6 +650,8 @@
       Dropzone.autoDiscover = false;
     var json = "";
     $(document).ready(function () {
+
+        $('.view-project-main-div').hide();
 
         $('.close-@Model.ProjectsId').on('click', function (event) {
             event.preventDefault();
@@ -983,7 +985,7 @@
 
      Onload();
 
-        $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
+
 
     });
 
@@ -1001,6 +1003,10 @@
             $('.project-id-@Model.ProjectsId').show();
             $('.project-editing-type').text('Viewing ');
             $('.close-@Model.ProjectsId').show();
+            $('.project-view .view-project-main-div').show();
+            $('body').loading('stop');
+            $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
+             ;
         }
 
 
@@ -1011,6 +1017,10 @@
             $('.project-editing-type').text('Editing ')
             $('.project-id-@Model.ProjectsId').show();
             $('.close-@Model.ProjectsId').show();
+           $('.project-view .view-project-main-div').show();
+            $('body').loading('stop');
+            $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
+
         }
 
 
@@ -1022,6 +1032,10 @@
             $('.project-editing-type').text('Editing ')
             $('.close-@Model.ProjectsId').show();
             $('#myTab-@Model.ProjectsId' + ' li:last-child a').tab('show');
+            $('.project-view .view-project-main-div').show();
+            $('body').loading('stop');
+            $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
+          ;
         }
 
     });

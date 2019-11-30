@@ -1,5 +1,18 @@
 ﻿
 
+
+function LoadData(userDiv, controller, method) {
+    $('body').loading('start');
+    var $userDiv = userDiv;   
+    var url = '/' + controller + '/' + method;   
+    $userDiv.empty();
+    var ret = $.get(url, function (data) {        
+        $userDiv.replaceWith('<div class="partial-loader">' + data + '</div>');       
+    });
+    $('body').loading('stop');
+    return ret;    
+}
+
 function validateDec(key) {
     //getting key code of pressed key
     var keycode = (key.which) ? key.which : key.keyCode;
@@ -53,3 +66,4 @@ $.fn.enable = function () {
         if (typeof this.disabled !== "undefined") this.disabled = false;
     });
 };
+

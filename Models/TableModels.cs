@@ -159,11 +159,9 @@ namespace SameDayServicezFinal.Models
 
         public DateTime LastUpdated { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; }       
 
-        public long ProjectCompensationPackageId { get; set; }
-
-        [NotMapped]
+       
         public long SelectedProjectCompensationPackage { get; set; }
 
         [NotMapped]
@@ -200,6 +198,8 @@ namespace SameDayServicezFinal.Models
         public List<Conversations> Conversations { get; set; }
         [NotMapped]
         public string ProjectOwnerName { get; set; }
+
+        public bool AcceptingContractors { get; set; }
 
     }
     [Table("ProjectAssignment")]

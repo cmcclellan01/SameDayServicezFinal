@@ -363,13 +363,14 @@
                     evt.preventDefault();
                     evt.stopPropagation();
                     $.post('/Account/AssignContractor', { contractorId: $(this).attr('data-contractorId').val(), projectId: $('.select-AssignToProject option:selected').val() }, function (data) {
-                        $('body').loading('start');
-                        var $userProjectsDiv = $('.user-projects');
-                        $userProjectsDiv.empty();
-                        $.get('/Account/UpdateProjectPortal', function (data) {
-                            $userProjectsDiv.replaceWith(' <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">' + data + '</div>');
-                        });
-                        swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
+                      
+
+
+                        if (LoadData($('.user-projects'), 'Account', 'UpdateProjectPortal')) {
+                            swal("Contractor has been assigned to project:" + $('.select-AssignToProject option:selected').text() + ".", "", "success");
+                        }
+                        
+                        
                     });
 
                     return false;

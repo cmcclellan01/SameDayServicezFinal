@@ -415,8 +415,32 @@
                 "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode,
             success: function () {
 
-                swal("Profile has been updated.", "", "success");
-                reloadProfile();
+                var ret = LoadData($('.profileDiv'), 'Account', 'ReloadProfile');
+                ret.done(function () {
+                    SetStars($('.rate-popover'),@Model.Rating);
+                    swal("Profile has been updated.", "", "success");
+
+                    swal({
+                        title: "Profile Update?",
+                        text: "Profile has been updated.",
+                        type: "info",
+                        showCancelButton: false,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Ok!",
+                        closeOnConfirm: true
+                    },
+                        function () {                            
+                                $('#nav-project-tab').tab('show');
+                                $('.new-data').val('true');
+                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        });
+
+
+
+                   
+                    
+                });
+
             }
         });
         return false;

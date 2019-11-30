@@ -633,6 +633,18 @@ namespace SameDayServicezFinal.Controllers
             
         }
 
+
+        public async Task<ActionResult> UpdateProjectPortal()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            PortalList portal = new PortalList();
+            portal.ApplicationUser = user;
+            UpdatePortal(portal);
+
+            return PartialView("_Projects", portal);
+        }
+
         [HttpGet]
         [SessionTimeout]
         public async Task<ActionResult> Portal()
@@ -684,19 +696,24 @@ namespace SameDayServicezFinal.Controllers
 
             return View(portal);
         }
-        [SessionTimeout]
+ 
         public void UpdatePortal(PortalList portal)
         {
-           // var states = Utils.Extensions.GetStatesList();
-          
-            var userId = User.Identity.GetUserId();
-            portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
-           
             var users = db.Users.Select(p => p).ToList();
-            
+            var userId = User.Identity.GetUserId();
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
 
-            
+            switch (portal.ApplicationUser.IsInContractorMode)
+            {
+
+                case true:
+                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).ToList();
+                    break;
+
+                case false:
+                    portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
+                    break;
+            }         
 
 
             foreach (var project in portal.Projects)
