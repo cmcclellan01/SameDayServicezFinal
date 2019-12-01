@@ -978,7 +978,7 @@ namespace SameDayServicezFinal.Controllers
         {
             Project project = new Project();
             var userId = User.Identity.GetUserId();
-            var states = Utils.Extensions.GetStatesList();
+            var states = Extensions.GetStatesList();
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
 
             var users = db.Users.Select(p => p).ToList();
@@ -1045,7 +1045,7 @@ namespace SameDayServicezFinal.Controllers
 
 
 
-
+            Session["IsInContractorMode"] = (users.Where(i => i.Id == userId).SingleOrDefault()).IsInContractorMode;
 
 
             return PartialView("_ViewProject", project);

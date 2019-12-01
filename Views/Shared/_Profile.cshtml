@@ -415,10 +415,10 @@
                 "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode,
             success: function () {
 
-                var ret = LoadData($('.profileDiv'), 'Account', 'ReloadProfile');
+                var ret = LoadData('profileDiv', 'Account', 'ReloadProfile');
                 ret.done(function () {
                     SetStars($('.rate-popover'),@Model.Rating);
-                    swal("Profile has been updated.", "", "success");
+                  //  swal("Profile has been updated.", "", "success");
 
                     swal({
                         title: "Profile Update?",
@@ -430,8 +430,9 @@
                         closeOnConfirm: true
                     },
                         function () {                            
-                                $('#nav-project-tab').tab('show');
-                                $('.new-data').val('true');
+                            $('#nav-project-tab').tab('show');
+                           
+                                
                             //swal("Deleted!", "Your imaginary file has been deleted.", "success");
                         });
 

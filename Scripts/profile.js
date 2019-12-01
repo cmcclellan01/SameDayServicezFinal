@@ -211,14 +211,6 @@ function LoadProjectTable() {
     });
 }
 
-
-
-
-
-
-
-
-
 function SetStars(star, index) {
 
 
@@ -304,10 +296,14 @@ $(document).ready(function () {
             case true:
                 $('.IsContractor').prop('checked', true);
                 $('.current-mode').html('<span style="color:#015668;font-size:1rem">Contractor</span>');
+                $('.contractor-customer-change').val('true');
+                $('.cm').val('true');
                 break;
             case false:
                 $('.IsContractor').prop('checked', false);
                 $('.current-mode').html('<span style="color:#015668;font-size:1rem">Customer</span>');
+                $('.contractor-customer-change').val('true');
+                $('.cm').val('false');
                 break;
         }
 

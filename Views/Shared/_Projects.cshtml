@@ -821,33 +821,74 @@
                             <input type="text" class="form-control project-search" placeholder="Search for anything" style="margin:10px">
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        <div class="input-group ">
-                            <label class="text-light" style="margin-left:10px">Participate:</label>
-                            <select class="form-control select-participates" style="width: 100%;margin:10px">
-                                <option value="">All</option>
-                                @{
-                                    List<string> participates = new List<string>();
 
-                                    foreach (var item in Model.Projects)
-                                    {
-                                        foreach (var profile in item.ProjectAssignments)
-                                        {
-                                            participates.Add(profile.ProfileDisplayName);
+                    @{
+                        if (Model.ApplicationUser.IsInContractorMode)
+                        {
+                            <div class="col-lg-2" style="display:none">
+                                <div class="input-group ">
+                                    <label class="text-light" style="margin-left:10px">Participate:</label>
+                                    <select class="form-control select-participates" style="width: 100%;margin:10px">
+                                        <option value="">All</option>
+                                        @{
+                                            List<string> participates = new List<string>();
+
+                                            foreach (var item in Model.Projects)
+                                            {
+                                                foreach (var profile in item.ProjectAssignments)
+                                                {
+                                                    participates.Add(profile.ProfileDisplayName);
+                                                }
+                                            }
+
+                                            foreach (var item in participates.Distinct().OrderBy(p => p))
+                                            {
+                                                <option>@item</option>
+                                            }
+
+
                                         }
-                                    }
 
-                                    foreach (var item in participates.Distinct().OrderBy(p => p))
-                                    {
-                                        <option>@item</option>
-                                    }
+                                    </select>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="col-lg-2">
+                                <div class="input-group ">
+                                    <label class="text-light" style="margin-left:10px">Participate:</label>
+                                    <select class="form-control select-participates" style="width: 100%;margin:10px">
+                                        <option value="">All</option>
+                                        @{
+                                            List<string> participates = new List<string>();
+
+                                            foreach (var item in Model.Projects)
+                                            {
+                                                foreach (var profile in item.ProjectAssignments)
+                                                {
+                                                    participates.Add(profile.ProfileDisplayName);
+                                                }
+                                            }
+
+                                            foreach (var item in participates.Distinct().OrderBy(p => p))
+                                            {
+                                                <option>@item</option>
+                                            }
 
 
-                                }
+                                        }
 
-                            </select>
-                        </div>
-                    </div>
+                                    </select>
+                                </div>
+                            </div>
+                        }
+
+                    }
+
+
+
+
 
                 </div>
             </div>
@@ -895,10 +936,12 @@
                                     <td>
                                         @foreach (var profile in item.ProjectAssignments)
                                         {
-                                            <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class="rounded image-md img-thumbnail" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
+                                            <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
                                         }
-
                                     </td>
+
+
+
                                     <td>
                                         <span>@item.City</span>
                                     </td>
@@ -912,8 +955,18 @@
                                     <td>
                                         <div class="btn-group pull-right">
                                             <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
-                                            <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
-                                            <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
+
+                                            @{
+                                                if (Model.ApplicationUser.IsInCustomerMode)
+                                                {
+                                                    <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
+                                                    <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
+                                                }
+
+
+                                            }
+
+
                                         </div>
                                     </td>
                                 </tr>
@@ -937,6 +990,21 @@
 
 <input type="hidden" class="mode" />
 <input type="hidden" class="new-data" />
+<input type="hidden" class="contractor-customer-change" />
+@{
+    if (Model.ApplicationUser.IsInContractorMode)
+    {
+        <input type="hidden" class="cm" value="true" />
+        <script>$('#nav-contractor-search-tab').hide();</script>
+    }
+    else
+    {
+        <input type="hidden" class="cm" value="false" />
+        <script>$('#nav-contractor-search-tab').show();</script>
+    }
+}
+
+
 
 
 <script>
@@ -947,30 +1015,38 @@
     $(document).ready(function () {
         LoadProjectTable();
 
-        setInterval('NewDataCheck()', 1000);
+        if ($('.cm').val() == 'true') {
+            $('#nav-contractor-search-tab').hide();
+        }
+        else {
+            $('#nav-contractor-search-tab').show();
+        }
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href");
+
+            if ((target == '#nav-project')) {
+
+                if ($('.contractor-customer-change').val() == 'true') {
+                    $('.new-data').val('true');
+                    setTimeout('NewDataCheck()', 2000);
+                }
+
+            } else {
+
+            }
+        });
+
+
+        $('body').loading('stop');
+
+
     });
 
 
     function NewDataCheck() {
 
         if ($('.new-data').val() == 'true') {
-
-            $('.new-data').val('false');
-            swal({
-                title: 'you have changed your Customer/Contractor?',
-                text: "Your view has changed would you like to reload the view?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Reload View!'
-            },
-                function () {
-                    LoadData($('.user-projects'), 'Account', 'UpdateProjectPortal');
-                    // swal("Deleted!", "Your imaginary file has been deleted.", "success");
-                });
-
-
 
             swal({
                 title: "Customer/Contractor change?",
@@ -982,8 +1058,11 @@
                 closeOnConfirm: true
             },
                 function () {
-                    LoadData($('.user-projects'), 'Account', 'UpdateProjectPortal');
+                    $('body').loading('start');
+                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
                     //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    $('.new-data').val('false');
+                    $('.contractor-customer-change').val('false');
                 });
 
 

@@ -93,13 +93,20 @@
                     <li class="nav-item">
                         <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
-                    </li>
+
+
+                    @{
+                        if (!(bool)Session["IsInContractorMode"])
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
+                            </li>
+
+                        }
+                    }
                     <li class="nav-item">
                         <a class="nav-link" id="maps-@Model.ProjectsId-tab" data-toggle="tab" href="#maps-@Model.ProjectsId" role="tab" aria-controls="maps-@Model.ProjectsId" aria-selected="false">Maps & Locations</a>
                     </li>
-
                     <li class="nav-item">
                         <a class="nav-link" id="notes-@Model.ProjectsId-tab" data-toggle="tab" href="#notes-@Model.ProjectsId" role="tab" aria-controls="notes-@Model.ProjectsId" aria-selected="false">Project Notes</a>
                     </li>
@@ -134,11 +141,18 @@
                                 </div>
 
                                 <div class="form-row">
-                                    <div class="form-group col-md-4 ">
-                                        @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.Address)
-                                    </div>
+
+                                    @{
+                                        if (!(bool)Session["IsInContractorMode"])
+                                        {
+                                            <div class="form-group col-md-4 ">
+                                                @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.Address)
+                                            </div>
+                                        }
+
+                                    }
 
                                     <div class="form-group  col-md-4">
                                         <!-- City-->
@@ -147,6 +161,17 @@
                                         @Html.ValidationMessageFor(model => model.City)
                                     </div>
 
+                                    @{
+                                        if ((bool)Session["IsInContractorMode"])
+                                        {
+                                            <div class="form-group  col-md-4">
+                                                @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ZipCode)
+                                            </div>
+                                        }
+
+                                    }
 
                                     <div class="form-group col-md-4 ">
                                         @Html.LabelFor(x => x.State, "Project State", new { @class = "control-label text-light" })
@@ -157,16 +182,26 @@
 
                                 </div>
 
-                                <div class="form-row">
-
-                                    <div class="form-group  col-md-4">
-                                        @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
-                                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.ZipCode)
-                                    </div>
 
 
-                                </div>
+                                @{
+                                    if (!(bool)Session["IsInContractorMode"])
+                                    { 
+                                        <div class="form-row">
+                                            <div class="form-group  col-md-4">
+                                                @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ZipCode)
+                                            </div>
+                                        </div>
+                                    }
+
+                                }
+
+
+
+
+
                             </div>
                         </div>
                     </div>
@@ -451,9 +486,6 @@
 
                     <div class="tab-pane fade" id="assigned-contactors-@Model.ProjectsId" role="tabpanel" aria-labelledby="assigned-contactors-@Model.ProjectsId-tab">
                         <div style="min-height:500px">
-
-
-
                             <div class="card card-custom">
                                 <div class="col-md-12">
                                     <div class="row">
@@ -609,9 +641,16 @@
 
                         </div>
                     </div>
+
+
                     <div class="tab-pane fade" id="maps-@Model.ProjectsId" role="tabpanel" aria-labelledby="maps-@Model.ProjectsId-tab">
                         @Html.Partial("_Maps", Model)
                     </div>
+                      
+
+
+
+
 
                     <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
                         <div class="card card-custom">

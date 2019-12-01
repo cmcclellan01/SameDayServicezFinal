@@ -100,6 +100,14 @@
                             <a class="nav-item nav-link " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
                             <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
+
+                            @{
+                                if (!Model.ApplicationUser.IsInContractorMode)
+                                {
+
+                                }
+                            }
+
                             <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
                         </div>
                     </nav>
@@ -108,18 +116,14 @@
 
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
-                            <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">
-                                <div class="partial-loader">
-                                    @Html.Partial("_Projects", Model)
-                                </div>
+                            <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">              
+                                    @Html.Partial("_Projects", Model)                               
                             </div>
                         </div>
 
                         <div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
-                                <div class="partial-loader">
-                                    @Html.Partial("_Profile", Model.ApplicationUser)
-                                </div>
+                            <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">                               
+                                    @Html.Partial("_Profile", Model.ApplicationUser)                               
                             </div>
                         </div>
 

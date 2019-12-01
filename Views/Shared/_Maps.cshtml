@@ -105,72 +105,61 @@
 
         ];
 
-       
+
             map = new google.maps.Map(document.getElementById('map'), mapOptions);
             map.set('styles', mapStyles);
         
-       
+            var latlng = new google.maps.LatLng(addresses[0][1], addresses[0][2]);
 
-        addresses.forEach(function (item) {
+                        @{
+                            if (!(bool)Session["IsInContractorMode"])
+                            {
+                                <text>
+                                var marker = new google.maps.Marker({
+                                    map: map,
+                                    position: latlng,
+                                    icon: '/content/images/logo.ico',
+                                    title: addresses[0][3] + '-' + addresses[0][5],
+                                    animation: google.maps.Animation.DROP
+                                });
+                                var bounds = new google.maps.LatLngBounds();
+                                bounds.extend(latlng);
+                                map.setCenter(bounds.getCenter());
+                                map.setZoom(11);
+                                </text>
+                            }
+                            else
+                            {
+                                <text>
+                                var cityCircle = new google.maps.Circle({
+                                    strokeColor: '#FF0000',
+                                    strokeOpacity: 0.5,
+                                    strokeWeight: 1,
+                                    fillColor: '#AA0000',
+                                    fillOpacity: 0.2,
+                                    map: map,
+                                    center: latlng,
+                                    radius: 8046.72
+                                });
 
-                     if (type =='p') {
 
-                         var contentString = '<div class="card border-primary">'+
-                        '<div class="card-header">'+
-                                '<span class=" font-weight-bold">' + item[3] + '</span>'+
-                        '</div>'+
-                        '<div class="card-body">'+
-                            '<p class="card-text">'+
-                                '<span class="text-light small">Description:</span> <span class="table-dark small">' + item[4].replace(/&quot;/g, '') + '</span>'+
-                            '</p>'+
-                        '</div>'+
-                        '</div>';
+                                var bounds = new google.maps.LatLngBounds();
+                                bounds.extend(latlng);
+                                map.setCenter(bounds.getCenter());
+                                map.setZoom(11);
+                                 </text>
+                            }
+                          }
+                       
 
-                        var infowindow = new google.maps.InfoWindow({ content: contentString });
-                        var latlng = new google.maps.LatLng(item[1],item[2]);
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: latlng,
-                            icon:'/content/images/logo.ico',
-                            title: item[3] + '-' + item[5],
-                            animation: google.maps.Animation.DROP
-                        });
 
-                        marker.addListener('click', function () {
-                            if (lastWindow) lastWindow.close();
-                            infowindow.open(map, marker);
-                            lastWindow = infowindow;
-                        });
 
-                        //$('.marker-link').on('click', function () {
-                        //    google.maps.event.trigger(markers.find(p => p.title === $(this).data('title')), 'click');
-                        //});
-
-                        markers.push(marker);
-
-                    } else {
-                         //http://philapark.org/wp-content/uploads/2014/03/contractor-permit-icon.png
-                         var latlng = new google.maps.LatLng(item[1],item[2]);
-                         var marker = new google.maps.Marker({
-                             map: map,
-                             icon:'/content/images/kqm_icon.ico',
-                             position: latlng,
-                             animation: google.maps.Animation.DROP
-                         });
-
-                          markers.push(marker);
-                    }
-        });
-
-         center_map(map,markers);
-         addresess = [];
-
-    }/////
+    }
 
     function initProjectsMap() {
 
         addresess.push(['map', '@Model.latitude',' @Model.longitude','@Model.ProjectTitle', '@Model.Description', '@Model.ProjectsId']);
-       
+
         mapAddress(addresess, 'p');
     }
 
