@@ -647,7 +647,7 @@ namespace SameDayServicezFinal.Controllers
 
         [HttpGet]
         [SessionTimeout]
-        public async Task<ActionResult> Portal()
+        public async Task<ActionResult> Portal(int page = 0)
         {
             var states = Utils.Extensions.GetStatesList();
             var userId = User.Identity.GetUserId();
@@ -672,6 +672,10 @@ namespace SameDayServicezFinal.Controllers
                 portal.ApplicationUser = user;            
 
                 UpdatePortal(portal);
+
+                var pager = new Pager(portal.Projects.Count(), page);
+                portal.Projects.OrderBy(p => p.CreationDate);
+                portal.Pager = pager;
 
                 //var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
                 //foreach (var contractor in contractors)
@@ -747,24 +751,24 @@ namespace SameDayServicezFinal.Controllers
 
 
                 // add the Project Compensation Package to the object
-                //var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
-                //if (ProjectCompensationPackage != null)
-                //{
-                //    project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
-                //    project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
-                //    project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
-                //    project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
-                //    project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
-                //    project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
-                //    project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
-                //    project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
-                //}
+                var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+                if (ProjectCompensationPackage != null)
+                {
+                    project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
+                    project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                    project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                    project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                    project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                    project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                    project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                    project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+                }
 
-                // add the Project Job Categories to the object
-               // project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+                //add the Project Job Categories to the object
+                 project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
 
                 // add the Project Documents to the object
-               // project.ProjectDocuments = db.ProjectDocuments.Where(p => p.ProjectId == project.ProjectsId).ToList();
+                // project.ProjectDocuments = db.ProjectDocuments.Where(p => p.ProjectId == project.ProjectsId).ToList();
 
                 // fill the drops downs on the model
                 //project.States = GetSelectListItems(states);
@@ -772,11 +776,11 @@ namespace SameDayServicezFinal.Controllers
                 //project.SubProfessions = new List<SelectListItem>();
                 //project.CompensationTypeList = Utils.Extensions.GetCompensationType();
 
-               // project.Conversations = new List<Conversations>();
+                // project.Conversations = new List<Conversations>();
                 //project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
 
 
-             
+
 
             }
         }
@@ -973,6 +977,73 @@ namespace SameDayServicezFinal.Controllers
                        
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult ApplyForJob(long projectId)
+        {
+            var userId = User.Identity.GetUserId();
+            var contrator = db.Users.Where(p => p.Id == userId).SingleOrDefault();
+            var project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+
+            Messages message = new Messages
+            {
+                CreationDate = DateTime.Now,
+                ReceiverId = project.ProjectsUsersId,
+                SenderId = userId,
+                Message = "<span class=\"message-display-name\">" + contrator.DisplayName + "</span> has applied for project:class=\"message-project-title\">" + project.ProjectTitle + "</span>"
+            };
+
+            JobMessages jobMessage = new JobMessages{
+                ProjectId = projectId,
+                ContractorId = userId,
+                CreationDate = DateTime.Now,
+                CustomerId = project.ProjectsUsersId,
+                Message = message
+            };
+
+            db.JobMessages.Add(jobMessage);
+            db.SaveChanges();
+
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ViewFullProject(long projectId)
+        {
+            PortalList portal = new PortalList();
+            Project project = new Project();
+
+            project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+
+            // add the Project Job Categories to the object
+            project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+
+            // add the Project Compensation Package to the object
+            var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+            if (ProjectCompensationPackage != null)
+            {
+                project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
+                project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+            }
+
+
+            portal.Projects.Add(project);
+          
+
+            
+
+
+
+
+            return PartialView("_ViewJob", portal);
+        }
+
+
         [SessionTimeout]
         public ActionResult GetProject(long projectId)
         {

@@ -113,6 +113,7 @@ namespace SameDayServicezFinal.Models
         [Required]
         public string ProjectTitle { get; set; }
         [Required]
+        [AllowHtml]
         public string Description { get; set; }
 
 
@@ -233,6 +234,20 @@ namespace SameDayServicezFinal.Models
         public List<ContractorCustomerCategories> ProfileProfessions { get; set; }
     }
 
+    [Table("JobMessages")]
+    public class JobMessages
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public long ProjectId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public string ContractorId { get; set; }
+        public string CustomerId { get; set; }
+
+        public Messages Message { get; set; }
+    }
+
     [Table("Conversations")]
     public class Conversations
     {
@@ -257,7 +272,8 @@ namespace SameDayServicezFinal.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }               
+        public long Id { get; set; }   
+        [AllowHtml]
         public string Message { get; set; }
         public DateTime CreationDate { get; set; }
         public bool Read { get; set; }

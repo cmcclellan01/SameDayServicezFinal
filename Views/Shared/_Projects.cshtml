@@ -4,6 +4,60 @@
 
 <style>
 
+    .jobs .card-header {
+        padding: 0.5rem .6rem;
+    }
+
+
+    .project-more {
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: 400;
+        margin-right: 1px;
+        padding: 5px 5px 5px 5px;
+        max-height: 1000px;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+
+    .jobs .card-body {
+        /*max-height: 300px;
+        min-height: 300px;*/
+        background-color: #111111 !important;
+    }
+
+    @@media (max-width: 575.98px) {
+        .project-more {
+            font-size: 12px;
+            line-height: 18px;
+            /*min-height: 180px;*/
+            max-height:150px
+        }
+
+        .jobs .card-body {
+            max-height: 350px;
+            min-height: 350px;
+        }
+    }
+
+
+    @@media (max-width: 360px) {
+        .project-more {
+            font-size: 12px;
+            line-height: 18px;
+            max-height: 180px;
+            min-height: 180px;
+        }
+    }
+
+    .morecontent span {
+        display: none;
+    }
+
+    .morelink {
+        display: block;
+    }
+
     .project-table .fa {
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
@@ -798,63 +852,144 @@
         text-align: center;
     }
 </style>
+
+
+
 <div class="row project-loading">
     <div class="col-lg-12">
-        <div class="panel card" style="padding:10px">
-            <div class="panel-body">
-                <div class="row">
 
-                    <div class="col-lg-2">
-                        <div class="input-group ">
-                            <label class="text-light" style="margin-left:10px">Status Filter:</label>
-                            <select class="form-control select-status" style="width: 100%;margin:10px">
-                                <option value="">All</option>
-                                <option>Active</option>
-                                <option>Waiting</option>
-                                <option>Complete</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-lg-3">
-                        <div class="input-group ">
-                            <label class="text-light" style="margin-left:10px">Project Search:</label>
-                            <input type="text" class="form-control project-search" placeholder="Search for anything" style="margin:10px">
-                        </div>
-                    </div>
+        @{
 
-                    @{
-                        if (Model.ApplicationUser.IsInContractorMode)
-                        {
-                            <div class="col-lg-2" style="display:none">
-                                <div class="input-group ">
-                                    <label class="text-light" style="margin-left:10px">Participate:</label>
-                                    <select class="form-control select-participates" style="width: 100%;margin:10px">
-                                        <option value="">All</option>
-                                        @{
-                                            List<string> participates = new List<string>();
+            if (Model.ApplicationUser.IsInContractorMode)
+            {
+              
 
-                                            foreach (var item in Model.Projects)
-                                            {
-                                                foreach (var profile in item.ProjectAssignments)
+
+                <div class="row jobs" style="margin-top:5px">
+                    @foreach (var project in Model.Projects)
+                    {
+                        <div class="col-lg-7 mx-auto">
+                            <div class="card  ">
+                                <div class="card-header grayscale-center ">
+                                    <h4 class="text-capitalize" style="color: #212529;">@project.ProjectTitle</h4>
+                                </div>
+                                <div class="card-body grayscale-center">
+
+                                    <span style="font-size: 0.8rem;font-weight: bold;color: #212529;">@project.City - Posted @DateTime.Now.Subtract(project.CreationDate).Days.ToString()  days ago</span>
+                                    <div>
+                                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Compensation:</span>
+                                        <span style="font-size: 0.8rem;color: #212529;display:inline"> $@project.ByTheHourRate.ToString() / hourly</span>
+                                    </div>
+                                    <div>
+                                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Recommended skills: </span>
+                                        <span style="font-size: 0.8rem;color: #212529;display:inline">
+                                            @{
+                                                var ProjectCategories = "";
+                                                foreach (var item in project.ProjectCategories)
                                                 {
-                                                    participates.Add(profile.ProfileDisplayName);
+                                                    ProjectCategories += item.ProjectsSubCatName + ",";
                                                 }
+
+                                                @ProjectCategories.Trim(',');
                                             }
+                                        </span>
+                                    </div>
+                                    <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Job Description:  </span>
+                                    <div class="card-text project-more " style="font-size: 0.8rem;color: #212529;display:inline">@Html.Raw(@project.Description)</div>
 
-                                            foreach (var item in participates.Distinct().OrderBy(p => p))
-                                            {
-                                                <option>@item</option>
-                                            }
 
 
-                                        }
 
+
+
+
+
+
+
+
+
+
+
+
+                                </div>
+                                <div class="card-footer grayscale-center">
+                                    <div class="float-right">
+                                        <span class="btn btn-dark applied view-job" data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:5px">View job</span>
+                                        <span class="btn btn-dark applied" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;">Apply</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    <!-- pager -->
+                    @if (Model.Pager.EndPage > 1)
+                    {
+
+                        <div style="margin: 0; white-space: nowrap; text-align: right;">
+                            <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+
+                                @if (Model.Pager.CurrentPage > 1)
+                                {
+                                    <a class="btn custom-table-buttons  previous pager" data-page="@(Model.Pager.CurrentPage - 1)" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a>
+                                }
+
+                                @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                                {
+
+                                    if (@page == Model.Pager.CurrentPage)
+                                    {
+                                        <span>
+                                            <a class="btn custom-table-buttons pager current" data-page="@page" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" style="color: white;background-color: transparent;">@page</a>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span>
+                                            <a class="btn custom-table-buttons pager" data-page="@page" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">@page</a>
+                                        </span>
+                                    }
+
+
+
+
+                                }
+
+                                @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                                {
+                                    <a class="btn custom-table-buttons pager" data-page="@(Model.Pager.CurrentPage + 1)">Next</a>
+                                }
+
+                            </div>
+                        </div>
+
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="panel card" style="padding:10px">
+                    <div class="panel-body">
+                        <div class="row">
+
+                            <div class="col-lg-2">
+                                <div class="input-group ">
+                                    <label class="text-light" style="margin-left:10px">Status Filter:</label>
+                                    <select class="form-control select-status" style="width: 100%;margin:10px">
+                                        <option value="">All</option>
+                                        <option>Active</option>
+                                        <option>Waiting</option>
+                                        <option>Complete</option>
                                     </select>
                                 </div>
                             </div>
-                        }
-                        else
-                        {
+                            <div class="col-lg-3">
+                                <div class="input-group ">
+                                    <label class="text-light" style="margin-left:10px">Project Search:</label>
+                                    <input type="text" class="form-control project-search" placeholder="Search for anything" style="margin:10px">
+                                </div>
+                            </div>
+
                             <div class="col-lg-2">
                                 <div class="input-group ">
                                     <label class="text-light" style="margin-left:10px">Participate:</label>
@@ -882,101 +1017,100 @@
                                     </select>
                                 </div>
                             </div>
-                        }
-
-                    }
 
 
 
 
 
+
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="card">
-            <div class="row">
-                <div class="col-lg-12">
-                    <table class="table   project-table ">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th> Project name</th>
-                                <th>Status</th>
-                                <th>Participate</th>
-                                <th>City</th>
-                                <th>State</th>
-                                <th>Zipcode</th>
-                                <th class="text-right">Actions</th>
-                            </tr>
-                        </thead>
 
-                        <tbody>
-                            @foreach (var item in Model.Projects)
-                            {
-                                <tr>
-                                    <td></td>
+                <div class="card">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table class="table   project-table ">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th> Project name</th>
+                                        <th>Status</th>
+                                        <th>Participate</th>
+                                        <th>City</th>
+                                        <th>State</th>
+                                        <th>Zipcode</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
 
-                                    <td>
-                                        <span>@item.ProjectTitle</span>
+                                <tbody>
+                                    @foreach (var item in Model.Projects)
+                                    {
+                                        <tr>
+                                            <td></td>
 
-
-                                    </td>
-                                    <td>
-                                        @if (item.IsActive)
-                                        {
-                                            <span class="label label-accent">Active</span>
-                                        }
-                                        else
-                                        {
-                                            <span class="label label-accent">Complete</span>
-                                        }
+                                            <td>
+                                                <span>@item.ProjectTitle</span>
 
 
-                                    </td>
-                                    <td>
-                                        @foreach (var profile in item.ProjectAssignments)
-                                        {
-                                            <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
-                                        }
-                                    </td>
-
-
-
-                                    <td>
-                                        <span>@item.City</span>
-                                    </td>
-                                    <td>
-                                        <span>@item.State</span>
-                                    </td>
-                                    <td>
-                                        <span>@item.ZipCode</span>
-                                    </td>
-
-                                    <td>
-                                        <div class="btn-group pull-right">
-                                            <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
-
-                                            @{
-                                                if (Model.ApplicationUser.IsInCustomerMode)
+                                            </td>
+                                            <td>
+                                                @if (item.IsActive)
                                                 {
-                                                    <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
-                                                    <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
+                                                    <span class="label label-accent">Active</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="label label-accent">Complete</span>
                                                 }
 
 
-                                            }
+                                            </td>
+                                            <td>
+                                                @foreach (var profile in item.ProjectAssignments)
+                                                {
+                                                    <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
+                                                }
+                                            </td>
 
 
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+
+                                            <td>
+                                                <span>@item.City</span>
+                                            </td>
+                                            <td>
+                                                <span>@item.State</span>
+                                            </td>
+                                            <td>
+                                                <span>@item.ZipCode</span>
+                                            </td>
+
+                                            <td>
+                                                <div class="btn-group pull-right">
+                                                    <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
+                                                    <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
+                                                    <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
+
+
+
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
                 </div>
-            </div>
+            }
 
-        </div>
+        }
+
+
+
+
     </div>
 
 </div>
@@ -986,6 +1120,10 @@
     <div class="project-view">
 
     </div>
+</div>
+
+<div class="job">
+
 </div>
 
 <input type="hidden" class="mode" />
@@ -1012,64 +1150,90 @@
     var projects = [];
 
 
-    $(document).ready(function () {
-        LoadProjectTable();
+            function SetShowText() {
 
-        if ($('.cm').val() == 'true') {
-            $('#nav-contractor-search-tab').hide();
-        }
-        else {
-            $('#nav-contractor-search-tab').show();
-        }
+                var showChar = 600;
+                var ellipsestext = "...";
 
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-            var target = $(e.target).attr("href");
-
-            if ((target == '#nav-project')) {
-
-                if ($('.contractor-customer-change').val() == 'true') {
-                    $('.new-data').val('true');
-                    setTimeout('NewDataCheck()', 2000);
+                 if ($('.project-more').width() < 300) {
+                    showChar = 600;
+                }
+                else {
+                    showChar = 5000;
                 }
 
-            } else {
 
+                $('.project-more').each(function () {
+                    var content = $(this).html();
+
+                    if (content.length > showChar) {
+                        var c = content.substr(0, showChar);
+                        var h = content.substr(showChar, content.length - showChar);
+                        var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span>';
+                        $(this).html(html);
+                    }
+                });
             }
-        });
 
 
-        $('body').loading('stop');
+    $(document).ready(function () {
 
 
-    });
 
+         $('.view-job').on('click', function (evt) {
+                    var $detailDiv = $('.job');
 
-    function NewDataCheck() {
+                    $.get('/Account/ViewFullProject?projectId=' + $(this).attr('data-projectId'), function (data) {
+                        $detailDiv.replaceWith('<div class="job">' + data + '</div>');                     
 
-        if ($('.new-data').val() == 'true') {
+                        $('.job-modal').modal('show').on('hidden.bs.modal', function (e) {
 
-            swal({
-                title: "Customer/Contractor change?",
-                text: "Your view has changed would you like to reload the view?",
-                type: "info",
-                showCancelButton: true,
-                confirmButtonClass: "btn-info",
-                confirmButtonText: "Ok!",
-                closeOnConfirm: true
-            },
-                function () {
-                    $('body').loading('start');
-                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
-                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
-                    $('.new-data').val('false');
-                    $('.contractor-customer-change').val('false');
+                            $detailDiv.html('');
+                        });
+
+                    });
                 });
 
 
 
-        }
-    }
-    //
+            @if (!Model.ApplicationUser.IsInContractorMode) {
+                <text>
+                LoadProjectTable();
+                $('body').loading('stop');
+                </text>
+            }
+            else {
+                 <text>
+
+                $(window).resize(function () { SetShowText(); });
+                SetShowText();
+                 </text>
+            }
+
+
+        if ($('.cm').val() == 'true') {
+                $('#nav-contractor-search-tab').hide();
+            }
+            else {
+                $('#nav-contractor-search-tab').show();
+            }
+
+            $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href");
+
+                if ((target == '#nav-project')) {
+
+                    if ($('.contractor-customer-change').val() == 'true') {
+                        $('.new-data').val('true');
+                        setTimeout('NewDataCheck()', 2000);
+                    }
+
+                } else {
+
+                }
+            });
+
+    });
 
 
 
@@ -1079,6 +1243,34 @@
 
 
 
+
+
+
+    function NewDataCheck() {
+
+                if ($('.new-data').val() == 'true') {
+
+                    swal({
+                        title: "Customer/Contractor change?",
+                        text: "Your view has changed would you like to reload the view?",
+                        type: "info",
+                        showCancelButton: true,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Ok!",
+                        closeOnConfirm: true
+                    },
+                        function () {
+                            $('body').loading('start');
+                            LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                            $('.new-data').val('false');
+                            $('.contractor-customer-change').val('false');
+                        });
+
+
+
+                }
+            }
 
 
 

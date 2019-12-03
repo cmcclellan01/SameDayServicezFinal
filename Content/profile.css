@@ -163,6 +163,13 @@
     background-blend-mode: luminosity;
 }
 
+.grayscale-center {
+    background-color: #fff;
+    background-image: url('/Content/images/sc2_C.jpg');
+    background-size:cover;
+    background-position:center;
+}
+
 .card-profile .card-header {
     height: 9rem;
     background-size: cover;

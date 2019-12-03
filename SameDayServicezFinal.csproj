@@ -377,6 +377,7 @@
     <Content Include="Content\images\project_Icon.png" />
     <Content Include="Content\images\sc1.jpg" />
     <Content Include="Content\images\sc2.jpg" />
+    <Content Include="Content\images\sc2_C.jpg" />
     <Content Include="Content\images\sc3.jpg" />
     <Content Include="Content\images\sc4.jpg" />
     <Content Include="Content\images\sc5.jpg" />
@@ -884,6 +885,7 @@
     <Content Include="Views\Shared\_Profile.cshtml" />
     <Content Include="Views\Shared\_Maps.cshtml" />
     <Content Include="Views\Shared\_FullProfile.cshtml" />
+    <Content Include="Views\Shared\_ViewJob.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

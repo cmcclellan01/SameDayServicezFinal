@@ -524,7 +524,6 @@ $("#dropzoneProfilePic").dropzone({
 
 });
 
-
 $("#dropzoneIdPic").dropzone({
     url: "/Account/Upload?type=id",
     init: function () {

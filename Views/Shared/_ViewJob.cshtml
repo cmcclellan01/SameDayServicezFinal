@@ -1,0 +1,79 @@
+﻿@model SameDayServicezFinal.Models.PortalList
+
+
+<style>
+    .view-job-div {
+        font-size: 16px;
+        line-height: 18px;
+        font-weight: 400;
+        margin-right: 1px;
+        padding: 5px 5px 5px 5px;
+        max-height: none;
+        overflow-y: hidden;
+        overflow-x: hidden;
+    }
+</style>
+
+<div class="modal fade job-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">@Model.Projects[0].ProjectTitle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">               
+                        <div class="col-lg-7 mx-auto">
+                            <div class="card  ">
+                                <div class="card-header grayscale-center ">
+                                    <h4 class="text-capitalize" style="color: #212529;">@Model.Projects[0].ProjectTitle</h4>
+                                </div>
+                                <div class="card-body grayscale-center">
+
+                                    <span style="font-size: 0.8rem;font-weight: bold;color: #212529;">@Model.Projects[0].City - Posted @DateTime.Now.Subtract(Model.Projects[0].CreationDate).Days.ToString()  days ago</span>
+                                    
+                                    <div>
+                                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Compensation:</span>
+                                        <span style="font-size: 0.8rem;color: #212529;display:inline"> $@Model.Projects[0].ByTheHourRate.ToString() / hourly</span>
+
+                                    </div>
+                                    
+                                    <div>
+                                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Recommended skills: </span>
+                                        <span style="font-size: 0.8rem;color: #212529;display:inline">
+                                            @{
+                                                var ProjectCategories = "";
+                                                foreach (var item in Model.Projects[0].ProjectCategories)
+                                                {
+                                                    ProjectCategories += item.ProjectsSubCatName + ",";
+                                                }
+
+                                                @ProjectCategories.Trim(',');
+                                            }
+                                        </span>
+                                    </div>
+                                    
+                                       
+                                    
+                                    <div class="card-text view-job-div " style="font-size: 0.8rem;color: #212529;">@Html.Raw(Model.Projects[0].Description)</div>
+
+
+                                </div>
+                                <div class="card-footer grayscale-center">
+                                    <div class="float-right">
+                                        <span class="btn btn-dark applied" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;">Apply</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>         
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
