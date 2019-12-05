@@ -107,8 +107,9 @@
 
                                 }
                             }
-
+                            <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Project Postings</a>
                             <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
+
                         </div>
                     </nav>
                 </div>
@@ -116,14 +117,14 @@
 
                     <div class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
-                            <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">              
-                                    @Html.Partial("_Projects", Model)                               
+                            <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">
+                                @Html.Partial("_Projects", Model)
                             </div>
                         </div>
 
                         <div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-                            <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">                               
-                                    @Html.Partial("_Profile", Model.ApplicationUser)                               
+                            <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
+                                @Html.Partial("_Profile", Model.ApplicationUser)
                             </div>
                         </div>
 
@@ -194,16 +195,16 @@
                                                                 <option value="true">Online</option>
                                                                 <option value="false">Offline</option>
                                                             </select>
-                                                            </div>
                                                         </div>
-
-                                                        @*int rating,string HourlyRange,string displayName,long Profession,bool OnlineStatus*@
-                                                        <div class="col-lg-2 my-auto">
-                                                            <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-dark btn-sm " >Search</button>
-                                                        </div>
-
-
                                                     </div>
+
+                                                    @*int rating,string HourlyRange,string displayName,long Profession,bool OnlineStatus*@
+                                                    <div class="col-lg-2 my-auto">
+                                                        <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-dark btn-sm ">Search</button>
+                                                    </div>
+
+
+                                                </div>
                                             </div>
 
                                         </div>
@@ -212,15 +213,15 @@
                                         <div class="loader">
                                             <div id="detailsDiv"></div>
                                         </div>
-                                       
+
                                     </div>
 
                                 </div>
                                 <script>
-                                     var pageNumber = 0;
+                                    var pageNumber = 0;
                                     $(document).ready(function () {
 
-                                        
+
 
                                         $.get('/Account/GetFullSubCategoryList', function (data) {
 
@@ -231,21 +232,21 @@
                                             });
                                         });
 
-                                      
+
 
 
 
                                         $('.js-reload-details').on('click', function (evt) {
                                             evt.preventDefault();
                                             evt.stopPropagation();
-                                              $('body').loading('start');
+                                            $('body').loading('start');
                                             var $detailDiv = $('#detailsDiv');
-   
+
                                             var rating = $('.rating-select option:selected').val();
                                             var hourly = $('.hourly-select option:selected').val();
                                             var displayName = $('.contractor-search').val();
-                                            var sub =  $('.search-profession option:selected').val();
-                                            var onlineStatus =  $('.search-online-status option:selected').val();
+                                            var sub = $('.search-profession option:selected').val();
+                                            var onlineStatus = $('.search-online-status option:selected').val();
                                             var all = 'false';
 
                                             if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
@@ -259,7 +260,7 @@
                                             });
                                         });
 
-                                       
+
 
                                         $('.search-professions').hide();
                                         $('.search-subprofessions').hide();
@@ -358,6 +359,12 @@
 
                         <div class="tab-pane fade" id="nav-wallet-search" role="tabpanel" aria-labelledby="nav-wallet-search-tab">
                             <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="nav-applied-jobs" role="tabpanel" aria-labelledby="nav-applied-jobs-tab">
+                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                                @Html.Partial("_ContractorAppliedJobsList")
                             </div>
                         </div>
                     </div>

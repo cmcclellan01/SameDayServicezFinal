@@ -234,19 +234,7 @@ namespace SameDayServicezFinal.Models
         public List<ContractorCustomerCategories> ProfileProfessions { get; set; }
     }
 
-    [Table("JobMessages")]
-    public class JobMessages
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
-        public long ProjectId { get; set; }
-        public DateTime CreationDate { get; set; }
-        public string ContractorId { get; set; }
-        public string CustomerId { get; set; }
-
-        public Messages Message { get; set; }
-    }
+  
 
     [Table("Conversations")]
     public class Conversations
@@ -264,6 +252,8 @@ namespace SameDayServicezFinal.Models
         public string ConversationOwnerId { get; set; }
         public string ContractorId { get; set; }
         public string CustomerId { get; set; }
+        public bool ProjectApplyMessage { get; set; }
+        public long ProjectId { get; set; }
         public List<Messages> Message { get; set; }
     }
 
@@ -276,11 +266,14 @@ namespace SameDayServicezFinal.Models
         [AllowHtml]
         public string Message { get; set; }
         public DateTime CreationDate { get; set; }
+        public DateTime? ReadDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
         public bool Read { get; set; }
         public bool Delivered { get; set; }
         public long ConversationsId { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
+      
     }
 
 
@@ -343,12 +336,32 @@ namespace SameDayServicezFinal.Models
             Projects = new List<Project>();
             ApplicationUser = ApplicationUser;
             ContractorList = new List<ContractorSearchList>();
+            Conversations = new List<Conversations>();
+            ProjectApplies = new List<ProjectPosting>();
         }
 
         public List<Project> Projects { get; set; }     
         public ApplicationUser ApplicationUser { get; set; }
         public List<ContractorSearchList> ContractorList { get; set; }
+
+        public List<Conversations> Conversations { get; set; }
         public Pager Pager { get; set; }
+
+        public List<ProjectPosting> ProjectApplies { get; set; }
+
+      
+        
+    }
+
+    public class ProjectPosting
+    {
+        public string  ProjectTitle { get; set; }
+        public long ProjectId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? ReadDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
+        public bool Read { get; set; }
+        public bool Delivered { get; set; }
     }
 
     public class ContractorSearchList

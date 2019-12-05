@@ -1,0 +1,522 @@
+﻿@model SameDayServicezFinal.Models.PortalList
+
+<style>
+     .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper
+    .dataTables_filter,
+    .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
+        color: grey !important;
+    }
+
+       .project-applied-table .fa {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .project-applied-table .pull-right {
+        float: right;
+    }
+
+    .project-applied-table .fa-clock-o:before {
+        content: "\f017";
+    }
+
+    .project-applied-table .fa-pencil:before {
+        content: "\f040";
+    }
+
+    .project-applied-table .fa-folder:before {
+        content: "\f07b";
+    }
+
+    .project-applied-table .fa-sticky-note:before {
+        content: "\f249";
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
+    }
+
+    .project-applied-table small {
+        font-size: 80%;
+    }
+
+    .project-applied-table a {
+        color: #007bff;
+        text-decoration: none;
+        background-color: transparent;
+    }
+
+        .project-applied-table a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+    .project-applied-table img {
+        vertical-align: middle;
+        border-style: none;
+    }
+
+    .project-applied-table table {
+        border-collapse: collapse;
+    }
+
+    .project-applied-table th {
+        text-align: inherit;
+    }
+
+    .project-applied-table button {
+        border-radius: 0;
+    }
+
+        .project-applied-table button:focus {
+            outline: 1px dotted;
+            outline: 5px auto -webkit-focus-ring-color;
+        }
+
+    .project-applied-table button {
+        margin: 0;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+    }
+
+    .project-applied-table button {
+        overflow: visible;
+    }
+
+    .project-applied-table button {
+        text-transform: none;
+    }
+
+    .project-applied-table button {
+        -webkit-appearance: button;
+    }
+
+        .project-applied-table button::-moz-focus-inner {
+            padding: 0;
+            border-style: none;
+        }
+
+    .project-applied-table small, .small {
+        font-size: 80%;
+        font-weight: 400;
+    }
+
+    .project-applied-table .table {
+        width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+    }
+
+        .project-applied-table .table th, .table td {
+            padding: 0.75rem;
+            vertical-align: top;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .project-applied-table .table thead th {
+            vertical-align: bottom;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+    @@media (max-width: 575.98px) {
+        .project-applied-table .table-responsive-sm {
+            display: block;
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: -ms-autohiding-scrollbar;
+        }
+    }
+
+    .project-applied-table .btn {
+        display: inline-block;
+        font-weight: 400;
+        color: #212529;
+        text-align: center;
+        vertical-align: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        background-color: transparent;
+        border: 1px solid transparent;
+        padding: 0.375rem 0.75rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border-radius: 0.25rem;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    @@media screen and (prefers-reduced-motion: reduce) {
+        .project-applied-table .btn {
+            transition: none;
+        }
+    }
+
+    .project-applied-table .btn:hover {
+        color: #212529;
+        text-decoration: none;
+    }
+
+    .project-applied-table .btn:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .project-applied-table .btn:disabled {
+        opacity: 0.65;
+    }
+
+    .project-applied-table .btn-group {
+        position: relative;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+
+        .project-applied-table .btn-group > .btn {
+            position: relative;
+            -ms-flex: 1 1 auto;
+            flex: 1 1 auto;
+        }
+
+            .project-applied-table .btn-group > .btn:hover {
+                z-index: 1;
+            }
+
+            .project-applied-table .btn-group > .btn:focus, .btn-group > .btn:active {
+                z-index: 1;
+            }
+
+            .project-applied-table .btn-group > .btn:not(:first-child) {
+                margin-left: -1px;
+            }
+
+            .project-applied-table .btn-group > .btn:not(:last-child):not(.dropdown-toggle) {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .project-applied-table .btn-group > .btn:not(:first-child) {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+
+    .project-applied-table .progress {
+        display: -ms-flexbox;
+        display: flex;
+        height: 1rem;
+        overflow: hidden;
+        font-size: 0.75rem;
+        background-color: #e9ecef;
+        border-radius: 0.25rem;
+    }
+
+    .project-applied-table .progress-bar {
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -ms-flex-pack: center;
+        justify-content: center;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        background-color: #007bff;
+        transition: width 0.6s ease;
+    }
+
+    @@media screen and (prefers-reduced-motion: reduce) {
+        .project-applied-table .progress-bar {
+            transition: none;
+        }
+    }
+
+    .project-applied-table .rounded {
+        border-radius: 0.25rem !important;
+    }
+
+    .project-applied-table .text-right {
+        text-align: right !important;
+    }
+
+    @@media print {
+        *, *::before, *::after {
+            text-shadow: none !important;
+            box-shadow: none !important;
+        }
+
+        .project-applied-table a:not(.btn) {
+            text-decoration: underline;
+        }
+
+        .project-applied-table thead {
+            display: table-header-group;
+        }
+
+        .project-applied-table tr, img {
+            page-break-inside: avoid;
+        }
+
+        .project-applied-table .table {
+            border-collapse: collapse !important;
+        }
+
+            .project-applied-table .table td, .table th {
+                background-color: #fff !important;
+            }
+    }
+
+    .project-applied-table .pull-right {
+        float: right;
+    }
+
+    i {
+        font-family: 'stroke';
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .project-applied-table .btn:active {
+        box-shadow: none;
+    }
+
+    .project-applied-table .btn {
+        color: inherit;
+        background-color: transparent;
+        font-size: 0.9rem;
+    }
+
+    .project-applied-table .btn-default {
+        border-color: #585d6e;
+    }
+
+    .project-applied-table .btn-default {
+        color: #949ba2;
+        background-color: transparent;
+        border-color: #616779;
+    }
+
+        .project-applied-table .btn-default:hover {
+            color: #ffffff;
+            background-color: rgba(97, 103, 121, 0.1);
+            border-color: #616779;
+        }
+
+        .project-applied-table .btn-default:active {
+            background-image: none;
+        }
+
+        .project-applied-table .btn-default:hover, .btn-default:active, .btn-default:active:focus, .btn-default:focus {
+            background-color: #3d404c;
+        }
+
+    .project-applied-table .btn-xs {
+        padding: 1px 5px;
+        font-size: 12px;
+        line-height: 1.5;
+        border-radius: 3px;
+    }
+
+    .project-applied-table .m-b-none {
+        margin-bottom: 0 !important;
+    }
+
+
+
+    .project-applied-table a {
+        color: #015668 !important;
+        text-decoration: none;
+    }
+
+        .project-applied-table a:hover, a:focus {
+            color: #f8bb52;
+            outline: none;
+            text-decoration: none;
+        }
+
+    .project-applied-table small, .small {
+        font-size: 83%;
+        color: grey
+    }
+
+    .project-applied-table .label {
+        display: inline;
+        padding: .2em .6em .3em;
+        font-size: 75%;
+        font-weight: bold;
+        line-height: 1;
+        color: #fff;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: baseline;
+        border-radius: .25em;
+    }
+
+    .project-applied-table .label-default {
+        background-color: #44464f;
+    }
+
+    .project-applied-table .label:empty {
+        display: none;
+    }
+
+    .project-applied-table img.image-md {
+        width: 32px;
+        height: 32px;
+    }
+
+    .project-applied-table .progress {
+        border-radius: 2px;
+        margin-bottom: 10px;
+    }
+
+    .project-applied-table .progress-bar {
+        background-color: #2f323b;
+        text-align: right;
+        padding-right: 10px;
+        color: #949ba2;
+    }
+
+    .project-applied-table .progress-small, .progress-small .progress-bar {
+        height: 10px;
+    }
+
+    .project-applied-table .progress-bar-warning {
+        border-right: 4px solid #015668 !important;
+    }
+
+    .project-applied-table .full .progress-bar-warning {
+        background-color: #015668 !important;
+        border-right: 4px solid #015668 !important;
+    }
+
+    .project-applied-table .full .progress-bar {
+        color: #ffffff;
+    }
+
+    .project-applied-table .label-default {
+        background-color: #44464f;
+    }
+
+    .project-applied-table .table > thead > tr > th, .table > tbody > tr > td {
+        border-top: 1px solid #3d404c;
+    }
+
+    .project-applied-table .table > thead > tr > th {
+        border-bottom: none;
+    }
+
+    .project-applied-table th {
+        color: #ffffff;
+    }
+
+    .project-applied-table .table.table-vertical-align-middle tbody > tr > td {
+        vertical-align: middle;
+    }
+
+    .project-applied-table .table th, .table td {
+        padding: 8px;
+    }
+
+    .project-applied-table .table > thead:first-child > tr:first-child > th {
+        border-top: 0;
+    }
+
+    .project-applied-table span {
+        color: #015668 !important;
+    }
+
+    .project-applied-table .label-accent {
+        background-color: #015668 !important;
+        color: darkgray !important;
+    }
+
+    .project-applied-table tr {
+        background-color: transparent !important;
+    }
+
+      .project-applied-table .label-accent {
+        color: white !important;
+    }
+
+    .project-applied-table .label-accent {
+        font-weight: normal !important;
+    }
+
+    .dataTables_filter{
+        margin:10px
+    }
+
+</style>
+
+   <div class="card">
+       <div class="row">
+           <div class="col-lg-3">
+               <div class="input-group ">
+                   <label class="text-light" style="margin-left:10px;display:inline">Search Postings:</label>
+                   <input type="text" style="margin-left:10px;display:inline" class="form-control project-applied-search" placeholder="Search for anything" style="margin:10px">
+               </div>
+           </div>
+       </div>
+        <div class="row">
+
+            <div class="col-lg-12">
+
+                <table class="table project-applied-table ">
+                    <thead>
+                        <tr>
+                            <th style="width:180px!important;text-align:center">Date Applied</th>
+                            <th style="text-align:center">Project Name</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var ProjectApply in Model.ProjectApplies)
+                        {
+                            <tr>
+                                <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
+                                <td style="width:auto !important"> <span>@ProjectApply.ProjectTitle </span></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+<script>
+    $('#DataTables_Table_0_length > label').hide();
+
+    $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
+      $('.project-applied-search').on('keyup', function () {
+        dt.search(this.value).draw();
+    });
+
+
+      var dt = $('.project-applied-table').DataTable({
+        paging: true,
+        pagingType: 'simple_numbers',
+        dom: 'lrtip',
+        info: false,
+        pageLength: 10,
+        header: "jqueryui",
+        renderer: "bootstrap",
+        ordering: false,
+      
+    });
+</script>
+

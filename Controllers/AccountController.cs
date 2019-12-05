@@ -645,15 +645,61 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_Projects", portal);
         }
 
+        public async Task<ActionResult> GetOpenProjects(int page = 0)
+        {
+
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            PortalList portal = new PortalList();
+
+            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).Count(), page);
+
+            portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).OrderByDescending(p => p.CreationDate ).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList();
+
+
+            foreach (var project in portal.Projects)
+            {
+                    // add the Project Compensation Package to the object
+                     var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+                    if (ProjectCompensationPackage != null)
+                    {
+                        project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
+                        project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                        project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                        project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                        project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                        project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                        project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                        project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+                    }
+
+                    //add the Project Job Categories to the object
+                    project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+            }
+
+         
+
+
+
+            portal.Pager = pager;
+
+
+
+            return PartialView("_ViewOpenProjectsC", portal);
+        }
+
         [HttpGet]
         [SessionTimeout]
-        public async Task<ActionResult> Portal(int page = 0)
+        public async Task<ActionResult> Portal()
         {
             var states = Utils.Extensions.GetStatesList();
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             PortalList portal = new PortalList();
+            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).Count(),0);
 
+            portal.Pager = pager;
 
             if (user != null)
             {
@@ -673,9 +719,7 @@ namespace SameDayServicezFinal.Controllers
 
                 UpdatePortal(portal);
 
-                var pager = new Pager(portal.Projects.Count(), page);
-                portal.Projects.OrderBy(p => p.CreationDate);
-                portal.Pager = pager;
+             
 
                 //var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
                 //foreach (var contractor in contractors)
@@ -701,23 +745,62 @@ namespace SameDayServicezFinal.Controllers
             return View(portal);
         }
  
-        public void UpdatePortal(PortalList portal)
+        public void UpdatePortal(PortalList portal )
         {
             var users = db.Users.Select(p => p).ToList();
             var userId = User.Identity.GetUserId();
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
 
+          
+
             switch (portal.ApplicationUser.IsInContractorMode)
             {
 
                 case true:
-                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).ToList();
+                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).OrderByDescending(p => p.CreationDate).Take(10).ToList();
+                
                     break;
 
                 case false:
                     portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
                     break;
-            }         
+            }
+
+            portal.Conversations = db.Conversations.Where(p => p.ContractorId == userId).ToList();
+          
+
+            var pp = from c in db.Conversations
+                     join m in db.Messages on c.Id equals m.ConversationsId
+                     join p in db.Project on c.ProjectId equals p.ProjectsId
+                     select new
+                     {
+
+                         p.ProjectsId,
+                         c.CreationDate,
+                         p.ProjectTitle,
+                         m.Read,
+                         m.Delivered,
+                         m.ReadDate,
+                         m.DeliveredDate
+                     };
+
+
+
+            foreach (var item in pp)
+            {
+                ProjectPosting post = new ProjectPosting
+                {
+                    CreationDate = item.CreationDate,
+                    Delivered = item.Delivered,
+                    DeliveredDate = item.DeliveredDate,
+                    ProjectId = item.ProjectsId,
+                    ProjectTitle = item.ProjectTitle,
+                    Read = item.Read,
+                    ReadDate = item.ReadDate
+                };
+
+                portal.ProjectApplies.Add(post);
+            }
 
 
             foreach (var project in portal.Projects)
@@ -978,29 +1061,39 @@ namespace SameDayServicezFinal.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult ApplyForJob(long projectId)
         {
             var userId = User.Identity.GetUserId();
             var contrator = db.Users.Where(p => p.Id == userId).SingleOrDefault();
             var project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+            List<Messages> messages = new List<Messages>();
+
+ 
+
+            Conversations Conversation = new Conversations
+            {
+                    ProjectId = projectId,
+                    ContractorId = userId,
+                    CreationDate = DateTime.Now,
+                    CustomerId = project.ProjectsUsersId,
+                    ConversationOwnerId = project.ProjectsUsersId,
+                    ProjectApplyMessage = true,
+                    Message = messages
+
+            };
 
             Messages message = new Messages
             {
-                CreationDate = DateTime.Now,
-                ReceiverId = project.ProjectsUsersId,
-                SenderId = userId,
-                Message = "<span class=\"message-display-name\">" + contrator.DisplayName + "</span> has applied for project:class=\"message-project-title\">" + project.ProjectTitle + "</span>"
+                    ConversationsId = Conversation.Id,
+                    CreationDate = DateTime.Now,
+                    ReceiverId = project.ProjectsUsersId,
+                    SenderId = userId,
+                    Message = "ProjectApply_ProjectId_" + projectId
             };
+            messages.Add(message);
 
-            JobMessages jobMessage = new JobMessages{
-                ProjectId = projectId,
-                ContractorId = userId,
-                CreationDate = DateTime.Now,
-                CustomerId = project.ProjectsUsersId,
-                Message = message
-            };
-
-            db.JobMessages.Add(jobMessage);
+            db.Conversations.Add(Conversation);
             db.SaveChanges();
 
 

@@ -1,0 +1,201 @@
+﻿@model SameDayServicezFinal.Models.PortalList
+
+
+<div class="row jobs" style="margin-top:5px">
+    @foreach (var project in Model.Projects)
+    {
+        <div class="col-lg-7 mx-auto">
+            <div class="card  ">
+                <div class="card-header grayscale-center ">
+                    <h4 class="text-capitalize" style="color: #212529;">@project.ProjectTitle</h4>
+                </div>
+                <div class="card-body grayscale-center">
+
+                    <span style="font-size: 0.8rem;font-weight: bold;color: #212529;">@project.City - Posted @DateTime.Now.Subtract(project.CreationDate).Days.ToString()  days ago</span>
+                    <div>
+                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Compensation:</span>
+                        <span style="font-size: 0.8rem;color: #212529;display:inline"> $@project.ByTheHourRate.ToString() / hourly</span>
+                    </div>
+                    <div>
+                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Recommended skills: </span>
+                        <span style="font-size: 0.8rem;color: #212529;display:inline">
+                            @{
+                                var ProjectCategories = "";
+                                foreach (var item in project.ProjectCategories)
+                                {
+                                    ProjectCategories += item.ProjectsSubCatName + ",";
+                                }
+
+                                @ProjectCategories.Trim(',');
+                            }
+                        </span>
+                    </div>
+                    <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Job Description:  </span>
+                    <div class="card-text project-more " style="font-size: 0.8rem;color: #212529;display:inline">@Html.Raw(@project.Description)</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </div>
+                <div class="card-footer grayscale-center">
+                    <div class="float-right">
+                        <span class="btn btn-dark applied view-job" data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:5px">View job</span>
+                        <span class="btn btn-dark applied apply-for-job" data-projectId="@project.ProjectsId" data-project-title="@project.ProjectTitle" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;">Apply</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-lg-7 mx-auto">
+        <!-- pager -->
+        @if (Model.Pager.EndPage > 1)
+        {
+
+            <div style="margin: 0; white-space: nowrap; text-align: right;">
+                <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+
+                    @if (Model.Pager.CurrentPage > 1)
+                    {
+                        <a class="btn custom-table-buttons  previous open-projects-pager" data-page="@(Model.Pager.CurrentPage - 1)" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a>
+                    }
+
+                    @for (var page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+
+                        if (@page == Model.Pager.CurrentPage)
+                        {
+                            <span>
+                                <a class="btn custom-table-buttons open-projects-pager current" data-page="@page" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0" style="color: white;background-color: transparent;">@page</a>
+                            </span>
+                        }
+                        else
+                        {
+                            <span>
+                                <a class="btn custom-table-buttons open-projects-pager" data-page="@page" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">@page</a>
+                            </span>
+                        }
+
+
+
+
+                    }
+
+                    @if (Model.Pager.CurrentPage < Model.Pager.TotalPages)
+                    {
+                        <a class="btn custom-table-buttons open-projects-pager" data-page="@(Model.Pager.CurrentPage + 1)">Next</a>
+                    }
+
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+           function SetShowText() {
+
+                var showChar = 600;
+                var ellipsestext = "...";
+
+                 if ($('.project-more').width() < 300) {
+                    showChar = 600;
+                }
+                else {
+                    showChar = 5000;
+                }
+
+
+                $('.project-more').each(function () {
+                    var content = $(this).html();
+
+                    if (content.length > showChar) {
+                        var c = content.substr(0, showChar);
+                        var h = content.substr(showChar, content.length - showChar);
+                        var html = c + '<span class="moreellipses">' + ellipsestext + '&nbsp;</span>';
+                        $(this).html(html);
+                    }
+                });
+            }
+
+
+          $(window).resize(function () { SetShowText(); });
+           SetShowText();
+
+        $('.open-projects-pager').on('click', function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+
+            var $detailDiv = $('.open-projects');
+            $detailDiv.html('');
+            $.get('/Account/GetOpenProjects?page=' + $(this).attr('data-page'), function (data) {
+                $detailDiv.replaceWith('<div class="open-projects">' + data + '</div>');
+            });
+
+
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+          $('.apply-for-job').on('click', function (evt) {
+         
+              var title =$(this).attr('data-project-title');
+
+             
+              $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId'), function (data) {                 
+                 
+                swal({
+                        title: "Applying for Project",
+                        text: "Your Profile Has Been Submitted For " + title,
+                        type: "info",
+                        showCancelButton: false,
+                        confirmButtonClass: "btn-info",
+                        confirmButtonText: "Ok!",
+                        closeOnConfirm: true
+                    },
+                        function () {                            
+                            
+                           
+                                
+                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                        });
+
+            });
+        });
+
+        
+
+        $('.view-job').on('click', function (evt) {
+            var $detailDiv = $('.job');
+
+            $.get('/Account/ViewFullProject?projectId=' + $(this).attr('data-projectId'), function (data) {
+                $detailDiv.replaceWith('<div class="job">' + data + '</div>');
+
+                $('.job-modal').modal('show').on('hidden.bs.modal', function (e) {
+
+                    $detailDiv.html('');
+                });
+
+            });
+        });
+    });
+
+</script>

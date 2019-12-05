@@ -886,6 +886,8 @@
     <Content Include="Views\Shared\_Maps.cshtml" />
     <Content Include="Views\Shared\_FullProfile.cshtml" />
     <Content Include="Views\Shared\_ViewJob.cshtml" />
+    <Content Include="Views\Shared\_ViewOpenProjectsC.cshtml" />
+    <Content Include="Views\Shared\_ContractorAppliedJobsList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

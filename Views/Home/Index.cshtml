@@ -5,6 +5,7 @@
 
 @model SameDayServicezFinal.Models.PortalList
 @using SameDayServicezFinal.Utils
+@using System.Web
 <style>
     .body-content {
         padding-top: 0 !important;
@@ -442,7 +443,8 @@
                         '</div>'+
                         '<div class="card-body">'+
                             '<p class="card-text">'+
-                                '<span class="text-light small">Description:</span> <span class="table-dark small">' + item[4].replace(/&quot;/g, '') + '</span>'+
+                             '<span class="text-light small">Description:</span> <span class="table-dark small">' + item[4].replace(/&quot;/g, '') + '</span>' +
+                              '<div style="margin:10px"><a href="/Account/Register?IsContractor=True"><span class="btn btn-dark" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;"</a>Apply</span></div>'+
                             '</p>'+
                         '</div>'+
                         '</div>';
@@ -563,7 +565,10 @@
 
         @foreach (var item in Model.Projects)
         {
-             <text> addresess.push(['map-projects', '@item.latitude', ' @item.longitude', '@item.ProjectTitle', '@item.Description', '@item.ProjectsId']);</text>
+           
+              
+
+             <text> addresess.push(['map-projects', '@item.latitude', ' @item.longitude', '@item.ProjectTitle', '@Ajax.JavaScriptStringEncode(@item.Description)', '@item.ProjectsId']);</text>
         }
         mapAddress(addresess, 'p');
 
