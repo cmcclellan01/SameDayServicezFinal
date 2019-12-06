@@ -689,6 +689,49 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_ViewOpenProjectsC", portal);
         }
 
+        public ActionResult GetContractorAppliedForJobsList()
+        {
+            PortalList portal = new PortalList();
+   
+
+            var pp = from c in db.Conversations
+                     join m in db.Messages on c.Id equals m.ConversationsId
+                     join p in db.Project on c.ProjectId equals p.ProjectsId
+                     orderby c.CreationDate descending
+                     select new
+                     {
+
+                         p.ProjectsId,
+                         c.CreationDate,
+                         p.ProjectTitle,
+                         m.Read,
+                         m.Delivered,
+                         m.ReadDate,
+                         m.DeliveredDate
+                     };
+
+
+
+            foreach (var item in pp)
+            {
+                ProjectPosting post = new ProjectPosting
+                {
+                    CreationDate = item.CreationDate,
+                    Delivered = item.Delivered,
+                    DeliveredDate = item.DeliveredDate,
+                    ProjectId = item.ProjectsId,
+                    ProjectTitle = item.ProjectTitle,
+                    Read = item.Read,
+                    ReadDate = item.ReadDate
+                };
+
+                portal.ProjectApplies.Add(post);
+            }
+
+
+            return PartialView("_ContractorAppliedJobsList", portal);
+        }
+
         [HttpGet]
         [SessionTimeout]
         public async Task<ActionResult> Portal()
@@ -772,6 +815,7 @@ namespace SameDayServicezFinal.Controllers
             var pp = from c in db.Conversations
                      join m in db.Messages on c.Id equals m.ConversationsId
                      join p in db.Project on c.ProjectId equals p.ProjectsId
+                     orderby c.CreationDate descending
                      select new
                      {
 

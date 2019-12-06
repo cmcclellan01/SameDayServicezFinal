@@ -462,41 +462,47 @@
 
 </style>
 
-   <div class="card">
-       <div class="row">
-           <div class="col-lg-3">
-               <div class="input-group ">
-                   <label class="text-light" style="margin-left:10px;display:inline">Search Postings:</label>
-                   <input type="text" style="margin-left:10px;display:inline" class="form-control project-applied-search" placeholder="Search for anything" style="margin:10px">
-               </div>
-           </div>
-       </div>
+<div class="card">
+
+    
         <div class="row">
-
-            <div class="col-lg-12">
-
-                <table class="table project-applied-table ">
-                    <thead>
-                        <tr>
-                            <th style="width:180px!important;text-align:center">Date Applied</th>
-                            <th style="text-align:center">Project Name</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        @foreach (var ProjectApply in Model.ProjectApplies)
-                        {
-                            <tr>
-                                <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
-                                <td style="width:auto !important"> <span>@ProjectApply.ProjectTitle </span></td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <!--Service Image-->
+            <div class="col-lg-3" style="margin:10px">
+                <label class="text-light" for="searchP">Search Postings:</label>
+                <input type="text" class="form-control project-applied-search " id="searchP" placeholder="Search postings">
             </div>
-        </div>
 
+          
+        </div>
+ 
+
+
+    <div class="row">
+
+        <div class="col-lg-12">
+
+            <table class="table project-applied-table ">
+                <thead>
+                    <tr>
+                        <th style="width:180px!important;text-align:center">Date Applied</th>
+                        <th style="text-align:left">Project Name</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var ProjectApply in Model.ProjectApplies)
+                    {
+                        <tr>
+                            <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
+                            <td style="width:auto !important"> <span>@ProjectApply.ProjectTitle </span></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
+
+</div>
 
 <script>
     $('#DataTables_Table_0_length > label').hide();

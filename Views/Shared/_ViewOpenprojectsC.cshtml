@@ -172,7 +172,13 @@
                         closeOnConfirm: true
                     },
                         function () {                            
-                            
+                        
+                            var $detailDiv = $('.Contractor-Applied-JobsList');
+                          
+                            $.get('/Account/GetContractorAppliedForJobsList', function (data) {
+                                $detailDiv.replaceWith('<div class="Contractor-Applied-JobsList">' + data + '</div>');
+                            });
+
                            
                                 
                             //swal("Deleted!", "Your imaginary file has been deleted.", "success");

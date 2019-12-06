@@ -102,6 +102,9 @@
                         <a class="nav-link" id="documents-tab" data-toggle="tab" href="#documents" role="tab" aria-controls="documents" aria-selected="false">Documents</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="resume-tab" data-toggle="tab" href="#resume" role="tab" aria-controls="resume" aria-selected="false">Resume</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
                     </li>
                 </ul>
@@ -202,10 +205,10 @@
                                     }
 
                                 }
-                            <div class="form-group  col-md-4 ">                              
-                                <span class="control-label text-light ">Login Mode:</span> <span class="current-mode" style='color:#015668;font-size:1rem'>@mode</span>
-                                @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                            </div>
+                                <div class="form-group  col-md-4 ">
+                                    <span class="control-label text-light ">Login Mode:</span> <span class="current-mode" style='color:#015668;font-size:1rem'>@mode</span>
+                                    @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                </div>
 
 
 
@@ -224,13 +227,13 @@
 
                                 }
 
-                                        <div class="form-group  col-md-4 @if (!Model.IsInContractorMode) { <text>d-none</text>} ">
-                                            <span class="control-label text-light ">Work Mode:</span> <span class="current-work-mode" style='color:#015668;font-size:1rem'>@mode</span>
-                                            @Html.CheckBoxFor(m => m.InWorkMode, new { @class = "InWorkMode form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                                        </div>
-                                   
+                                <div class="form-group  col-md-4 @if (!Model.IsInContractorMode) { <text>d-none</text>} ">
+                                    <span class="control-label text-light ">Work Mode:</span> <span class="current-work-mode" style='color:#015668;font-size:1rem'>@mode</span>
+                                    @Html.CheckBoxFor(m => m.InWorkMode, new { @class = "InWorkMode form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                </div>
 
-                                
+
+
 
                             </div>
 
@@ -363,7 +366,11 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
 
+                    <div class="tab-pane fade" id="resume" role="tabpanel" aria-labelledby="resume-tab">
+
+                        
                     </div>
                     <div class="tab-pane fade" id="payment" role="tabpanel" aria-labelledby="payment-tab">
 
