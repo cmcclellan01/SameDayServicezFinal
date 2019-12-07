@@ -1037,12 +1037,18 @@
     if (Model.ApplicationUser.IsInContractorMode)
     {
         <input type="hidden" class="cm" value="true" />
-        <script>$('#nav-contractor-search-tab').hide();</script>
+        <script>
+            $('#nav-contractor-search-tab').hide();
+            $('#nav-applied-jobs-tab').show();
+        </script>
     }
     else
     {
         <input type="hidden" class="cm" value="false" />
-        <script>$('#nav-contractor-search-tab').show();</script>
+        <script>
+            $('#nav-contractor-search-tab').show();
+            $('#nav-applied-jobs-tab').hide();
+        </script>
     }
 }
 

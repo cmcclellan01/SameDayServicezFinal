@@ -96,19 +96,19 @@
                 <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Projects</a>
                             <a class="nav-item nav-link " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>
+                            <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Projects</a>
+                            <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Appiled For</a>
+                            <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Messaging</a>
                             <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
 
                             @{
-                                if (!Model.ApplicationUser.IsInContractorMode)
+                                if (Model.ApplicationUser.IsInContractorMode)
                                 {
 
                                 }
                             }
-                            <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Project Postings</a>
-                            <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
 
                         </div>
                     </nav>

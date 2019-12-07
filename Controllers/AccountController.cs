@@ -640,6 +640,9 @@ namespace SameDayServicezFinal.Controllers
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             PortalList portal = new PortalList();
             portal.ApplicationUser = user;
+            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).Count(), 0);
+
+            portal.Pager = pager;
             UpdatePortal(portal);
 
             return PartialView("_Projects", portal);
@@ -1109,7 +1112,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpPost]
-        public ActionResult ApplyForJob(long projectId)
+        public ActionResult ApplyForJob(long projectId,string contractorMessage = "")
         {
             var userId = User.Identity.GetUserId();
             var contrator = db.Users.Where(p => p.Id == userId).SingleOrDefault();
@@ -1136,7 +1139,7 @@ namespace SameDayServicezFinal.Controllers
                     CreationDate = DateTime.Now,
                     ReceiverId = project.ProjectsUsersId,
                     SenderId = userId,
-                    Message = "ProjectApply_ProjectId_" + projectId
+                    Message = "ProjectApply_ProjectId_" + projectId + "_contractorMessage" + contractorMessage
             };
             messages.Add(message);
 

@@ -49,9 +49,24 @@
 
                 </div>
                 <div class="card-footer grayscale-center">
+
+                    <div class="float-left ">
+
+                        <div class="form-check form-check-inline">
+
+                            <input class="form-check-input add-contractor-comment" type="checkbox">
+                            <label class="form-check-label text-light" style="margin-right:10px" for="inlineCheckbox1">Add Comment</label>
+                            <textarea class="form-control contractor-job-comment " style="background-color:#303030 !important;" rows="4" cols="50" placeholder="Describe yourself here..."></textarea>
+                            <span class="btn btn-dark applied apply-for-job"   data-projectId="@project.ProjectsId" data-project-title="@project.ProjectTitle" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Apply</span>
+                            <span class="btn btn-dark applied view-job"   data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">View job</span>
+                        </div>
+
+
+                    </div>
                     <div class="float-right">
-                        <span class="btn btn-dark applied view-job" data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:5px">View job</span>
-                        <span class="btn btn-dark applied apply-for-job" data-projectId="@project.ProjectsId" data-project-title="@project.ProjectTitle" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;">Apply</span>
+                      
+
+
                     </div>
                 </div>
             </div>
@@ -111,6 +126,8 @@
 
     $(document).ready(function () {
 
+        $('.contractor-job-comment').hide();
+
            function SetShowText() {
 
                 var showChar = 600;
@@ -138,7 +155,11 @@
 
 
           $(window).resize(function () { SetShowText(); });
-           SetShowText();
+        SetShowText();
+
+        $('.add-contractor-comment').on('click', function () {
+            $(this).next().next().toggle();
+        });
 
         $('.open-projects-pager').on('click', function (evt) {
             evt.preventDefault();
@@ -160,7 +181,7 @@
               var title =$(this).attr('data-project-title');
 
              
-              $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId'), function (data) {                 
+             $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId') + '&contractorMessage='  + $('.contractor-job-comment').val(), function (data) {    
 
 
                 

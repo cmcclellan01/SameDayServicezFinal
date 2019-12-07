@@ -1,7 +1,7 @@
 ﻿
 
 function LoadProjectTable() {
-    console.log('Loading table');
+  
     var $detailDiv = $('.project-view');
     $('.project-table').DataTable().destroy();
 

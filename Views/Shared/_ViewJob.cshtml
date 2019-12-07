@@ -62,8 +62,11 @@
 
                             </div>
                             <div class="card-footer grayscale-center">
+                                <div class="float-left">
+                                    <textarea class="form-control contractor-job-comment" style="background-color:#303030 !important;" rows="4" cols="50" placeholder="Describe yourself here..."></textarea>
+                                </div>
                                 <div class="float-right">
-                                    <span class="btn btn-dark applied apply-for-job" data-project-title ="@Model.Projects[0].ProjectTitle"  data-projectId="@Model.Projects[0].ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;">Apply</span>
+                                    <span class="btn btn-dark applied apply-for-job" data-project-title="@Model.Projects[0].ProjectTitle" data-projectId="@Model.Projects[0].ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;">Apply</span>
                                 </div>
                             </div>
                         </div>
@@ -84,9 +87,11 @@
               var title =$(this).attr('data-project-title');
 
              
-              $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId'), function (data) {                 
+              $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId') + '&contractorMessage='  + $('.contractor-job-comment').val(), function (data) {                 
                  
                   if (data == 'Applied') {
+                      $('.job-modal').modal('hide');
+
                       swal({
                           title: "Applying for Project",
                           text: "Your Profile Has  ALREADY Been Submitted For " + title,
@@ -98,18 +103,30 @@
                       });
                   }
 
-                   if (data == 'OK') {
-                                swal({
+                  if (data == 'OK') {
+                        $('.job-modal').modal('hide');
+                        swal({
                         title: "Applying for Project",
                         text: "Your Profile Has Been Submitted For " + title,
-                        type: "info",
+                        type: "input",
                         showCancelButton: false,
                         confirmButtonClass: "btn-info",
                         confirmButtonText: "Ok!",
-                        closeOnConfirm: true
+                        closeOnConfirm: true,
+                        inputPlaceholder: "Write something about yourself.."
                     },
-                        function () {                            
-                        
+                        function (inputValue) {                            
+
+                            if (inputValue === false) return false;
+                            //if (inputValue === "") {
+                            //    swal.showInputError("You need to write something!");
+                            //    return false
+                            //}
+                            swal("Nice!", "You wrote: " + inputValue, "success");
+
+
+
+
                             var $detailDiv = $('.Contractor-Applied-JobsList');
                           
                             $.get('/Account/GetContractorAppliedForJobsList', function (data) {
