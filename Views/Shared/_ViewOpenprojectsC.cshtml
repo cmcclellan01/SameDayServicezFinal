@@ -50,24 +50,24 @@
                 </div>
                 <div class="card-footer grayscale-center">
 
-                    <div class="float-left ">
+                    <div class="col-lg-12">
+                     
+                            <div class="form-group">
 
-                        <div class="form-check form-check-inline">
+                                <input class="form-check-input add-contractor-comment" type="checkbox">
+                                <label class="form-check-label text-light" style="margin-right:10px" for="inlineCheckbox1">Add Comment</label>
+                                <textarea class="form-control contractor-job-comment " style="background-color:#303030 !important;color:white" rows="4" cols="50" placeholder="I would be good for this job because..."></textarea>
+                                <span class="btn btn-dark applied apply-for-job" data-projectId="@project.ProjectsId" data-project-title="@project.ProjectTitle" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Apply</span>
+                                <span class="btn btn-dark applied view-job" data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">View job</span>
+                            </div>
 
-                            <input class="form-check-input add-contractor-comment" type="checkbox">
-                            <label class="form-check-label text-light" style="margin-right:10px" for="inlineCheckbox1">Add Comment</label>
-                            <textarea class="form-control contractor-job-comment " style="background-color:#303030 !important;" rows="4" cols="50" placeholder="Describe yourself here..."></textarea>
-                            <span class="btn btn-dark applied apply-for-job"   data-projectId="@project.ProjectsId" data-project-title="@project.ProjectTitle" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Apply</span>
-                            <span class="btn btn-dark applied view-job"   data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">View job</span>
-                        </div>
+
+                       
+
 
 
                     </div>
-                    <div class="float-right">
-                      
-
-
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -239,6 +239,18 @@
 
             });
         });
+
+
+
+        $.get('/Account/GetFullProjectSubCategoryList', function (data) {
+
+            $('.search-project-profession').empty();
+            $('.search-project-profession').append("<option value=''>- Please Select A Job Title -</option>");
+            $.each(data, function (index, row) {
+                $('.search-project-profession').append("<option value='" + row.ProjectsSubCatName + "'>" + row.ProjectsSubCatName + "</option>");
+            });
+        });
+
     });
 
 </script>

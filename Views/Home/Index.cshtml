@@ -193,7 +193,7 @@
                             <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;">FIND WORKERS. GET YOUR PROJECT DONE FAST!</h1></div>
                             <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;">START BY POSTING A CHORE YOU NEED DONE OR REGISTER TO GET A JOB.</h2></div>
                             <div class="btn-group mx-auto">
-                                <a href="@Url.Action("Register", "Account", new { IsContractor="False" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
+                                <a href="@Url.Action("Register", "Account", new { IsContractor = "False" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
                             </div>
                         </div>
                     </div>
@@ -205,7 +205,7 @@
                             <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Make money on your own schedule</h1></div>
                             <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Click below to get started making money</h2></div>
                             <div class="btn-group mx-auto">
-                                <a href="@Url.Action("Register", "Account", new { IsContractor="True" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
+                                <a href="@Url.Action("Register", "Account", new { IsContractor = "True" })" class="btn btn-primary" style="margin:10px;">Join Us. It`s free</a>
                             </div>
                         </div>
                     </div>
@@ -226,7 +226,7 @@
         <div class="col-md-4 register">
             <div class="card" style="color:white !important;height:100%;margin-top:25px">
                 <div class="card-header text-center text-uppercase;">
-                    <a href="@Url.Action("Register", "Account", new { IsContractor="False" })">
+                    <a href="@Url.Action("Register", "Account", new { IsContractor = "False" })">
                         <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
                             <i class="fa fa-edit" aria-hidden="true"></i>
                         </span>
@@ -243,7 +243,7 @@
         <div class="col-md-4 register">
             <div class="card" style="color:white !important;height:100%;margin-top:25px">
                 <div class="card-header text-center ">
-                    <a href="@Url.Action("Register", "Account", new { IsContractor="False" })">
+                    <a href="@Url.Action("Register", "Account", new { IsContractor = "False" })">
                         <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
                             <i class="fa fa-money" aria-hidden="true"></i>
                         </span>
@@ -260,7 +260,7 @@
         <div class="col-md-4 register">
             <div class="card" style="color:white !important;height:100%;margin-top:25px">
                 <div class="card-header text-center text-uppercase">
-                    <a href="@Url.Action("Register", "Account", new { IsContractor="False" })">
+                    <a href="@Url.Action("Register", "Account", new { IsContractor = "False" })">
                         <span style="fill: #FF550B;    color: #FF550B;    border-color: #FF550B;font-size: 75px;">
                             <i class="fa fa-check-square-o" aria-hidden="true"></i>
                         </span>
@@ -437,6 +437,10 @@
 
                      if (type =='p') {
 
+
+                        
+
+
                          var contentString = '<div class="card border-primary">'+
                         '<div class="card-header">'+
                                 '<span class=" font-weight-bold">' + item[3] + '</span>'+
@@ -444,90 +448,90 @@
                         '<div class="card-body">'+
                             '<p class="card-text">'+
                              '<span class="text-light small">Description:</span> <span class="table-dark small">' + item[4].replace(/&quot;/g, '') + '</span>' +
-                              '<div style="margin:10px"><a href="/Account/Register?IsContractor=True"><span class="btn btn-dark" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;"</a>Apply</span></div>'+
-                            '</p>'+
+                             '<div style="margin:10px"><a href="' + item[6] + '"><span class="btn btn-dark" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;"</a>Apply</span></div>' +
+                             '</p>' +
                         '</div>'+
                         '</div>';
 
                         var infowindow = new google.maps.InfoWindow({ content: contentString });
                         var latlng = new google.maps.LatLng(item[1],item[2]);
-                        var marker = new google.maps.Marker({
+                                     var marker = new google.maps.Marker({
                             map: map,
-                            position: latlng,
-                            icon:'/content/images/logo.ico',
-                            title: item[3] + '-' + item[5],
-                            animation: google.maps.Animation.DROP
+                                         position: latlng,
+                                         icon:'/content/images/logo.ico',
+                                         title: item[3] + '-' + item[5],
+                                         animation: google.maps.Animation.DROP
                         });
 
                         marker.addListener('click', function () {
-                            if (lastWindow) lastWindow.close();
-                            infowindow.open(map, marker);
-                            lastWindow = infowindow;
-                        });
+                                     if (lastWindow) lastWindow.close();
+                                     infowindow.open(map, marker);
+                                     lastWindow = infowindow;
+                                 });
 
                          google.maps.event.addListener(map, 'click', function () {
-                             infowindow.close();
-                         });
+                                     infowindow.close();
+                                 });
 
-                                               // *
-                      // START INFOWINDOW CUSTOMIZE.
-                      // The google.maps.event.addListener() event expects
-                      // the creation of the infowindow HTML structure 'domready'
-                      // and before the opening of the infowindow, defined styles are applied.
-                      // *
-                      google.maps.event.addListener(infowindow, 'domready', function() {
+                                 // *
+                                 // START INFOWINDOW CUSTOMIZE.
+                                 // The google.maps.event.addListener() event expects
+                                 // the creation of the infowindow HTML structure 'domready'
+                                 // and before the opening of the infowindow, defined styles are applied.
+                                 // *
+                                 google.maps.event.addListener(infowindow, 'domready', function() {
 
-                        // Reference to the DIV that wraps the bottom of infowindow
-                        var iwOuter = $('.gm-style-iw');
+                                     // Reference to the DIV that wraps the bottom of infowindow
+                                     var iwOuter = $('.gm-style-iw');
 
-                        /* Since this div is in a position prior to .gm-div style-iw.
-                         * We use jQuery and create a iwBackground variable,
-                         * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
-                        */
-                        var iwBackground = iwOuter.prev();
+                                     /* Since this div is in a position prior to .gm-div style-iw.
+                                      * We use jQuery and create a iwBackground variable,
+                                      * and took advantage of the existing reference .gm-style-iw for the previous div with .prev().
+                                     */
+                                     var iwBackground = iwOuter.prev();
 
-                        // Removes background shadow DIV
-                        iwBackground.children(':nth-child(2)').css({'display' : 'none'});
+                                     // Removes background shadow DIV
+                                     iwBackground.children(':nth-child(2)').css({'display' : 'none'});
 
-                        // Removes white background DIV
-                        iwBackground.children(':nth-child(4)').css({'display' : 'none'});
+                                     // Removes white background DIV
+                                     iwBackground.children(':nth-child(4)').css({'display' : 'none'});
 
-                        // Moves the infowindow 115px to the right.
-                        iwOuter.parent().parent().css({left: '115px'});
+                                     // Moves the infowindow 115px to the right.
+                                     iwOuter.parent().parent().css({left: '115px'});
 
-                        // Moves the shadow of the arrow 76px to the left margin.
-                        iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+                                     // Moves the shadow of the arrow 76px to the left margin.
+                                     iwBackground.children(':nth-child(1)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
 
-                        // Moves the arrow 76px to the left margin.
-                        iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
+                                     // Moves the arrow 76px to the left margin.
+                                     iwBackground.children(':nth-child(3)').attr('style', function(i,s){ return s + 'left: 76px !important;'});
 
-                        // Changes the desired tail shadow color.
-                        iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
+                                     // Changes the desired tail shadow color.
+                                     iwBackground.children(':nth-child(3)').find('div').children().css({'box-shadow': 'rgba(72, 181, 233, 0.6) 0px 1px 6px', 'z-index' : '1'});
 
-                        // Reference to the div that groups the close button elements.
-                        var iwCloseBtn = iwOuter.next();
+                                     // Reference to the div that groups the close button elements.
+                                     var iwCloseBtn = iwOuter.next();
 
-                        // Apply the desired effect to the close button
-                        iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
+                                     // Apply the desired effect to the close button
+                                     iwCloseBtn.css({opacity: '1', right: '38px', top: '3px', border: '7px solid #48b5e9', 'border-radius': '13px', 'box-shadow': '0 0 5px #3990B9'});
 
-                        // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
-                        if($('.iw-content').height() < 140){
+                                     // If the content of infowindow not exceed the set maximum height, then the gradient is removed.
+                                     if($('.iw-content').height() < 140){
                           $('.iw-bottom-gradient').css({display: 'none'});
-                        }
+                                     }
 
-                        // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
-                        iwCloseBtn.mouseout(function(){
+                                     // The API automatically applies 0.7 opacity to the button after the mouseout event. This function reverses this event to the desired value.
+                                     iwCloseBtn.mouseout(function(){
                           $(this).css({opacity: '1'});
-                        });
-                      });
+                                     });
+                                 });
 
 
 
-                        //$('.marker-link').on('click', function () {
-                        //    google.maps.event.trigger(markers.find(p => p.title === $(this).data('title')), 'click');
-                        //});
+                                 //$('.marker-link').on('click', function () {
+                                 //    google.maps.event.trigger(markers.find(p => p.title === $(this).data('title')), 'click');
+                                 //});
 
-                        markers.push(marker);
+                                 markers.push(marker);
 
                     } else {
 
@@ -565,15 +569,37 @@
 
         @foreach (var item in Model.Projects)
         {
-           
-              
 
-             <text> addresess.push(['map-projects', '@item.latitude', ' @item.longitude', '@item.ProjectTitle', '@Ajax.JavaScriptStringEncode(@item.Description)', '@item.ProjectsId']);</text>
+
+            if (Model.ApplicationUser != null)
+            {
+                    if (Model.ApplicationUser.IsInContractorMode)
+                    {
+                            <text> addresess.push(['map-projects', '@item.latitude', ' @item.longitude', '@item.ProjectTitle', '@Ajax.JavaScriptStringEncode(@item.Description)', '@item.ProjectsId','/Account/Portal?pID=@item.ProjectsId']);</text>
+                    }
+                    else
+                    {
+                            <text> addresess.push(['map-projects', '@item.latitude', ' @item.longitude', '@item.ProjectTitle', '@Ajax.JavaScriptStringEncode(@item.Description)', '@item.ProjectsId','/Account/Register/']);</text>
+                    }
+            }
+            else
+            {
+                  <text> addresess.push(['map-projects', '@item.latitude', ' @item.longitude', '@item.ProjectTitle', '@Ajax.JavaScriptStringEncode(@item.Description)', '@item.ProjectsId','/Account/Register/']);</text>
+            }
+
+
+
+
+
+
+
+
+
         }
         mapAddress(addresess, 'p');
 
 
-        @{ 
+        @{
              var i = 1;
              var imagename = "";
 

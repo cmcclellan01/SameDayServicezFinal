@@ -64,20 +64,23 @@
 
 
 
-            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+            <div class="navbar-collapse collapse " id="navbarSupportedContent">
                 <img src="~/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px" onclick="location.href='@Url.Action("index", "Home")'" />
 
-                <ul class="nav navbar-nav mr-auto">
+                <ul class="nav navbar-nav mr-auto float-right">
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-primary" })</li>
+                    <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link text-primary" })</li>
+                    <li class="nav-item">@Html.ActionLink("How it Works", "Works", "Home", null, new { @class = "nav-link text-primary" })</li>
                     @if (Request.IsAuthenticated == false)
                     {
-                        <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-primary" })</li>
+
                         <li class="nav-item">@Html.ActionLink("Register", "Register", "Account", null, new { @class = "nav-link text-primary" })</li>
                         <li class="nav-item">@Html.ActionLink("Login", "Login", "Account", null, new { @class = "nav-link text-primary" })</li>
                     }
                     else
                     {
 
-                       
+
                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                         {
                             @Html.AntiForgeryToken()
@@ -96,7 +99,7 @@
                         }
                     }
 
-                    </ul>
+                </ul>
 
                 <div class="form-group">
                     @*@Html.Partial("_LoginPartial")*@

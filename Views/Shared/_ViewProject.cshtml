@@ -93,7 +93,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" id="Applicants-@Model.ProjectsId-tab" data-toggle="tab" href="#Applicants-@Model.ProjectsId" role="tab" aria-controls="Applicants-@Model.ProjectsId" aria-selected="false">Applicants</a>
+                    </li>
 
                     @{
                         if (!(bool)Session["IsInContractorMode"])
@@ -117,12 +119,33 @@
                         <div class="basicinformation-@Model.ProjectsId" style="min-height:500px">
                             <div class="card card-custom">
                                 <div class="row">
-                                    <div class="col-12 ">
+                                    <div class="col-6 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
                                                 @Html.ValidationMessageFor(model => model.ProjectTitle)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 ">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                @Html.LabelFor(m => m.ProjectTitle, "Duration:", new { @class = "control-label text-light" })
+                                                <select>
+                                                    <option>Short Term Help</option>
+                                                    <option>Long Term Help</option>
+                                                    <option>Proposal</option>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3 ">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                @Html.LabelFor(m => m.ProjectTitle, "Number of Needed Contractors:", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
                                             </div>
                                         </div>
                                     </div>
@@ -186,7 +209,7 @@
 
                                 @{
                                     if (!(bool)Session["IsInContractorMode"])
-                                    { 
+                                    {
                                         <div class="form-row">
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
@@ -646,8 +669,10 @@
                     <div class="tab-pane fade" id="maps-@Model.ProjectsId" role="tabpanel" aria-labelledby="maps-@Model.ProjectsId-tab">
                         @Html.Partial("_Maps", Model)
                     </div>
-                      
 
+                    <div class="tab-pane fade" id="Applicants-@Model.ProjectsId" role="tabpanel" aria-labelledby="Applicants-@Model.ProjectsId-tab">
+                        @Html.Partial("_Applicants", Model)
+                    </div>
 
 
 
@@ -676,9 +701,12 @@
                 <input class="form-control d-none" id="ProjectsUsersId" name="ProjectsUsersId" type="text" value="@Model.ProjectsUsersId" />
 
             </div>
+            
             <div class="card-footer text-right">
-                <span class="btn btn-primary submit-@Model.ProjectsId no-edit">Update Project</span>
-                <span class="btn btn-primary close-@Model.ProjectsId">Close Project</span>
+                <span class="btn btn-info submit-@Model.ProjectsId no-edit float-left">Publish Project</span>
+
+                <span class="btn btn-primary submit-@Model.ProjectsId no-edit">Save Project</span>
+                <span class="btn btn-primary close-@Model.ProjectsId">Close</span>
             </div>
         </div>
     </fieldset>

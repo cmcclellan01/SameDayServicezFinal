@@ -1,0 +1,13 @@
+﻿@model SameDayServicezFinal.Models.Project
+
+
+
+@foreach (var conv in Model.Conversations)
+{
+    if(conv.ProjectApplyMessage)
+    {
+        <div>
+            @conv.Message
+        </div>
+    }
+}

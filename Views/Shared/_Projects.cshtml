@@ -1,8 +1,10 @@
 ﻿
 @model SameDayServicezFinal.Models.PortalList
-
+@using SameDayServicezFinal.Utils
 
 <style>
+
+
 
     .jobs .card-header {
         padding: 0.5rem .6rem;
@@ -31,7 +33,7 @@
             font-size: 12px;
             line-height: 18px;
             /*min-height: 180px;*/
-            max-height:150px
+            max-height: 150px
         }
 
         .jobs .card-body {
@@ -862,7 +864,40 @@
 
             if (Model.ApplicationUser.IsInContractorMode)
             {
+                <div class="panel card " style="padding:10px">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <div class="input-group">
+                                    <label class="text-light" style="margin-left:10px">Hourly Rate:</label>
+                                    <select class="form-control hourly-select" style="width: 100%;margin:10px">
+                                        <option value="">- Please Select A Hourly Rate -</option>
+                                        @foreach (var item in Extensions.GetHourlyRateList())
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-2">
+                                <div class="input-group ">
+                                    <label class="text-light" style="margin-left:10px">Contractor Search:</label>
+                                    <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
+                                </div>
+                            </div>
 
+                            <div class="col-lg-2">
+                                <div class="input-group SubProfessions">
+                                    <label class="text-light" style="margin-left:10px">Job Title:</label>
+                                    <select class="form-control  search-project-profession" style="width: 100%;margin:10px">
+                                        <option value="">- Please Select A Job Title -</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="open-projects">
                     @Html.Partial("_ViewOpenProjectsC", Model)
@@ -1060,17 +1095,17 @@
     var projects = [];
 
 
-         
+
 
 
     $(document).ready(function () {
 
 
-               
 
 
 
-       
+
+
 
 
 
@@ -1083,7 +1118,7 @@
             else {
                  <text>
 
-               
+
                  </text>
             }
 
@@ -1151,7 +1186,7 @@
 
 
 
-
+   
 
 
 

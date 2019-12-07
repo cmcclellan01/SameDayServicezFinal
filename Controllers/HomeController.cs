@@ -35,7 +35,7 @@ namespace SameDayServicezFinal.Controllers
 
             PortalList portal = new PortalList();
 
-
+            portal.ApplicationUser = user;
             if (user != null)
             {
                 Session["FullName"] = user.FirstName + " " + user.LastName;
@@ -68,6 +68,12 @@ namespace SameDayServicezFinal.Controllers
         }
 
         public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+        public ActionResult Works()
         {
             ViewBag.Message = "Your application description page.";
 

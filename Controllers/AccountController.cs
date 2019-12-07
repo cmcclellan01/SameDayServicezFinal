@@ -97,7 +97,10 @@ namespace SameDayServicezFinal.Controllers
 
         }
 
-
+        public ActionResult Applicants()
+        {
+            return View();
+        }
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -1415,6 +1418,19 @@ namespace SameDayServicezFinal.Controllers
             // var wholeList = db.Subcategories.OrderBy(p => p.SubCatNames).Select(p => p.SubCatNames).Distinct().ToList();
             // var users = db.Users.Select(p => p);
             var subcats = db.ContractorCustomerCategories.Select(p => new { p.SubCatName }).ToList().OrderBy(p => p.SubCatName).Distinct();
+
+
+
+            return Json(subcats, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetFullProjectSubCategoryList()
+        {
+
+            // var wholeList = db.Subcategories.OrderBy(p => p.SubCatNames).Select(p => p.SubCatNames).Distinct().ToList();
+            // var users = db.Users.Select(p => p);
+            var subcats = db.ProjectCategories.Select(p => new { p.ProjectsSubCatName }).ToList().OrderBy(p => p.ProjectsSubCatName).Distinct();
 
 
 
