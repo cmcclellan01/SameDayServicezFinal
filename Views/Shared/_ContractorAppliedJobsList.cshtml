@@ -1,14 +1,14 @@
 ﻿@model SameDayServicezFinal.Models.PortalList
 
 <style>
-     .dataTables_wrapper .dataTables_length,
+    .dataTables_wrapper .dataTables_length,
     .dataTables_wrapper
     .dataTables_filter,
     .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate {
         color: grey !important;
     }
 
-       .project-applied-table .fa {
+    .project-applied-table .fa {
         display: inline-block;
         font: normal normal normal 14px/1 FontAwesome;
         font-size: inherit;
@@ -448,7 +448,7 @@
         background-color: transparent !important;
     }
 
-      .project-applied-table .label-accent {
+    .project-applied-table .label-accent {
         color: white !important;
     }
 
@@ -456,25 +456,24 @@
         font-weight: normal !important;
     }
 
-    .dataTables_filter{
-        margin:10px
+    .dataTables_filter {
+        margin: 10px
     }
-
 </style>
 
 <div class="card">
 
-    
-        <div class="row">
-            <!--Service Image-->
-            <div class="col-lg-3" style="margin:10px">
-                <label class="text-light" for="searchP">Search Postings:</label>
-                <input type="text" class="form-control project-applied-search " id="searchP" placeholder="Search postings">
-            </div>
 
-          
+    <div class="row">
+        <!--Service Image-->
+        <div class="col-lg-3" style="margin:10px">
+            <label class="text-light" for="searchP">Search Postings:</label>
+            <input type="text" class="form-control project-applied-search " id="searchP" placeholder="Search postings">
         </div>
- 
+
+
+    </div>
+
 
 
     <div class="row">
@@ -486,6 +485,7 @@
                     <tr>
                         <th style="width:180px!important;text-align:center">Date Applied</th>
                         <th style="text-align:left">Project Name</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -495,6 +495,11 @@
                         <tr>
                             <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
                             <td style="width:auto !important"> <span>@ProjectApply.ProjectTitle </span></td>
+                            <td>
+                                <div class="btn-group pull-right">
+                                    <button class="btn btn-default btn-xs view-posting" data-projectId="@ProjectApply.ProjectId"><i class="fas fa-folder"></i> View Posting</button>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -504,16 +509,25 @@
 
 </div>
 
+
+
+
+
+
+<div class="past-job"></div>
+
+
+
 <script>
     $('#DataTables_Table_0_length > label').hide();
 
     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
-      $('.project-applied-search').on('keyup', function () {
+    $('.project-applied-search').on('keyup', function () {
         dt.search(this.value).draw();
     });
 
 
-      var dt = $('.project-applied-table').DataTable({
+    var dt = $('.project-applied-table').DataTable({
         paging: true,
         pagingType: 'simple_numbers',
         dom: 'lrtip',
@@ -522,7 +536,29 @@
         header: "jqueryui",
         renderer: "bootstrap",
         ordering: false,
-      
+        "fnDrawCallback": function (oSettings) {
+            $('.view-posting').on('click', function (evt) {
+                event.preventDefault();
+                $('body').loading('start');
+                var $detailDiv = $('.past-job');
+
+                $.get('/Account/ViewPastAppliedForProjects?projectId=' + $(this).attr('data-projectId'), function (data) {
+
+                    $detailDiv.replaceWith('<div class="past-job">' + data + '</div>');
+
+                    $('.past-job-modal').modal('show').on('hidden.bs.modal', function (e) {
+                        $detailDiv.html('');
+
+                    });
+                    $('body').loading('stop');
+
+                });
+            });
+        }
+
     });
+
+
+   
 </script>
 

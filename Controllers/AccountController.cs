@@ -692,7 +692,8 @@ namespace SameDayServicezFinal.Controllers
         public ActionResult GetContractorAppliedForJobsList()
         {
             PortalList portal = new PortalList();
-   
+  
+            portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).OrderByDescending(p => p.CreationDate).Take(10).ToList();
 
             var pp = from c in db.Conversations
                      join m in db.Messages on c.Id equals m.ConversationsId
@@ -841,6 +842,8 @@ namespace SameDayServicezFinal.Controllers
                     ProjectTitle = item.ProjectTitle,
                     Read = item.Read,
                     ReadDate = item.ReadDate
+                         
+                      
                 };
 
                 portal.ProjectApplies.Add(post);
@@ -1137,13 +1140,64 @@ namespace SameDayServicezFinal.Controllers
             };
             messages.Add(message);
 
-            db.Conversations.Add(Conversation);
-            db.SaveChanges();
+
+            int HasAppliedBefore = db.Conversations.Where(p => p.ProjectId == projectId && p.ContractorId == userId).Count();
+
+            if(HasAppliedBefore == 0)
+            {
+                db.Conversations.Add(Conversation);
+                db.SaveChanges();
+                return Json("OK", JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("Applied", JsonRequestBehavior.AllowGet);
+            }
+          
 
 
-            return Json("OK", JsonRequestBehavior.AllowGet);
+            
         }
 
+
+        public ActionResult ViewPastAppliedForProjects(long projectId)
+        {
+            PortalList portal = new PortalList();
+            Project project = new Project();
+
+            project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+
+            // add the Project Job Categories to the object
+            project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+
+            // add the Project Compensation Package to the object
+            var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+            if (ProjectCompensationPackage != null)
+            {
+                project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
+                project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+            }
+
+
+            portal.Projects.Add(project);
+
+
+
+
+
+
+
+            return PartialView("_ViewPastJobs", portal);
+
+
+            
+        }
         public ActionResult ViewFullProject(long projectId)
         {
             PortalList portal = new PortalList();

@@ -161,8 +161,25 @@
 
              
               $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId'), function (data) {                 
-                 
-                swal({
+
+
+                
+
+
+                  if (data == 'Applied') {
+                      swal({
+                          title: "Applying for Project",
+                          text: "Your Profile Has  ALREADY Been Submitted For " + title,
+                          type: "info",
+                          showCancelButton: false,
+                          confirmButtonClass: "btn-info",
+                          confirmButtonText: "Ok!",
+                          closeOnConfirm: true
+                      });
+                  }
+
+                   if (data == 'OK') {
+                                swal({
                         title: "Applying for Project",
                         text: "Your Profile Has Been Submitted For " + title,
                         type: "info",
@@ -177,12 +194,11 @@
                           
                             $.get('/Account/GetContractorAppliedForJobsList', function (data) {
                                 $detailDiv.replaceWith('<div class="Contractor-Applied-JobsList">' + data + '</div>');
-                            });
-
-                           
+                            });                          
                                 
-                            //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                           
                         });
+                  }
 
             });
         });
