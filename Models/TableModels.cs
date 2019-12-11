@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace SameDayServicezFinal.Models
 {
- 
+
     [Table("LoginHistory")]
     public class LoginHistory
     {
@@ -99,6 +99,15 @@ namespace SameDayServicezFinal.Models
     [Table("Projects")]
     public class Project
     {
+
+        public Project()
+        {
+            ProjectApplicants = new List<ProjectApplicants>();
+        }
+
+
+
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long ProjectsId { get; set; }
@@ -160,9 +169,9 @@ namespace SameDayServicezFinal.Models
 
         public DateTime LastUpdated { get; set; }
 
-        public bool IsActive { get; set; }       
+        public bool IsActive { get; set; }
 
-       
+
         public long SelectedProjectCompensationPackage { get; set; }
 
         [NotMapped]
@@ -202,7 +211,50 @@ namespace SameDayServicezFinal.Models
 
         public bool AcceptingContractors { get; set; }
 
+        public int NumberOfContractorsNeeded { get; set; }
+
+
+        public long Duration { get; set; }
+
+        [NotMapped]
+        public IEnumerable<SelectListItem> DurationList { get; set; }
+
+        [NotMapped]
+        public List<ProjectApplicants> ProjectApplicants { get; set; }
+
     }
+
+    [Table("ProjectApplicants")]
+    public class ProjectApplicants
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+
+        public long ProjectsId { get; set; }
+
+        public string ApplicantId { get; set; }
+
+        [NotMapped]
+        public ApplicationUser Applicant { get; set; }
+
+        [NotMapped]
+        public List<Project> PastProjects { get; set; }
+
+        public DateTime AppliedDate { get; set; }
+
+        public bool AssinedToProject { get; set; }
+
+        public string ApplicantMessage { get; set; }
+
+        public int ApplicantRating { get; set; }
+
+        public bool Rejected { get; set; }
+    }
+
+
+
+
     [Table("ProjectAssignment")]
     public class ProjectAssignment
     {

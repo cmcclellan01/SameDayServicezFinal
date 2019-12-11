@@ -8,7 +8,13 @@
 @using SameDayServicezFinal.Utils
 
 
+<style>
+    .nav-tabs{
+        border-bottom:none;
 
+        
+    }
+</style>
 
 
 <script src="~/Scripts/dropzone/dropzone.js"></script>
@@ -95,9 +101,28 @@
             <div class="content-inner" style="padding-bottom: 59px;">
                 <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link " id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
-                            <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Projects</a>
+                        <div class="nav nav-tabs " id="nav-tab" role="tablist" style="font-size:smaller">
+                            <a class="nav-item nav-link text-center" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+
+
+                            @{
+                                if (Model.ApplicationUser.IsInContractorMode)
+                                {
+                                    <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Open Projects</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">My Projects</a>
+                                    <a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>
+                                }
+                            }
+
+
+
+
+
+
+
                             <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Appiled For</a>
                             <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
                             <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Messaging</a>
@@ -121,12 +146,20 @@
                                 @Html.Partial("_Projects", Model)
                             </div>
                         </div>
+                        <div class="tab-pane fade  " id="nav-accepted-project" role="tabpanel" aria-labelledby="nav-accepted-project-tab">
+                            <div class="container-fluid " style="background-color:#2f323b;padding:20px">
+                               
+
+                            </div>
+                        </div>
 
                         <div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
                                 @Html.Partial("_Profile", Model.ApplicationUser)
                             </div>
                         </div>
+
+                        
 
                         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="container-fluid" style="background-color:#2f323b;padding:20px">
@@ -367,7 +400,7 @@
                                 <div class="Contractor-Applied-JobsList">
                                     @Html.Partial("_ContractorAppliedJobsList")
                                 </div>
-                               
+
                             </div>
                         </div>
                     </div>

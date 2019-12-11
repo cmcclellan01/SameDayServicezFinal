@@ -4,7 +4,7 @@
 <div class="row jobs" style="margin-top:5px">
     @foreach (var project in Model.Projects)
     {
-        <div class="col-lg-7 mx-auto">
+        <div class="col-lg-7 ">
             <div class="card  ">
                 <div class="card-header grayscale-center ">
                     <h4 class="text-capitalize" style="color: #212529;">@project.ProjectTitle</h4>
@@ -245,7 +245,7 @@
         $.get('/Account/GetFullProjectSubCategoryList', function (data) {
 
             $('.search-project-profession').empty();
-            $('.search-project-profession').append("<option value=''>- Please Select A Job Title -</option>");
+            $('.search-project-profession').append("<option value=''>- Please Select A Skill -</option>");
             $.each(data, function (index, row) {
                 $('.search-project-profession').append("<option value='" + row.ProjectsSubCatName + "'>" + row.ProjectsSubCatName + "</option>");
             });

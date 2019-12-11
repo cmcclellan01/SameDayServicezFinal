@@ -864,44 +864,81 @@
 
             if (Model.ApplicationUser.IsInContractorMode)
             {
-                <div class="panel card " style="padding:10px">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-2">
-                                <div class="input-group">
-                                    <label class="text-light" style="margin-left:10px">Hourly Rate:</label>
-                                    <select class="form-control hourly-select" style="width: 100%;margin:10px">
-                                        <option value="">- Please Select A Hourly Rate -</option>
-                                        @foreach (var item in Extensions.GetHourlyRateList())
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-2">
-                                <div class="input-group ">
-                                    <label class="text-light" style="margin-left:10px">Contractor Search:</label>
-                                    <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
-                                </div>
-                            </div>
 
-                            <div class="col-lg-2">
-                                <div class="input-group SubProfessions">
-                                    <label class="text-light" style="margin-left:10px">Job Title:</label>
-                                    <select class="form-control  search-project-profession" style="width: 100%;margin:10px">
-                                        <option value="">- Please Select A Job Title -</option>
-                                    </select>
+                <div class="row">
+                           
+                                
+                                    <div class="col-sm-3">
+                                        <div class="panel card " style="padding:10px">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="input-group">
+                                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Hourly Rate:</label>
+                                                            <select class="form-control hourly-select" style="width: 100%;margin:10px">
+                                                                <option value="">- Please Select A Hourly Rate -</option>
+                                                                @foreach (var item in Extensions.GetHourlyRateList())
+                                                                {
+                                                                    <option value="@item.Value">@item.Text</option>
+                                                                }
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="input-group ">
+                                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Job Description Search:</label>
+                                                            <input type="text" class="form-control description-search" placeholder="Search for a job description" style="margin:10px">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <div class="input-group SubProfessions">
+                                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Recommended Skills:</label>
+                                                            <select class="form-control  search-project-profession" style="width: 100%;margin:10px">
+                                                                <option value="">- Please Select A Skill -</option>
+                                                            </select>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="container">
+                                                        <button type="button" class="btn btn-dark float-right job-search" style="margin-right:10px;">Search</button>
+                                                        <button type="button" class="btn btn-dark float-right reset-job-search" style="margin-right:10px;">Reset</button>
+                                                    </div>
+                                                 </div>
+
+
+
+
+
+
+                                                </div>
+                                        </div>
+                                    </div>
+                               
+                               
+                                    <div class="col-sm-9">
+                                        <div class="open-projects">
+                                            @Html.Partial("_ViewOpenProjectsC", Model)
+                                        </div>
+                                    </div>
+                                
+                          
                 </div>
+               
 
-                <div class="open-projects">
-                    @Html.Partial("_ViewOpenProjectsC", Model)
-                </div>
+               
+
+               
+
+
+
+
+
 
             }
             else
@@ -1103,8 +1140,43 @@
 
 
 
+        $('.job-search').on('click', function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
 
 
+            var $detailDiv = $('.open-projects');
+            $detailDiv.html('');
+            var hr = $('.hourly-select option:selected').val();
+            var description = $('.description-search').val();
+            var profession = $('.search-project-profession option:selected').val();
+            $.get('/Account/GetOpenProjects?page=' + $(this).attr('data-page') + '&HourlyRange=' + hr + '&descripton=' + description + '&Profession=' + profession, function (data) {
+                $detailDiv.replaceWith('<div class="open-projects">' + data + '</div>');
+            });
+
+
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+        $('.reset-job-search').on('click', function (evt) {
+            evt.preventDefault();
+            evt.stopPropagation();
+
+
+            var $detailDiv = $('.open-projects');
+            $detailDiv.html('');
+            var hr = $('.hourly-select option:selected').val('');
+            var description = $('.description-search').val('');
+            var profession = $('.search-project-profession option:selected').val('');
+            $.get('/Account/GetOpenProjects?page=' + $(this).attr('data-page') + '&HourlyRange=' + hr + '&descripton=' + description + '&Profession=' + profession + '&reset=true', function (data) {
+                $detailDiv.replaceWith('<div class="open-projects">' + data + '</div>');
+            });
+
+
+            $("html, body").animate({ scrollTop: 0 }, 1000);
+        });
+
+        //
 
 
 
@@ -1186,7 +1258,7 @@
 
 
 
-   
+
 
 
 

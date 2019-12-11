@@ -278,6 +278,117 @@ function SetStars(star, index) {
 
 }
 
+function MouseOverSetStars(star, index) {
+
+    
+    star.on('mouseover', function () {
+        index = $(this).attr('data-index');
+        markStarsAsActive(index);
+    });
+
+    markStarsAsActive('' + index - 1 + '');
+
+    function markStarsAsActive(index) {
+        unmarkActive();
+
+        for (var i = 0; i <= index; i++) {
+            switch (index) {
+                case '0':
+                    $(star.get(i)).addClass('oneStar');
+
+                    break;
+                case '1':
+                    $(star.get(i)).addClass('twoStars');
+
+                    break;
+                case '2':
+                    $(star.get(i)).addClass('threeStars');
+
+                    break;
+                case '3':
+                    $(star.get(i)).addClass('fourStars');
+
+                    break;
+                case '4':
+                    $(star.get(i)).addClass('fiveStars');
+                    break;
+            }
+        }
+    }
+
+    function unmarkActive() {
+        star.removeClass('oneStar twoStars threeStars fourStars fiveStars');
+    }
+
+    star.on('click', function (e) {
+
+
+        var projectId = $(this).attr('data-projectId');
+        var ApplicantId = $(this).attr('data-applicantId');
+
+
+
+        if (star.hasClass("oneStar")) {
+            $.ajax({
+                type: "POST",
+                url: '/Account/UpdateApplicantRating?projectId=' + projectId + '&ApplicantId=' + ApplicantId + '&rating=1' ,
+                success: function () {
+                   
+                }
+            });
+            return false;
+        }
+
+        if (star.hasClass("twoStars")) {
+            $.ajax({
+                type: "POST",
+                url: '/Account/UpdateApplicantRating?projectId=' + projectId + '&ApplicantId=' + ApplicantId + '&rating=2',
+                success: function () {
+
+                }
+            });
+            return false;
+        }
+
+        if (star.hasClass("threeStars")) {
+            $.ajax({
+                type: "POST",
+                url: '/Account/UpdateApplicantRating?projectId=' + projectId + '&ApplicantId=' + ApplicantId + '&rating=3',
+                success: function () {
+
+                }
+            });
+            return false;
+        }
+
+        if (star.hasClass("fourStars")) {
+            $.ajax({
+                type: "POST",
+                url: '/Account/UpdateApplicantRating?projectId=' + projectId + '&ApplicantId=' + ApplicantId + '&rating=4',
+                success: function () {
+
+                }
+            });
+            return false;
+        }
+
+        if (star.hasClass("fiveStars")) {
+            $.ajax({
+                type: "POST",
+                url: '/Account/UpdateApplicantRating?projectId=' + projectId + '&ApplicantId=' + ApplicantId + '&rating=5',
+                success: function () {
+
+                }
+            });
+            return false;
+        }
+
+    });
+
+
+
+}
+
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
 

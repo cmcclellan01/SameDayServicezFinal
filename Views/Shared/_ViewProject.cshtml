@@ -80,7 +80,7 @@
             </div>
             <div class="card-body">
 
-                <ul class="nav nav-tabs nav-justified" id="myTab-@Model.ProjectsId" role="tablist">
+                <ul class="nav nav-tabs nav-justified" style="font-size:smaller" id="myTab-@Model.ProjectsId" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="basicinformation-@Model.ProjectsId-tab" data-toggle="tab" href="#basicinformation-@Model.ProjectsId" role="tab" aria-controls="basicinformation-@Model.ProjectsId" aria-selected="true">Basic Project Information</a>
                     </li>
@@ -94,14 +94,22 @@
                         <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="Applicants-@Model.ProjectsId-tab" data-toggle="tab" href="#Applicants-@Model.ProjectsId" role="tab" aria-controls="Applicants-@Model.ProjectsId" aria-selected="false">Applicants</a>
+                        <a class="nav-link" id="Applicants-@Model.ProjectsId-tab" data-toggle="tab" href="#Applicants-@Model.ProjectsId" role="tab" aria-controls="Applicants-@Model.ProjectsId" aria-selected="false">
+                            Applicants
+                            @if (Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count() > 0)
+                            {
+                                <span class="badge badge-pill badge-success  top-0 right-0">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count()</span>
+                            }
+
+
+                        </a>
                     </li>
 
                     @{
                         if (!(bool)Session["IsInContractorMode"])
                         {
                             <li class="nav-item">
-                                <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Assigned Contactors</a>
+                                                    <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Accepted Contactors</a>
                             </li>
 
                         }
@@ -123,7 +131,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
-                                                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
+                                                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;" })
                                                 @Html.ValidationMessageFor(model => model.ProjectTitle)
                                             </div>
                                         </div>
@@ -131,21 +139,17 @@
                                     <div class="col-3 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
-                                                @Html.LabelFor(m => m.ProjectTitle, "Duration:", new { @class = "control-label text-light" })
-                                                <select>
-                                                    <option>Short Term Help</option>
-                                                    <option>Long Term Help</option>
-                                                    <option>Proposal</option>
-
-                                                </select>
+                                                @Html.LabelFor(x => x.Duration, new { @class = "control-label text-light" })
+                                                @Html.DropDownListFor(m => m.Duration, Model.DurationList, "- Please select a Duration -", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => Model.Duration)                                               
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-3 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
-                                                @Html.LabelFor(m => m.ProjectTitle, "Number of Needed Contractors:", new { @class = "control-label text-light" })
-                                                @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;", @required = "required" })
+                                                @Html.LabelFor(m => m.NumberOfContractorsNeeded, "Number of Needed Contractors:", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.NumberOfContractorsNeeded, new { @class = "form-control", style = "min-width: 100%!important;", @type = "number" })
                                             </div>
                                         </div>
                                     </div>
@@ -511,7 +515,7 @@
                         <div style="min-height:500px">
                             <div class="card card-custom">
                                 <div class="col-md-12">
-                                    <div class="row">
+                                    <div class="row assigned-contactors">
                                         @{
                                             var s = 1;
                                             var imagename = "";
@@ -717,6 +721,10 @@
       Dropzone.autoDiscover = false;
     var json = "";
     $(document).ready(function () {
+
+      
+
+
 
         $('.view-project-main-div').hide();
 

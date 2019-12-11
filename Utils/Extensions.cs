@@ -167,7 +167,9 @@ namespace SameDayServicezFinal.Utils
             }
             return cipherText;
         }
+     
 
+ 
 
         public static IEnumerable<SelectListItem> GetHourlyRateList()
         {
@@ -331,6 +333,19 @@ namespace SameDayServicezFinal.Utils
             }
 
             return ProjectCompensation;
+        }
+
+        public static IEnumerable<SelectListItem> GetDurationList()
+        {
+            IList<SelectListItem> list = new List<SelectListItem>
+            {
+                new SelectListItem() {Text="Short Term Help", Value="1"},
+                new SelectListItem() {Text="Long Term Help", Value="2"},
+                new SelectListItem() {Text="Proposal", Value="3"},
+
+            };
+
+            return list;
         }
 
 
