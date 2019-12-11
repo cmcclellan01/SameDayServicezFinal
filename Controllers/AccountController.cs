@@ -966,7 +966,7 @@ namespace SameDayServicezFinal.Controllers
 
             if (!string.IsNullOrEmpty(descripton))
             {
-                projects = db.Project.Where(p => p.IsActive == true &&( p.Description.Contains(descripton) || p.ProjectTitle.Contains(descripton))).ToList();
+                projects = db.Project.Where(p => p.IsActive == true && (p.Description.Contains(descripton) || p.ProjectTitle.Contains(descripton))).ToList();
 
                 foreach (var prj in projects)
                 {
@@ -1191,7 +1191,7 @@ namespace SameDayServicezFinal.Controllers
             ProjectApplicants applicant = new ProjectApplicants
             {
                 ApplicantId = userId,
-                AppliedDate =DateTime.Now,
+                AppliedDate = DateTime.Now,
                 AssinedToProject = false,
                 ProjectsId = projectId,
                 ApplicantMessage = contractorMessage
@@ -1287,7 +1287,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
 
-        public ActionResult RejectOrUnrejectApplicant(long projectId, string ApplicantId,bool Reject)
+        public ActionResult RejectOrUnrejectApplicant(long projectId, string ApplicantId, bool Reject)
         {
             var applicant = db.ProjectApplicants.Where(p => p.ProjectsId == projectId && p.ApplicantId == ApplicantId).FirstOrDefault();
 
@@ -1308,12 +1308,12 @@ namespace SameDayServicezFinal.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UpdateApplicantRating(long projectId,string ApplicantId,int rating)
+        public ActionResult UpdateApplicantRating(long projectId, string ApplicantId, int rating)
         {
             var applicant = db.ProjectApplicants.Where(p => p.ProjectsId == projectId && p.ApplicantId == ApplicantId).FirstOrDefault();
 
 
-            if(applicant != null)
+            if (applicant != null)
             {
                 applicant.ApplicantRating = rating;
                 db.Entry(applicant).State = EntityState.Modified;
@@ -1330,6 +1330,31 @@ namespace SameDayServicezFinal.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetProjectAssignmentSingle(long ProjectsId, string ApplicantId)
+        {
+            var userId = User.Identity.GetUserId();
+            var ProjectAssignments = db.ProjectAssignment.Where(p => p.ProjectId == ProjectsId && p.ProjectOwner == userId && p.UsersId == ApplicantId).SingleOrDefault();
+
+
+
+            var profile = db.Users.Where(i => i.Id == ProjectAssignments.UsersId).SingleOrDefault();
+            ProjectAssignments.ProfileProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+            List<Project> ProfilePastProjects = new List<Project>();
+            ProfilePastProjects = db.Project.Where(p => p.ProjectsUsersId == ProjectAssignments.UsersId).ToList();
+
+            ProjectAssignments.ProfileImage = profile.ProfileImage;
+            ProjectAssignments.ProfileDisplayName = profile.DisplayName;
+            ProjectAssignments.ProfileBios = profile.Bio;
+            ProjectAssignments.ProfileRating = profile.Rating;
+            ProjectAssignments.ByTheHourRate = profile.ByTheHourRate;
+            ProjectAssignments.ProfilePastProjects = ProfilePastProjects;
+            ProjectAssignments.ProjectOwnerName = profile.DisplayName;
+
+
+            return PartialView("_ProjectAssignmentSingle", ProjectAssignments);
+        }
+
 
         [SessionTimeout]
         public ActionResult GetProject(long projectId)
@@ -1337,7 +1362,7 @@ namespace SameDayServicezFinal.Controllers
             Project project = new Project();
             var userId = User.Identity.GetUserId();
             var states = Extensions.GetStatesList();
-            List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();            
+            List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
 
             project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
 
@@ -1403,17 +1428,17 @@ namespace SameDayServicezFinal.Controllers
             project.ProjectApplicants = db.ProjectApplicants.Where(p => p.ProjectsId == projectId).ToList();
 
             foreach (var applicant in project.ProjectApplicants)
-            {           
-               if (ProjectAssignments.Where(p => p.ProjectId == applicant.ProjectsId && p.ProjectOwner == userId && p.UsersId == applicant.ApplicantId).ToList().Count() > 0)
+            {
+                if (ProjectAssignments.Where(p => p.ProjectId == applicant.ProjectsId && p.ProjectOwner == userId && p.UsersId == applicant.ApplicantId).ToList().Count() > 0)
                 {
                     applicant.AssinedToProject = true;
                 }
                 else
                 {
                     applicant.AssinedToProject = false;
-                    applicant.Applicant = db.Users.Where(p => p.Id == applicant.ApplicantId).SingleOrDefault();                  
+                    applicant.Applicant = db.Users.Where(p => p.Id == applicant.ApplicantId).SingleOrDefault();
                     applicant.Applicant.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == applicant.ApplicantId).ToList();
-                    applicant.PastProjects = db.Project.Where(p => p.ProjectsUsersId == applicant.ApplicantId).ToList();                   
+                    applicant.PastProjects = db.Project.Where(p => p.ProjectsUsersId == applicant.ApplicantId).ToList();
                 }
             }
 

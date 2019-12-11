@@ -891,6 +891,7 @@
     <Content Include="Views\Shared\_ViewPastJobs.cshtml" />
     <Content Include="Views\Home\Works.cshtml" />
     <Content Include="Views\Shared\_Applicants.cshtml" />
+    <Content Include="Views\Shared\_ProjectAssignmentSingle.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

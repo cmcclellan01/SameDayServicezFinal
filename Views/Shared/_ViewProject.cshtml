@@ -98,7 +98,7 @@
                             Applicants
                             @if (Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count() > 0)
                             {
-                                <span class="badge badge-pill badge-success  top-0 right-0">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count()</span>
+                                <span class="badge badge-pill badge-success  top-0 right-0 ProjectApplicants-badge">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count()</span>
                             }
 
 

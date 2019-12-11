@@ -16,7 +16,7 @@
                 {
                     i = 1;
                 }
-                <div class="col-lg-3">
+                <div class="col-lg-3 accept-applicant-@profileGuid">
                     <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
 
@@ -155,7 +155,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="float-left text-light" style="margin-left:15px"> Applied on : @profile.AppliedDate.ToShortDateString()</div>
-                                    <div class="float-right"> <span data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn btn-info accept-applicant" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px;">Accept </span></div>
+                                    <div class="float-right"> <span data-guid="@profileGuid" data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn btn-info accept-applicant" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px;">Accept </span></div>
                                     <div class="float-right"> <span data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn  reject-applicant @if (profile.Rejected) { <text>rejected btn-secondary</text>} else { <text> btn-danger </text>} " style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Reject</span></div>
                                 </div>
 
@@ -214,12 +214,16 @@
                     type: "POST",
                     url: '/Account/AssignContractor?ApplicantId=' + element.attr('data-applicantId') + '&projectId=' + element.attr('data-projectId'),
                     success: function () {
-
+                        $.get('/Account/GetProjectAssignmentSingle?ProjectsId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId'), function (data) {                         
+                            $('.assigned-contactors').append(data);
+                            $('.accept-applicant-' + element.attr('data-guid')).remove();
+                            $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
+                        });
                     }
                 });
             });        
     });
-
+    
 
 
 
