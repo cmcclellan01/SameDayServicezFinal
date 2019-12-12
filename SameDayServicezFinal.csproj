@@ -894,6 +894,8 @@
     <Content Include="Views\Shared\_Applicants.cshtml" />
     <Content Include="Views\Shared\_ProjectAssignmentSingle.cshtml" />
     <Content Include="Uploads\ProfileResume\2b17cb14-b2e4-4edd-a188-20dfccd390a3\resume_2b17cb14-b2e4-4edd-a188-20dfccd390a3.pdf" />
+    <Content Include="Views\Home\TOS.cshtml" />
+    <Content Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

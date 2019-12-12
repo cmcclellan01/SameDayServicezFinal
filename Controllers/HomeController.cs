@@ -67,24 +67,99 @@ namespace SameDayServicezFinal.Controllers
 
         }
 
-        public ActionResult About()
+        public async Task<ActionResult> About()
         {
-            ViewBag.Message = "Your application description page.";
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();          
+
+          
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+
+            }
+            else
+            {
+                Session["FullName"] = null;
+            }
 
             return View();
         }
-        public ActionResult Works()
+        public async Task<ActionResult> Works()
         {
-            ViewBag.Message = "Your application description page.";
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+
+            }
+            else
+            {
+                Session["FullName"] = null;
+            }
 
             return View();
         }
 
-        public ActionResult Contact()
+        public async Task<ActionResult> Contact()
         {
-            ViewBag.Message = "Your contact page.";
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+
+            }
+            else
+            {
+                Session["FullName"] = null;
+            }
 
             return View();
         }
+
+        public async Task<ActionResult> TOS()
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+
+            }
+            else
+            {
+                Session["FullName"] = null;
+            }
+
+            return View();
+        }
+
+        public async Task<ActionResult> Privacy()
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var userId = User.Identity.GetUserId();
+
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+
+            }
+            else
+            {
+                Session["FullName"] = null;
+            }
+
+            return View();
+        }
+        
     }
 }

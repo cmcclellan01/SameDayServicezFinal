@@ -77,14 +77,14 @@
                                             <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Make money on your own schedule</h1></div>
                                             <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">fill out the information below to get started making money</h2></div>
                                             <input class="form-control d-none" id="IsInContractorMode" name="IsInContractorMode" type="text" value="true" />
-                                            <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="false" />                                        
+                                            <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="false" />
                                         }
                                         else
                                         {
                                             <div><h1 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">Let us find the same day help you need.</h1></div>
                                             <div><h2 style="color:white;text-shadow: 2px 2px 4px #000000;" class="text-uppercase">fill out the information below to get started</h2></div>
                                             <input class="form-control d-none" id="IsInContractorMode" name="IsInContractorMode" type="text" value="false" />
-                                            <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="true" />                                           
+                                            <input class="form-control d-none" id="IsInCustomerMode" name="IsInCustomerMode" type="text" value="true" />
                                         }
                                     }
                                     catch (Exception)
@@ -145,80 +145,94 @@
                     </div>
                 </div>
 
-           
-
-            @*<div class="form-row">
-
-                    <div class="form-group  col-md-4">
-                        @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.ZipCode)
-                    </div>
-
-                    <div class="form-group col-md-4 ">
-                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.PhoneNumber)
-                    </div>
-
-                    <div class="form-group  col-md-4">
-                        @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.Email)
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-
-                    <div class="form-group  col-md-4">
-                        @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.BirthDate)
-                    </div>
 
 
-                    <div class="form-group  col-md-4">
-                        @Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
-                        @Html.ValidationMessageFor(model => model.Password)
-                    </div>
+                @*<div class="form-row">
 
-                    <div class="form-group  col-md-4">
-                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label text-light" })
-                        @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password" })
-                        @Html.ValidationMessageFor(model => model.ConfirmPassword)
-                    </div>
-
-                    @if (bool.Parse(Request.QueryString["IsContractor"]))
-                    {
-                        <div class="form-group  col-md-4">
-                            @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
-                            @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.ByTheHourRate)
-                        </div>
-                    }
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group  col-md-4">
-                        @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
-                        @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", @style = "max-width:500px!important" })
-                        @Html.ValidationMessageFor(model => model.Bio)
-                    </div>
-
-                </div>*@
-
-            <div class="form-row">
-                <div class="form-group col-md-12 ">
-                    <div class="form-group row">
-                        <div class="form-group col-md-12">
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </div>
-                    </div>
-                </div>
+            <div class="form-group  col-md-4">
+                @Html.LabelFor(m => m.ZipCode, new { @class = "control-label text-light" })
+                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ZipCode)
             </div>
+
+            <div class="form-group col-md-4 ">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "control-label text-light" })
+                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.PhoneNumber)
+            </div>
+
+            <div class="form-group  col-md-4">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label text-light" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Email)
+            </div>
+
         </div>
+
+        <div class="form-row">
+
+            <div class="form-group  col-md-4">
+                @Html.LabelFor(m => m.BirthDate, new { @class = "control-label text-light" })
+                @Html.TextBoxFor(m => m.BirthDate, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BirthDate)
+            </div>
+
+
+            <div class="form-group  col-md-4">
+                @Html.LabelFor(m => m.Password, new { @class = "control-label text-light" })
+                @Html.TextBoxFor(m => m.Password, new { @class = "form-control", @type = "password" })
+                @Html.ValidationMessageFor(model => model.Password)
+            </div>
+
+            <div class="form-group  col-md-4">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label text-light" })
+                @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-control", @type = "password" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword)
+            </div>
+
+            @if (bool.Parse(Request.QueryString["IsContractor"]))
+            {
+                <div class="form-group  col-md-4">
+                    @Html.LabelFor(m => m.ByTheHourRate, new { @class = "control-label text-light" })
+                    @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.ByTheHourRate)
+                </div>
+            }
+        </div>
+
+        <div class="form-row">
+            <div class="form-group  col-md-4">
+                @Html.LabelFor(m => m.Bio, new { @class = "control-label text-light" })
+                @Html.TextAreaFor(m => m.Bio, new { @class = "form-control", rows = "6", cols = "15", @style = "max-width:500px!important" })
+                @Html.ValidationMessageFor(model => model.Bio)
+            </div>
+
+        </div>*@
+
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input tos" type="checkbox" value="" id="invalidCheck" required>
+                        <label class="form-check-label " for="invalidCheck">
+                             @Html.ActionLink("Agree To Terms & Condition", "TOS", "Home", null, new { @class = " text-primary" })
+                        </label>
+                        <div class="invalid-feedback">
+                            You must agree before submitting.
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary reg-submit" disabled>Submit</button>
+
+                @*<div class="form-row">
+                    <div class="form-group col-md-12 ">
+                        <div class="form-group row">
+                            <div class="form-group col-md-12">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+            </div>
         </div>
 
         @*<div class="card">
@@ -235,6 +249,18 @@
     </form>
 }
 <script src="~/Scripts/register.js"></script>
+
+<script>
+    $('.tos').change(function () {
+        if (this.checked) {
+            $('.reg-submit').removeAttr('disabled');
+        }
+        else {
+             $('.reg-submit').attr('disabled',true);
+        }
+    });
+</script>
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

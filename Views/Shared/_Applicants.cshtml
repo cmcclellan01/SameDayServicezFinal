@@ -179,7 +179,7 @@
                                     </script>
 
                                 </div>
-
+                             
 
                             </div>
                         </div>
@@ -194,20 +194,28 @@
 
 <div class="full-applicant-profile-view"></div>
 
+
+
 <script>
 
-
+    var html = '<div class="row">' +
+      '<div class="col-6">' +
+        '<span>Are you sure</span>' +
+       '</div>' +
+    '</div>'
+    
 
     $('.accept-applicant').on('click', function (evt) {
         var element = $(this);
         swal({
             title: "Accept Applicant?",
-            text: "Are you sure that you want to accept this applicant?",
+            text:  html ,
             type: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-info",
-            confirmButtonText: "Ok!",
-            closeOnConfirm: true
+            confirmButtonText: "Accept",
+            closeOnConfirm: true,
+            html:true
         },
             function () {
                 $.ajax({
