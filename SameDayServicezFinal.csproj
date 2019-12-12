@@ -654,6 +654,7 @@
     <Content Include="Content\images\LOGO.pdn" />
     <Content Include="Content\stroke.ttf" />
     <Content Include="Content\bootstrap-select.css.map" />
+    <Content Include="Content\MidAmericanBill.pdf" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -892,6 +893,7 @@
     <Content Include="Views\Home\Works.cshtml" />
     <Content Include="Views\Shared\_Applicants.cshtml" />
     <Content Include="Views\Shared\_ProjectAssignmentSingle.cshtml" />
+    <Content Include="Uploads\ProfileResume\2b17cb14-b2e4-4edd-a188-20dfccd390a3\resume_2b17cb14-b2e4-4edd-a188-20dfccd390a3.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

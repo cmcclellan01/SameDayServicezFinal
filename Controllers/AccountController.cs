@@ -25,6 +25,7 @@ namespace SameDayServicezFinal.Controllers
         private ApplicationUserManager _userManager;
         private string MainProfilePath = "/Uploads/ProfileImages/";
         private string MainProjectPath = "/Uploads/Projects/";
+        private string MainResumePath = "/Uploads/ProfileResume/";
         private ApplicationDbContext db = new ApplicationDbContext();
 
 
@@ -924,6 +925,22 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_FullProfile", portal);
         }
 
+        //public ActionResult ShowPdfInBrowser()
+        //{
+        //    byte[] pdfContent = CodeThatRetrievesMyFilesContent();
+        //    if (pdfContent == null)
+        //    {
+        //        return null;
+        //    }
+        //    var contentDispositionHeader = new System.Net.Mime.ContentDisposition
+        //    {
+        //        Inline = true,
+        //        FileName = "someFilename.pdf"
+        //    };
+        //    Response.Headers.Add("Content-Disposition", contentDispositionHeader.ToString());
+        //    return File(pdfContent, System.Net.Mime.MediaTypeNames.Application.Pdf);
+        //}
+
         public async Task<ActionResult> GetOpenProjects(int page = 0, string HourlyRange = "", string descripton = "", string Profession = "", bool reset = false)
         {
 
@@ -1081,7 +1098,7 @@ namespace SameDayServicezFinal.Controllers
 
             if (!string.IsNullOrEmpty(displayName))
             {
-                foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.DisplayName.Contains(displayName)).ToList())
+                foreach (var user in db.Users.Where(p => p.IsInContractorMode == true && p.DisplayName.ToLower().Contains(displayName.ToLower())).ToList())
                 {
                     allcontractors.Add(user);
                 }
@@ -1932,6 +1949,13 @@ namespace SameDayServicezFinal.Controllers
 
                         }
 
+
+                        if (type == "resume")
+                        {
+                            fName = await SaveProfileFile(file, "resume");
+
+                        }
+
                     }
 
 
@@ -2174,30 +2198,46 @@ namespace SameDayServicezFinal.Controllers
         [SessionTimeout]
         private async Task<string> SaveProfileFile(HttpPostedFileBase file, string type)
         {
-            string fName;
+            string fName="";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var path = "";
 
             if (type == "profile")
             {
                 fName = "profile_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
-            }
-            else
-            {
-                fName = "id_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
+                path = Path.Combine(Server.MapPath(MainProfilePath + User.Identity.GetUserId() + "/"));
             }
 
-            var ProfilePath = Path.Combine(Server.MapPath(MainProfilePath + User.Identity.GetUserId() + "/"));
-            if (!System.IO.Directory.Exists(ProfilePath)) System.IO.Directory.CreateDirectory(ProfilePath);
-            file.SaveAs(string.Format("{0}{1}", ProfilePath, fName));
+            if (type == "id")
+            {
+                fName = "id_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
+                path = Path.Combine(Server.MapPath(MainProfilePath + User.Identity.GetUserId() + "/"));
+            }
+
+            if (type == "resume")
+            {
+                fName = "resume_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
+                path = Path.Combine(Server.MapPath(MainResumePath + User.Identity.GetUserId() + "/"));
+               
+            }
+
+            if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
+            file.SaveAs(string.Format("{0}{1}", path, fName));
 
 
             if (type == "profile")
             {
                 user.ProfileImage = fName;
             }
-            else
+
+            if (type == "id")
             {
                 user.IdImage = fName;
+            }
+
+            if (type == "resume")
+            {
+                user.ProfileResume = fName;
             }
 
 

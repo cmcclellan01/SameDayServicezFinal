@@ -1030,17 +1030,8 @@
 
 
                                             </td>
-                                            <td>
-                                                @if (item.IsActive)
-                                                {
-                                                    <span class="label label-accent">Active</span>
-                                                }
-                                                else
-                                                {
-                                                    <span class="label label-accent">Complete</span>
-                                                }
-
-
+                                            <td>                                              
+                                                    <span class="label label-accent">@item.ProjectStatus</span>                                             
                                             </td>
                                             <td>
                                                 @foreach (var profile in item.ProjectAssignments)

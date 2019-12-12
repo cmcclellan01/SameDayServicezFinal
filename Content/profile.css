@@ -1395,3 +1395,14 @@ ul {
 .tab-pane{
     min-height:500px !important;
 }
+
+.MyFont {
+    padding: 0.25rem 0.5rem;
+    font-size: smaller;
+    line-height: 1.5;
+    border-radius: 2.2rem;
+    margin-right: 5px;
+    color: Gainsboro;
+    border-color: DarkGray;
+    font-family: Verdana;
+}

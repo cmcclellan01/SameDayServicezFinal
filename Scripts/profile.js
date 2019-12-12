@@ -674,3 +674,33 @@ $("#dropzoneIdPic").dropzone({
 
 });
 
+
+
+$("#dropzoneProfileResume").dropzone({
+    url: "/Account/Upload?type=resume",
+    init: function () {
+        this.on("error", function (file, message, xhr) {
+            if (xhr === null) this.removeFile(file);
+
+            $('.dropzone-error2').append(message);
+        });
+    },
+    addRemoveLinks: false,
+    uploadMultiple: false,
+    createImageThumbnails: false,
+    acceptedFiles: ".pdf",
+    dictDefaultMessage: "Upload your resume in PDF.",
+    success: function (file, response) {
+        swal("We have received your resume", "success");
+       
+       
+    },
+    error: function (file, response) {
+        file.previewElement.classList.add("dz-error");
+    },
+    complete: function (file, response) {
+        this.removeAllFiles(true);
+    }
+
+
+});

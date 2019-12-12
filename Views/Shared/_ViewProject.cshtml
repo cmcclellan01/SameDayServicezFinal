@@ -141,7 +141,7 @@
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(x => x.Duration, new { @class = "control-label text-light" })
                                                 @Html.DropDownListFor(m => m.Duration, Model.DurationList, "- Please select a Duration -", new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => Model.Duration)                                               
+                                                @Html.ValidationMessageFor(model => Model.Duration)
                                             </div>
                                         </div>
                                     </div>
@@ -214,18 +214,26 @@
                                 @{
                                     if (!(bool)Session["IsInContractorMode"])
                                     {
-                                        <div class="form-row">
-                                            <div class="form-group  col-md-4">
-                                                @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
-                                                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.ZipCode)
+                                            <div class="form-row">
+                                                <div class="form-group  col-md-4">
+                                                    @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
+                                                    @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ZipCode)
+                                                </div>
+
+
+                                                <div class="form-group  col-md-4">
+                                                    @Html.LabelFor(m => m.ProjectStatus, "Project Status", new { @class = "control-label text-light" })
+                                                    @Html.EnumDropDownListFor(x => x.ProjectStatus, "Select Project Status", new { @class = "form-control" })
+                                                    @Html.ValidationMessageFor(model => model.ProjectStatus)
+                                                </div>                                            
+                                              
                                             </div>
-                                        </div>
                                     }
 
                                 }
 
-
+                              
 
 
 
@@ -440,7 +448,7 @@
                                         <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
                                             <div class="card-body">
                                                 <p class="card-text">
-                                                    <span class="text-light small">Pay By The Bid You Choose:</span> <span class="table-dark small"> This means that there will be a bidding war for your project</span>
+                                                    <span class="text-light small">Pay By Proposal:</span> <span class="table-dark small"> This means that there will be contractors sending proposals for your project</span>
                                                 </p>
                                             </div>
                                         </div>
@@ -647,7 +655,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row justify-content-end">
-                                                            <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
+                                                            <div class="col-auto"><span class="btn btn-dark MyFont" >Message Contractor</span></div>
                                                             @*<div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.ProjectId">View Full Profile</span></div>*@
 
 

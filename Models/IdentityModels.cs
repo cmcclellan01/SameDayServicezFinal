@@ -77,6 +77,8 @@ namespace SameDayServicezFinal.Models
 
         public bool Online { get; set; }
 
+        public string ProfileResume { get; set; }
+
         [NotMapped]
         public List<Conversations> Conversations { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

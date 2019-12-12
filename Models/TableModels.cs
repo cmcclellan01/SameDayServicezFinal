@@ -222,7 +222,21 @@ namespace SameDayServicezFinal.Models
         [NotMapped]
         public List<ProjectApplicants> ProjectApplicants { get; set; }
 
+        public ProjectStatuses ProjectStatus { get; set; }
+
+        
+
     }
+
+    public enum ProjectStatuses
+    {
+        Completed,
+        Active,
+        Draft,
+        Closed
+    }
+
+
 
     [Table("ProjectApplicants")]
     public class ProjectApplicants

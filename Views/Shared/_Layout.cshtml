@@ -48,26 +48,18 @@
 </head>
 <body>
 
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
-
-        @*<a class="navbar-brand" href="#">
-                <img src="~/Content/logo.png" class="img-fluid d-none d-lg-block logo-img"  />
-            </a>*@
-
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary ">
         <div class="container-fluid ">
 
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 <img src="~/Content/images/logo.png" class="img-fluid " style="height:54px" />
             </button>
 
-
-
-
-            <div class="navbar-collapse collapse " id="navbarSupportedContent">
+            <div class="navbar-collapse collapse ml-auto" id="navbarSupportedContent">
                 <img src="~/Content/images/logo.png" class="img-fluid  d-none d-lg-block" style="height:80px" onclick="location.href='@Url.Action("index", "Home")'" />
 
-                <ul class="nav navbar-nav mr-auto float-right">
+                <ul class="nav navbar-nav ml-auto ">
                     <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link text-primary" })</li>
                     <li class="nav-item">@Html.ActionLink("About", "About", "Home", null, new { @class = "nav-link text-primary" })</li>
                     <li class="nav-item">@Html.ActionLink("How it Works", "Works", "Home", null, new { @class = "nav-link text-primary" })</li>
@@ -111,13 +103,161 @@
     </nav>
 
 
-    <div class="container-fluid body-content">      
+    <div class="container-fluid body-content">
         @RenderBody()
     </div>
 
+    <style>
+        .footer-bs {
+            background-color: #111111 !important;
+            padding: 60px 40px;
+            color: rgba(255,255,255,1.00);
+            margin-bottom: 20px;
+            border-bottom-right-radius: 6px;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 6px;
+        }
 
+            .footer-bs .footer-brand, .footer-bs .footer-nav, .footer-bs .footer-social, .footer-bs .footer-ns {
+                padding: 10px 25px;
+            }
 
+            .footer-bs .footer-nav, .footer-bs .footer-social, .footer-bs .footer-ns {
+                border-color: transparent;
+            }
 
+            .footer-bs .footer-brand h2 {
+                margin: 0px 0px 10px;
+            }
 
+            .footer-bs .footer-brand p {
+                font-size: 12px;
+                color: rgba(255,255,255,0.70);
+            }
+
+            .footer-bs .footer-nav ul.pages {
+                list-style: none;
+                padding: 0px;
+            }
+
+                .footer-bs .footer-nav ul.pages li {
+                    padding: 5px 0px;
+                }
+
+                .footer-bs .footer-nav ul.pages a {
+                    color: rgba(255,255,255,1.00);
+                    font-weight: bold;
+                    text-transform: uppercase;
+                }
+
+                    .footer-bs .footer-nav ul.pages a:hover {
+                        color: rgba(255,255,255,0.80);
+                        text-decoration: none;
+                    }
+
+            .footer-bs .footer-nav h4 {
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                margin-bottom: 10px;
+            }
+
+            .footer-bs .footer-nav ul.list {
+                list-style: none;
+                padding: 0px;
+            }
+
+                .footer-bs .footer-nav ul.list li {
+                    padding: 5px 0px;
+                }
+
+                .footer-bs .footer-nav ul.list a {
+                    color: rgba(255,255,255,0.80);
+                }
+
+                    .footer-bs .footer-nav ul.list a:hover {
+                        color: rgba(255,255,255,0.60);
+                        text-decoration: none;
+                    }
+
+            .footer-bs .footer-social ul {
+                list-style: none;
+                padding: 0px;
+            }
+
+            .footer-bs .footer-social h4 {
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+            }
+
+            .footer-bs .footer-social li {
+                padding: 5px 4px;
+            }
+
+            .footer-bs .footer-social a {
+                color: rgba(255,255,255,1.00);
+            }
+
+                .footer-bs .footer-social a:hover {
+                    color: rgba(255,255,255,0.80);
+                    text-decoration: none;
+                }
+
+            .footer-bs .footer-ns h4 {
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                margin-bottom: 10px;
+            }
+
+            .footer-bs .footer-ns p {
+                font-size: 12px;
+                color: rgba(255,255,255,0.70);
+            }
+
+        @@media (min-width: 768px) {
+            .footer-bs .footer-nav, .footer-bs .footer-social, .footer-bs .footer-ns {
+                border-left: solid 1px rgba(255,255,255,0.10);
+            }
+        }
+    </style>
+    <div class="container-fluid">
+        <section style="height:80px;"></section>
+       
+        <!----------- Footer ------------>
+        <footer class="footer-bs">
+            <div class="row ">
+                <div class="col-md-3 footer-brand animated fadeInLeft mx-auto">
+                     <img src="~/Content/images/logo.png" class="img-fluid " style="height:160px;float:left" />
+                    <p class="text-justify" style="padding:20px">Suspendisse hendrerit tellus laoreet luctus pharetra. Aliquam porttitor vitae orci nec ultricies. Curabitur vehicula, libero eget faucibus faucibus, purus erat eleifend enim, porta pellentesque ex mi ut sem.</p>
+                    <p>© 2019 SameDayServicez.com</p>
+                </div>
+                <div class="col-md-2 footer-nav animated fadeInUp mx-auto">                                  
+                    <div class="col-md-12">
+                        <ul class="list">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">How It Works</a></li>
+                            <li><a href="#">Contacts</a></li>
+                            <li><a href="#">Terms & Condition</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-2 footer-social animated fadeInDown mx-auto">
+                    <h4>Follow Us</h4>
+                    <ul>
+                        <li><a href="#"><i style="font-size:3rem" class="fab fa-lg fa-facebook"></i></a></li>
+                        <li><a href="#"><i style="font-size:3rem"  class="fab fa-lg fa-twitter"></i></a></li>
+                        <li><a href="#"><i style="font-size:3rem" class="fab fa-lg fa-instagram"></i></a></li>
+                       
+                    </ul>
+                </div>
+               
+            </div>
+        </footer>
+     
+
+    </div>
 </body>
 </html>
