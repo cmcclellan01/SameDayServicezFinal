@@ -1049,7 +1049,13 @@
                                                 <span>@item.State</span>
                                             </td>
                                             <td>
-                                                <span>@item.ZipCode</span>
+                                                <span>
+                                                    @if (item.ZipCode != "00000")
+                                                    {
+                                                        @item.ZipCode
+                                                    }
+
+                                                </span>
                                             </td>
 
                                             <td>

@@ -143,7 +143,7 @@
                             <div class="row ">
                                 <div class="col-12 ">
                                     <span class="btn btn-dark MyFont ">Message Contractor</span>
-                                    <span class="btn btn-dark profile-btn MyFont" data-contractor-id="@profile.Applicant.Id" >View Full Profile</span>
+                                    <span class="btn btn-dark profile-btn MyFont" data-contractor-id="@profile.Applicant.Id">View Full Profile</span>
                                 </div>
 
 
@@ -155,8 +155,8 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="float-left text-light" style="margin-left:15px"> Applied on : @profile.AppliedDate.ToShortDateString()</div>
-                                    <div class="float-right"> <span data-guid="@profileGuid" data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn btn-info accept-applicant" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px;">Accept </span></div>
-                                    <div class="float-right"> <span data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn  reject-applicant @if (profile.Rejected) { <text>rejected btn-secondary</text>} else { <text> btn-danger </text>} " style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Reject</span></div>
+                                    <div class="float-right"> <span data-guid="@profileGuid" data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn btn-info accept-applicant no-edit" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px;">Accept </span></div>
+                                    <div class="float-right"> <span data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn  reject-applicant no-edit @if (profile.Rejected) { <text>rejected btn-secondary</text>} else { <text> btn-danger </text>} " style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Reject</span></div>
                                 </div>
 
                             </div>
@@ -179,7 +179,7 @@
                                     </script>
 
                                 </div>
-                             
+
 
                             </div>
                         </div>
@@ -194,51 +194,365 @@
 
 <div class="full-applicant-profile-view"></div>
 
+<div class="d-none">
+    <div class="accept ">
+        <div class="container">
+            <div class="row ">
+                <div class="col-12">
+                    <div style="max-height:200px;overflow:auto">
+                        <div class="legal text-light" style="font-size:smaller!important;padding:10px;margin-top:10px">
+                            <ol>
+                                <li>
+                                    <strong>Introduction and Acceptance</strong>
+                                    <p>Please read these terms of use carefully before using SamedayServicez.com (hereinafter, "us", "we", or "SamedayServicez.com"). By accessing and/or using SamedayServicez.com (other than to read these terms of use for the first time) you are agreeing to comply with these terms of use, which may change from time to time as set forth in section 16 below. if you do not agree to be bound by these terms of use, do not access or use SamedayServicez.com.</p>
+                                    <p>You agree that these Terms of Use are supported by good and valuable consideration the receipt and sufficiency of which you hereby acknowledge. Such consideration includes, without limitation, your use of SamedayServicez.com and the materials and information available on the same.</p>
+                                    <p>In addition to these Terms of Use, SamedayServicez.com has established a Privacy Policy to explain how user information is collected and used by SamedayServicez.com. A copy of this Privacy Policy can be found here: <a href="/privacy/">https://www.SamedayServicez.com/privacy/</a> and is incorporated by reference into these Terms of Use. By accessing or using any of our Websites, you are signifying your acknowledgement and agreement to SamedayServicez.com's Privacy Policy.</p>
+                                </li>
+                                <li>
+                                    <strong>Intellectual Property</strong>
+                                    <p>SamedayServicez.com and included content (and any derivative works or enhancements of the same) including, but not limited to, all text, illustrations, files, images, software, scripts, graphics, photos, sounds, music, videos, information, content, materials, products, services, URLs, technology, documentation, and interactive features (collectively, the "Website Content") and all intellectual property rights to the same are owned by us, our licensors, or both. Additionally, all trademarks, service marks, trade names and trade dress that may appear on our Websites are owned by us, our licensors, or both. You shall not acquire any right, title or interest in our Websites or any Website Content. Any rights not expressly granted in these Terms of Use are expressly reserved.</p>
+                                </li>
+                                <li>
+                                    <strong>SamedayServicez.com Access and Use</strong>
+                                    <ol>
+                                        <li>
+                                            <p>When accessing our Websites, including without limitation to the Website Content, you agree to comply with all applicable federal, state, and local laws including, without limitation copyright law. Except as expressly permitted in these Terms of Use, you may not use, reproduce, distribute, create derivative works based upon, publicly display, publicly perform, publish, transmit, or otherwise exploit Website Content for any purpose whatsoever without obtaining prior written consent from us or, in the case of third-party content, its respective owner. You acknowledge that you do not acquire any ownership rights by downloading or printing Website Content.</p>
+                                        </li>
+                                        <li>
+                                            <p>Furthermore, except as expressly permitted in these Terms of Use, you may not:</p>
+                                            <ol>
+                                                <li>
+                                                    <p>remove, alter, cover, or distort any copyright, trademark, or other proprietary rights notice on SamedayServicez.com or Website Content;</p>
+                                                </li>
+                                                <li>
+                                                    <p>circumvent, disable or otherwise interfere with security-related features of our Websites including, without limitation, any features that prevent or restrict use or copying of any content or enforce limitations on the use of our Websites or Website Content;</p>
+                                                </li>
+                                                <li>
+                                                    <p>use an automatic device (such as a robot or spider) or manual process to copy or "scrape" our Websites or Website Content for any purpose without the express written permission of SamedayServicez.com. Notwithstanding the foregoing, SamedayServicez.com grants public search engine operators permission to use automatic devices (such as robots or spiders) to copy Website Content from our Websites for the sole purpose of creating (and only to the extent necessary to create) a searchable index of Website Content that is available to the public. SamedayServicez.com reserves the right to revoke this permission (generally or specifically) at any time;</p>
+                                                </li>
+                                                <li>
+                                                    <p>collect or harvest any personally identifiable information from our Websites including, without limitation, user names, passwords, email addresses;</p>
+                                                </li>
+                                                <li>
+                                                    <p>solicit other users to join or become members of any commercial online service or other organization without our prior written approval;</p>
+                                                </li>
+                                                <li>
+                                                    <p>attempt to or interfere with the proper working of our Websites or impair, overburden, or disable the same;</p>
+                                                </li>
+                                                <li>
+                                                    <p>decompile, reverse engineer, or disassemble any portion of any our Websites;</p>
+                                                </li>
+                                                <li>
+                                                    <p>use network-monitoring software to determine architecture of or extract usage data from any of our Websites;</p>
+                                                </li>
+                                                <li>
+                                                    <p>encourage conduct that violates any local, state or federal law, either civil or criminal, or impersonate another user, person, or entity (e.g., using another person's Membership (as defined in Section B) without permission, etc.);</p>
+                                                </li>
+                                                <li>
+                                                    <p>violate U.S. export laws, including, without limitation, violations of the Export Administration Act and the Export Administration Regulations administered by the Department of Commerce; or</p>
+                                                </li>
+                                                <li>
+                                                    <p>engage in any conduct that restricts or inhibits any other user from using or enjoying our Websites.</p>
+                                                </li>
+                                            </ol>
+                                        </li>
+                                        <li>
+                                            <p>You agree to cooperate fully with SamedayServicez.com to investigate any suspected or actual activity that is in breach of these Terms of Use.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>User Registration</strong>
+                                    <ol>
+                                        <li>
+                                            <p>In order to access or use some features of SamedayServicez.com, you will have to become a registered user. If you are under the age of eighteen, then you are not permitted to register as a user or otherwise submit personal information to SamedayServicez.com.</p>
+                                        </li>
+                                        <li>
+                                            <p>If you become a registered user, you will provide true, accurate and complete registration information and, if such information changes, you will promptly update the relevant registration information. During registration, you will create a user name and password (a "Membership"), which may permit you access to certain areas of our Websites not available to non-registered users. You are responsible for safeguarding and maintaining the confidentiality of your Membership. You are solely responsible for the activity that occurs under your Membership, whether or not you have authorized the activity. You agree to notify us immediately at <a href="/contact/">https://www.SamedayServicez.com/contact/</a> of any breach of security or unauthorized use of your Membership.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>User Content</strong>
+                                    <ol>
+                                        <li>
+                                            <p>We may now or in the future permit users to post, upload, transmit through, or otherwise make available on our Websites (collectively, "submit") messages, templates, text, illustrations, files, images, graphics, photos, comments, sounds, music, videos, information, content, and/or other materials ("User Content"). Subject to the rights and license you grant herein, you retain all right, title and interest in your User Content. We do not guarantee any confidentiality with respect to User Content even if it is not published on our Websites. It is solely your responsibility to monitor and protect any intellectual property rights that you may have in your User Content, and we do not accept any responsibility for the same.</p>
+                                        </li>
+                                        <li>
+                                            <p>You shall not submit any User Content protected by copyright, trademark, patent, trade secret, moral right, or other intellectual property or proprietary right without the express permission of the owner of the respective right. You are solely liable for any damage resulting from your failure to obtain such permission or from any other harm resulting from User Content that you submit.</p>
+                                        </li>
+                                        <li>
+                                            <p>You represent, warrant, and covenant that you will not submit any User Content that:</p>
+                                            <ol>
+                                                <li>
+                                                    <p>violates or infringes in any way upon the rights of others, including, but not limited to, any copyright, trademark, patent, trade secret, moral right, or other intellectual property or proprietary right of any person or entity;</p>
+                                                </li>
+                                                <li>
+                                                    <p>impersonates another or is unlawful, threatening, abusive, libelous, defamatory, invasive of privacy or publicity rights, vulgar, obscene, profane, pornographic, or otherwise objectionable;</p>
+                                                </li>
+                                                <li>
+                                                    <p>encourages conduct that would constitute a criminal offense, give rise to civil liability or otherwise violate any law;</p>
+                                                </li>
+                                                <li>
+                                                    <p>is an advertisement for goods or services or a solicitation of funds;</p>
+                                                </li>
+                                                <li>
+                                                    <p>includes personal information such as messages which identify phone numbers, social security numbers, account numbers, addresses, or employer references;</p>
+                                                </li>
+                                                <li>
+                                                    <p>contains a formula, instruction, or advice that could cause harm or injury; or</p>
+                                                </li>
+                                                <li>
+                                                    <p>is a chain letter of any kind.</p>
+                                                </li>
+                                            </ol>
+                                            <p>Moreover, any conduct by a user that in our sole discretion restricts or inhibits any other user from using or enjoying our Websites will not be permitted.</p>
+                                        </li>
+                                        <li>
+                                            <p>By submitting User Content to us, simultaneously with such posting you automatically grant, or warrant that the owner has expressly granted, to us a worldwide, royalty-free, perpetual, irrevocable, non-exclusive, fully sublicensable, and transferable right and license to use, reproduce, distribute, create derivative works based upon (including, without limitation, translations), publicly display, publicly perform, transmit, and publish the User Content (in whole or in part) as we, in our sole discretion, deem appropriate including, without limitation, (1) in connection with our business; and (2) in connection with the businesses of our successors, parents, subsidiaries, and their related companies. We may exercise this grant in any format, media or technology now known or later developed for the full term of any copyright that may exist in such User Content. Furthermore, you also grant other users permission to access your User Content and to use, reproduce, distribute, create derivative works based upon, publicly display, publicly perform, transmit, and publish your User Content for personal, non-commercial use as permitted by the functionality of any of our Websites and these Terms of Use.</p>
+                                        </li>
+                                        <li>
+                                            <p>By submitting User Content, you also grant us the right, but not the obligation to use your biographical information including, without limitation, your name and geographical location in connection with broadcast, print, online, or other use or publication of your User Content. Notwithstanding the foregoing, you waive any and all claims you may now or later have in any jurisdiction to so-called "moral rights" or rights of "droit moral" with respect to the User Content.</p>
+                                        </li>
+                                        <li>
+                                            <p>We reserve the right to display advertisements in connection with your User Content and to use your User Content for advertising and promotional purposes. You acknowledge and agree that your User Content may be included on the websites and advertising networks of our distribution partners and third-party service providers (including their downstream users).</p>
+                                        </li>
+                                        <li>
+                                            <p>We have the right, but not the obligation, to monitor User Content. We have the right in our sole discretion and for any reason whatsoever to edit, refuse to post, remove, or disable access to any User Content.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Website Content &amp; Third Party Links</strong>
+                                    <ol>
+                                        <li>
+                                            <p>We provide our Websites and Website Content, for the commercial, entertainment and promotional purposes of providing web-based services for the web design and web development of others. You may not rely on any information and opinions expressed on any of our Websites for any other purpose. In all instances, it is your responsibility to evaluate the accuracy, timeliness, completeness, or usefulness of Website Content. Under no circumstances will we be liable for any loss or damage caused by your reliance on any Website Content.</p>
+                                        </li>
+                                        <li>
+                                            <p>In many instances, Website Content will include content posted by a third-party or will represent the opinions and judgments of a third-party. We do not endorse, warrant and are not responsible for the accuracy, timeliness, completeness, or reliability of any opinion, advice, or statement made on our Websites by anyone other than authorized employees or spokespersons while acting in their official capacities.</p>
+                                        </li>
+                                        <li>
+                                            <p>If there is a dispute between persons accessing our Websites or between persons accessing our Websites and any third party, you understand and agree that we are under no obligation to become involved. If there is such a dispute, you hereby release SamedayServicez.com and its officers, directors, employees, parents, partners, successors, agents, affiliates, subsidiaries, and their related companies from claims, demands, and damages of every kind or nature arising out of, relating to, or in any way connected with such dispute.</p>
+                                        </li>
+                                        <li>
+                                            <p>Our Websites may contain links to other websites maintained by third parties. We do not operate or control, in any respect, or necessarily endorse the content found on these third-party websites. You assume sole responsibility for your use of third-party links. We are not responsible for any content posted on third-party websites or liable to you for any loss or damage of any sort incurred as a result of your dealings with any third-party or their website.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Indemnification</strong>
+                                    <p>You agree to indemnify and hold harmless SamedayServicez.com and its officers, directors, employees, parents, partners, successors, agents, distribution partners, affiliates, subsidiaries, and their related companies from and against any and all claims, liabilities, losses, damages, obligations, costs and expenses (including reasonable attorneys' fees and costs) arising out of, related to, or that may arise in connection with: (i) your access to or use of any of our Websites; (ii) User Content provided by you or through use of your Membership; (iii) any actual or alleged violation or breach by you of these Terms of Use; (iv) any actual or alleged breach of any representation, warranty, or covenant that you have made to us; or (v) your acts or omissions. You agree to cooperate fully with us in the defense of any claim that is the subject of your obligations hereunder.</p>
+                                </li>
+                                <li>
+                                    <strong>Disclaimers</strong>
+                                    <p>YOU EXPRESSLY AGREE THAT USE OF OUR WEBSITES IS AT YOUR SOLE RISK. OUR WEBSITES AND WEBSITE CONTENT ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESS OR IMPLIED. WITHOUT LIMITING THE FOREGOING AND TO THE FULLEST EXTENT PERMITTED BY LAW, SamedayServicez.COM AND ITS OFFICERS, DIRECTORS, EMPLOYEES, PARENTS, PARTNERS, SUCCESSORS, AGENTS, DISTRIBUTION PARTNERS, AFFILIATES, SUBSIDIARIES, AND THEIR RELATED COMPANIES DISCLAIM ANY AND ALL WARRANTIES INCLUDING ANY: (1) WARRANTIES THAT THE WEBSITES WILL MEET YOUR REQUIREMENTS; (2) WARRANTIES CONCERNING THE AVAILABILITY, ACCURACY, SECURITY, USEFULNESS, TIMELINESS, OR INFORMATIONAL CONTENT OF THE SamedayServicez.COM; (3) WARRANTIES OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY, OR FITNESS FOR A PARTICULAR PURPOSE; (4) WARRANTIES FOR SERVICES OR GOODS RECEIVED THROUGH OR ADVERTISED ON OUR WEBSITES OR ACCESSED THROUGH ANY OF OUR WEBSITES; (5) WARRANTIES CONCERNING THE ACCURACY OR RELIABILITY OF THE RESULTS THAT MAY BE OBTAINED FROM THE USE OF THE WEBSITES; (6) WARRANTIES THAT YOUR USE OF THE WEBSITES WILL BE SECURE OR UNINTERRUPTED; AND (7) WARRANTIES THAT ERRORS IN THE SOFTWARE WILL BE CORRECTED.</p>
+                                </li>
+                                <li>
+                                    <strong>Limitation on Liability</strong>
+                                    <ol>
+                                        <li>
+                                            <p>UNDER NO CIRCUMSTANCES SHALL SamedayServicez.COM OR ITS OFFICERS, DIRECTORS, EMPLOYEES, PARENTS, PARTNERS, SUCCESSORS, AGENTS, DISTRIBUTION PARTNERS, AFFILIATES, SUBSIDIARIES, OR THEIR RELATED COMPANIES BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL OR EXEMPLARY DAMAGES (EVEN IF SamedayServicez.COM HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES), ARISING OUT OF, RELATING TO, OR IN ANY WAY CONNECTED WITH OUR WEBSITES OR THESE TERMS OF USE. YOUR SOLE REMEDY FOR DISSATISFACTION WITH OUR WEBSITES INCLUDING, WITHOUT LIMITATION, THE WEBSITE CONTENT IS TO STOP USING OUR WEBSITES. SUCH LIMITATION SHALL ALSO APPLY WITH RESPECT TO DAMAGES INCURRED BY REASON OF SERVICES OR PRODUCTS RECEIVED THROUGH OR ADVERTISED IN CONNECTION WITH ANY OF OUR WEBSITES OR ANY LINKS ON OUR WEBSITES, AS WELL AS BY REASON OF ANY INFORMATION OR ADVICE RECEIVED THROUGH OR ADVERTISED IN CONNECTION WITH ANY OF OUR WEBSITES OR ANY LINKS ON OUR WEBSITES. SUCH LIMITATION SHALL ALSO APPLY WITH RESPECT TO DAMAGES INCURRED BY REASON OF ANY CONTENT POSTED BY A THIRD-PARTY OR CONDUCT OF A THIRD-PARTY ON OUR WEBSITES.</p>
+                                        </li>
+                                        <li>
+                                            <p>NOTWITHSTANDING ANYTHING TO THE CONTRARY CONTAINED HEREIN, IN NO EVENT SHALL THE CUMULATIVE LIABILITY OF SamedayServicez.COM AND ITS OFFICERS, DIRECTORS, EMPLOYEES, PARENTS, PARTNERS, SUCCESSORS, AGENTS, DISTRIBUTION PARTNERS, AFFILIATES, SUBSIDIARIES, AND THEIR RELATED COMPANIES EXCEED THE GREATER OF THE TOTAL PAYMENTS RECEIVED FROM YOU BY SamedayServicez.COM DURING THE PRECEDING TWELVE (12) MONTH PERIOD OR $100. FURTHERMORE, YOU AGREE THAT ANY CAUSE OF ACTION ARISING OUT OF, RELATING TO, OR IN ANY WAY CONNECTED WITH ANY OF OUR WEBSITES OR THESE TERMS OF USE MUST COMMENCE WITHIN ONE (1) YEAR AFTER THE CAUSE OF ACTION ACCRUES; OTHERWISE, SUCH CAUSE OF ACTION SHALL BE PERMANENTLY BARRED.</p>
+                                        </li>
+                                        <li>
+                                            <p>In some jurisdictions limitations of liability are not permitted. In such jurisdictions, some of the foregoing limitations may not apply to you. These limitations shall apply to the fullest extent permitted by law.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Termination</strong>
+                                    <ol>
+                                        <li>
+                                            <p>We reserve the right in our sole discretion and at any time to terminate or suspend your Membership and/or block your access to our Websites for any reason including, without limitation if you have failed to comply with the letter and spirit of these Terms of Use. You agree that SamedayServicez.com shall not be liable to you or any third party for any termination or suspension of your Membership or for blocking your access to our Websites.</p>
+                                        </li>
+                                        <li>
+                                            <p>If you become a registered user, you may terminate your Membership at any time by going to Membership page and selecting the appropriate option.</p>
+                                        </li>
+                                        <li>
+                                            <p>Any suspension or termination shall not affect your obligations to us under these Terms of Use. The provisions of these Terms of Use which by their nature should survive the suspension or termination of your Membership or these Terms of Use shall survive including, but not limited to the rights and licenses that you have granted hereunder, indemnities, releases, disclaimers, limitations on liability, provisions related to choice of law, dispute resolution, no class action, no trial by jury and all of the miscellaneous provisions in Section 17.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Copyright Policy</strong>
+                                    <ol>
+                                        <li>
+                                            <p>SamedayServicez.com respects the intellectual property rights of others and expects its users to do the same. In appropriate circumstances and at its sole discretion, SamedayServicez.com may terminate and/or disable the Membership of users who it suspects to be infringers of the copyrights (or other intellectual property rights) of others. Additionally, in appropriate circumstances and in its sole discretion, SamedayServicez.com may remove or disable access to material on any of its websites or hosted on its systems that may be infringing or the subject of infringing activity.</p>
+                                        </li>
+                                        <li>
+                                            <p>In accordance with the Digital Millennium Copyright Act of 1998, Title 17 of the United States Code, Section 512 ("DMCA"), we will respond promptly to claims of copyright infringement that are reported to the agent that we have designated to receive notifications of claims infringement (its "Designated Agent"). SamedayServicez.com's Designated Agent is:</p>
+                                            <p><strong>Physical Mail:</strong><br /> Attn: DMCA Registered Agent for Vertex9 LLC<br /> Frost Brown Todd LLC<br /> 10 West Broad Street, Suite 2300<br /> Columbus, OH 43215-3484<br /><br /><strong>Phone:</strong> (614) 464-1211<br /><strong>Fax:</strong> (614) 464-1737<br /><strong>Email:</strong> <span class="v9 ea">dmca</span></p>
+                                        </li>
+                                        <li>
+                                            <p>If you are a copyright owner (or authorized to act on behalf of the copyright owner) and believe that your work's copyright has been infringed, please report your notice of infringement to us by providing our Designated Agent with a written notification of claimed infringement that includes substantially the following:</p>
+                                            <ol>
+                                                <li>
+                                                    <p>A physical or electronic signature of a person authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.</p>
+                                                </li>
+                                                <li>
+                                                    <p>Identification of the copyrighted work claimed to have been infringed, or, if multiple copyrighted works at a single online site are covered by a single notification, a representative list of such works at that site.</p>
+                                                </li>
+                                                <li>
+                                                    <p>Identification of the material that is claimed to be infringing or to be the subject of infringing activity and that is to be removed or access to which is to be disabled, and information reasonably sufficient to permit us to locate the material.</p>
+                                                </li>
+                                                <li>
+                                                    <p>Information reasonably sufficient to permit us to contact you, such as an address, telephone number, and, if available, an electronic mail address at which you may be contacted.</p>
+                                                </li>
+                                                <li>
+                                                    <p>A statement that you have a good faith belief that use of the material in the manner complained of is not authorized by the copyright owner, its agent, or the law.</p>
+                                                </li>
+                                                <li>
+                                                    <p>A statement that the information in the notification is accurate, and under penalty of perjury, that you are authorized to act on behalf of the owner of an exclusive right that is allegedly infringed.</p>
+                                                </li>
+                                            </ol>
+                                            <p>We will investigate notices of copyright infringement and take appropriate actions under the DMCA. Inquiries that do not follow this procedure may not receive a response.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Choice of Law</strong>
+                                    <p>These Terms of Use shall be construed in accordance with the laws of the State of Iowa without regard to its conflict of laws rules. Any action arising out of your use of the Website or these Terms and Conditions shall be brought in any state or federal court located in Polk county, Iowa.</p>
+                                </li>
+                                <li>
+                                    <strong>Dispute Resolution</strong>
+                                    <p><em>In the Dispute Resolution Section only, "we" and "us" are used to refer to you and SamedayServicez.com together.</em></p>
+                                    <ol>
+                                        <li>
+                                            <p>We each agree to first contact each other with any disputes and provide a written description of the problem, all relevant documents/information and the proposed resolution. You agree to contact us with disputes by contacting us at the address provided in these Terms of Use. We will contact you based on the contact information you have provided us.</p>
+                                        </li>
+                                        <li>
+                                            <p>We each agree to finally settle all disputes (as defined and subject to any specific exceptions below) only by arbitration. In arbitration, there's no judge or jury and review is limited. However, just as a court would, the arbitrator must honor the terms and limitations in the Terms of Use and can award the same damages and relief, including any attorney's fees authorized by law. The arbitrator's decision and award is final and binding, with some exceptions under the Federal Arbitration Act ("FAA"), and judgment on the award may be entered in any court with jurisdiction. We each also agree as follows:</p>
+                                            <ol>
+                                                <li>
+                                                    <p>"Disputes" are any claims or controversies against each other related in any way to our Websites, Website Content or these Terms of Use - this includes claims you bring against our employees, agents, affiliates or other representatives, and claims SamedayServicez.com may bring against you.</p>
+                                                </li>
+                                                <li>
+                                                    <p>If either of us wants to arbitrate a dispute, we agree to send written notice to the other providing a description of the dispute, previous efforts to resolve the dispute, all supporting documents/information, and the proposed resolution. We will send notice to you based on the contact information you have provided us and notice to us must be sent to: SamedayServicez.com, Attn: Legal Department, PO Box 120272, Nashville, TN 37212. We agree to make attempts to resolve the dispute. If we cannot resolve the dispute within forty-five (45) days of receipt of the notice to arbitrate, then we may submit the dispute to formal arbitration.</p>
+                                                </li>
+                                                <li>
+                                                    <p>The FAA applies to this Agreement and arbitration provision. We each agree the FAA's provisions, not state law, govern all questions of whether a dispute is subject to arbitration.</p>
+                                                </li>
+                                                <li>
+                                                    <p>The arbitration will be administered by the National Arbitration Forum ("NAF") under its arbitration rules. If any NAF rule conflicts with these Terms of Use, these Terms of Use apply. You can obtain procedures, rules, and fee information from the NAF at 1-800-474-2371 or www.adrforum.com.</p>
+                                                </li>
+                                                <li>
+                                                    <p>Unless we each agree otherwise, the Arbitration will be conducted by a single neutral arbitrator and will take place in your county of residence in the United States; otherwise, the Arbitration will take place in Des Moines, Iowa. The federal or state law that applies to these Terms of Use will also apply during the arbitration.</p>
+                                                </li>
+                                                <li>
+                                                    <p>We each agree not to pursue arbitration on a classwide basis. We each agree that any arbitration will be solely between you and us (not brought on behalf of or together with another individual's claim). If for any reason any court or arbitrator holds that this restriction is unconscionable or unenforceable, then our agreement to arbitrate doesn't apply and the dispute must be brought in court.</p>
+                                                </li>
+                                                <li>
+                                                    <p>We each are responsible for our respective costs relating to counsel, experts, and witnesses, as well as any other costs relating to the arbitration. However, we will cover any arbitration administrative or filing fees above: (a) $25 if you are seeking less than $1,000 from us; or (b) the equivalent court filing fees for a court action in the appropriate jurisdiction if you are seeking $1,000 or more from us.</p>
+                                                </li>
+                                            </ol>
+                                        </li>
+                                        <li>
+                                            <p>Either of us may bring qualifying claims in small claims court.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>No Class Actions</strong>
+                                    <p>TO THE EXTENT ALLOWED BY LAW, WE EACH WAIVE ANY RIGHT TO PURSUE DISPUTES ON A CLASSWIDE BASIS; THAT IS, TO EITHER JOIN A CLAIM WITH THE CLAIM OF ANY OTHER PERSON OR ENTITY, OR ASSERT A CLAIM IN A REPRESENTATIVE CAPACITY ON BEHALF OF ANYONE ELSE IN ANY LAWSUIT, ARBITRATION OR OTHER PROCEEDING.</p>
+                                </li>
+                                <li>
+                                    <strong>No Trial By Jury</strong>
+                                    <p>TO THE EXTENT ALLOWED BY LAW, WE EACH WAIVE ANY RIGHT TO TRIAL BY JURY IN ANY LAWSUIT, ARBITRATION OR OTHER PROCEEDING.</p>
+                                </li>
+                                <li>
+                                    <strong>Amendment; Additional Terms</strong>
+                                    <ol>
+                                        <li>
+                                            <p>We reserve the right in our sole discretion and at any time and for any reason, to modify or discontinue any aspect or feature of our Websites or to modify these Terms of Use. In addition, we reserve the right to provide you with operating rules or additional terms that may govern your use of our Websites generally, unique parts of our Websites, or both ("Additional Terms"). Any Additional Terms that we may provide to you will be incorporated by reference into these Terms of Use. To the extent any Additional Terms conflict with these Terms of Use, the Additional Terms will control.</p>
+                                        </li>
+                                        <li>
+                                            <p>Modifications to these Terms of Use or Additional Terms will be effective immediately upon notice, either by posting on our Websites or by notification by email or conventional mail. It is your responsibility to review the Terms of Use and our Websites from time to time for any changes or Additional Terms. Your access and use of any our Websites following any modification of these Terms of Use or the provision of Additional Terms will signify your assent to and acceptance of the same. If you object to any subsequent revision to the Terms of Use or to any Additional Terms, you may terminate your Membership as provided in Section B herein or, if you do not have an Membership, your only recourse is to immediately discontinue use of our Websites.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Miscellaneous</strong>
+                                    <ol>
+                                        <li>
+                                            <p>No waiver by either party of any breach or default hereunder shall be deemed to be a waiver of any preceding or subsequent breach or default. The section headings used herein are for convenience only and shall not be given any legal import. If any provision of these Terms of Use is held to be invalid or unenforceable, the invalidity of such provision shall not affect the validity of the remaining provisions of the Terms of Use, which shall remain in full force and effect.</p>
+                                        </li>
+                                        <li>
+                                            <p>These Terms of Use (including the Privacy Policy and any Additional Terms incorporated by reference) constitute the entire agreement of the parties with respect to the subject matter hereof, and supersede all previous written or oral agreements between us with respect to such subject matter.</p>
+                                        </li>
+                                        <li>
+                                            <p>You may not assign these Terms of Use or assign any rights or delegate any obligations hereunder, in whole or in part, without our prior written consent. Any such purported assignment or delegation by you without the appropriate prior written consent will be null and void and of no force and effect. SamedayServicez.com may assign these Terms of Use or any rights hereunder without your consent and without notice.</p>
+                                        </li>
+                                    </ol>
+                                </li>
+                                <li>
+                                    <strong>Notices</strong>
+                                    <p>All notices, requests, and communications hereunder shall be in writing, and any such notice, request or other communication shall be deemed to have been given or made when delivered by hand, transmitted by fax and confirmed or, in the case of delivery by mail, when deposited in the mail, certified mail, return receipt requested, postage prepaid, to: SamedayServicez.com, PO Box 120272, Nashville, TN 37212.</p>
+                                </li>
+                            </ol>
+                        </div>
+                    </div> 
+                    <div class="row">                       
+                            <label class="form-check-label MyFont ">
+                                By clicking Accept you Agree To Our Terms & Conditions
+                            </label>                        
+                    </div>
+                 </div>
+            </div>
+        </div>
+      
+    </div>
+</div>
 
+<style>
+    .swal-modal {
+      color: #fff;
+    background-color: #000000;
+    border-color: #000000;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+</style>
 
 <script>
 
-    var html = '<div class="row">' +
-      '<div class="col-6">' +
-        '<span>Are you sure</span>' +
-       '</div>' +
-    '</div>'
-    
+
+
 
     $('.accept-applicant').on('click', function (evt) {
         var element = $(this);
         swal({
             title: "Accept Applicant?",
-            text:  html ,
+            text: $('.accept').html(),
             type: "info",
             showCancelButton: true,
             confirmButtonClass: "btn-info",
             confirmButtonText: "Accept",
             closeOnConfirm: true,
-            html:true
+            html: true
         },
             function () {
                 $.ajax({
                     type: "POST",
                     url: '/Account/AssignContractor?ApplicantId=' + element.attr('data-applicantId') + '&projectId=' + element.attr('data-projectId'),
                     success: function () {
-                        $.get('/Account/GetProjectAssignmentSingle?ProjectsId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId'), function (data) {                         
+                        $.get('/Account/GetProjectAssignmentSingle?ProjectsId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId'), function (data) {
                             $('.assigned-contactors').append(data);
                             $('.accept-applicant-' + element.attr('data-guid')).remove();
                             $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
                         });
                     }
                 });
-            });        
+            });
     });
-    
+
 
 
 
 
     $('.reject-applicant').on('click', function (evt) {
 
-       
+
         var element = $(this);
 
         if ($(this).hasClass('rejected')) {
@@ -254,8 +568,8 @@
                 closeOnConfirm: true
             },
                 function () {
-                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");  
-                  
+                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+
                     element.removeClass('rejected');
                     element.removeClass('btn-secondary');
                     element.addClass('btn-danger');
@@ -266,7 +580,7 @@
 
                         }
                     });
-                });        
+                });
 
         }
         else {
@@ -280,27 +594,27 @@
                 confirmButtonText: "Ok!",
                 closeOnConfirm: true
             },
-            function () {
-                //swal("Deleted!", "Your imaginary file has been deleted.", "success");
-               
-                element.addClass('rejected');
-                element.addClass('btn-secondary');
-                element.removeClass('btn-danger');
+                function () {
+                    //swal("Deleted!", "Your imaginary file has been deleted.", "success");
 
-                $.ajax({
-                    type: "POST",
-                    url: '/Account/RejectOrUnrejectApplicant?projectId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId') + '&Reject=true',
-                    success: function () {
+                    element.addClass('rejected');
+                    element.addClass('btn-secondary');
+                    element.removeClass('btn-danger');
 
-                    }
+                    $.ajax({
+                        type: "POST",
+                        url: '/Account/RejectOrUnrejectApplicant?projectId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId') + '&Reject=true',
+                        success: function () {
+
+                        }
+                    });
                 });
-            });
 
 
-          
+
         }
 
-       
+
         return false;
 
     });

@@ -121,7 +121,7 @@ namespace SameDayServicezFinal.Models
         [Display(Name = "Project Title")]
         [Required]
         public string ProjectTitle { get; set; }
-        [Required]
+        
         [AllowHtml]
         public string Description { get; set; }
 
@@ -129,16 +129,16 @@ namespace SameDayServicezFinal.Models
         public bool IsDraft { get; set; }
 
         [Display(Name = "Address")]
-        [Required]
+      
         public string Address { get; set; }
 
 
         [Display(Name = "City")]
-        [Required]
+      
         public string City { get; set; }
 
         [Display(Name = "State")]
-        [Required]
+       
         public string State { get; set; }
 
         [NotMapped]
@@ -148,7 +148,7 @@ namespace SameDayServicezFinal.Models
         [RegularExpression("(^\\d{5}(-\\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]{1}\\d{1}[A-Z]{1} *\\d{1}[A-Z]{1}\\d{1}$)", ErrorMessage = "Zip code is invalid.")] // US or Canada
 
         [Display(Name = "Zip Code")]
-        [Required]
+       
         public string ZipCode { get; set; }
 
         [NotMapped]
@@ -213,6 +213,7 @@ namespace SameDayServicezFinal.Models
 
         public int NumberOfContractorsNeeded { get; set; }
 
+        public int NumberOfDaysHelpIsNeeded { get; set; }       
 
         public long Duration { get; set; }
 

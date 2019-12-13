@@ -97,6 +97,46 @@ namespace SameDayServicezFinal.Controllers
 
 
         }
+             
+        public async Task<ActionResult> CreateNewProject(string projectTitle)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            if (user != null)
+            {
+                Project prj = new Project
+                {
+                    ProjectTitle = projectTitle,
+                    ProjectsUsersId = userId,
+                    IsDraft = true,
+                    CreationDate = DateTime.Now,
+                    LastUpdated = DateTime.Now,
+                    IsActive = false,
+                    latitude = 0,
+                    longitude = 0,
+                    SelectedProjectCompensationPackage = 0,
+                    AcceptingContractors = false,
+                    NumberOfContractorsNeeded = 0,
+                    Duration = 0,
+                    ProjectStatus = ProjectStatuses.Draft,
+                    NumberOfDaysHelpIsNeeded = 0
+                };
+
+                db.Project.Add(prj);
+                db.SaveChanges();
+
+                return Json(prj.ProjectsId, JsonRequestBehavior.AllowGet);
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+          
+        }
+
 
         public ActionResult Applicants()
         {
@@ -771,7 +811,7 @@ namespace SameDayServicezFinal.Controllers
                     break;
 
                 case false:
-                    portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).ToList();
+                    portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).OrderByDescending(p => p.CreationDate).ToList();
                     break;
             }
 
@@ -1510,7 +1550,8 @@ namespace SameDayServicezFinal.Controllers
         [ValidateInput(false)]
         [SessionTimeout]
         public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
-            decimal ByTheHourRate, decimal ByTheProjectRate, decimal StartingBidRate, DateTime StartingBidDate, DateTime EndingBidDate, long SelectedProjectCompensationPackage, string Notes)
+            decimal ByTheHourRate, decimal ByTheProjectRate, decimal StartingBidRate, DateTime StartingBidDate, DateTime EndingBidDate, 
+            long SelectedProjectCompensationPackage, string Notes,long Duration,int NumberOfContractorsNeeded,int NumberOfDaysHelpIsNeeded,int ProjectStatus)
         {
 
 
@@ -1531,6 +1572,26 @@ namespace SameDayServicezFinal.Controllers
                 project.EndingBidDate = EndingBidDate;
                 project.SelectedProjectCompensationPackage = SelectedProjectCompensationPackage;
                 project.Notes = Notes;
+                project.Duration = Duration;              
+
+                switch (ProjectStatus)
+                {
+                    case 0:
+                        project.ProjectStatus = ProjectStatuses.Completed;
+                        break;
+                    case 1:
+                        project.ProjectStatus = ProjectStatuses.Active;
+                        break;
+                    case 2:
+                        project.ProjectStatus = ProjectStatuses.Draft;
+                        break;
+                    case 3:
+                        project.ProjectStatus = ProjectStatuses.Closed;
+                        break;
+                }    
+
+                project.NumberOfContractorsNeeded = NumberOfContractorsNeeded;
+                project.NumberOfDaysHelpIsNeeded = NumberOfDaysHelpIsNeeded;
             }
 
             using (var db = new ApplicationDbContext())

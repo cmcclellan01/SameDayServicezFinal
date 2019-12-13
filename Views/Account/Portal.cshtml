@@ -46,7 +46,7 @@
                         <!-- Navbar Menu -->
                         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
                             <li class="nav-item dropdown">
-                                <a rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size" title="New Project"><i class="fas fa-file"></i></a>
+                                <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size" title="New Project" ><i class="fas fa-file"></i></a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size"><i class="fas fa-bell"></i><span class="badge bg-red badge-corner">12</span></a>
@@ -432,7 +432,38 @@
     <input class="form-control d-none" id="SearchJsonProfession" name="SearchJsonProfession" type="text" value="" />
 }
 
+<div class="modal fade new-project-modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">New Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label class="control-label text-light">Project Title</label>
+                                <input class="form-control new-project-title" style="min-width: 100%!important;" type="text" value="">
+                               
+                            </div>
+                        </div>
+                    </div>
 
+             
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary create-new-project">Create New Project</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANM-MNjlvaju8maiq0zZbDk99JXmD_nrA"></script>
@@ -462,10 +493,37 @@
         $('.js-reload-details').click();
 
 
-
+    
       
 
+        $('.create-new-project').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Account/CreateNewProject?projectTitle=' + $('.new-project-title').val(),
+            success: function (data) {
+                $('.new-project-modal').modal('hide')
+                $('body').loading('start');
+                var $detailDiv = '';   
+                var projectId = data;
 
+                $.get('/Account/UpdateProjectPortal', function (data) {
+                    $detailDiv = $('.user-projects');
+                    $detailDiv.empty().html(data);    
+
+                    $detailDiv = $('.project-view');   
+                    $.get('/Account/GetProject?projectId=' + projectId, function (data) {
+                        $detailDiv.empty().html(data);
+                        $('.mode').val('e');
+                    });
+                });
+
+               
+
+               
+            }
+        });
+        return false;
+    });
 
 
       

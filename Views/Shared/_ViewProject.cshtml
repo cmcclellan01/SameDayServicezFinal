@@ -4,6 +4,19 @@
 
 
 <style>
+
+        .disabled:hover {
+  cursor: not-allowed;
+}
+     .badge {
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    padding: 0;
+    border-radius: 50%;
+}
+
     .profile-card-5 {
         margin-top: 20px;
         min-height: 460px;
@@ -77,28 +90,41 @@
         <div class="card project-id-@Model.ProjectsId">
             <div class="card-header">
                 <h3 class="card-title"><span class="project-editing-type"></span> Project - @Model.ProjectTitle</h3>
+                <span class="badge bg-red badge-corner "> </span> - Needs fixed before you can publish your project.
+                <div class="h-100"></div>
+                <span class="badge bg-orange badge-corner "> </span> - This is a information / alert(s) for your project.
             </div>
             <div class="card-body">
 
                 <ul class="nav nav-tabs nav-justified" style="font-size:smaller" id="myTab-@Model.ProjectsId" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="basicinformation-@Model.ProjectsId-tab" data-toggle="tab" href="#basicinformation-@Model.ProjectsId" role="tab" aria-controls="basicinformation-@Model.ProjectsId" aria-selected="true">Basic Project Information</a>
+                        <a class="nav-link active" id="basicinformation-@Model.ProjectsId-tab" data-toggle="tab" href="#basicinformation-@Model.ProjectsId" role="tab" aria-controls="basicinformation-@Model.ProjectsId" aria-selected="true">
+                            Basic Project Information
+                            <span class="badge bg-red badge-corner basic-info-badge"></span>
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="skills-@Model.ProjectsId-tab" data-toggle="tab" href="#skills-@Model.ProjectsId" role="tab" aria-controls="skills-@Model.ProjectsId" aria-selected="false">Project Professions & Skills</a>
+                        <a class="nav-link" id="skills-@Model.ProjectsId-tab" data-toggle="tab" href="#skills-@Model.ProjectsId" role="tab" aria-controls="skills-@Model.ProjectsId" aria-selected="false">
+                            Project Professions & Skills
+                            <span class="badge bg-red badge-corner skills-badge"></span>
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="documents-@Model.ProjectsId-tab" data-toggle="tab" href="#documents-@Model.ProjectsId" role="tab" aria-controls="documents-@Model.ProjectsId" aria-selected="false">Project Documents</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">Project Compensation</a>
+                        <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">
+                            Project Compensation
+                            <span class="badge bg-red badge-corner compensation-badge"></span>
+
+                        </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="Applicants-@Model.ProjectsId-tab" data-toggle="tab" href="#Applicants-@Model.ProjectsId" role="tab" aria-controls="Applicants-@Model.ProjectsId" aria-selected="false">
                             Applicants
                             @if (Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count() > 0)
                             {
-                                <span class="badge badge-pill badge-success  top-0 right-0 ProjectApplicants-badge">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count()</span>
+                                <span class="badge bg-orange badge-corner ProjectApplicants-badge">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count()</span>
                             }
 
 
@@ -109,7 +135,7 @@
                         if (!(bool)Session["IsInContractorMode"])
                         {
                             <li class="nav-item">
-                                                    <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Accepted Contactors</a>
+                                <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Accepted Contactors</a>
                             </li>
 
                         }
@@ -127,7 +153,7 @@
                         <div class="basicinformation-@Model.ProjectsId" style="min-height:500px">
                             <div class="card card-custom">
                                 <div class="row">
-                                    <div class="col-6 ">
+                                    <div class="col-lg-3 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
@@ -136,16 +162,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-3 ">
+
+                                    <div class="col-lg-3 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(x => x.Duration, new { @class = "control-label text-light" })
-                                                @Html.DropDownListFor(m => m.Duration, Model.DurationList, "- Please select a Duration -", new { @class = "form-control" })
+                                                @Html.DropDownListFor(m => m.Duration, Model.DurationList, "- Please select a Duration -", new { @class = "form-control", style = "min-width: 100%!important;" })
                                                 @Html.ValidationMessageFor(model => Model.Duration)
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-3 ">
+
+                                    <div class="col-lg-3 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.NumberOfContractorsNeeded, "Number of Needed Contractors:", new { @class = "control-label text-light" })
@@ -153,6 +181,16 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-3 ">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-12">
+                                                @Html.LabelFor(m => m.NumberOfDaysHelpIsNeeded, "Number of Days Help Is Needed:", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.NumberOfDaysHelpIsNeeded, new { @class = "form-control", style = "min-width: 100%!important;", @type = "number" })
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div class="row">
@@ -214,26 +252,26 @@
                                 @{
                                     if (!(bool)Session["IsInContractorMode"])
                                     {
-                                            <div class="form-row">
-                                                <div class="form-group  col-md-4">
-                                                    @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
-                                                    @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.ZipCode)
-                                                </div>
-
-
-                                                <div class="form-group  col-md-4">
-                                                    @Html.LabelFor(m => m.ProjectStatus, "Project Status", new { @class = "control-label text-light" })
-                                                    @Html.EnumDropDownListFor(x => x.ProjectStatus, "Select Project Status", new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.ProjectStatus)
-                                                </div>                                            
-                                              
+                                        <div class="form-row">
+                                            <div class="form-group  col-md-4">
+                                                @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
+                                                @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ZipCode)
                                             </div>
+
+
+                                            <div class="form-group  col-md-4">
+                                                @Html.LabelFor(m => m.ProjectStatus, "Project Status", new { @class = "control-label text-light" })
+                                                @Html.EnumDropDownListFor(x => x.ProjectStatus, "Select Project Status", new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ProjectStatus)
+                                            </div>
+
+                                        </div>
                                     }
 
                                 }
 
-                              
+
 
 
 
@@ -298,18 +336,21 @@
 
                                     </div>
                                 </div>
-                                <div class="form-row">
-                                    <div class="form-group col-md-12">
 
-                                    </div>
-                                </div>
                                 <div class="form-row">
                                     <hr style="width: 100%; color: white; height: 1px; background-color:white;" class="no-edit" />
                                     Current Selected Profession(s):
-                                    <div class="form-group col-md-12 results">
+                                    <div class="form-group col-md-12 results ">
                                         @for (int i = 0; i < Model.ProjectCategories.ToList().Count(); i++)
                                         {
-                                            <div class="result-added text-light " style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove no-edit" data-id="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId @Model.ProjectCategories.ToList()[i].ProjectsSubCatId" data-mainId="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId" data-subId="@Model.ProjectCategories.ToList()[i].ProjectsSubCatId" role="button" style="margin: 5px;">remove</span> @Model.ProjectCategories.ToList()[i].ProjectsMainCatName -- @Model.ProjectCategories.ToList()[i].ProjectsSubCatName</div>
+                                            <div class="result-added text-light project-skills" style="font-size:small">
+                                                <span class="btn btn-outline-danger btn-sm remove no-edit"
+                                                      data-id="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId @Model.ProjectCategories.ToList()[i].ProjectsSubCatId"
+                                                      data-mainId="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId"
+                                                      data-subId="@Model.ProjectCategories.ToList()[i].ProjectsSubCatId"
+                                                      role="button" style="margin: 5px;">remove</span>
+                                                @Model.ProjectCategories.ToList()[i].ProjectsMainCatName -- @Model.ProjectCategories.ToList()[i].ProjectsSubCatName
+                                            </div>
                                         }
                                     </div>
                                 </div>
@@ -655,7 +696,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="row justify-content-end">
-                                                            <div class="col-auto"><span class="btn btn-dark MyFont" >Message Contractor</span></div>
+                                                            <div class="col-auto"><span class="btn btn-dark MyFont">Message Contractor</span></div>
                                                             @*<div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.ProjectId">View Full Profile</span></div>*@
 
 
@@ -711,11 +752,12 @@
                 <input class="form-control d-none" id="JsonProfession" name="JsonProfession" type="text" value="@Model.JsonProfession" />
                 <input class="form-control d-none" id="ProjectsId" name="ProjectsId" type="text" value="@Model.ProjectsId" />
                 <input class="form-control d-none" id="ProjectsUsersId" name="ProjectsUsersId" type="text" value="@Model.ProjectsUsersId" />
-
+                <input class="form-control d-none" id="CanPublish" name="CanPublish" type="text" value="0" />
+                <input class="form-control d-none" id="Skills" name="Skills" type="text" value="0" />
             </div>
             
             <div class="card-footer text-right">
-                <span class="btn btn-info submit-@Model.ProjectsId no-edit float-left">Publish Project</span>
+                <span class="btn btn-info publish-@Model.ProjectsId  float-left " disabled>Publish Project</span>
 
                 <span class="btn btn-primary submit-@Model.ProjectsId no-edit">Save Project</span>
                 <span class="btn btn-primary close-@Model.ProjectsId">Close</span>
@@ -728,11 +770,78 @@
 
       Dropzone.autoDiscover = false;
     var json = "";
+
+     function GetSkillsCount() {
+        var count = $('.project-skills').length;
+        if (count == 0) {
+            $('.skills-badge').html('1');
+        } else {
+            $('.skills-badge').html('')           
+        }
+     }
+
+
+     function GetCompensationCount() {
+       var SelectedProjectCompensationPackage = $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage option:selected').val();
+
+         if (SelectedProjectCompensationPackage == '') {
+            $('.compensation-badge').html('1');
+        } else {
+            $('.compensation-badge').html('')           
+        }
+     }
+ 
+     function GetBasicInfoCount() {
+            var basicInfoCount = 0;
+
+            var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
+            var Address = $('.basicinformation-@Model.ProjectsId #Address').val();
+            var City = $('.basicinformation-@Model.ProjectsId #City').val();
+            var State = $('.basicinformation-@Model.ProjectsId #State option:selected').val();
+            var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
+            var Duration = $('.basicinformation-@Model.ProjectsId #Duration option:selected').val();
+            var NumberOfContractorsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').val();
+            var NumberOfDaysHelpIsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').val();
+
+            if (Description == '') { basicInfoCount = basicInfoCount + 1;}
+            if (Address == '') { basicInfoCount = basicInfoCount + 1; }
+            if (City == '') { basicInfoCount = basicInfoCount + 1; }
+            if (State == '') { basicInfoCount =  basicInfoCount + 1; }
+            if (ZipCode == '00000' || ZipCode == '') { basicInfoCount = basicInfoCount + 1; }
+            if (Duration == '') { basicInfoCount = basicInfoCount + 1; }
+            if (NumberOfContractorsNeeded == 0) { basicInfoCount = basicInfoCount + 1; }
+            if (NumberOfDaysHelpIsNeeded == 0) { basicInfoCount = basicInfoCount + 1; }
+
+
+
+            if (basicInfoCount == 0) {
+                return '';
+            } else {
+                $('.basic-info-badge').html(basicInfoCount);
+
+         }
+
+        
+        }
+
+
     $(document).ready(function () {
 
+   
+        GetBasicInfoCount();
+        GetSkillsCount();
+        GetCompensationCount();
+         
       
 
 
+
+
+
+       $('.view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, select').on('change', function (event) {
+           GetBasicInfoCount();
+           GetCompensationCount();
+        });
 
         $('.view-project-main-div').hide();
 
@@ -751,7 +860,10 @@
             var State = $('.basicinformation-@Model.ProjectsId #State option:selected').val();
             var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
             var Notes = $('#Notes-@Model.ProjectsId').summernote('code');
-
+            var Duration = $('.basicinformation-@Model.ProjectsId #Duration option:selected').val();
+            var ProjectStatus = $('.basicinformation-@Model.ProjectsId #ProjectStatus option:selected').val();
+            var NumberOfContractorsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').val();
+            var NumberOfDaysHelpIsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').val();
             var ByTheHourRate = $('.compensation-@Model.ProjectsId #ByTheHourRate').val();
             var ByTheProjectRate = $('.compensation-@Model.ProjectsId #ByTheProjectRate').val();
             var StartingBidRate = $('.compensation-@Model.ProjectsId #StartingBidRate').val();
@@ -759,12 +871,37 @@
             var EndingBidDate = $('.compensation-@Model.ProjectsId #EndingBidDate').val();
             var SelectedProjectCompensationPackage = $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage option:selected').val();
 
+            if (SelectedProjectCompensationPackage == '') { SelectedProjectCompensationPackage = 0; }
+            if (Duration == '') { Duration = 0; }
+            if (NumberOfContractorsNeeded == '') { NumberOfContractorsNeeded = 0; }
+            if (NumberOfDaysHelpIsNeeded == '') { NumberOfDaysHelpIsNeeded = 0; }
+            if (ZipCode == '') { ZipCode = '00000'; }
+
             $.ajax({
                 type: "POST",
-                url: "/Account/UpdateProject?ProjectTitle=" + ProjectTitle + "&Description=" + Description + "&Address=" + Address + "&City=" + City + "&State=" + State + "&ZipCode=" + ZipCode + "&projectID=" + @Model.ProjectsId + "&ByTheHourRate=" + ByTheHourRate + "&ByTheProjectRate=" + ByTheProjectRate + "&StartingBidRate=" + StartingBidRate + "&StartingBidDate=" + StartingBidDate + "&EndingBidDate=" + EndingBidDate + "&SelectedProjectCompensationPackage=" + SelectedProjectCompensationPackage + "&Notes=" + Notes,
+                url: "/Account/UpdateProject?ProjectTitle=" + ProjectTitle +
+                    "&Description=" + Description +
+                    "&Address=" + Address +
+                    "&City=" + City +
+                    "&State=" + State +
+                    "&ZipCode=" + ZipCode +
+                    "&projectID=" + @Model.ProjectsId +
+                    "&ByTheHourRate=" + ByTheHourRate +
+                    "&ByTheProjectRate=" + ByTheProjectRate +
+                    "&StartingBidRate=" + StartingBidRate +
+                    "&StartingBidDate=" + StartingBidDate +
+                    "&EndingBidDate=" + EndingBidDate +
+                    "&SelectedProjectCompensationPackage=" + SelectedProjectCompensationPackage +
+                    "&Notes=" + Notes +
+                    '&Duration=' + Duration +
+                    '&NumberOfContractorsNeeded=' + NumberOfContractorsNeeded +
+                    '&NumberOfDaysHelpIsNeeded=' + NumberOfDaysHelpIsNeeded +
+                    '&ProjectStatus=' + ProjectStatus,
                 success: function () {
                     $('.project-id-@Model.ProjectsId').hide();
                     swal("Project has been updated.", "", "success");
+                     $('body').loading('start');
+                            LoadData('user-projects', 'Account', 'UpdateProjectPortal');
                 }
             });
             return false;
@@ -927,13 +1064,19 @@
 
             if ($(".skills-@Model.ProjectsId #SubProfessions option:selected").val() !== '- Please Select A Job Title -') {
 
+
                 $('.skills-@Model.ProjectsId .update-professions').show();
 
                 //empty the textbox and setup for next search
                 $('.skills-@Model.ProjectsId #SelectedProfession').val('');
                 $('.skills-@Model.ProjectsId .sublist').hide();
 
-                $('.skills-@Model.ProjectsId .results').append('<div class="result-added new" id="' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".skills-@Model.ProjectsId #Professions option:selected").text() + ' -- ' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").text() + '</div>')
+                $('.skills-@Model.ProjectsId .results').append('<div class="result-added new project-skills" id="' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".skills-@Model.ProjectsId #Professions option:selected").text() + ' -- ' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").text() + '</div>')
+               
+                $('#Skills').val($('.project-skills').length);
+
+                GetSkillsCount();
+
 
                 // updates the hidden field
                 $('.skills-@Model.ProjectsId .new').each(function (index, value) {
@@ -952,6 +1095,8 @@
 
                 // remove the selected one after we add it
                 $('.skills-@Model.ProjectsId #SubProfessions').find('option:selected').remove().end();
+
+               
             }
             else {
                 alert('Please Select A Job Title');
@@ -964,8 +1109,12 @@
             $(this).parent().remove();
 
             $.post('/Account/RemoveUserContractorCustomerCategories', { mainId: $(this).attr('data-id').split(" ")[0], subId: $(this).attr('data-id').split(" ")[1] }, function (data) {
-
+                
             });
+
+             $('#Skills').val($('.project-skills').length);
+
+                GetSkillsCount();
 
         });
 
@@ -1089,7 +1238,7 @@
             $('.project-view .view-project-main-div').show();
             $('body').loading('stop');
             $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
-             ;
+
         }
 
 
@@ -1103,6 +1252,16 @@
            $('.project-view .view-project-main-div').show();
             $('body').loading('stop');
             $('html,body').animate({ scrollTop: $('.project-view').offset().top - 100 });
+
+            if ($('#CanPublish').val() == '0') {
+                $('.publish-@Model.ProjectsId').attr('disabled', true).addClass('disabled');
+                $('#ProjectStatus').attr('disabled', true).addClass('disabled');
+            }
+
+            if ($('#ZipCode').val() == '00000') {
+                $('#ZipCode').val('')
+            }
+
 
         }
 
