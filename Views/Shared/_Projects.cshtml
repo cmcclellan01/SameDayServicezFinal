@@ -491,10 +491,34 @@
         color: #015668 !important;
     }
 
-    .project-table .label-accent {
-        background-color: #015668 !important;
-        color: darkgray !important;
+    .project-table .label-Completed {
+        background-color: #303030 !important;
+        color: white !important;
     }
+
+    .project-table .label-Active {
+        background-color: #015668 !important;
+        color: white !important;
+    }
+
+    .project-table .label-Draft {
+        background-color: #FF550B !important;
+        color: white !important;
+    }
+
+    .project-table .label-Closed {
+        background-color: #000000 !important;
+        color: white !important;
+    }
+
+
+
+
+
+
+
+
+
 
     .project-table tr {
         background-color: transparent !important;
@@ -853,6 +877,15 @@
     table th.text-center, table td.text-center {
         text-align: center;
     }
+
+    .badge {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
 </style>
 
 
@@ -866,74 +899,74 @@
             {
 
                 <div class="row">
-                           
-                                
-                                    <div class="col-sm-3">
-                                        <div class="panel card " style="padding:10px">
-                                            <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group">
-                                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Hourly Rate:</label>
-                                                            <select class="form-control hourly-select" style="width: 100%;margin:10px">
-                                                                <option value="">- Please Select A Hourly Rate -</option>
-                                                                @foreach (var item in Extensions.GetHourlyRateList())
-                                                                {
-                                                                    <option value="@item.Value">@item.Text</option>
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group ">
-                                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Job Description Search:</label>
-                                                            <input type="text" class="form-control description-search" placeholder="Search for a job description" style="margin:10px">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="input-group SubProfessions">
-                                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Recommended Skills:</label>
-                                                            <select class="form-control  search-project-profession" style="width: 100%;margin:10px">
-                                                                <option value="">- Please Select A Skill -</option>
-                                                            </select>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="container">
-                                                        <button type="button" class="btn btn-dark float-right job-search" style="margin-right:10px;">Search</button>
-                                                        <button type="button" class="btn btn-dark float-right reset-job-search" style="margin-right:10px;">Reset</button>
-                                                    </div>
-                                                 </div>
 
 
-
-
-
-
-                                                </div>
+                    <div class="col-sm-3">
+                        <div class="panel card " style="padding:10px">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="input-group">
+                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Hourly Rate:</label>
+                                            <select class="form-control hourly-select" style="width: 100%;margin:10px">
+                                                <option value="">- Please Select A Hourly Rate -</option>
+                                                @foreach (var item in Extensions.GetHourlyRateList())
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            </select>
                                         </div>
                                     </div>
-                               
-                               
-                                    <div class="col-sm-9">
-                                        <div class="open-projects">
-                                            @Html.Partial("_ViewOpenProjectsC", Model)
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="input-group ">
+                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Job Description Search:</label>
+                                            <input type="text" class="form-control description-search" placeholder="Search for a job description" style="margin:10px">
                                         </div>
                                     </div>
-                                
-                          
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="input-group SubProfessions">
+                                            <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Recommended Skills:</label>
+                                            <select class="form-control  search-project-profession" style="width: 100%;margin:10px">
+                                                <option value="">- Please Select A Skill -</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="container">
+                                        <button type="button" class="btn btn-dark float-right job-search" style="margin-right:10px;">Search</button>
+                                        <button type="button" class="btn btn-dark float-right reset-job-search" style="margin-right:10px;">Reset</button>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-sm-9">
+                        <div class="open-projects">
+                            @Html.Partial("_ViewOpenProjectsC", Model)
+                        </div>
+                    </div>
+
+
                 </div>
-               
 
-               
 
-               
+
+
+
 
 
 
@@ -952,9 +985,10 @@
                                     <label class="text-light" style="margin-left:10px">Status Filter:</label>
                                     <select class="form-control select-status" style="width: 100%;margin:10px">
                                         <option value="">All</option>
+                                        <option>Completed</option>
                                         <option>Active</option>
-                                        <option>Waiting</option>
-                                        <option>Complete</option>
+                                        <option>Draft</option>
+                                        <option>Closed</option>
                                     </select>
                                 </div>
                             </div>
@@ -967,7 +1001,7 @@
 
                             <div class="col-lg-2">
                                 <div class="input-group ">
-                                    <label class="text-light" style="margin-left:10px">Participate:</label>
+                                    <label class="text-light" style="margin-left:10px">Assigned Contractors:</label>
                                     <select class="form-control select-participates" style="width: 100%;margin:10px">
                                         <option value="">All</option>
                                         @{
@@ -1009,9 +1043,10 @@
                                 <thead>
                                     <tr>
                                         <th></th>
-                                        <th> Project name</th>
+                                        <th>Project name</th>
                                         <th>Status</th>
-                                        <th>Participate</th>
+                                        <th>Assigned Contractors</th>
+                                        <th>Applicants Alert</th>
                                         <th>City</th>
                                         <th>State</th>
                                         <th>Zipcode</th>
@@ -1030,17 +1065,50 @@
 
 
                                             </td>
-                                            <td>                                              
-                                                    <span class="label label-accent">@item.ProjectStatus</span>                                             
+                                            <td>
+
+
+                                                @{
+                                                    switch (item.ProjectStatus)
+                                                    {
+                                                        case SameDayServicezFinal.Models.ProjectStatuses.Completed:
+                                                            <span class="label label-Completed"> @item.ProjectStatus</span>
+                                                            break;
+                                                        case SameDayServicezFinal.Models.ProjectStatuses.Active:
+                                                            <span class="label label-Active"> @item.ProjectStatus</span>
+                                                            break;
+                                                        case SameDayServicezFinal.Models.ProjectStatuses.Draft:
+                                                            <span class="label label-Draft"> @item.ProjectStatus</span>
+                                                            break;
+                                                        case SameDayServicezFinal.Models.ProjectStatuses.Closed:
+                                                            <span class="label label-Closed"> @item.ProjectStatus</span>
+                                                            break;
+
+                                                    }
+
+                                                    if (item.IsProjectPublished)
+                                                    {
+                                                        <span class="label label-Active" style="margin-left:5px">Published</span>
+                                                    }
+                                                }
+
+
                                             </td>
                                             <td>
                                                 @foreach (var profile in item.ProjectAssignments)
                                                 {
-                                                    <a href="" data-toggle="tooltip" title="@profile.ProfileDisplayName"><img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
+                                                    <a href="#" data-toggle="tooltip" data-contractor-id="@profile.UsersId" title="@profile.ProfileDisplayName" class="profile-icon-btn"><img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
                                                 }
                                             </td>
 
-
+                                            <td>
+                                                @{
+                                                    if (item.ApplicantCount > 0)
+                                                    {
+                                                        <span class="badge bg-orange badge-corner ">@item.ApplicantCount</span>
+                                                    }
+                                                }
+                                            </td>
 
                                             <td>
                                                 <span>@item.City</span>
@@ -1086,7 +1154,7 @@
     </div>
 
 </div>
-
+<div class="full-icon-profile-view"></div>
 
 <div class="loader">
     <div class="project-view">
@@ -1124,7 +1192,7 @@
 
 
 
-<script>
+    <script>
 
     var projects = [];
 
@@ -1134,7 +1202,19 @@
 
     $(document).ready(function () {
 
+        $('.profile-icon-btn').on('click', function (evt) {
+            var $detailDiv = $('body');
 
+            $.get('/Account/FullProfile?Id=' + $(this).attr('data-contractor-id'), function (data) {
+               $detailDiv.append(data);         
+
+                $('.bd-example-modal-lg').modal('show').on('hidden.bs.modal', function (e) {
+
+                    $('.bd-example-modal-lg').remove();
+                });
+
+            });
+        });
 
 
         $('.job-search').on('click', function (evt) {
@@ -1259,4 +1339,4 @@
 
 
 
-</script>
+    </script>

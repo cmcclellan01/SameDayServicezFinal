@@ -16,7 +16,7 @@
                 {
                     i = 1;
                 }
-                <div class="col-lg-3 accept-applicant-@profileGuid">
+                <div class="col-auto accept-applicant-@profileGuid">
                     <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
 
@@ -494,7 +494,7 @@
                         </div>
                     </div> 
                     <div class="row">                       
-                            <label class="form-check-label MyFont ">
+                            <label class="form-check-label MyFont " style="color:black">
                                 By clicking Accept you Agree To Our Terms & Conditions
                             </label>                        
                     </div>
@@ -539,7 +539,15 @@
                         $.get('/Account/GetProjectAssignmentSingle?ProjectsId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId'), function (data) {
                             $('.assigned-contactors').append(data);
                             $('.accept-applicant-' + element.attr('data-guid')).remove();
-                            $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
+
+                            if (($('.ProjectApplicants-badge').html() - 1) == 0) {
+                                 $('.ProjectApplicants-badge').html('');
+                            } else {
+                                 $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
+                            }
+                           
+                              
+                           
                         });
                     }
                 });

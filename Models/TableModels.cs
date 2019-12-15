@@ -123,10 +123,7 @@ namespace SameDayServicezFinal.Models
         public string ProjectTitle { get; set; }
         
         [AllowHtml]
-        public string Description { get; set; }
-
-
-        public bool IsDraft { get; set; }
+        public string Description { get; set; }      
 
         [Display(Name = "Address")]
       
@@ -225,8 +222,13 @@ namespace SameDayServicezFinal.Models
 
         public ProjectStatuses ProjectStatus { get; set; }
 
-        
+        public bool IsProjectPublished { get; set; }
 
+        [NotMapped]
+        public bool HasApplicants { get; set; }
+
+        [NotMapped]
+        public int ApplicantCount { get; set; }
     }
 
     public enum ProjectStatuses
@@ -236,7 +238,16 @@ namespace SameDayServicezFinal.Models
         Draft,
         Closed
     }
-
+    public class ProjectPosting
+    {
+        public string ProjectTitle { get; set; }
+        public long ProjectId { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? ReadDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
+        public bool Read { get; set; }
+        public bool Delivered { get; set; }
+    }
 
 
     [Table("ProjectApplicants")]
@@ -420,16 +431,7 @@ namespace SameDayServicezFinal.Models
         
     }
 
-    public class ProjectPosting
-    {
-        public string  ProjectTitle { get; set; }
-        public long ProjectId { get; set; }
-        public DateTime CreationDate { get; set; }
-        public DateTime? ReadDate { get; set; }
-        public DateTime? DeliveredDate { get; set; }
-        public bool Read { get; set; }
-        public bool Delivered { get; set; }
-    }
+   
 
     public class ContractorSearchList
     {

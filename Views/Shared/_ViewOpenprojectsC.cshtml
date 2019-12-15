@@ -13,6 +13,33 @@
 
                     <span style="font-size: 0.8rem;font-weight: bold;color: #212529;">@project.City - Posted @DateTime.Now.Subtract(project.CreationDate).Days.ToString()  days ago</span>
                     <div>
+                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Project Timeline:</span>
+                        <span style="font-size: 0.8rem;color: #212529;display:inline">
+                            @{
+                                switch (project.Duration)
+                                {
+                                    case 1:
+                                        <text>Short Term</text>
+                                        break;
+
+                                    case 2:
+                                        <text>Long Term</text>
+                                        break;
+
+                                    case 3:
+                                        <text>Proposal</text>
+                                        break;
+                                }
+
+
+                            }
+
+                            / Day(s) Needed :@project.NumberOfDaysHelpIsNeeded
+
+
+                        </span>
+                    </div>
+                    <div>
                         <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Compensation:</span>
                         <span style="font-size: 0.8rem;color: #212529;display:inline"> $@project.ByTheHourRate.ToString() / hourly</span>
                     </div>
@@ -33,20 +60,6 @@
                     <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Job Description:  </span>
                     <div class="card-text project-more " style="font-size: 0.8rem;color: #212529;display:inline">@Html.Raw(@project.Description)</div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </div>
                 <div class="card-footer grayscale-center">
 
@@ -56,7 +69,7 @@
 
                                 <input class="form-check-input add-contractor-comment" type="checkbox">
                                 <label class="form-check-label text-light" style="margin-right:10px" for="inlineCheckbox1">Add Comment</label>
-                                <textarea class="form-control contractor-job-comment " style="background-color:#303030 !important;color:white" rows="4" cols="50" placeholder="I would be good for this job because..."></textarea>
+                                <textarea class="form-control  contractor-job-comments contractor-job-comment-@project.ProjectsId " style="background-color:#303030 !important;color:white" rows="4" cols="50" placeholder="I would be good for this job because..."></textarea>
                                 <span class="btn btn-dark applied apply-for-job" data-projectId="@project.ProjectsId" data-project-title="@project.ProjectTitle" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Apply</span>
                                 <span class="btn btn-dark applied view-job" data-projectId="@project.ProjectsId" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">View job</span>
                             </div>
@@ -126,7 +139,7 @@
 
     $(document).ready(function () {
 
-        $('.contractor-job-comment').hide();
+        $('.contractor-job-comments').hide();
 
            function SetShowText() {
 
@@ -181,11 +194,7 @@
               var title =$(this).attr('data-project-title');
 
              
-             $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId') + '&contractorMessage='  + $('.contractor-job-comment').val(), function (data) {    
-
-
-                
-
+             $.post('/Account/ApplyForJob?projectId=' + $(this).attr('data-projectId') + '&contractorMessage='  + $('.contractor-job-comment-' + $(this).attr('data-projectId')).val(), function (data) {    
 
                   if (data == 'Applied') {
                       swal({
@@ -210,13 +219,23 @@
                         closeOnConfirm: true
                     },
                         function () {                            
+
+                            
                         
-                            var $detailDiv = $('.Contractor-Applied-JobsList');
+                            $.get('/Account/GetOpenProjects?page=0&reset=true', function (data) {
+                                     var $detailDiv = $('.open-projects');
+                                    $detailDiv.empty().replaceWith('<div class="open-projects">' + data + '</div>');
+                                     $("html, body").animate({ scrollTop: 0 }, 1000);
+
+
+                                       
                           
-                            $.get('/Account/GetContractorAppliedForJobsList', function (data) {
-                                $detailDiv.replaceWith('<div class="Contractor-Applied-JobsList">' + data + '</div>');
-                            });                          
-                                
+                                $.get('/Account/GetContractorAppliedForJobsList', function (data) {
+                                             var $detailDiv = $('.Contractor-Applied-JobsList');
+                                            $detailDiv.replaceWith('<div class="Contractor-Applied-JobsList">' + data + '</div>');
+                                        }); 
+                                });
+   
                            
                         });
                   }

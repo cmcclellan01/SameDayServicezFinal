@@ -147,24 +147,25 @@ function LoadProjectTable() {
             },
             { name: 'Project name' },
             { name: 'Status' },
-            { name: 'Participate' },
+            { name: 'Assigned Contractors' },
+            { name: 'Applicants Alert' },
             { name: 'City' },
             { name: 'State' },
             { name: 'ZipCode' },
-            { name: 'Actions' },
+            { name: 'Actions' }
         ],
         columnDefs:
             [
                 {
                     className: 'control',
                     orderable: true,
-                    targets: 0,
+                    targets: 0
 
                 },
                 {
 
                     targets: 1,
-                    className: 'text-center',
+                    className: 'text-center'
 
                 },
                 {
@@ -182,25 +183,33 @@ function LoadProjectTable() {
 
                     targets: 4,
                     className: 'text-center',
+                    searchable: false,
+                    orderable: false
 
                 },
                 {
 
                     targets: 5,
-                    className: 'text-center',
+                    className: 'text-center'
 
                 },
                 {
 
                     targets: 6,
-                    className: 'text-center',
+                    className: 'text-center'
+
+                },
+                {
+
+                    targets: 7,
+                    className: 'text-center'
 
                 },
 
                 {
-                    targets: [7],
+                    targets: [8],
                     searchable: false,
-                    orderable: false,
+                    orderable: false
                 }
             ]
     });
@@ -673,8 +682,6 @@ $("#dropzoneIdPic").dropzone({
 
 
 });
-
-
 
 $("#dropzoneProfileResume").dropzone({
     url: "/Account/Upload?type=resume",

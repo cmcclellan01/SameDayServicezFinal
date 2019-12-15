@@ -4,18 +4,22 @@
 
 
 <style>
+    .error{
+        color:red!important;
+    }
 
-        .disabled:hover {
-  cursor: not-allowed;
-}
-     .badge {
-    width: 22px;
-    height: 22px;
-    line-height: 22px;
-    text-align: center;
-    padding: 0;
-    border-radius: 50%;
-}
+    .disabled:hover {
+        cursor: not-allowed;
+    }
+
+    .badge {
+        width: 22px;
+        height: 22px;
+        line-height: 22px;
+        text-align: center;
+        padding: 0;
+        border-radius: 50%;
+    }
 
     .profile-card-5 {
         margin-top: 20px;
@@ -90,9 +94,9 @@
         <div class="card project-id-@Model.ProjectsId">
             <div class="card-header">
                 <h3 class="card-title"><span class="project-editing-type"></span> Project - @Model.ProjectTitle</h3>
-                <span class="badge bg-red badge-corner "> </span> - Needs fixed before you can publish your project.
-                <div class="h-100"></div>
-                <span class="badge bg-orange badge-corner "> </span> - This is a information / alert(s) for your project.
+                <span class="badge bg-red badge-corner " style="margin-left:10px"> </span> - Needs fixed before you can publish your project.
+                <span class="badge bg-orange badge-corner " style="margin-left:10px"> </span> - This is a information / alert(s) for your project.
+        
             </div>
             <div class="card-body">
 
@@ -158,7 +162,7 @@
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;" })
-                                                @Html.ValidationMessageFor(model => model.ProjectTitle)
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -168,7 +172,7 @@
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(x => x.Duration, new { @class = "control-label text-light" })
                                                 @Html.DropDownListFor(m => m.Duration, Model.DurationList, "- Please select a Duration -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                                                @Html.ValidationMessageFor(model => Model.Duration)
+                                              
                                             </div>
                                         </div>
                                     </div>
@@ -197,9 +201,9 @@
                                     <div class="col-12 ">
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
-                                                @Html.LabelFor(m => m.Description, "Project Description", new { @class = "control-label text-light" })
-                                                @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = "6", cols = "15", style = "min-width: 100%!important;" })
-                                                @Html.ValidationMessageFor(model => model.Description)
+                                                @Html.LabelFor(m => m.Description, "Project Description", new { @class = "control-label text-light project-description-lbl" })
+                                                @Html.TextAreaFor(m => m.Description, new { @class = "form-control notes-description", rows = "6", cols = "15", style = "min-width: 100%!important;" })
+                                             
                                             </div>
                                         </div>
                                     </div>
@@ -213,7 +217,7 @@
                                             <div class="form-group col-md-4 ">
                                                 @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.Address)
+                                              
                                             </div>
                                         }
 
@@ -223,7 +227,7 @@
                                         <!-- City-->
                                         @Html.LabelFor(m => m.City, "Project City", new { @class = "control-label text-light" })
                                         @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-                                        @Html.ValidationMessageFor(model => model.City)
+                                       
                                     </div>
 
                                     @{
@@ -232,7 +236,7 @@
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.ZipCode)
+                                              
                                             </div>
                                         }
 
@@ -241,7 +245,7 @@
                                     <div class="form-group col-md-4 ">
                                         @Html.LabelFor(x => x.State, "Project State", new { @class = "control-label text-light" })
                                         @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                                        @Html.ValidationMessageFor(model => model.State)
+                                     
                                     </div>
 
 
@@ -256,14 +260,14 @@
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.ZipCode)
+                                              
                                             </div>
 
 
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ProjectStatus, "Project Status", new { @class = "control-label text-light" })
                                                 @Html.EnumDropDownListFor(x => x.ProjectStatus, "Select Project Status", new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.ProjectStatus)
+                                             
                                             </div>
 
                                         </div>
@@ -454,7 +458,7 @@
                                     <div class="form-group col-md-12 ">
                                         @Html.LabelFor(x => x.SelectedProjectCompensationPackage, "Project Compensation type", new { @class = "control-label text-light" })
                                         @Html.DropDownListFor(m => m.SelectedProjectCompensationPackage, Model.CompensationTypeList, "- Please Select A Project Compensation Type -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                                        @Html.ValidationMessageFor(model => model.SelectedProjectCompensationPackage)
+                                     
                                     </div>
                                 </div>
 
@@ -504,7 +508,7 @@
                                                 <span class="input-group-text">$</span>
                                             </div>
                                             @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control hourly-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
-                                            @Html.ValidationMessageFor(model => model.ByTheHourRate)
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -518,7 +522,7 @@
                                             </div>
 
                                             @Html.TextBoxFor(m => m.ByTheProjectRate, new { @class = "form-control project-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
-                                            @Html.ValidationMessageFor(model => model.ByTheProjectRate)
+                                      
                                         </div>
                                     </div>
                                 </div>
@@ -532,7 +536,7 @@
                                             </div>
 
                                             @Html.TextBoxFor(m => m.StartingBidRate, new { @class = "form-control project-bid-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
-                                            @Html.ValidationMessageFor(model => model.StartingBidRate)
+                                        
                                         </div>
                                     </div>
                                 </div>
@@ -542,7 +546,7 @@
                                         @Html.LabelFor(m => m.StartingBidDate, "Starting Project Bid Date", new { @class = "control-label text-light project-bid-rate" })
                                         <div class="input-group  project-bid-rate startdate-project-datepicker">
                                             @Html.HiddenFor(m => m.StartingBidDate)
-                                            @Html.ValidationMessageFor(model => model.StartingBidDate)
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -552,7 +556,7 @@
                                         @Html.LabelFor(m => m.EndingBidDate, "Ending Project Bid Date", new { @class = "control-label text-light project-bid-rate" })
                                         <div class="input-group  project-bid-rate enddate-project-datepicker">
                                             @Html.HiddenFor(m => m.EndingBidDate)
-                                            @Html.ValidationMessageFor(model => model.EndingBidDate)
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -711,10 +715,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
-
                         </div>
                     </div>
 
@@ -726,9 +726,6 @@
                     <div class="tab-pane fade" id="Applicants-@Model.ProjectsId" role="tabpanel" aria-labelledby="Applicants-@Model.ProjectsId-tab">
                         @Html.Partial("_Applicants", Model)
                     </div>
-
-
-
 
                     <div class="tab-pane fade" id="notes-@Model.ProjectsId" role="tabpanel" aria-labelledby="notes-@Model.ProjectsId-tab">
                         <div class="card card-custom">
@@ -755,9 +752,9 @@
                 <input class="form-control d-none" id="CanPublish" name="CanPublish" type="text" value="0" />
                 <input class="form-control d-none" id="Skills" name="Skills" type="text" value="0" />
             </div>
-            
+
             <div class="card-footer text-right">
-                <span class="btn btn-info publish-@Model.ProjectsId  float-left " disabled>Publish Project</span>
+                <span class="btn btn-info publish-@Model.ProjectsId  no-edit float-left " disabled>Publish Project</span>
 
                 <span class="btn btn-primary submit-@Model.ProjectsId no-edit">Save Project</span>
                 <span class="btn btn-primary close-@Model.ProjectsId">Close</span>
@@ -770,73 +767,162 @@
 
       Dropzone.autoDiscover = false;
     var json = "";
+    var SkillsCount = 0;
+    var CompensationCount = 0;
+    var BasicInfoCount = 0;
+
+
+    function CheckForPublishCount() {
+        if (SkillsCount == 0 && CompensationCount == 0 && BasicInfoCount == 0) {
+            $('.publish-@Model.ProjectsId').attr('disabled', false).removeClass('disabled');
+            $('#ProjectStatus').attr('disabled', false).removeClass('disabled');
+        }
+        else {
+             $('.publish-@Model.ProjectsId').attr('disabled', true).addClass('disabled');
+                $('#ProjectStatus').attr('disabled', true).addClass('disabled');
+        }
+
+        console.log(SkillsCount + ':' +  CompensationCount + ':' +  BasicInfoCount)
+    }
+
+    var PublishCount =  setInterval(CheckForPublishCount,1000);
 
      function GetSkillsCount() {
         var count = $('.project-skills').length;
         if (count == 0) {
             $('.skills-badge').html('1');
+            SkillsCount = 1;
         } else {
-            $('.skills-badge').html('')           
-        }
+            $('.skills-badge').html('')
+            SkillsCount = 0;
+         }
+
      }
 
 
      function GetCompensationCount() {
        var SelectedProjectCompensationPackage = $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage option:selected').val();
 
+
+              $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').prev().removeClass('error');
+
          if (SelectedProjectCompensationPackage == '') {
-            $('.compensation-badge').html('1');
+             $('.compensation-badge').html('1');
+             $('.compensation-@Model.ProjectsId #SelectedProjectCompensationPackage').prev().addClass('error');
+             CompensationCount = 1;
         } else {
-            $('.compensation-badge').html('')           
-        }
+             $('.compensation-badge').html('')
+             CompensationCount = 0;
+         }
      }
- 
+
      function GetBasicInfoCount() {
-            var basicInfoCount = 0;
+        var basicInfoCount = 0;
 
-            var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
-            var Address = $('.basicinformation-@Model.ProjectsId #Address').val();
-            var City = $('.basicinformation-@Model.ProjectsId #City').val();
-            var State = $('.basicinformation-@Model.ProjectsId #State option:selected').val();
-            var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
-            var Duration = $('.basicinformation-@Model.ProjectsId #Duration option:selected').val();
-            var NumberOfContractorsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').val();
-            var NumberOfDaysHelpIsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').val();
+        var Description = $('.notes-description').summernote('code');
+        var Address = $('.basicinformation-@Model.ProjectsId #Address').val();
+        var City = $('.basicinformation-@Model.ProjectsId #City').val();
+        var State = $('.basicinformation-@Model.ProjectsId #State').val();
+        var ZipCode = $('.basicinformation-@Model.ProjectsId #ZipCode').val();
+        var Duration = $('.basicinformation-@Model.ProjectsId #Duration').val();
+        var NumberOfContractorsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').val();
+        var NumberOfDaysHelpIsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').val();
+         
+        $('.project-description-lbl').removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #Address').prev().removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #City').prev().removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #State').prev().removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #ZipCode').prev().removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #Duration').prev().removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').prev().removeClass('error');
+        $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').prev().removeClass('error');
 
-            if (Description == '') { basicInfoCount = basicInfoCount + 1;}
-            if (Address == '') { basicInfoCount = basicInfoCount + 1; }
-            if (City == '') { basicInfoCount = basicInfoCount + 1; }
-            if (State == '') { basicInfoCount =  basicInfoCount + 1; }
-            if (ZipCode == '00000' || ZipCode == '') { basicInfoCount = basicInfoCount + 1; }
-            if (Duration == '') { basicInfoCount = basicInfoCount + 1; }
-            if (NumberOfContractorsNeeded == 0) { basicInfoCount = basicInfoCount + 1; }
-            if (NumberOfDaysHelpIsNeeded == 0) { basicInfoCount = basicInfoCount + 1; }
 
+       
 
+         if (Description == '') {
+             basicInfoCount = basicInfoCount + 1;            
+               $('.project-description-lbl').addClass('error');
+         }
+
+         if (Address == '') {
+             basicInfoCount = basicInfoCount + 1;
+              $('.basicinformation-@Model.ProjectsId #Address').prev().addClass('error');
+         }
+
+         if (City == '') {
+             basicInfoCount = basicInfoCount + 1;
+              $('.basicinformation-@Model.ProjectsId #City').prev().addClass('error');
+         }
+
+         if (State == '') {
+             basicInfoCount = basicInfoCount + 1;
+              $('.basicinformation-@Model.ProjectsId #State').prev().addClass('error');
+         }
+
+         if (ZipCode == '00000' || ZipCode == '') {
+             basicInfoCount = basicInfoCount + 1;
+              $('.basicinformation-@Model.ProjectsId #ZipCode').prev().addClass('error');
+         }
+
+         if (Duration == '') {
+             basicInfoCount = basicInfoCount + 1;
+             $('.basicinformation-@Model.ProjectsId #Duration').prev().addClass('error');
+         }
+
+         if (NumberOfContractorsNeeded == 0) {
+             basicInfoCount = basicInfoCount + 1;
+              $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').prev().addClass('error');
+         }
+
+         if (NumberOfDaysHelpIsNeeded == 0) {
+             basicInfoCount = basicInfoCount + 1;
+             $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').prev().addClass('error');
+         }
+
+            //console.log(basicInfoCount + ':' + Description);
+            //console.log(basicInfoCount + ':' + Address);
+            //console.log(basicInfoCount + ':' + City);
+            //console.log(basicInfoCount + ':' + State);
+            //console.log(basicInfoCount + ':' + ZipCode);
+            //console.log(basicInfoCount + ':' + Duration);
+            //console.log(basicInfoCount + ':' + NumberOfContractorsNeeded);
+            //console.log(basicInfoCount + ':' + NumberOfDaysHelpIsNeeded);
+            //console.log('basicInfoCount:' + basicInfoCount)
 
             if (basicInfoCount == 0) {
-                return '';
+                $('.basic-info-badge').html('');
             } else {
                 $('.basic-info-badge').html(basicInfoCount);
 
-         }
+            }
+            BasicInfoCount = basicInfoCount;
 
-        
         }
 
 
     $(document).ready(function () {
 
-   
+
         GetBasicInfoCount();
         GetSkillsCount();
         GetCompensationCount();
+
          
       
-
-
-
-
+        $('.publish-@Model.ProjectsId').on('click', function (event) {
+            $.ajax({
+                type: "POST",
+                url: "/Account/PublishProject",
+                data: { projectID: @Model.ProjectsId },
+                success: function () {
+                    swal("Project has been published.", "", "success");
+                      $('body').loading('start');
+                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                    $("html, body").animate({ scrollTop: 0 }, 0);
+                }
+            });
+        });
 
        $('.view-project-main-div  .project-id-@Model.ProjectsId').find('input, textarea, select').on('change', function (event) {
            GetBasicInfoCount();
@@ -848,13 +934,19 @@
         $('.close-@Model.ProjectsId').on('click', function (event) {
             event.preventDefault();
             $('.project-id-@Model.ProjectsId').hide();
+            clearInterval(PublishCount);
+             $('body').loading('start');
+              LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+             $("html, body").animate({ scrollTop: 0 }, 0);
         });
 
         $('.submit-@Model.ProjectsId').on('click', function (event) {
             event.preventDefault();
+              clearInterval(PublishCount);
+            var ProjectTitle = $('.basicinformation-@Model.ProjectsId #ProjectTitle').val();            
+           // var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
+            var Description = $('.notes-description').summernote('code');
 
-            var ProjectTitle = $('.basicinformation-@Model.ProjectsId #ProjectTitle').val();
-            var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
             var Address = $('.basicinformation-@Model.ProjectsId #Address').val();
             var City = $('.basicinformation-@Model.ProjectsId #City').val();
             var State = $('.basicinformation-@Model.ProjectsId #State option:selected').val();
@@ -879,29 +971,37 @@
 
             $.ajax({
                 type: "POST",
-                url: "/Account/UpdateProject?ProjectTitle=" + ProjectTitle +
-                    "&Description=" + Description +
-                    "&Address=" + Address +
-                    "&City=" + City +
-                    "&State=" + State +
-                    "&ZipCode=" + ZipCode +
-                    "&projectID=" + @Model.ProjectsId +
-                    "&ByTheHourRate=" + ByTheHourRate +
-                    "&ByTheProjectRate=" + ByTheProjectRate +
-                    "&StartingBidRate=" + StartingBidRate +
-                    "&StartingBidDate=" + StartingBidDate +
-                    "&EndingBidDate=" + EndingBidDate +
-                    "&SelectedProjectCompensationPackage=" + SelectedProjectCompensationPackage +
-                    "&Notes=" + Notes +
-                    '&Duration=' + Duration +
-                    '&NumberOfContractorsNeeded=' + NumberOfContractorsNeeded +
-                    '&NumberOfDaysHelpIsNeeded=' + NumberOfDaysHelpIsNeeded +
-                    '&ProjectStatus=' + ProjectStatus,
+                url: "/Account/UpdateProject",
+                data: {
+                        ProjectTitle: ProjectTitle,
+                        Description: Description,
+                        Address: Address,
+                        City: City,
+                        State: State,
+                        ZipCode: ZipCode,
+                        projectID:@Model.ProjectsId,
+                        ByTheHourRate: ByTheHourRate,
+                        ByTheProjectRate: ByTheProjectRate,
+                        StartingBidRate: StartingBidRate,
+                        StartingBidDate: StartingBidDate,
+                        EndingBidDate: EndingBidDate,
+                        SelectedProjectCompensationPackage: SelectedProjectCompensationPackage,
+                        Notes: Notes,
+                        Duration: Duration,
+                        NumberOfContractorsNeeded: NumberOfContractorsNeeded,
+                        NumberOfDaysHelpIsNeeded: NumberOfDaysHelpIsNeeded,
+                        ProjectStatus: ProjectStatus
+                },
                 success: function () {
                     $('.project-id-@Model.ProjectsId').hide();
                     swal("Project has been updated.", "", "success");
-                     $('body').loading('start');
-                            LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                    $('body').loading('start');
+                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                    $("html, body").animate({ scrollTop: 0 }, 0);
+
+
+
+
                 }
             });
             return false;
@@ -1008,6 +1108,24 @@
 
         });
 
+    
+
+         $('.notes-description').summernote({
+            height: 500, // set editor height
+            minHeight: 500, // set minimum height of editor
+            maxHeight: 1000, // set maximum height of editor
+            focus: false, // set focus to editable area after initializing summernote  ,
+            callbacks: {
+                onChange: function (contents, $editable) {
+                   
+                   
+                }
+            }
+        });
+        $('.notes-description').on('summernote.change', function (we, contents, $editable) {
+             GetBasicInfoCount();
+        });
+
         $('#Notes-@Model.ProjectsId').summernote({
             height: 500, // set editor height
             minHeight: 500, // set minimum height of editor
@@ -1072,7 +1190,7 @@
                 $('.skills-@Model.ProjectsId .sublist').hide();
 
                 $('.skills-@Model.ProjectsId .results').append('<div class="result-added new project-skills" id="' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".skills-@Model.ProjectsId #Professions option:selected").text() + ' -- ' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").text() + '</div>')
-               
+
                 $('#Skills').val($('.project-skills').length);
 
                 GetSkillsCount();
@@ -1096,7 +1214,7 @@
                 // remove the selected one after we add it
                 $('.skills-@Model.ProjectsId #SubProfessions').find('option:selected').remove().end();
 
-               
+
             }
             else {
                 alert('Please Select A Job Title');
@@ -1109,7 +1227,7 @@
             $(this).parent().remove();
 
             $.post('/Account/RemoveUserContractorCustomerCategories', { mainId: $(this).attr('data-id').split(" ")[0], subId: $(this).attr('data-id').split(" ")[1] }, function (data) {
-                
+
             });
 
              $('#Skills').val($('.project-skills').length);

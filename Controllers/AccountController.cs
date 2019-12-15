@@ -108,8 +108,7 @@ namespace SameDayServicezFinal.Controllers
                 Project prj = new Project
                 {
                     ProjectTitle = projectTitle,
-                    ProjectsUsersId = userId,
-                    IsDraft = true,
+                    ProjectsUsersId = userId,                    
                     CreationDate = DateTime.Now,
                     LastUpdated = DateTime.Now,
                     IsActive = false,
@@ -697,38 +696,29 @@ namespace SameDayServicezFinal.Controllers
         public ActionResult GetContractorAppliedForJobsList()
         {
             PortalList portal = new PortalList();
+            var userId = User.Identity.GetUserId();
+           
 
-            portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).OrderByDescending(p => p.CreationDate).Take(10).ToList();
-
-            var pp = from c in db.Conversations
-                     join m in db.Messages on c.Id equals m.ConversationsId
-                     join p in db.Project on c.ProjectId equals p.ProjectsId
-                     orderby c.CreationDate descending
+            var pp = from c in db.ProjectApplicants 
+                     join p in db.Project on c.ProjectsId equals p.ProjectsId
+                     where c.ApplicantId == userId
+                     orderby c.AppliedDate descending
                      select new
                      {
-
-                         p.ProjectsId,
-                         c.CreationDate,
+                         p.ProjectsId,                
                          p.ProjectTitle,
-                         m.Read,
-                         m.Delivered,
-                         m.ReadDate,
-                         m.DeliveredDate
+                         c.AppliedDate
+                        
                      };
-
-
 
             foreach (var item in pp)
             {
                 ProjectPosting post = new ProjectPosting
                 {
-                    CreationDate = item.CreationDate,
-                    Delivered = item.Delivered,
-                    DeliveredDate = item.DeliveredDate,
+                    CreationDate = item.AppliedDate,                   
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
-                    Read = item.Read,
-                    ReadDate = item.ReadDate
+                  
                 };
 
                 portal.ProjectApplies.Add(post);
@@ -746,7 +736,7 @@ namespace SameDayServicezFinal.Controllers
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             PortalList portal = new PortalList();
-            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).Count(), 0);
+            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true).Count(), 0);
 
             portal.Pager = pager;
 
@@ -806,48 +796,70 @@ namespace SameDayServicezFinal.Controllers
             {
 
                 case true:
-                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true).OrderByDescending(p => p.CreationDate).Take(10).ToList();
+                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true).OrderByDescending(p => p.CreationDate).Take(10).ToList();
+                    List<Project> prjGroup = new List<Project>();
+                    var ProjectApplicants = db.ProjectApplicants.Where(p => p.ApplicantId == userId).ToList();
+                    var isInArray = false;
+                    foreach (var prj in portal.Projects)
+                    {
+                        isInArray = false;
 
+                        foreach (var appl in ProjectApplicants)
+                        {
+                            if (appl.ProjectsId == prj.ProjectsId)
+                            {
+                                isInArray = true;
+                                break;
+                            }
+                        }
+
+                        if (isInArray == false)
+                        {
+                            prjGroup.Add(prj);
+                        }
+                    }
+
+                    portal.Projects = prjGroup;
                     break;
 
                 case false:
                     portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).OrderByDescending(p => p.CreationDate).ToList();
+                  
+                    foreach (var item in portal.Projects)
+                    {
+                        var applicants = db.ProjectApplicants.Where(p => p.ProjectsId == item.ProjectsId && p.AssinedToProject == false).ToList();
+
+                        if (applicants.Count > 0)
+                        {                           
+                            item.HasApplicants = true;
+                            item.ApplicantCount = applicants.Count;
+                        }
+                    }
+
+
+
                     break;
             }
 
-            portal.Conversations = db.Conversations.Where(p => p.ContractorId == userId).ToList();
-
-
-            var pp = from c in db.Conversations
-                     join m in db.Messages on c.Id equals m.ConversationsId
-                     join p in db.Project on c.ProjectId equals p.ProjectsId
-                     orderby c.CreationDate descending
+            var pp = from c in db.ProjectApplicants
+                     join p in db.Project on c.ProjectsId equals p.ProjectsId
+                     where c.ApplicantId == userId
+                     orderby c.AppliedDate descending
                      select new
                      {
-
                          p.ProjectsId,
-                         c.CreationDate,
                          p.ProjectTitle,
-                         m.Read,
-                         m.Delivered,
-                         m.ReadDate,
-                         m.DeliveredDate
+                         c.AppliedDate
+
                      };
-
-
 
             foreach (var item in pp)
             {
                 ProjectPosting post = new ProjectPosting
                 {
-                    CreationDate = item.CreationDate,
-                    Delivered = item.Delivered,
-                    DeliveredDate = item.DeliveredDate,
+                    CreationDate = item.AppliedDate,
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
-                    Read = item.Read,
-                    ReadDate = item.ReadDate
-
 
                 };
 
@@ -1017,13 +1029,13 @@ namespace SameDayServicezFinal.Controllers
 
                 foreach (var item in ProjectCompensationPackages)
                 {
-                    portal.Projects.Add(db.Project.Where(p => p.ProjectsId == item.ProjectId).FirstOrDefault());
+                    portal.Projects.Add(db.Project.Where(p => p.ProjectsId == item.ProjectId && p.IsProjectPublished == true).FirstOrDefault());
                 }
             }
 
             if (!string.IsNullOrEmpty(descripton))
             {
-                projects = db.Project.Where(p => p.IsActive == true && (p.Description.Contains(descripton) || p.ProjectTitle.Contains(descripton))).ToList();
+                projects = db.Project.Where(p => p.IsActive == true && p.IsProjectPublished == true && (p.Description.Contains(descripton) || p.ProjectTitle.Contains(descripton))).ToList();
 
                 foreach (var prj in projects)
                 {
@@ -1035,7 +1047,7 @@ namespace SameDayServicezFinal.Controllers
             {
                 foreach (var sub in db.ProjectCategories.Where(p => p.ProjectsSubCatName == Profession).Select(p => p.ProjectsId).ToList())
                 {
-                    foreach (var project in db.Project.Where(p => p.IsActive == true && p.ProjectsId == sub).ToList())
+                    foreach (var project in db.Project.Where(p => p.IsActive == true && p.ProjectsId == sub && p.IsProjectPublished == true).ToList())
                     {
                         portal.Projects.Add(project);
                     }
@@ -1044,9 +1056,32 @@ namespace SameDayServicezFinal.Controllers
 
             if (reset)
             {
-                portal.Projects = db.Project.Where(p => p.IsActive && p.AcceptingContractors == true).ToList();
+                portal.Projects = db.Project.Where(p => (p.IsActive == true) && (p.AcceptingContractors == true) && (p.IsProjectPublished == true)).ToList();
             }
 
+            List<Project> prjGroup = new List<Project>();
+            var ProjectApplicants = db.ProjectApplicants.Where(p => p.ApplicantId == userId).ToList();
+            var isInArray = false;
+            foreach (var prj in portal.Projects)
+            {
+                isInArray = false;
+
+                foreach (var appl in ProjectApplicants)
+                {
+                    if(appl.ProjectsId == prj.ProjectsId)
+                    {
+                        isInArray = true;
+                        break;
+                    }                   
+                }
+
+                if (isInArray == false)
+                {
+                    prjGroup.Add(prj);
+                }
+            }
+
+            portal.Projects = prjGroup;
 
             var pager = new Pager(portal.Projects.Distinct().Count(), page);
 
@@ -1548,7 +1583,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [ValidateInput(false)]
-        [SessionTimeout]
+        [SessionTimeout]      
         public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
             decimal ByTheHourRate, decimal ByTheProjectRate, decimal StartingBidRate, DateTime StartingBidDate, DateTime EndingBidDate, 
             long SelectedProjectCompensationPackage, string Notes,long Duration,int NumberOfContractorsNeeded,int NumberOfDaysHelpIsNeeded,int ProjectStatus)
@@ -1572,7 +1607,8 @@ namespace SameDayServicezFinal.Controllers
                 project.EndingBidDate = EndingBidDate;
                 project.SelectedProjectCompensationPackage = SelectedProjectCompensationPackage;
                 project.Notes = Notes;
-                project.Duration = Duration;              
+                project.Duration = Duration;
+               
 
                 switch (ProjectStatus)
                 {
@@ -1602,6 +1638,26 @@ namespace SameDayServicezFinal.Controllers
 
             return Json(projectID, JsonRequestBehavior.AllowGet);
         }
+
+
+        public ActionResult PublishProject(long projectID)
+        {
+            var project = db.Project.Where(p => p.ProjectsId == projectID).SingleOrDefault();
+            project.IsProjectPublished = true;
+            project.IsActive = true;
+            project.ProjectStatus = ProjectStatuses.Active;
+            project.AcceptingContractors = true;
+
+            using (var db = new ApplicationDbContext())
+            {
+                db.Entry(project).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Json(projectID, JsonRequestBehavior.AllowGet);
+        }
+
+
         [SessionTimeout]
         public JsonResult GetSubCategoryList(int Id)
         {
