@@ -97,7 +97,7 @@ namespace SameDayServicezFinal.Controllers
 
 
         }
-             
+
         public async Task<ActionResult> CreateNewProject(string projectTitle)
         {
             var userId = User.Identity.GetUserId();
@@ -108,7 +108,7 @@ namespace SameDayServicezFinal.Controllers
                 Project prj = new Project
                 {
                     ProjectTitle = projectTitle,
-                    ProjectsUsersId = userId,                    
+                    ProjectsUsersId = userId,
                     CreationDate = DateTime.Now,
                     LastUpdated = DateTime.Now,
                     IsActive = false,
@@ -133,7 +133,7 @@ namespace SameDayServicezFinal.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-          
+
         }
 
 
@@ -697,28 +697,28 @@ namespace SameDayServicezFinal.Controllers
         {
             PortalList portal = new PortalList();
             var userId = User.Identity.GetUserId();
-           
 
-            var pp = from c in db.ProjectApplicants 
+
+            var pp = from c in db.ProjectApplicants
                      join p in db.Project on c.ProjectsId equals p.ProjectsId
                      where c.ApplicantId == userId
                      orderby c.AppliedDate descending
                      select new
                      {
-                         p.ProjectsId,                
+                         p.ProjectsId,
                          p.ProjectTitle,
                          c.AppliedDate
-                        
+
                      };
 
             foreach (var item in pp)
             {
                 ProjectPosting post = new ProjectPosting
                 {
-                    CreationDate = item.AppliedDate,                   
+                    CreationDate = item.AppliedDate,
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
-                  
+
                 };
 
                 portal.ProjectApplies.Add(post);
@@ -784,11 +784,77 @@ namespace SameDayServicezFinal.Controllers
             return View(portal);
         }
 
+        public List<Conversations> GetChatHeads()
+        {
+            PortalList portal = new PortalList();
+
+            var userId = User.Identity.GetUserId();
+
+            portal.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId || p.ConversationSubOwnerId == userId).ToList();
+
+            foreach (var conv in portal.Conversations)
+            {
+               // var msg = db.Messages.Where(p => p.ConversationsId == conv.Id).ToList();
+                conv.ConversationOwner = db.Users.Where(p => p.Id == conv.ConversationOwnerId).SingleOrDefault();
+                conv.ConversationSubOwner = db.Users.Where(p => p.Id == conv.ConversationSubOwnerId).SingleOrDefault();
+            }
+
+            return portal.Conversations;
+        }
+
+        public ActionResult GetUnreadMessages()
+        {
+            var userId = User.Identity.GetUserId();
+            List<Conversations> conversation = db.Conversations.Where(p => p.Message.Any(i => i.Read == false && i.ReceiverId == userId)).ToList();
+
+            foreach (var item in conversation)
+            {              
+                item.UnreadMessageCount = db.Messages.Where(p => p.ConversationsId == item.Id && p.Read == false && p.ReceiverId == userId).Count();
+            }          
+
+            return Json(conversation, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetChatMessages(int ConversationId){
+
+            Conversations conversation = db.Conversations.Where(p => p.Id == ConversationId).SingleOrDefault();        
+
+            var msg = db.Messages.Where(p => p.ConversationsId == conversation.Id).OrderBy(p => p.CreationDate).ToList();
+
+            foreach (var item in msg)
+            {
+                if(item.Read == false)
+                {
+                    item.DeliveredDate = DateTime.Now;
+                    item.ReadDate = DateTime.Now;
+                    item.Read = true;
+                    item.Delivered = true;
+
+                    using (var db = new ApplicationDbContext())
+                    {
+                        db.Entry(item).State = EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                }
+
+               
+            }
+
+           
+
+            return Json(conversation, JsonRequestBehavior.AllowGet);
+          
+        }
+
+
         public void UpdatePortal(PortalList portal)
         {
             var users = db.Users.Select(p => p).ToList();
             var userId = User.Identity.GetUserId();
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
+
+
+            portal.Conversations = GetChatHeads();
 
 
 
@@ -824,13 +890,13 @@ namespace SameDayServicezFinal.Controllers
 
                 case false:
                     portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).OrderByDescending(p => p.CreationDate).ToList();
-                  
+
                     foreach (var item in portal.Projects)
                     {
                         var applicants = db.ProjectApplicants.Where(p => p.ProjectsId == item.ProjectsId && p.AssinedToProject == false).ToList();
 
                         if (applicants.Count > 0)
-                        {                           
+                        {
                             item.HasApplicants = true;
                             item.ApplicantCount = applicants.Count;
                         }
@@ -865,6 +931,8 @@ namespace SameDayServicezFinal.Controllers
 
                 portal.ProjectApplies.Add(post);
             }
+
+           
 
 
             foreach (var project in portal.Projects)
@@ -925,10 +993,7 @@ namespace SameDayServicezFinal.Controllers
                 //project.CompensationTypeList = Utils.Extensions.GetCompensationType();
 
                 // project.Conversations = new List<Conversations>();
-                //project.Conversations = db.Conversations.Where(p => p.ProjectId == project.ProjectsId).ToList();
-
-
-
+              
 
             }
         }
@@ -993,6 +1058,96 @@ namespace SameDayServicezFinal.Controllers
         //    return File(pdfContent, System.Net.Mime.MediaTypeNames.Application.Pdf);
         //}
 
+        public ActionResult CreateMessageWithConversationId(string message, string ReceiverId, string SenderId,int ConversationId)
+        {
+            Messages msg = new Messages
+            {
+                CreationDate = DateTime.Now,
+                Message = message,
+                ReceiverId = ReceiverId,
+                SenderId = SenderId,
+                ConversationsId = ConversationId
+            };
+
+            db.Messages.Add(msg);
+            db.SaveChanges();
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+
+        public ActionResult CreateMessage(string message, string ReceiverId, string SenderId)
+        {
+
+            var SenderCheck = db.Conversations.Where(p => p.ConversationOwnerId == SenderId && p.ConversationSubOwnerId == ReceiverId).SingleOrDefault();
+            var ReceiverCheck = db.Conversations.Where(p => p.ConversationOwnerId == ReceiverId && p.ConversationSubOwnerId == SenderId).SingleOrDefault();
+
+            string senderOrReceiver = "N";
+            Conversations conv = new Conversations
+            {
+                CreationDate = DateTime.Now,
+
+            };
+
+            Messages msg = new Messages
+            {
+                CreationDate = DateTime.Now,
+                Message = message,
+                ReceiverId = ReceiverId,
+                SenderId = SenderId,
+            };
+
+            if (SenderCheck != null)
+            {
+                senderOrReceiver = "S";
+            }
+
+            if (ReceiverCheck != null)
+            {
+                senderOrReceiver = "R";
+            }
+
+            if (senderOrReceiver == "S")
+            {
+                msg.ConversationsId = SenderCheck.Id;
+                db.Messages.Add(msg);
+                db.SaveChanges();              
+            }
+
+
+            if (senderOrReceiver == "R")
+            {
+                msg.ConversationsId = ReceiverCheck.Id;
+                db.Messages.Add(msg);
+                db.SaveChanges();
+            }
+
+            if (senderOrReceiver == "N")
+            {
+                conv.ConversationOwnerId = SenderId;
+                conv.ConversationSubOwnerId = ReceiverId;
+                msg.ConversationsId = conv.Id;
+                conv.Message.Add(msg);
+
+                db.Conversations.Add(conv);
+                db.SaveChanges();
+
+
+                //db.Messages.Add(msg);
+                //db.SaveChanges();
+            }
+
+
+
+
+
+
+
+
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
         public async Task<ActionResult> GetOpenProjects(int page = 0, string HourlyRange = "", string descripton = "", string Profession = "", bool reset = false)
         {
 
@@ -1015,7 +1170,7 @@ namespace SameDayServicezFinal.Controllers
                         break;
 
                     case "10_40":
-                        ProjectCompensationPackages = db.ProjectCompensationPackage.Where(p => p.ByTheHourRate <= 40).ToList();
+                        ProjectCompensationPackages = db.ProjectCompensationPackage.Where(p => p.ByTheHourRate >= 10 && p.ByTheHourRate <= 40).ToList();
                         break;
 
                     case "40_100":
@@ -1023,13 +1178,13 @@ namespace SameDayServicezFinal.Controllers
                         break;
 
                     case "100_plus":
-                        ProjectCompensationPackages = db.ProjectCompensationPackage.Where(p => p.ByTheHourRate <= 100).ToList();
+                        ProjectCompensationPackages = db.ProjectCompensationPackage.Where(p => p.ByTheHourRate >= 100).ToList();
                         break;
                 }
 
                 foreach (var item in ProjectCompensationPackages)
                 {
-                    portal.Projects.Add(db.Project.Where(p => p.ProjectsId == item.ProjectId && p.IsProjectPublished == true).FirstOrDefault());
+                    portal.Projects.AddRange(db.Project.Where(p => p.ProjectsId == item.ProjectId && p.IsProjectPublished == true).ToList());
                 }
             }
 
@@ -1068,11 +1223,11 @@ namespace SameDayServicezFinal.Controllers
 
                 foreach (var appl in ProjectApplicants)
                 {
-                    if(appl.ProjectsId == prj.ProjectsId)
+                    if (appl.ProjectsId == prj.ProjectsId)
                     {
                         isInArray = true;
                         break;
-                    }                   
+                    }
                 }
 
                 if (isInArray == false)
@@ -1583,10 +1738,10 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [ValidateInput(false)]
-        [SessionTimeout]      
+        [SessionTimeout]
         public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
-            decimal ByTheHourRate, decimal ByTheProjectRate, decimal StartingBidRate, DateTime StartingBidDate, DateTime EndingBidDate, 
-            long SelectedProjectCompensationPackage, string Notes,long Duration,int NumberOfContractorsNeeded,int NumberOfDaysHelpIsNeeded,int ProjectStatus)
+            decimal ByTheHourRate, decimal ByTheProjectRate, decimal StartingBidRate, DateTime StartingBidDate, DateTime EndingBidDate,
+            long SelectedProjectCompensationPackage, string Notes, long Duration, int NumberOfContractorsNeeded, int NumberOfDaysHelpIsNeeded, int ProjectStatus)
         {
 
 
@@ -1608,7 +1763,7 @@ namespace SameDayServicezFinal.Controllers
                 project.SelectedProjectCompensationPackage = SelectedProjectCompensationPackage;
                 project.Notes = Notes;
                 project.Duration = Duration;
-               
+
 
                 switch (ProjectStatus)
                 {
@@ -1624,7 +1779,7 @@ namespace SameDayServicezFinal.Controllers
                     case 3:
                         project.ProjectStatus = ProjectStatuses.Closed;
                         break;
-                }    
+                }
 
                 project.NumberOfContractorsNeeded = NumberOfContractorsNeeded;
                 project.NumberOfDaysHelpIsNeeded = NumberOfDaysHelpIsNeeded;
@@ -2315,7 +2470,7 @@ namespace SameDayServicezFinal.Controllers
         [SessionTimeout]
         private async Task<string> SaveProfileFile(HttpPostedFileBase file, string type)
         {
-            string fName="";
+            string fName = "";
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             var path = "";
 
@@ -2335,7 +2490,7 @@ namespace SameDayServicezFinal.Controllers
             {
                 fName = "resume_" + User.Identity.GetUserId() + Path.GetExtension(file.FileName);
                 path = Path.Combine(Server.MapPath(MainResumePath + User.Identity.GetUserId() + "/"));
-               
+
             }
 
             if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);

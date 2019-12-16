@@ -44,19 +44,8 @@
 
                         <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
                             <div class="row mx-auto">
-                                <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
-                                    @if (@profile.Contractor.ProfileImage == null)
-                                    {
-                                        imagename = "https://randomuser.me/api/portraits/men/" + i + ".jpg";
-
-                                        @Html.Image(imagename, "card-profile-img", "", "");
-
-
-                                    }
-                                    else
-                                    {
-                                        @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "");
-                                    }
+                                <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">                                  
+                                        @Html.Image("/Uploads/ProfileImages/" + @profile.Contractor.Id + "/" + @profile.Contractor.ProfileImage, "card-profile-img", "", "")
                                 </div>
                                 <div class="card-body col-7 ">
                                     <span id="rateMe" data-search="rating" style="font-size:1rem">

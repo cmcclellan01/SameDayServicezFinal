@@ -1,5 +1,6 @@
 ﻿
 
+
 function LoadProjectTable() {
   
     var $detailDiv = $('.project-view');
@@ -140,6 +141,10 @@ function LoadProjectTable() {
         pageLength: 10,
         header: "jqueryui",
         renderer: "bootstrap",
+        language: {
+            "zeroRecords": "No records to display with the current search.",
+            "emptyTable": "No data available in table"
+        },
         columns: [
             {
                 "data": null,

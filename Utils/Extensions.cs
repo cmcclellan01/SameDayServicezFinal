@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace SameDayServicezFinal.Utils
@@ -86,7 +89,25 @@ namespace SameDayServicezFinal.Utils
             return MvcHtmlString.Create(builder.ToString(TagRenderMode.SelfClosing));
         }
 
+        public static MvcHtmlString SaveProfileImage(this HtmlHelper helper, string src,string userid)
+        {
 
+            string path = HostingEnvironment.MapPath("~/Uploads/ProfileImages/" + userid + "/");
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+
+                WebClient webClient = new WebClient();
+                webClient.DownloadFile(src, path + "profile_" + userid + ".jpg");
+
+                var user = db.Users.Where(p => p.Id == userid).FirstOrDefault();
+                user.ProfileImage = "profile_" + userid + ".jpg";
+                db.SaveChanges();
+            }           
+          
+            
+            return MvcHtmlString.Create("");
+        }
 
 
         //public static IEnumerable<T> DistinctBy<T, TKey>(this IEnumerable<T> items, Func<T, TKey> property)

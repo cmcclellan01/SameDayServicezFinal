@@ -897,10 +897,7 @@
 
             if (Model.ApplicationUser.IsInContractorMode)
             {
-
                 <div class="row">
-
-
                     <div class="col-sm-3">
                         <div class="panel card " style="padding:10px">
                             <div class="panel-body">
@@ -939,8 +936,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="container">
-                                        <button type="button" class="btn btn-dark float-right job-search" style="margin-right:10px;">Search</button>
-                                        <button type="button" class="btn btn-dark float-right reset-job-search" style="margin-right:10px;">Reset</button>
+                                        <button type="button" class="btn btn-dark float-right job-search disabled" style="margin-right:10px;" disabled>Search</button>
+                                        <button type="button" class="btn btn-dark float-right reset-job-search " style="margin-right:10px;" >Reset</button>
                                     </div>
                                 </div>
 
@@ -1198,6 +1195,44 @@
 
 
 
+        $('.hourly-select').on('change', function (evt) {
+
+            if ($('.hourly-select').val() != '') {
+                $('.job-search').attr('disabled', false)            
+                $('.job-search').removeClass('disabled')
+               
+            } else {
+                $('.job-search').attr('disabled', true)            
+                $('.job-search').addClass('disabled')              
+            }          
+        });
+
+         $('.description-search').on('change keyup paste', function (evt) {
+
+             if ($('.description-search').val() != '') {
+                $('.job-search').attr('disabled', false)               
+                $('.job-search').removeClass('disabled')
+              
+            } else {
+                $('.job-search').attr('disabled', true)
+                $('.job-search').addClass('disabled')               
+            }      
+         });
+
+        $('.search-project-profession').on('change', function (evt) {
+
+            if ($('.search-project-profession').val() != '') {
+                $('.job-search').attr('disabled', false)      
+                $('.job-search').removeClass('disabled')
+               
+            } else {
+                $('.job-search').attr('disabled', true)              
+                $('.job-search').addClass('disabled')               
+            }      
+
+        });
+
+
 
 
     $(document).ready(function () {
@@ -1227,7 +1262,7 @@
             var hr = $('.hourly-select option:selected').val();
             var description = $('.description-search').val();
             var profession = $('.search-project-profession option:selected').val();
-            $.get('/Account/GetOpenProjects?page=' + $(this).attr('data-page') + '&HourlyRange=' + hr + '&descripton=' + description + '&Profession=' + profession, function (data) {
+            $.get('/Account/GetOpenProjects?page=0&HourlyRange=' + hr + '&descripton=' + description + '&Profession=' + profession, function (data) {
                 $detailDiv.replaceWith('<div class="open-projects">' + data + '</div>');
             });
 

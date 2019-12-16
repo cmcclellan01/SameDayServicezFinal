@@ -1,70 +1,79 @@
 ﻿@model SameDayServicezFinal.Models.PortalList
 
 
-<div class="row jobs" style="margin-top:5px">
-    @foreach (var project in Model.Projects)
-    {
-        <div class="col-lg-7 ">
-            <div class="card  ">
-                <div class="card-header grayscale-center ">
-                    <h4 class="text-capitalize" style="color: #212529;">@project.ProjectTitle</h4>
-                </div>
-                <div class="card-body grayscale-center">
+    <div class="row jobs" style="margin-top:5px">
 
-                    <span style="font-size: 0.8rem;font-weight: bold;color: #212529;">@project.City - Posted @DateTime.Now.Subtract(project.CreationDate).Days.ToString()  days ago</span>
-                    <div>
-                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Project Timeline:</span>
-                        <span style="font-size: 0.8rem;color: #212529;display:inline">
-                            @{
-                                switch (project.Duration)
-                                {
-                                    case 1:
-                                        <text>Short Term</text>
-                                        break;
+        @if (Model.Projects.Count == 0)
+        {
+            <div class="alert alert-info" role="alert">
+                No projects have been found with the search criteria you have provided.
+            </div>           
+        }
 
-                                    case 2:
-                                        <text>Long Term</text>
-                                        break;
 
-                                    case 3:
-                                        <text>Proposal</text>
-                                        break;
+        @foreach (var project in Model.Projects)
+        {
+            <div class="col-lg-7 ">
+                <div class="card  ">
+                    <div class="card-header grayscale-center ">
+                        <h4 class="text-capitalize" style="color: #212529;">@project.ProjectTitle</h4>
+                    </div>
+                    <div class="card-body grayscale-center">
+
+                        <span style="font-size: 0.8rem;font-weight: bold;color: #212529;">@project.City - Posted @DateTime.Now.Subtract(project.CreationDate).Days.ToString()  days ago</span>
+                        <div>
+                            <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Project Timeline:</span>
+                            <span style="font-size: 0.8rem;color: #212529;display:inline">
+                                @{
+                                    switch (project.Duration)
+                                    {
+                                        case 1:
+                                            <text>Short Term</text>
+                                            break;
+
+                                        case 2:
+                                            <text>Long Term</text>
+                                            break;
+
+                                        case 3:
+                                            <text>Proposal</text>
+                                            break;
+                                    }
+
+
                                 }
 
-
-                            }
-
-                            / Day(s) Needed :@project.NumberOfDaysHelpIsNeeded
+                                / Day(s) Needed :@project.NumberOfDaysHelpIsNeeded
 
 
-                        </span>
-                    </div>
-                    <div>
-                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Compensation:</span>
-                        <span style="font-size: 0.8rem;color: #212529;display:inline"> $@project.ByTheHourRate.ToString() / hourly</span>
-                    </div>
-                    <div>
-                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Recommended skills: </span>
-                        <span style="font-size: 0.8rem;color: #212529;display:inline">
-                            @{
-                                var ProjectCategories = "";
-                                foreach (var item in project.ProjectCategories)
-                                {
-                                    ProjectCategories += item.ProjectsSubCatName + ",";
+                            </span>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Compensation:</span>
+                            <span style="font-size: 0.8rem;color: #212529;display:inline"> $@project.ByTheHourRate.ToString() / hourly</span>
+                        </div>
+                        <div>
+                            <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Recommended skills: </span>
+                            <span style="font-size: 0.8rem;color: #212529;display:inline">
+                                @{
+                                    var ProjectCategories = "";
+                                    foreach (var item in project.ProjectCategories)
+                                    {
+                                        ProjectCategories += item.ProjectsSubCatName + ",";
+                                    }
+
+                                    @ProjectCategories.Trim(',');
                                 }
+                            </span>
+                        </div>
+                        <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Job Description:  </span>
+                        <div class="card-text project-more " style="font-size: 0.8rem;color: #212529;display:inline">@Html.Raw(@project.Description)</div>
 
-                                @ProjectCategories.Trim(',');
-                            }
-                        </span>
                     </div>
-                    <span style="font-size: 0.8rem;color: #212529;font-weight:bold;display:inline">Job Description:  </span>
-                    <div class="card-text project-more " style="font-size: 0.8rem;color: #212529;display:inline">@Html.Raw(@project.Description)</div>
+                    <div class="card-footer grayscale-center">
 
-                </div>
-                <div class="card-footer grayscale-center">
+                        <div class="col-lg-12">
 
-                    <div class="col-lg-12">
-                     
                             <div class="form-group">
 
                                 <input class="form-check-input add-contractor-comment" type="checkbox">
@@ -75,18 +84,18 @@
                             </div>
 
 
-                       
 
 
+
+
+                        </div>
 
                     </div>
-                    
                 </div>
             </div>
-        </div>
-    }
+        }
 
-</div>
+    </div>
 
 <div class="row">
     <div class="col-lg-7 mx-auto">

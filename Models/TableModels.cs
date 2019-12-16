@@ -328,11 +328,17 @@ namespace SameDayServicezFinal.Models
         public long Id { get; set; }
         public DateTime CreationDate { get; set; }
         public string ConversationOwnerId { get; set; }
-        public string ContractorId { get; set; }
-        public string CustomerId { get; set; }
-        public bool ProjectApplyMessage { get; set; }
-        public long ProjectId { get; set; }
+        public string ConversationSubOwnerId { get; set; }
         public List<Messages> Message { get; set; }
+
+        [NotMapped]
+        public ApplicationUser ConversationOwner { get; set; }
+
+        [NotMapped]
+        public ApplicationUser ConversationSubOwner { get; set; }
+
+        [NotMapped]
+        public int UnreadMessageCount { get; set; }
     }
 
     [Table("Messages")]
@@ -351,7 +357,12 @@ namespace SameDayServicezFinal.Models
         public long ConversationsId { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
-      
+
+        [NotMapped]
+        public string ReceiverDisplayName { get; set; }
+        [NotMapped]
+        public string SenderDisplayName { get; set; }
+
     }
 
 
@@ -416,6 +427,7 @@ namespace SameDayServicezFinal.Models
             ContractorList = new List<ContractorSearchList>();
             Conversations = new List<Conversations>();
             ProjectApplies = new List<ProjectPosting>();
+            message = new Messages();
         }
 
         public List<Project> Projects { get; set; }     
@@ -427,8 +439,8 @@ namespace SameDayServicezFinal.Models
 
         public List<ProjectPosting> ProjectApplies { get; set; }
 
-      
-        
+        public Messages message { get; set; }
+
     }
 
    

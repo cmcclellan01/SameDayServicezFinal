@@ -1,4 +1,7 @@
-﻿<style>
+﻿@model SameDayServicezFinal.Models.PortalList
+
+
+<style>
     @@media print {
         *, :after, :before {
             text-shadow: none !important;
@@ -385,7 +388,7 @@
     }
 
     .bdB {
-        border-bottom: 1px solid rgba(0,0,0,.0625) !important;
+        border-bottom: 1px solid white !important;
     }
 
     .bdw-0 {
@@ -409,7 +412,7 @@
     }
 
     .bgc-white {
-        background-color: #fff !important;
+        background-color: transparent !important;
     }
 
     .c-red-500 {
@@ -593,22 +596,24 @@
         }
     }
 
-    @@media screen and (max-width: 991px)
-    {
+    @@media screen and (max-width: 991px) {
         #chat-sidebar.open {
             margin-left: 0;
         }
     }
-#chat-sidebar {
-    width: 250px;
-    height: calc(100vh - 125px);
-    overflow: auto;
-}
 
-#chat-box {
-    height: calc(100vh - 125px);
-    overflow: auto;
-}
+    #chat-sidebar {
+        width: 250px;
+        height: calc(100vh - 125px);
+        overflow: auto;
+    }
+
+    #chat-box {
+        height: calc(100vh - 125px);
+        overflow: auto;
+    }
+
+    
 </style>
 
 <div>
@@ -617,62 +622,47 @@
             <div class="layers h-100">
                 <div class="bdB layer w-100"><input type="text" placeholder="Search contacts..." name="chatSearch" class="form-constrol p-15 bdrs-0 w-100 bdw-0"></div>
                 <div class="layer w-100 fxg-1 scrollable pos-r ps">
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">John Doe</h6>
-                            <small class="lh-1 c-green-500">Online</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/2.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">Moo Doe</h6>
-                            <small class="lh-1 c-amber-500">Away</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/3.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">Adam Jones</h6>
-                            <small class="lh-1 c-grey-500">Offline</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/4.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">Mizo Doe</h6>
-                            <small class="lh-1 c-red-500">Busy</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/1.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">John Doe</h6>
-                            <small class="lh-1 c-green-500">Online</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/2.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">Moo Doe</h6>
-                            <small class="lh-1 c-amber-500">Away</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/3.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">Adam Jones</h6>
-                            <small class="lh-1 c-grey-500">Offline</small>
-                        </div>
-                    </div>
-                    <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
-                        <div class="peer"><img src="https://randomuser.me/api/portraits/men/4.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
-                        <div class="peer peer-greed pL-20">
-                            <h6 class="mB-0 lh-1 fw-400">Mizo Doe</h6>
-                            <small class="lh-1 c-red-500">Busy</small>
-                        </div>
-                    </div>
+
+                    @foreach (var item in Model.Conversations)
+                    {
+
+                        if (item.ConversationOwnerId == Model.ApplicationUser.Id)
+                        {
+                            <a href="#" class="chat-head" data-senders-id="@Model.ApplicationUser.Id" data-receiver-id="@item.ConversationSubOwnerId" data-converstation-id="@item.Id" data-owner="true">
+                                <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                                    <div class="peer ">
+                                        <img src="/Uploads/ProfileImages/@item.ConversationSubOwner.Id/@item.ConversationSubOwner.ProfileImage" alt="" class="w-3r h-3r bdrs-50p">
+                                    </div>
+                                    <div class="peer peer-greed pL-20">
+                                        <h6 class="mB-0 lh-1 fw-400">@item.ConversationSubOwner.DisplayName</h6>
+                                        <small class="lh-1 c-green-500">Online</small>
+                                        <span class="badge bg-orange badge-corner unread-messsage-count" style="margin-left:10px"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+
+                        if (item.ConversationSubOwnerId == Model.ApplicationUser.Id)
+                        {
+                            <a href="#" class="chat-head" data-senders-id="@Model.ApplicationUser.Id" data-receiver-id="@item.ConversationOwnerId" data-converstation-id="@item.Id"  data-owner="false">
+                                <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
+                                    <div class="peer ">
+                                        <img src="/Uploads/ProfileImages/@item.ConversationOwner.Id/@item.ConversationOwner.ProfileImage" alt="" class="w-3r h-3r bdrs-50p">
+                                    </div>
+                                    <div class="peer peer-greed pL-20">
+                                        <h6 class="mB-0 lh-1 fw-400">@item.ConversationOwner.DisplayName</h6>
+                                        <small class="lh-1 c-green-500">Online</small>
+                                        <span class="badge bg-orange badge-corner  unread-messsage-count" style="margin-left:10px"></span>
+                                    </div>
+                                </div>
+                            </a>
+                        }
+
+
+                    }
+
+
+
                     <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                         <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
                     </div>
@@ -688,61 +678,52 @@
                     <div class="peers fxw-nw jc-sb ai-c pY-20 pX-30 bgc-white">
                         <div class="peers ai-c">
                             <div class="peer d-n@md+"><a href="#" title="" id="chat-sidebar-toggle" class="td-n c-grey-900 cH-blue-500 mR-30"><i class="fas fa-bars"></i></a></div>
-                            <div class="peer mR-20"><img src="https://randomuser.me/api/portraits/men/12.jpg" alt="" class="w-3r h-3r bdrs-50p"></div>
+                            <div class="peer mR-20"><img src="/Uploads/ProfileImages/@Model.ApplicationUser.Id/@Model.ApplicationUser.ProfileImage" alt="" class="w-3r h-3r bdrs-50p"></div>
                             <div class="peer">
-                                <h6 class="lh-1 mB-0">John Doe</h6>
-                                <i class="fsz-sm lh-1">Typing...</i>
+                                <h6 class="lh-1 mB-0">@Model.ApplicationUser.DisplayName</h6>                                
                             </div>
                         </div>
 
                     </div>
                 </div>
                 <div class="layer w-100 fxg-1 bgc-grey-200 scrollable pos-r ps">
-                    <div class="p-20 gapY-15">
-                        <div class="peers fxw-nw">
-                            <div class="peer mR-20"><img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/11.jpg" alt=""></div>
-                            <div class="peer peer-greed">
-                                <div class="layers ai-fs gapY-5">
-                                    <div class="layer">
-                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
-                                            <div class="peer mR-10"><small>10:00 AM</small></div>
-                                            <div class="peer-greed"><span>Lorem Ipsum is simply dummy text of</span></div>
+                    <div class="p-20 gapY-15 messages">
+                   
+
+                                @*@if (msg.SenderId == conv.ConversationOwnerId)
+                                {
+                                    <div class="peers fxw-nw">
+                                        <div class="peer mR-20"><img class="w-2r bdrs-50p" src="/Uploads/ProfileImages/@conv.ConversationOwner.Id/@conv.ConversationOwner.ProfileImage" alt=""></div>
+                                        <div class="peer peer-greed">
+                                            <div class="layers ai-fs gapY-5">
+                                                <div class="layer">
+                                                    <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                                        <div class="peer mR-10"><small>@msg.CreationDate.ToLocalTime()</small></div>
+                                                        <div class="peer-greed"><span>@msg.Message</span></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layer">
-                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
-                                            <div class="peer mR-10"><small>10:00 AM</small></div>
-                                            <div class="peer-greed"><span>the printing and typesetting industry.</span></div>
+                                }
+                                else
+                                {
+                                    <div class="peers fxw-nw ai-fe">
+                                        <div class="peer ord-1 mL-20"><img class="w-2r bdrs-50p" src="/Uploads/ProfileImages/@conv.ConversationSubOwner.Id/@conv.ConversationSubOwner.ProfileImage" alt=""></div>
+                                        <div class="peer peer-greed ord-0">
+                                            <div class="layers ai-fe gapY-10">
+                                                <div class="layer">
+                                                    <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                                                        <div class="peer mR-10"><small>@msg.CreationDate.ToLocalTime()</small></div>
+                                                        <div class="peer-greed"><span>@msg.Message</span></div>
+                                                    </div>
+                                                </div>
+                                               
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="layer">
-                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
-                                            <div class="peer mR-10"><small>10:00 AM</small></div>
-                                            <div class="peer-greed"><span>Lorem Ipsum has been the industry's</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="peers fxw-nw ai-fe">
-                            <div class="peer ord-1 mL-20"><img class="w-2r bdrs-50p" src="https://randomuser.me/api/portraits/men/12.jpg" alt=""></div>
-                            <div class="peer peer-greed ord-0">
-                                <div class="layers ai-fe gapY-10">
-                                    <div class="layer">
-                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
-                                            <div class="peer mL-10 ord-1"><small>10:00 AM</small></div>
-                                            <div class="peer-greed ord-0"><span>Heloo</span></div>
-                                        </div>
-                                    </div>
-                                    <div class="layer">
-                                        <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
-                                            <div class="peer mL-10 ord-1"><small>10:00 AM</small></div>
-                                            <div class="peer-greed ord-0"><span>??</span></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                }*@
+                  
                     </div>
                     <div class="ps__rail-x" style="left: 0px; bottom: 0px;">
                         <div class="ps__thumb-x" tabindex="0" style="left: 0px; width: 0px;"></div>
@@ -753,7 +734,9 @@
                 </div>
                 <div class="layer w-100">
                     <div class="p-20 bdT bgc-white">
-                        <div class="pos-r"><input type="text" class="form-control bdrs-10em m-0" placeholder="Say something..."> <button type="button" class="btn btn-primary bdrs-50p w-2r p-0 h-2r pos-a r-1 t-1"><i class="fas fa-paper-plane"></i></button></div>
+                        <div class="pos-r"><input type="text" class="form-control bdrs-10em m-0 message-to-send" placeholder="Say something...">
+                        <button type="button" class="btn btn-primary bdrs-50p w-2r p-0 h-2r pos-a r-1 t-1 message-send-button"><i class="fas fa-paper-plane"></i>
+                        </button></div>
                     </div>
                 </div>
             </div>
@@ -761,16 +744,226 @@
     </div>
 </div>
 
+<div style="display:none" class="sender-msg">
+    <div class="peers fxw-nw msg">
+        <div class="peer mR-20">
+            <img class="w-2r bdrs-50p profile-image" src="" alt="">
+        </div>
+        <div class="peer peer-greed">
+            <div class="layers ai-fs gapY-5">
+                <div class="layer">
+                    <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                        <div class="peer mR-10 "><small class="msg-creation-date"></small></div>
+                        <div class="peer-greed "><span class="msg-message"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<div style="display:none" class="receiver-msg">
+    <div class="peers fxw-nw ai-fe msg">
+        <div class="peer ord-1 mL-20">
+            <img class="w-2r bdrs-50p profile-image" src="" alt="">
+        </div>
+        <div class="peer peer-greed ord-0">
+            <div class="layers ai-fe gapY-10">
+                <div class="layer">
+                    <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
+                        <div class="peer mR-10 "><small class="msg-creation-date"></small></div>
+                        <div class="peer-greed "><span class="msg-message"></span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 
     $(document).ready(function () {
 
-        $('#chat-sidebar-toggle').on('click', function (event) {           
+    
+
+        var senderId = '';
+        var receiverid = '';
+        var ConversationId = '';
+        var Owner = '';
+
+
+
+        function GetMessageCounts() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Account/GetUnreadMessages",
+                data: {},
+                success: function (data) {
+                    $('.unread-messsage-count')
+
+                    $.each(data, function (key, conv) {
+
+                        $.each($('.unread-messsage-count'), function (key1, ele) {
+                            var convId = $(ele).parent().parent().parent().attr('data-converstation-id');
+                            if (conv.Id == convId) {
+                                $(ele).html(conv.UnreadMessageCount);
+                            }
+                        });
+
+                    });                  
+                }
+            });
+        }
+
+
+
+        $('#chat-sidebar-toggle').on('click', function (event) {
             $("#chat-sidebar").toggleClass("open");
-             event.preventDefault();
+            event.preventDefault();
         });
 
-    });
+        $('.message-to-send').keydown(function (e) {
+
+            if (e.keyCode == 13) {
+                
+                e.preventDefault();
+                $('.message-send-button').click();
+            }
+        });
+
+
+
+
+     
+        $('.message-send-button').on('click', function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: "/Account/CreateMessageWithConversationId",
+                data: {                       
+                    message:$('.message-to-send').val(),
+                    ReceiverId:receiverid , 
+                    SenderId: senderId,
+                    ConversationId:ConversationId
+                },
+                success: function (data) {               
+
+                    $('.messages').empty(); 
+                    $('.message-to-send').val('');
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/Account/GetChatMessages",
+                        data: {
+                            ConversationId: ConversationId,
+                        },
+                        success: function (data) {
+
+                            var msgs = data.Message;
+                            var converstaionStarterID = msgs[0].SenderId;
+                            var converstaionReceiverID = msgs[0].ReceiverId;
+
+                            $.each(msgs, function (key, value) {
+                                // $.datepicker.formatDate('MM d, yy', new Date(parseInt(value.CreationDate.substr(6))))
+
+                                if (converstaionStarterID == value.SenderId) {
+                                    var $sendermsg = $('.sender-msg .msg').clone();
+                                    $sendermsg.find('.profile-image').attr('src', '/Uploads/ProfileImages/' + converstaionStarterID + '/profile_' + converstaionStarterID + '.jpg')
+                                    $sendermsg.find('.msg-creation-date').html($.datepicker.formatDate('MM d, yy', new Date(parseInt(value.CreationDate.substr(6)))));
+                                    $sendermsg.find('.msg-message').html(value.Message);
+                                    $sendermsg.removeClass('msg');
+                                    $('.messages').append($sendermsg);
+                                }
+
+
+                                if (converstaionReceiverID == value.SenderId) {
+                                    var $receivermsg = $('.receiver-msg .msg').clone();
+                                    $receivermsg.find('.profile-image').attr('src', '/Uploads/ProfileImages/' + converstaionReceiverID + '/profile_' + converstaionReceiverID + '.jpg')
+                                    $receivermsg.find('.msg-creation-date').html($.datepicker.formatDate('MM d, yy', new Date(parseInt(value.CreationDate.substr(6)))));
+                                    $receivermsg.find('.msg-message').html(value.Message);
+                                    $receivermsg.removeClass('msg');
+                                    $('.messages').append($receivermsg);
+                                }
+                            });
+                        }
+                    });
+
+
+                }
+            });
+
+        });
+
+
+
+         $('.chat-head').on('click', function (event) {           
+             event.preventDefault();
+
+             senderId = $(this).attr('data-senders-id');
+             receiverid = $(this).attr('data-receiver-id');
+             ConversationId = $(this).attr('data-converstation-id');
+             Owner = $(this).attr('data-owner');
+             
+               
+             // clear out the old messages
+             $('.messages').empty();
+           
+
+             $.ajax({
+                type: "GET",
+                url: "/Account/GetChatMessages",
+                data: {                       
+                        ConversationId: ConversationId,                        
+                },
+                success: function (data) {                 
+                    
+                    var msgs = data.Message;
+                    var converstaionStarterID = msgs[0].SenderId;
+                    var converstaionReceiverID = msgs[0].ReceiverId;
+                   
+                    $.each(msgs, function (key, value) {
+                    // $.datepicker.formatDate('MM d, yy', new Date(parseInt(value.CreationDate.substr(6))))
+
+                        if (converstaionStarterID == value.SenderId) {
+                            var $sendermsg = $('.sender-msg .msg').clone();
+                            $sendermsg.find('.profile-image').attr('src','/Uploads/ProfileImages/' + converstaionStarterID + '/profile_' + converstaionStarterID + '.jpg')                        
+                            $sendermsg.find('.msg-creation-date').html($.datepicker.formatDate('MM d, yy', new Date(parseInt(value.CreationDate.substr(6)))));                      
+                            $sendermsg.find('.msg-message').html(value.Message);
+                            $sendermsg.removeClass('msg');
+                            $('.messages').append($sendermsg);
+                        }
+
+
+                        if (converstaionReceiverID == value.SenderId) {             
+                            var $receivermsg = $('.receiver-msg .msg').clone();
+                            $receivermsg.find('.profile-image').attr('src','/Uploads/ProfileImages/' + converstaionReceiverID + '/profile_' + converstaionReceiverID + '.jpg')                        
+                            $receivermsg.find('.msg-creation-date').html($.datepicker.formatDate('MM d, yy', new Date(parseInt(value.CreationDate.substr(6)))));                      
+                            $receivermsg.find('.msg-message').html(value.Message);
+                            $receivermsg.removeClass('msg');
+                            $('.messages').append($receivermsg);
+                        }                       
+                    });                    
+                }
+            });
+        });
+
+//ConversationsId: 40
+//CreationDate: "/Date(1576392001167)/"
+//Delivered: false
+//DeliveredDate: null
+//Id: 41
+//Message: "this is my test message"
+//Read: false
+//ReadDate: null
+//ReceiverDisplayName: null
+//ReceiverId: "bf55fc7e-0f81-4e9c-8f02-ab3ef34e6539"
+//SenderDisplayName: null
+//SenderId: "2b17cb14-b2e4-4edd-a188-20dfccd390a3"
+
+     });
+       
+
 
 </script>

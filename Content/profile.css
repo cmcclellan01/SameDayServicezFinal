@@ -1406,3 +1406,11 @@ ul {
     border-color: DarkGray;
     font-family: Verdana;
 }
+
+.disabled:hover {
+    cursor: not-allowed;
+}
+
+.dataTables_empty{
+    color:grey
+}
