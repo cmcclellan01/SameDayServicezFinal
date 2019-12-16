@@ -622,16 +622,20 @@
     <div class="peers fxw-nw pos-r">
         <div class="peer bdR" id="chat-sidebar">
             <div class="layers h-100">
-                <div class="bdB layer w-100 row">@*<input type="text" placeholder="Search contacts..." name="chatSearch" class="form-constrol p-15 bdrs-0 w-100 bdw-0">*@</div>
+                <div class="bdB layer w-100 row">
+                    <div class="input-group ">
+                        <input type="text" class="form-control chat-search" placeholder="search contacts" style="margin:10px">
+                    </div>
+                </div>
                 
-                <div class="layer w-100 fxg-1 scrollable pos-r ps ">
+                <div class="layer w-100 fxg-1 scrollable pos-r ps chat-heads ">
 
                     @foreach (var item in Model.Conversations)
                     {
 
                         if (item.ConversationOwnerId == Model.ApplicationUser.Id)
                         {
-                            <a href="#" class="chat-head" data-senders-id="@Model.ApplicationUser.Id" data-receiver-id="@item.ConversationSubOwnerId" data-converstation-id="@item.Id" data-owner="true">
+                            <a href="#" class="chat-head" data-contact-name="@item.ConversationSubOwner.DisplayName.ToLower()" data-senders-id="@Model.ApplicationUser.Id" data-receiver-id="@item.ConversationSubOwnerId" data-converstation-id="@item.Id" data-owner="true">
                                 <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
                                     <div class="peer ">
                                         <img src="/Uploads/ProfileImages/@item.ConversationSubOwner.Id/@item.ConversationSubOwner.ProfileImage" alt="" class="w-3r h-3r bdrs-50p">
@@ -647,7 +651,7 @@
 
                         if (item.ConversationSubOwnerId == Model.ApplicationUser.Id)
                         {
-                            <a href="#" class="chat-head" data-senders-id="@Model.ApplicationUser.Id" data-receiver-id="@item.ConversationOwnerId" data-converstation-id="@item.Id"  data-owner="false">
+                            <a href="#" class="chat-head" data-contact-name="@item.ConversationOwner.DisplayName.ToLower()" data-senders-id="@Model.ApplicationUser.Id" data-receiver-id="@item.ConversationOwnerId" data-converstation-id="@item.Id"  data-owner="false">
                                 <div class="peers fxw-nw ai-c p-20 bdB bgc-white bgcH-grey-50 cur-p">
                                     <div class="peer ">
                                         <img src="/Uploads/ProfileImages/@item.ConversationOwner.Id/@item.ConversationOwner.ProfileImage" alt="" class="w-3r h-3r bdrs-50p">
@@ -757,7 +761,7 @@
                 <div class="layer">                 
                     <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
                         <div class="peer mR-10 "><small class="msg-creation-date"></small></div>
-                        <div class="peer-greed "><span class="msg-message"></span></div>
+                        <div class="peer-greed "><span class="msg-message" style="background-color: grey;padding: 10px;"></span></div>
                     </div>
                 </div>
             </div>
@@ -775,7 +779,7 @@
                 <div class="layer">                   
                     <div class="peers fxw-nw ai-c pY-3 pX-10 bgc-white bdrs-2 lh-3/2">
                         <div class="peer mR-10  ord-1"><small class="msg-creation-date" style="margin-left: 16px;"></small></div>
-                        <div class="peer-greed ord-0"><span class="msg-message"></span></div>
+                        <div class="peer-greed ord-0"><span class="msg-message" style="background-color: #343a40;padding: 10px;"></span></div>
                     </div>
                 </div>
 
@@ -805,6 +809,35 @@
         var ConversationId = '';
         var Owner = '';
       
+        //$('.chat-head').attr('data-contact-name')
+
+
+        
+        $('.chat-search').on('keyup', function (event) {
+
+            $('.chat-head').hide();
+
+            if ( $( ".chat-head[data-contact-name*='" +  $('.chat-search').val().toLowerCase() + "']" ).length > 0){
+                 $( ".chat-head[data-contact-name*='" +  $('.chat-search').val().toLowerCase() + "']" ).show();
+            }
+            else {
+                 $( ".chat-head[data-contact-name*='" +  $('.chat-search').val().toLowerCase() + "']" ).hide();
+            }
+
+
+            if ($('.chat-search').val() == '') {
+                $('.chat-head').show();
+            }          
+
+        });
+
+         $('.chat-search').keydown(function (e) {
+
+            if (e.keyCode == 13) {                
+                e.preventDefault();               
+            }
+        });
+         
 
 
         function GetMessageCounts() {
