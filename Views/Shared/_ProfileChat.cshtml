@@ -780,30 +780,41 @@
         </div>
     </div>
 </div>
+
+<div  style="display:none" class="unread-message-msg">    
+    <li class="li-msg">
+        <a rel="nofollow" href="#" class="dropdown-item d-flex top-unread-message">
+            <div class="msg-profile"> <img src="" alt="..." class="img-fluid rounded-circle unread-profile-image"></div>
+            <div class="msg-body">
+                <h3 class="h5 unread-display-name"></h3><span>Sent You Message</span>
+            </div>
+        </a>
+    </li>
+</div>
 <script>
 
     $(document).ready(function () {
 
-    
+        setInterval(GetMessageCounts, 5000);
 
         var senderId = '';
         var receiverid = '';
         var ConversationId = '';
         var Owner = '';
-
+      
 
 
         function GetMessageCounts() {
-
+            var OverAllCount = 0;
             $.ajax({
                 type: "GET",
                 url: "/Account/GetUnreadMessages",
                 data: {},
-                success: function (data) {
-                    $('.unread-messsage-count')
+                success: function (data) {                
+                    $('.unread-message-badge-count').html('');
+                    $('.unread-messsage-count').html('');
 
                     $.each(data, function (key, conv) {
-
                         $.each($('.unread-messsage-count'), function (key1, ele) {
                             var convId = $(ele).parent().parent().parent().attr('data-converstation-id');
                             if (conv.Id == convId) {
@@ -811,11 +822,28 @@
                             }
                         });
 
+                        $('.unread-message-badge-count').html(conv.UnreadMessageCount);
+                        var $unreadmsg = $('.unread-message-msg .li-msg').clone();
+                        $unreadmsg.find('.unread-profile-image').attr('src', '/Uploads/ProfileImages/' + conv.Message[0].SenderId + '/' + conv.ProfileDisplayImage)                          
+                        $unreadmsg.find('.unread-display-name').html(conv.ProfileDisplayName);
+                        $unreadmsg.removeClass('li-msg');
+                        $('.unread-message-top').append($unreadmsg);
+
+                        $('.top-unread-message').on('click', function (event) {
+                            $('#nav-contact-tab').tab('show')
+                            event.preventDefault();
+                        });
+
                     });                  
                 }
             });
         }
 
+        
+
+       
+
+       
 
 
         $('#chat-sidebar-toggle').on('click', function (event) {

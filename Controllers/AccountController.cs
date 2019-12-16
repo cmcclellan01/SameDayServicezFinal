@@ -808,8 +808,15 @@ namespace SameDayServicezFinal.Controllers
             List<Conversations> conversation = db.Conversations.Where(p => p.Message.Any(i => i.Read == false && i.ReceiverId == userId)).ToList();
 
             foreach (var item in conversation)
-            {              
+            {
+                var id = db.Messages.Where(p => p.ConversationsId == item.Id && p.Read == false).Take(1).SingleOrDefault();
+               
+                var sender = db.Users.Where(p => p.Id == id.SenderId ).SingleOrDefault();
+
+                item.ProfileDisplayImage = sender.ProfileImage;
+                item.ProfileDisplayName = sender.DisplayName;
                 item.UnreadMessageCount = db.Messages.Where(p => p.ConversationsId == item.Id && p.Read == false && p.ReceiverId == userId).Count();
+
             }          
 
             return Json(conversation, JsonRequestBehavior.AllowGet);

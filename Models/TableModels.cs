@@ -339,6 +339,11 @@ namespace SameDayServicezFinal.Models
 
         [NotMapped]
         public int UnreadMessageCount { get; set; }
+
+        [NotMapped]
+        public string ProfileDisplayName { get; set; }
+        [NotMapped]
+        public string ProfileDisplayImage { get; set; }
     }
 
     [Table("Messages")]
