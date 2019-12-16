@@ -809,28 +809,49 @@ namespace SameDayServicezFinal.Controllers
 
             foreach (var item in conversation)
             {
-                var id = db.Messages.Where(p => p.ConversationsId == item.Id && p.Read == false).Take(1).SingleOrDefault();
-               
-                var sender = db.Users.Where(p => p.Id == id.SenderId ).SingleOrDefault();
+                var messages = db.Messages.Where(p => p.ConversationsId == item.Id && p.Read == false && p.SenderId != userId).ToList();                                              
+                item.SenderUnreadMessageCount = messages.Count();
 
-                item.ProfileDisplayImage = sender.ProfileImage;
-                item.ProfileDisplayName = sender.DisplayName;
-                item.UnreadMessageCount = db.Messages.Where(p => p.ConversationsId == item.Id && p.Read == false && p.ReceiverId == userId).Count();
+                if (item.SenderUnreadMessageCount > 0)
+                {
+                    var Id = "";
 
-            }          
+                    if(messages[0].ReceiverId != userId)
+                    {
+                        Id = messages[0].ReceiverId;
+                        var sender = db.Users.Where(p => p.Id == Id).SingleOrDefault();
+                        item.SenderProfileDisplayImage = sender.ProfileImage;
+                        item.SenderProfileDisplayName = sender.DisplayName;
+                    }
+                    else
+                    {
+                        Id = messages[0].SenderId;
+                        var sender = db.Users.Where(p => p.Id == Id).SingleOrDefault();
+                        item.SenderProfileDisplayImage = sender.ProfileImage;
+                        item.SenderProfileDisplayName = sender.DisplayName;
+                    }
+
+
+
+
+                   
+                }      
+            }
 
             return Json(conversation, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetChatMessages(int ConversationId){
+        public ActionResult GetChatMessages(int ConversationId)
+        {
 
+            var userId = User.Identity.GetUserId();
             Conversations conversation = db.Conversations.Where(p => p.Id == ConversationId).SingleOrDefault();        
 
             var msg = db.Messages.Where(p => p.ConversationsId == conversation.Id).OrderBy(p => p.CreationDate).ToList();
 
             foreach (var item in msg)
             {
-                if(item.Read == false)
+                if(item.Read == false && item.ReceiverId == userId)
                 {
                     item.DeliveredDate = DateTime.Now;
                     item.ReadDate = DateTime.Now;
@@ -844,7 +865,9 @@ namespace SameDayServicezFinal.Controllers
                     }
                 }
 
-               
+                item.JosnDateTime = item.CreationDate.ToShortTimeString();
+
+
             }
 
            
@@ -853,6 +876,93 @@ namespace SameDayServicezFinal.Controllers
           
         }
 
+        public ActionResult CreateMessageWithConversationId(string message, string ReceiverId, string SenderId, int ConversationId)
+        {
+            Messages msg = new Messages
+            {
+                CreationDate = DateTime.Now,
+                Message = message,
+                ReceiverId = ReceiverId,
+                SenderId = SenderId,
+                ConversationsId = ConversationId
+            };
+
+            db.Messages.Add(msg);
+            db.SaveChanges();
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult CreateMessage(string message, string ReceiverId, string SenderId)
+        {
+
+            var SenderCheck = db.Conversations.Where(p => p.ConversationOwnerId == SenderId && p.ConversationSubOwnerId == ReceiverId).SingleOrDefault();
+            var ReceiverCheck = db.Conversations.Where(p => p.ConversationOwnerId == ReceiverId && p.ConversationSubOwnerId == SenderId).SingleOrDefault();
+
+            string senderOrReceiver = "N";
+            Conversations conv = new Conversations
+            {
+                CreationDate = DateTime.Now,
+
+            };
+
+            Messages msg = new Messages
+            {
+                CreationDate = DateTime.Now,
+                Message = message,
+                ReceiverId = ReceiverId,
+                SenderId = SenderId,
+            };
+
+            if (SenderCheck != null)
+            {
+                senderOrReceiver = "S";
+            }
+
+            if (ReceiverCheck != null)
+            {
+                senderOrReceiver = "R";
+            }
+
+            if (senderOrReceiver == "S")
+            {
+                msg.ConversationsId = SenderCheck.Id;
+                db.Messages.Add(msg);
+                db.SaveChanges();
+            }
+
+
+            if (senderOrReceiver == "R")
+            {
+                msg.ConversationsId = ReceiverCheck.Id;
+                db.Messages.Add(msg);
+                db.SaveChanges();
+            }
+
+            if (senderOrReceiver == "N")
+            {
+                conv.ConversationOwnerId = SenderId;
+                conv.ConversationSubOwnerId = ReceiverId;
+                msg.ConversationsId = conv.Id;
+                conv.Message.Add(msg);
+
+                db.Conversations.Add(conv);
+                db.SaveChanges();
+
+
+                //db.Messages.Add(msg);
+                //db.SaveChanges();
+            }
+
+
+
+
+
+
+
+
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
 
         public void UpdatePortal(PortalList portal)
         {
@@ -1065,95 +1175,7 @@ namespace SameDayServicezFinal.Controllers
         //    return File(pdfContent, System.Net.Mime.MediaTypeNames.Application.Pdf);
         //}
 
-        public ActionResult CreateMessageWithConversationId(string message, string ReceiverId, string SenderId,int ConversationId)
-        {
-            Messages msg = new Messages
-            {
-                CreationDate = DateTime.Now,
-                Message = message,
-                ReceiverId = ReceiverId,
-                SenderId = SenderId,
-                ConversationsId = ConversationId
-            };
-
-            db.Messages.Add(msg);
-            db.SaveChanges();
-
-            return Json("OK", JsonRequestBehavior.AllowGet);
-        }
-
-
-        public ActionResult CreateMessage(string message, string ReceiverId, string SenderId)
-        {
-
-            var SenderCheck = db.Conversations.Where(p => p.ConversationOwnerId == SenderId && p.ConversationSubOwnerId == ReceiverId).SingleOrDefault();
-            var ReceiverCheck = db.Conversations.Where(p => p.ConversationOwnerId == ReceiverId && p.ConversationSubOwnerId == SenderId).SingleOrDefault();
-
-            string senderOrReceiver = "N";
-            Conversations conv = new Conversations
-            {
-                CreationDate = DateTime.Now,
-
-            };
-
-            Messages msg = new Messages
-            {
-                CreationDate = DateTime.Now,
-                Message = message,
-                ReceiverId = ReceiverId,
-                SenderId = SenderId,
-            };
-
-            if (SenderCheck != null)
-            {
-                senderOrReceiver = "S";
-            }
-
-            if (ReceiverCheck != null)
-            {
-                senderOrReceiver = "R";
-            }
-
-            if (senderOrReceiver == "S")
-            {
-                msg.ConversationsId = SenderCheck.Id;
-                db.Messages.Add(msg);
-                db.SaveChanges();              
-            }
-
-
-            if (senderOrReceiver == "R")
-            {
-                msg.ConversationsId = ReceiverCheck.Id;
-                db.Messages.Add(msg);
-                db.SaveChanges();
-            }
-
-            if (senderOrReceiver == "N")
-            {
-                conv.ConversationOwnerId = SenderId;
-                conv.ConversationSubOwnerId = ReceiverId;
-                msg.ConversationsId = conv.Id;
-                conv.Message.Add(msg);
-
-                db.Conversations.Add(conv);
-                db.SaveChanges();
-
-
-                //db.Messages.Add(msg);
-                //db.SaveChanges();
-            }
-
-
-
-
-
-
-
-
-
-            return Json("OK", JsonRequestBehavior.AllowGet);
-        }
+  
 
         public async Task<ActionResult> GetOpenProjects(int page = 0, string HourlyRange = "", string descripton = "", string Profession = "", bool reset = false)
         {

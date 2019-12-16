@@ -338,12 +338,21 @@ namespace SameDayServicezFinal.Models
         public ApplicationUser ConversationSubOwner { get; set; }
 
         [NotMapped]
-        public int UnreadMessageCount { get; set; }
+        public int SenderUnreadMessageCount { get; set; }
 
         [NotMapped]
-        public string ProfileDisplayName { get; set; }
+        public string SenderProfileDisplayName { get; set; }
         [NotMapped]
-        public string ProfileDisplayImage { get; set; }
+        public string SenderProfileDisplayImage { get; set; }
+
+
+        [NotMapped]
+        public int ReceiverUnreadMessageCount { get; set; }
+
+        [NotMapped]
+        public string ReceiverProfileDisplayName { get; set; }
+        [NotMapped]
+        public string ReceiverProfileDisplayImage { get; set; }
     }
 
     [Table("Messages")]
@@ -367,6 +376,8 @@ namespace SameDayServicezFinal.Models
         public string ReceiverDisplayName { get; set; }
         [NotMapped]
         public string SenderDisplayName { get; set; }
+        [NotMapped]
+        public string JosnDateTime { get; set; }
 
     }
 

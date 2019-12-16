@@ -52,8 +52,9 @@
                                 <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
                                 <i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
                                 </a>
-                                <ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">                                   
-                                    <li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong>Read all messages   </strong></a></li>
+                                <ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">
+
+                                   
                                 </ul>
                             </li>
                             <!-- Logout    -->
@@ -86,16 +87,10 @@
                                 }
                                 else
                                 {
-                                    <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">My Projects</a>
+                                    <a class="nav-item nav-link " id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="false">My Projects</a>
                                     <a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>
                                 }
                             }
-
-
-
-
-
-
 
                             <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Appiled For</a>
                             <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
@@ -137,7 +132,7 @@
 
                         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="container-fluid" style="background-color:#2f323b;padding:20px">
-                                <div class="col-lg-6">
+                                <div class="col-lg-12">
                                     <div class="card">
                                         @Html.Partial("_ProfileChat",Model)
                                     </div>
