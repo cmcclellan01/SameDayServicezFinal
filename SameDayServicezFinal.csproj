@@ -994,6 +994,7 @@
     <Content Include="Views\Home\TOS.cshtml" />
     <Content Include="Views\Home\Privacy.cshtml" />
     <Content Include="Views\Shared\_Message.cshtml" />
+    <Content Include="Views\Shared\_ProjectRating.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

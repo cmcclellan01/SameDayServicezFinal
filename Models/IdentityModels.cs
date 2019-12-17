@@ -114,6 +114,8 @@ namespace SameDayServicezFinal.Models
 
         public DbSet<ProjectApplicants> ProjectApplicants { get; set; }
 
+        public DbSet<ProjectRating> ProjectRating { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

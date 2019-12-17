@@ -103,6 +103,7 @@ namespace SameDayServicezFinal.Models
         public Project()
         {
             ProjectApplicants = new List<ProjectApplicants>();
+            ProjectRating = new List<ProjectRating>();
         }
 
 
@@ -121,21 +122,21 @@ namespace SameDayServicezFinal.Models
         [Display(Name = "Project Title")]
         [Required]
         public string ProjectTitle { get; set; }
-        
+
         [AllowHtml]
-        public string Description { get; set; }      
+        public string Description { get; set; }
 
         [Display(Name = "Address")]
-      
+
         public string Address { get; set; }
 
 
         [Display(Name = "City")]
-      
+
         public string City { get; set; }
 
         [Display(Name = "State")]
-       
+
         public string State { get; set; }
 
         [NotMapped]
@@ -145,7 +146,7 @@ namespace SameDayServicezFinal.Models
         [RegularExpression("(^\\d{5}(-\\d{4})?$)|(^[ABCEGHJKLMNPRSTVXY]{1}\\d{1}[A-Z]{1} *\\d{1}[A-Z]{1}\\d{1}$)", ErrorMessage = "Zip code is invalid.")] // US or Canada
 
         [Display(Name = "Zip Code")]
-       
+
         public string ZipCode { get; set; }
 
         [NotMapped]
@@ -210,7 +211,7 @@ namespace SameDayServicezFinal.Models
 
         public int NumberOfContractorsNeeded { get; set; }
 
-        public int NumberOfDaysHelpIsNeeded { get; set; }       
+        public int NumberOfDaysHelpIsNeeded { get; set; }
 
         public long Duration { get; set; }
 
@@ -229,6 +230,9 @@ namespace SameDayServicezFinal.Models
 
         [NotMapped]
         public int ApplicantCount { get; set; }
+
+        [NotMapped]
+        public List<ProjectRating> ProjectRating { get; set; }
     }
 
     public enum ProjectStatuses
@@ -279,8 +283,6 @@ namespace SameDayServicezFinal.Models
     }
 
 
-
-
     [Table("ProjectAssignment")]
     public class ProjectAssignment
     {
@@ -312,7 +314,6 @@ namespace SameDayServicezFinal.Models
         public List<ContractorCustomerCategories> ProfileProfessions { get; set; }
     }
 
-  
 
     [Table("Conversations")]
     public class Conversations
@@ -360,7 +361,7 @@ namespace SameDayServicezFinal.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }   
+        public long Id { get; set; }
         [AllowHtml]
         public string Message { get; set; }
         public DateTime CreationDate { get; set; }
@@ -381,6 +382,33 @@ namespace SameDayServicezFinal.Models
 
     }
 
+    [Table("ProjectRating")]
+    public class ProjectRating
+    {
+
+        public ProjectRating()
+        {
+            ProjectOwner = new ApplicationUser();
+            Project = new Project();
+        }
+
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+        public DateTime CreationDate { get; set; }
+        public long ProjectsId { get; set; }
+        public string ProjectOwnerId { get; set; }
+        public string ContractorId { get; set; }
+        public int Rating { get; set; }
+        public string ProjectOwnerComment { get; set; }
+        [NotMapped]
+        public ApplicationUser ProjectOwner { get; set; }
+
+        [NotMapped]
+        public Project Project { get; set; }
+
+    }
 
     [Table("ProjectCompensationPackage")]
     public class ProjectCompensationPackage
@@ -439,11 +467,12 @@ namespace SameDayServicezFinal.Models
         public PortalList()
         {
             Projects = new List<Project>();
-            ApplicationUser = ApplicationUser;
+            ApplicationUser = new ApplicationUser();
             ContractorList = new List<ContractorSearchList>();
             Conversations = new List<Conversations>();
             ProjectApplies = new List<ProjectPosting>();
             message = new Messages();
+            ProjectRating = new List<ProjectRating>();
         }
 
         public List<Project> Projects { get; set; }     
@@ -457,6 +486,7 @@ namespace SameDayServicezFinal.Models
 
         public Messages message { get; set; }
 
+        public List<ProjectRating> ProjectRating { get; set; }
     }
 
    

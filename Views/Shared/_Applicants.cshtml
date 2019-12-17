@@ -546,7 +546,30 @@
                                  $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
                             }
                            
-                              
+
+                            $.ajax({
+                                type: "POST",
+                                url: "/Account/CreateMessage",
+                                data: {
+                                    message: 'You have been accepted for the project:@Model.ProjectTitle',
+                                    ReceiverId: '' + element.attr('data-applicantId') + '',
+                                    SenderId: '@Model.ProjectsUsersId',
+
+                                },
+                                success: function () {
+                                    $('#messageModal').modal('hide');
+                                    $('#message-text').val('');
+                                    swal("Message has been sent.", "", "success");
+                                    reloadChat();
+                                }
+                            });
+
+
+
+
+
+
+
                            
                         });
                     }

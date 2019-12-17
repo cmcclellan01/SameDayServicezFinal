@@ -1174,6 +1174,14 @@ namespace SameDayServicezFinal.Controllers
 
             portal.ContractorList.OrderBy(p => p.Contractor.DisplayName);
 
+            portal.ProjectRating = db.ProjectRating.Where(p => p.ContractorId == contractor.Id).ToList();
+            foreach (var item in portal.ProjectRating)
+            {
+                item.Project = db.Project.Where(p => p.ProjectsId == item.ProjectsId).SingleOrDefault();
+                item.ProjectOwner = db.Users.Where(p=> p.Id == item.ProjectOwnerId).SingleOrDefault();
+            }
+           
+
             return PartialView("_FullProfile", portal);
         }
 
@@ -1424,6 +1432,7 @@ namespace SameDayServicezFinal.Controllers
             foreach (var contractor in allcontractors.Distinct().Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize))
             {
                 var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                               
                 contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == contractor.Id).ToList();
 
                 contractor.Professions = new List<SelectListItem>();
@@ -1435,7 +1444,33 @@ namespace SameDayServicezFinal.Controllers
                     PastProjects = pastprojects
                 };
                 portal.ContractorList.Add(contractorList);
+
+                portal.ProjectRating = db.ProjectRating.Where(p => p.ContractorId == contractor.Id).ToList();
+                foreach (var item in portal.ProjectRating)
+                {
+                    item.Project = db.Project.Where(p => p.ProjectsId == item.ProjectsId).SingleOrDefault();
+                    item.ProjectOwner = db.Users.Where(p => p.Id == item.ProjectOwnerId).SingleOrDefault();
+                }
             }
+
+
+           
+
+            //ProjectRating pr = new ProjectRating
+            //{
+            //    Project = item,
+            //    ProjectsId = item.ProjectsId,
+            //    ContractorId = contractor.Id,
+            //    ProjectOwnerId = item.ProjectsUsersId
+            //};
+
+
+
+
+
+
+
+
 
             portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId && p.IsActive == true).ToList();
 
@@ -1686,6 +1721,13 @@ namespace SameDayServicezFinal.Controllers
                 Assignment.ProjectOwnerName = projectOwnerName.DisplayName;
                 Assignment.UsersId = profile.Id;
                 project.ProjectAssignments.Add(Assignment);
+
+                project.ProjectRating = db.ProjectRating.Where(p => p.ContractorId == Assignment.UsersId).ToList();
+                foreach (var item in project.ProjectRating)
+                {
+                    item.Project = db.Project.Where(p => p.ProjectsId == item.ProjectsId).SingleOrDefault();
+                    item.ProjectOwner = db.Users.Where(p => p.Id == item.ProjectOwnerId).SingleOrDefault();
+                }
             }
 
 
@@ -1739,6 +1781,11 @@ namespace SameDayServicezFinal.Controllers
             project.ProjectApplicants = project.ProjectApplicants.OrderByDescending(p => p.ApplicantRating).ThenByDescending(p => p.Rejected).ToList();
 
             Session["IsInContractorMode"] = (db.Users.Where(i => i.Id == userId).SingleOrDefault()).IsInContractorMode;
+
+
+
+         
+
 
             return PartialView("_ViewProject", project);
         }

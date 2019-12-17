@@ -625,83 +625,49 @@
                                                             </div>
                                                         </div>
 
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-                                                                    <div class="card-body ">
-                                                                        <h4 class="card-title">My Past Projects</h4>
-                                                                        <table class="mx-auto table-striped past-projects-@profile.Id  " style="width:100%;color:grey !important">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th></th>
-                                                                                    <th></th>
-                                                                                    <th></th>
-                                                                                </tr>
-                                                                            </thead>
-
-                                                                            <tbody>
-                                                                                @foreach (var pastProject in profile.ProfilePastProjects)
-                                                                                {
-                                                                                    var specialId = Guid.NewGuid();
-                                                                                    <tr>
-                                                                                        <td style="vertical-align:top;white-space: nowrap;">
-                                                                                            <div class="container">
-                                                                                                <span id="rateMe" style="font-size:0.75rem">
-                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                                                                </span>
-                                                                                                <script>
-                                                                                                        $(document).ready(function () {
-                                                                                                            SetStars($('.rate-popover-@specialId'),@profile.ProfileRating);
-                                                                                                        });
-
-                                                                                                </script>
-                                                                                            </div>
-                                                                                        </td>
-                                                                                        <td style="word-wrap: break-word;vertical-align:top">
-                                                                                            <span>@pastProject.ProjectTitle</span>
-                                                                                        </td>
-                                                                                        <td class="text-left">
-                                                                                            @pastProject.ProjectOwnerName
-                                                                                        </td>
-
-                                                                                    </tr>
-
-                                                                                }
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col">
-                                                                <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-                                                                    <div class="card-body ">
-                                                                        <h4 class="card-title">My Job Professions</h4>
-                                                                        <table class=" table-striped text-left " style="width:100%;color:grey !important">
-                                                                            <thead>
-                                                                                <tr>
-                                                                                    <th></th>
-                                                                                </tr>
-                                                                            </thead>
-                                                                            <tbody>
-                                                                                @foreach (var profession in @profile.ProfileProfessions)
-                                                                                {
-                                                                                    <tr>
-                                                                                        <td style="padding:2px">@profession.SubCatName</td>
-                                                                                    </tr>
-                                                                                }
-                                                                            </tbody>
-                                                                        </table>
-                                                                    </div>
-                                                                </div>
+                                                        <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                                            <div class="card-body ">
+                                                                <h4 class="card-title">My Job Professions</h4>
+                                                                <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th></th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach (var profession in @profile.ProfileProfessions)
+                                                                        {
+                                                                            <tr>
+                                                                                <td style="padding:2px">@profession.SubCatName</td>
+                                                                            </tr>
+                                                                        }
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
+
+
+
+                                                        <div class="card " style="min-height:200px;max-height:200px;overflow:auto">
+                                                            <div class="card-body ">
+                                                                <h4 class="card-title">My Past Projects</h4>
+                                                                @foreach (var projectrating in Model.ProjectRating)
+                                                                {
+                                                                    @Html.Partial("_ProjectRating", projectrating)
+                                                                }
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+
                                                         <div class="row justify-content-end">
-                                                            <div class="col-auto"><span class="btn btn-dark MyFont">Message Contractor</span></div>
-                                                            @*<div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.ProjectId">View Full Profile</span></div>*@
+                                                            <div class="col-auto">                                                               
+                                                                <span class="btn btn-dark MyFont " data-contractorid="@profile.UsersId" data-contractor-display-name="@profile.ProfileDisplayName" data-toggle="modal" data-target="#messageModal">Message Contractor</span>
+                                                            </div>
+                                                            <div class="col-auto"> <span class="btn btn-dark MyFont profileA-btn" data-contractor-id="@profile.UsersId">View Full Profile</span></div>
 
 
                                                         </div>
@@ -762,7 +728,7 @@
         </div>
     </fieldset>
 </div>
-
+<div class="fullA-applicant-profile-view"></div>
 <script>
 
       Dropzone.autoDiscover = false;
@@ -770,6 +736,25 @@
     var SkillsCount = 0;
     var CompensationCount = 0;
     var BasicInfoCount = 0;
+
+
+    $('.profileA-btn').on('click', function (evt) {
+        var $detailDiv = $('.fullA-applicant-profile-view');
+
+        $.get('/Account/FullProfile?Id=' + $(this).attr('data-contractor-id'), function (data) {
+            $detailDiv.replaceWith('<div class="fullA-applicant-profile-view">' + data + '</div>');
+            //$detailDiv.replaceWith(data);
+
+            $('.bd-example-modal-lg').modal('show').on('hidden.bs.modal', function (e) {
+
+                $('.fullA-applicant-profile-view').html('');
+            });
+
+        });
+    });
+
+
+
 
 
     function CheckForPublishCount() {
