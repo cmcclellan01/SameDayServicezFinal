@@ -1006,6 +1006,11 @@
                         console.log(value.JosnDateTime)
                         if (converstaionStarterID == value.SenderId) {
                             var $sendermsg = $('.sender-msg .msg').clone();
+                            
+                            if (value.Message.includes("Congratulation")) {                                
+                                $sendermsg.find('.msg-message').css('padding', '');
+                            }
+
                             $sendermsg.find('.profile-image').attr('src','/Uploads/ProfileImages/' + converstaionStarterID + '/profile_' + converstaionStarterID + '.jpg')                        
                             $sendermsg.find('.msg-creation-date').html($.datepicker.formatDate('mm/dd/yy', new Date(parseInt(value.CreationDate.substr(6)))) + '-' + value.JosnDateTime);                      
                             $sendermsg.find('.msg-message').html(value.Message);
@@ -1016,6 +1021,11 @@
 
                         if (converstaionReceiverID == value.SenderId) {             
                             var $receivermsg = $('.receiver-msg .msg').clone();
+
+                            if (value.Message.includes("Congratulation")) {                                
+                                $receivermsg.find('.msg-message').css('padding', '');
+                            }
+
                             $receivermsg.find('.profile-image').attr('src','/Uploads/ProfileImages/' + converstaionReceiverID + '/profile_' + converstaionReceiverID + '.jpg')                        
                             $receivermsg.find('.msg-creation-date').html($.datepicker.formatDate('mm/dd/yy', new Date(parseInt(value.CreationDate.substr(6)))) + '-' + value.JosnDateTime);                      
                             $receivermsg.find('.msg-message').html(value.Message);

@@ -362,6 +362,7 @@ namespace SameDayServicezFinal.Models
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+
         [AllowHtml]
         public string Message { get; set; }
         public DateTime CreationDate { get; set; }

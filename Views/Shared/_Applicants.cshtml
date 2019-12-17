@@ -514,7 +514,18 @@
 }
 </style>
 
+
+<div style="display:none" class="accepted">
+    <div class="card ">
+        <div class="card-header">Congratulations your application has been accepted</div>        
+        <div class="card-body">
+            <h5 class="card-title">Project: @Model.ProjectTitle</h5>
+            <p class="card-text">Please look in your <b>Accepted Projects</b> tab to see more details about the project.</p>
+        </div>
+    </div>
+</div>
 <script>
+
 
 
 
@@ -551,7 +562,7 @@
                                 type: "POST",
                                 url: "/Account/CreateMessage",
                                 data: {
-                                    message: 'You have been accepted for the project:@Model.ProjectTitle',
+                                    message: $('.accepted').html().trim(),
                                     ReceiverId: '' + element.attr('data-applicantId') + '',
                                     SenderId: '@Model.ProjectsUsersId',
 

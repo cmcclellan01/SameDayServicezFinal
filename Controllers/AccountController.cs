@@ -1059,6 +1059,8 @@ namespace SameDayServicezFinal.Controllers
 
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
+
+        [ValidateInput(false)]
         public ActionResult CreateMessage(string message, string ReceiverId, string SenderId)
         {
 
