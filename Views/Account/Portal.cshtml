@@ -41,20 +41,33 @@
                         </div>
                         <!-- Navbar Menu -->
                         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
-                            <li class="nav-item dropdown">
-                                <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size" title="New Project"><i class="fas fa-file"></i></a>
-                            </li>
+
+                            @{
+                                if (!Model.ApplicationUser.IsInContractorMode)
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project"><i class="fas fa-file"></i></a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project" style="display:none"><i class="fas fa-file"></i></a>
+                                    </li>
+                                }
+                            }
+
+
+
                             <li class="nav-item dropdown">
                                 <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size"><i class="fas fa-bell"></i><span class="badge bg-red badge-corner">12</span></a>
                             </li>
                             <!-- Messages -->
                             <li class="nav-item dropdown">
                                 <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
-                                <i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
+                                    <i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
                                 </a>
                                 <ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">
-
-                                   
                                 </ul>
                             </li>
                             <!-- Logout    -->
@@ -361,6 +374,10 @@
 
                         <div class="tab-pane fade" id="nav-wallet-search" role="tabpanel" aria-labelledby="nav-wallet-search-tab">
                             <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+
+                              
+                                
+
                             </div>
                         </div>
 

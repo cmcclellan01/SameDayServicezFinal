@@ -1,11 +1,18 @@
 ﻿@model SameDayServicezFinal.Models.Project
 @using SameDayServicezFinal.Utils
 @using Microsoft.AspNet.Identity
+@using SameDayServicezFinal.Models
+
+
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    var order = db.Users.Where(p => p.Id == Model.ProjectsUsersId).SingleOrDefault();
+}
 
 
 <style>
-    .error{
-        color:red!important;
+    .error {
+        color: red !important;
     }
 
     .disabled:hover {
@@ -89,6 +96,11 @@
     }
 </style>
 
+
+
+
+
+
 <div class="col-auto view-project-main-div">
     <fieldset>
         <div class="card project-id-@Model.ProjectsId">
@@ -96,7 +108,7 @@
                 <h3 class="card-title"><span class="project-editing-type"></span> Project - @Model.ProjectTitle</h3>
                 <span class="badge bg-red badge-corner " style="margin-left:10px"> </span> - Needs fixed before you can publish your project.
                 <span class="badge bg-orange badge-corner " style="margin-left:10px"> </span> - This is a information / alert(s) for your project.
-        
+
             </div>
             <div class="card-body">
 
@@ -141,9 +153,16 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Accepted Contactors</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="project-wallet-@Model.ProjectsId-tab" data-toggle="tab" href="#project-wallet-@Model.ProjectsId" role="tab" aria-controls="project-wallet-@Model.ProjectsId" aria-selected="false">Project Wallet</a>
+                            </li>
 
                         }
                     }
+
+
+
+
                     <li class="nav-item">
                         <a class="nav-link" id="maps-@Model.ProjectsId-tab" data-toggle="tab" href="#maps-@Model.ProjectsId" role="tab" aria-controls="maps-@Model.ProjectsId" aria-selected="false">Maps & Locations</a>
                     </li>
@@ -162,7 +181,7 @@
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.ProjectTitle, new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ProjectTitle, new { @class = "form-control", style = "min-width: 100%!important;" })
-                                              
+
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +191,7 @@
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(x => x.Duration, new { @class = "control-label text-light" })
                                                 @Html.DropDownListFor(m => m.Duration, Model.DurationList, "- Please select a Duration -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                                              
+
                                             </div>
                                         </div>
                                     </div>
@@ -203,7 +222,7 @@
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.Description, "Project Description", new { @class = "control-label text-light project-description-lbl" })
                                                 @Html.TextAreaFor(m => m.Description, new { @class = "form-control notes-description", rows = "6", cols = "15", style = "min-width: 100%!important;" })
-                                             
+
                                             </div>
                                         </div>
                                     </div>
@@ -217,7 +236,7 @@
                                             <div class="form-group col-md-4 ">
                                                 @Html.LabelFor(m => m.Address, "Project Address", new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                                              
+
                                             </div>
                                         }
 
@@ -227,7 +246,7 @@
                                         <!-- City-->
                                         @Html.LabelFor(m => m.City, "Project City", new { @class = "control-label text-light" })
                                         @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-                                       
+
                                     </div>
 
                                     @{
@@ -236,7 +255,7 @@
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                              
+
                                             </div>
                                         }
 
@@ -245,7 +264,7 @@
                                     <div class="form-group col-md-4 ">
                                         @Html.LabelFor(x => x.State, "Project State", new { @class = "control-label text-light" })
                                         @Html.DropDownListFor(m => m.State, Model.States, "- Please select a state -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                                     
+
                                     </div>
 
 
@@ -260,14 +279,14 @@
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ZipCode, "Project Zip Code", new { @class = "control-label text-light" })
                                                 @Html.TextBoxFor(m => m.ZipCode, new { @class = "form-control" })
-                                              
+
                                             </div>
 
 
                                             <div class="form-group  col-md-4">
                                                 @Html.LabelFor(m => m.ProjectStatus, "Project Status", new { @class = "control-label text-light" })
                                                 @Html.EnumDropDownListFor(x => x.ProjectStatus, "Select Project Status", new { @class = "form-control" })
-                                             
+
                                             </div>
 
                                         </div>
@@ -458,7 +477,7 @@
                                     <div class="form-group col-md-12 ">
                                         @Html.LabelFor(x => x.SelectedProjectCompensationPackage, "Project Compensation type", new { @class = "control-label text-light" })
                                         @Html.DropDownListFor(m => m.SelectedProjectCompensationPackage, Model.CompensationTypeList, "- Please Select A Project Compensation Type -", new { @class = "form-control", style = "min-width: 100%!important;" })
-                                     
+
                                     </div>
                                 </div>
 
@@ -508,7 +527,7 @@
                                                 <span class="input-group-text">$</span>
                                             </div>
                                             @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control hourly-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
-                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -522,7 +541,7 @@
                                             </div>
 
                                             @Html.TextBoxFor(m => m.ByTheProjectRate, new { @class = "form-control project-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
-                                      
+
                                         </div>
                                     </div>
                                 </div>
@@ -536,7 +555,7 @@
                                             </div>
 
                                             @Html.TextBoxFor(m => m.StartingBidRate, new { @class = "form-control project-bid-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
-                                        
+
                                         </div>
                                     </div>
                                 </div>
@@ -546,7 +565,7 @@
                                         @Html.LabelFor(m => m.StartingBidDate, "Starting Project Bid Date", new { @class = "control-label text-light project-bid-rate" })
                                         <div class="input-group  project-bid-rate startdate-project-datepicker">
                                             @Html.HiddenFor(m => m.StartingBidDate)
-                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -556,7 +575,7 @@
                                         @Html.LabelFor(m => m.EndingBidDate, "Ending Project Bid Date", new { @class = "control-label text-light project-bid-rate" })
                                         <div class="input-group  project-bid-rate enddate-project-datepicker">
                                             @Html.HiddenFor(m => m.EndingBidDate)
-                                          
+
                                         </div>
                                     </div>
                                 </div>
@@ -664,7 +683,7 @@
 
 
                                                         <div class="row justify-content-end">
-                                                            <div class="col-auto">                                                               
+                                                            <div class="col-auto">
                                                                 <span class="btn btn-dark MyFont " data-contractorid="@profile.UsersId" data-contractor-display-name="@profile.ProfileDisplayName" data-toggle="modal" data-target="#messageModal">Message Contractor</span>
                                                             </div>
                                                             <div class="col-auto"> <span class="btn btn-dark MyFont profileA-btn" data-contractor-id="@profile.UsersId">View Full Profile</span></div>
@@ -685,6 +704,295 @@
                     </div>
 
 
+                    <div class="tab-pane fade" id="project-wallet-@Model.ProjectsId" role="tabpanel" aria-labelledby="project-wallet-@Model.ProjectsId-tab">
+                        <div class="container-fluid" style="margin-top: 63px;margin-left: 25px;">
+                            <div class="row">
+                                <div class="well col-xs-10 col-sm-10 col-md-6 col-xs-offset-1 col-sm-offset-1 col-md-offset-3">
+                                    <div class="row">
+                                        <div class="col-xs-6 col-sm-6 col-md-6">
+                                            <address>
+                                                <strong>@order.DisplayName</strong>
+                                                <br>
+                                                @order.Address
+                                                <br>
+                                                @order.City, @order.State @order.ZipCode
+                                                <br>
+                                                <abbr title="Phone">P:</abbr> @order.PhoneNumber
+                                            </address>
+                                        </div>
+                                        <div class="col-xs-6 col-sm-6 col-md-6 text-right">
+                                            <p>
+                                                <em>Date: @DateTime.Now.ToString("dddd, dd MMMM yyyy")</em>
+                                            </p>
+                                            <p>
+                                                <em>Receipt #: @order.Id</em>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="text-center">
+                                            <h1>Receipt</h1>
+                                        </div>
+
+                                        <table class="table text-success">
+                                            <thead>
+                                                <tr>
+                                                    <th>Product</th>
+                                                    <th>#</th>
+                                                    <th class="text-center">Price</th>
+                                                    <th class="text-center">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="col-md-9"><h4><em>Baked Rodopa Sheep Feta</em></h4></td>
+                                                    <td class="col-md-1" style="text-align: center"> 2 </td>
+                                                    <td class="col-md-1 text-center">$13</td>
+                                                    <td class="col-md-1 text-center">$26</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-md-9"><h4><em>Lebanese Cabbage Salad</em></h4></td>
+                                                    <td class="col-md-1" style="text-align: center"> 1 </td>
+                                                    <td class="col-md-1 text-center">$8</td>
+                                                    <td class="col-md-1 text-center">$8</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="col-md-9"><h4><em>Baked Tart with Thyme and Garlic</em></h4></td>
+                                                    <td class="col-md-1" style="text-align: center"> 3 </td>
+                                                    <td class="col-md-1 text-center">$16</td>
+                                                    <td class="col-md-1 text-center">$48</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>   </td>
+                                                    <td>   </td>
+                                                    <td class="text-right">
+                                                        <p>
+                                                            <strong>Subtotal: </strong>
+                                                        </p>
+                                                        <p>
+                                                            <strong>Tax: </strong>
+                                                        </p>
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <p>
+                                                            <strong>$82.00</strong>
+                                                        </p>
+                                                        <p>
+                                                            <strong>$4.92</strong>
+                                                        </p>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>   </td>
+                                                    <td>   </td>
+                                                    <td class="text-right"><h4><strong>Total: </strong></h4></td>
+                                                    <td class="text-center text-danger"><h4><strong>$86.92</strong></h4></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <span class="btn btn-success btn-lg btn-block make-payment">
+                                            Pay Now   <span class="glyphicon glyphicon-chevron-right"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col-4">                            
+                                    <div style="margin-top:50px;padding:20px;background-color:white;display:none" class="paypal-cc">
+                                        <!-- Set up a container element for the button -->
+                                        <div id="paypal-button-container" style="background-color:white"></div>
+
+
+
+                                        <script>
+                                            //// Render the PayPal button into #paypal-button-container
+
+
+
+
+                                            paypal.Buttons({
+                                                enableStandardCardFields: true,
+                                                createOrder: function (data, actions) {
+                                                    return actions.order.create({
+                                                        intent: 'CAPTURE',
+                                                        payer: {
+                                                            name: {
+                                                                givenName: '@order.FirstName',
+                                                                @*familyname:'@order.LastName',*@
+                                                                surname: '@order.LastName'
+                                                            },
+                                                            address: {
+                                                                address_line_1:'@order.Address' ,
+                                                                address_line_2: '@order.Address2',
+                                                                admin_area_2: '@order.City',
+                                                                admin_area_1: '@order.State',
+                                                                postal_code: '@order.ZipCode',
+                                                                country_code: 'US'
+                                                            },
+                                                            email_address: "@order.Email",
+                                                            phone: {
+                                                                phone_type: "MOBILE",
+                                                                phone_number: {
+                                                                    national_number: "@order.PhoneNumber"
+                                                                }
+                                                            }
+                                                        },
+                                                        purchase_units: [
+                                                            {
+                                                                amount: {
+                                                                    value: '86.92',
+                                                                    currency_code: 'USD'
+                                                                },
+                                                                shipping: {
+                                                                    address: {
+                                                                        address_line_1:'@order.Address' ,
+                                                                        address_line_2: '@order.Address2',
+                                                                        admin_area_2: '@order.City',
+                                                                        admin_area_1: '@order.State',
+                                                                        postal_code: '@order.ZipCode',
+                                                                        country_code: 'US'
+                                                                    }
+                                                                },
+                                                            }
+                                                        ]
+                                                    });
+                                                },
+                                                onApprove: function(data, actions) {
+                                                  // This function captures the funds from the transaction.
+                                                  return actions.order.capture().then(function(details) {
+                                                    // This function shows a transaction success message to your buyer.
+                                                    //  alert('Transaction completed by ' + details.payer.name.given_name);
+                                                      console.log(details)
+                                                      swal("Your transaction has been processed. You have been e-mailed a transaction receipt", "", "success");
+                                                      $('.cc-result').toggle();
+                                                  });
+                                                }
+                                            }).render('#paypal-button-container');
+                                        </script>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+
+                                    https://developer.paypal.com/  <br />
+                                    Card Type: Visa  <br />
+
+                                    Card Number: 4648014512952251  <br />
+
+                                    Expiration Date: 04/2021  <br />
+
+                                    CVV: 699  <br />
+
+                                    <br />
+                                    <textarea style="min-width:90%;display:none" cols="30" rows="50" class="cc-result">
+                                            {
+                                              "create_time": "2019-12-17T22:07:03Z",
+                                              "update_time": "2019-12-17T22:07:56Z",
+                                              "id": "4AA65952TF297002H",
+                                              "intent": "CAPTURE",
+                                              "status": "COMPLETED",
+                                              "payer": {
+                                                "email_address": "jm.millerzconstruction@gmail.com",
+                                                "payer_id": "3S88T7F9FQ2S4",
+                                                "address": {
+                                                  "country_code": "US"
+                                                },
+                                                "name": {
+                                                  "given_name": "Jason",
+                                                  "surname": "miller"
+                                                }
+                                              },
+                                              "purchase_units": [
+                                                {
+                                                  "reference_id": "default",
+                                                  "soft_descriptor": "PAYPAL *JOHNDOESTES",
+                                                  "amount": {
+                                                    "value": "86.92",
+                                                    "currency_code": "USD"
+                                                  },
+                                                  "payee": {
+                                                    "email_address": "sb-jlyu3759147@business.example.com",
+                                                    "merchant_id": "UWYGR5CT9HEAN"
+                                                  },
+                                                  "shipping": {
+                                                    "name": {
+                                                      "full_name": "Jason miller"
+                                                    },
+                                                    "address": {
+                                                      "address_line_1": "49 South Street, Box 5",
+                                                      "admin_area_2": "Hartford",
+                                                      "admin_area_1": "IA",
+                                                      "postal_code": "50118",
+                                                      "country_code": "US"
+                                                    }
+                                                  },
+                                                  "payments": {
+                                                    "captures": [
+                                                      {
+                                                        "status": "COMPLETED",
+                                                        "id": "6YY047167V316442R",
+                                                        "final_capture": true,
+                                                        "create_time": "2019-12-17T22:07:56Z",
+                                                        "update_time": "2019-12-17T22:07:56Z",
+                                                        "amount": {
+                                                          "value": "86.92",
+                                                          "currency_code": "USD"
+                                                        },
+                                                        "seller_protection": {
+                                                          "status": "ELIGIBLE",
+                                                          "dispute_categories": [
+                                                            "ITEM_NOT_RECEIVED",
+                                                            "UNAUTHORIZED_TRANSACTION"
+                                                          ]
+                                                        },
+                                                        "links": [
+                                                          {
+                                                            "href": "https://api.sandbox.paypal.com/v2/payments/captures/6YY047167V316442R",
+                                                            "rel": "self",
+                                                            "method": "GET",
+                                                            "title": "GET"
+                                                          },
+                                                          {
+                                                            "href": "https://api.sandbox.paypal.com/v2/payments/captures/6YY047167V316442R/refund",
+                                                            "rel": "refund",
+                                                            "method": "POST",
+                                                            "title": "POST"
+                                                          },
+                                                          {
+                                                            "href": "https://api.sandbox.paypal.com/v2/checkout/orders/4AA65952TF297002H",
+                                                            "rel": "up",
+                                                            "method": "GET",
+                                                            "title": "GET"
+                                                          }
+                                                        ]
+                                                      }
+                                                    ]
+                                                  }
+                                                }
+                                              ],
+                                              "links": [
+                                                {
+                                                  "href": "https://api.sandbox.paypal.com/v2/checkout/orders/4AA65952TF297002H",
+                                                  "rel": "self",
+                                                  "method": "GET",
+                                                  "title": "GET"
+                                                }
+                                              ]
+                                            }
+                                        </textarea>
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                     <div class="tab-pane fade" id="maps-@Model.ProjectsId" role="tabpanel" aria-labelledby="maps-@Model.ProjectsId-tab">
                         @Html.Partial("_Maps", Model)
                     </div>
@@ -753,8 +1061,11 @@
         });
     });
 
+    $('.make-payment').on('click', function (evt) {
+        $('.paypal-cc').toggle();
+    });
 
-
+    //
 
 
     function CheckForPublishCount() {
@@ -812,7 +1123,7 @@
         var Duration = $('.basicinformation-@Model.ProjectsId #Duration').val();
         var NumberOfContractorsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfContractorsNeeded').val();
         var NumberOfDaysHelpIsNeeded = $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').val();
-         
+
         $('.project-description-lbl').removeClass('error');
         $('.basicinformation-@Model.ProjectsId #Address').prev().removeClass('error');
         $('.basicinformation-@Model.ProjectsId #City').prev().removeClass('error');
@@ -823,10 +1134,10 @@
         $('.basicinformation-@Model.ProjectsId #NumberOfDaysHelpIsNeeded').prev().removeClass('error');
 
 
-       
+
 
          if (Description == '') {
-             basicInfoCount = basicInfoCount + 1;            
+             basicInfoCount = basicInfoCount + 1;
                $('.project-description-lbl').addClass('error');
          }
 
@@ -893,8 +1204,8 @@
         GetSkillsCount();
         GetCompensationCount();
 
-         
-      
+
+
         $('.publish-@Model.ProjectsId').on('click', function (event) {
             $.ajax({
                 type: "POST",
@@ -928,7 +1239,7 @@
         $('.submit-@Model.ProjectsId').on('click', function (event) {
             event.preventDefault();
               clearInterval(PublishCount);
-            var ProjectTitle = $('.basicinformation-@Model.ProjectsId #ProjectTitle').val();            
+            var ProjectTitle = $('.basicinformation-@Model.ProjectsId #ProjectTitle').val();
            // var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
             var Description = $('.notes-description').summernote('code');
 
@@ -1093,7 +1404,7 @@
 
         });
 
-    
+
 
          $('.notes-description').summernote({
             height: 500, // set editor height
@@ -1102,8 +1413,8 @@
             focus: false, // set focus to editable area after initializing summernote  ,
             callbacks: {
                 onChange: function (contents, $editable) {
-                   
-                   
+
+
                 }
             }
         });

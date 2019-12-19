@@ -354,6 +354,8 @@ namespace SameDayServicezFinal.Models
         public string ReceiverProfileDisplayName { get; set; }
         [NotMapped]
         public string ReceiverProfileDisplayImage { get; set; }
+        [NotMapped]
+        public bool IsinContractorMode { get; set; }
     }
 
     [Table("Messages")]
