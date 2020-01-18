@@ -317,8 +317,7 @@ namespace SameDayServicezFinal.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
+        [AllowAnonymous]      
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
 
@@ -337,7 +336,8 @@ namespace SameDayServicezFinal.Controllers
                     IsInCustomerMode = model.IsInCustomerMode,
                     PercentDone = 20,
                     DisplayName = model.FirstName + " " + model.LastName,
-                    UserName = model.Email
+                    UserName = model.Email,
+                    CreationDate = DateTime.Now
                 };
 
                 var result = await UserManager.CreateAsync(user, model.Password);
@@ -351,7 +351,7 @@ namespace SameDayServicezFinal.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Profile", "Account", new { nr = true });
+                    return RedirectToAction("Portal", "Account", new { nr = true });
                 }
                 AddErrors(result);
             }

@@ -515,8 +515,13 @@
             type: "POST",
             url: '/Account/CreateNewProject?projectTitle=' + $('.new-project-title').val(),
             success: function (data) {
+
+                $('#nav-project-tab').tab('show');
                 $('.new-project-modal').modal('hide')
                 $('body').loading('start');
+              
+                //swicth to the projects tab
+
                 var $detailDiv = '';
                 var projectId = data;
 
