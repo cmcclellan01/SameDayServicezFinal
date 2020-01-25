@@ -857,7 +857,7 @@ namespace SameDayServicezFinal.Controllers
 
                     foreach (var item in portal.Projects)
                     {
-                        var applicants = db.ProjectApplicants.Where(p => p.ProjectsId == item.ProjectsId && p.AssinedToProject == false).ToList();
+                        var applicants = db.ProjectApplicants.Where(p => p.ProjectsId == item.ProjectsId && p.AssinedToProject == false && p.Rejected == false).ToList();
 
                         if (applicants.Count > 0)
                         {

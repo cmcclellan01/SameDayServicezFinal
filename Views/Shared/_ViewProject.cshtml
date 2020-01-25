@@ -138,13 +138,17 @@
                     <li class="nav-item">
                         <a class="nav-link" id="Applicants-@Model.ProjectsId-tab" data-toggle="tab" href="#Applicants-@Model.ProjectsId" role="tab" aria-controls="Applicants-@Model.ProjectsId" aria-selected="false">
                             Applicants
-                            @if (Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count() > 0)
+                            @if (Model.ProjectApplicants.Where(p => p.AssinedToProject == false && p.Rejected == false).Count() > 0)
                             {
-                                <span class="badge bg-orange badge-corner ProjectApplicants-badge">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false).Count()</span>
+                                <span class="badge bg-orange badge-corner ProjectApplicants-badge">@Model.ProjectApplicants.Where(p => p.AssinedToProject == false && p.Rejected == false).Count()</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-orange badge-corner ProjectApplicants-badge"></span>
                             }
 
 
-                        </a>
+                            </a>
                     </li>
 
                     @{

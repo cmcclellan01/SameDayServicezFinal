@@ -594,8 +594,14 @@
 
     $('.reject-applicant').on('click', function (evt) {
 
-
+        
         var element = $(this);
+
+
+        
+
+
+
 
         if ($(this).hasClass('rejected')) {
 
@@ -620,6 +626,12 @@
                         url: '/Account/RejectOrUnrejectApplicant?projectId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId') + '&Reject=false',
                         success: function () {
 
+                            if (Number($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html()) == NaN) {
+                                $('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html(0)
+                            }
+
+                            $('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html(Number($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html()) + 1)
+                            $('.project-applicant-count-badge-' + element.attr('data-projectId')).html($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html())
                         }
                     });
                 });
@@ -647,7 +659,9 @@
                         type: "POST",
                         url: '/Account/RejectOrUnrejectApplicant?projectId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId') + '&Reject=true',
                         success: function () {
+                            $('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html(Number($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html()) - 1)
 
+                            $('.project-applicant-count-badge-' + element.attr('data-projectId')).html($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html())
                         }
                     });
                 });

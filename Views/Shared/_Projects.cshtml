@@ -1102,7 +1102,11 @@
                                                 @{
                                                     if (item.ApplicantCount > 0)
                                                     {
-                                                        <span class="badge bg-orange badge-corner ">@item.ApplicantCount</span>
+                                                        <span class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId">@item.ApplicantCount</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId"></span>
                                                     }
                                                 }
                                             </td>
