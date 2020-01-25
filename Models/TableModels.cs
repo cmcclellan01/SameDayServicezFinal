@@ -47,6 +47,7 @@ namespace SameDayServicezFinal.Models
         public long Id { get; set; }
         public long MainCatId { get; set; }
 
+
         public string SubCatNames { get; set; }
     }
 

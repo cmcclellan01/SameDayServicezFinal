@@ -373,11 +373,12 @@
                             <div class="card" style="min-height: 264px">
                                 <div class="card-body">
                                     <div class="dropzone dz-clickable" id="dropzoneProfileResume" style="background-color:#6f6f6f;margin-bottom:20px;"> </div>
+                                    
                                     <div class="ProfileResume">
 
                                         @if (!string.IsNullOrEmpty(Model.ProfileResume))
                                         {
-                                            <iframe src="https://docs.google.com/gview?url=https://www.devsamedayservicez.com/Uploads/ProfileResume/@Model.Id/@Model.ProfileResume&embedded=true" class="profile-resume" style="height: 100vh;width:50vw" frameborder="0">
+                                            <iframe src="https://docs.google.com/gview?url=https://www.devsamedayservicez.com/Uploads/ProfileResume/@Model.Id/@Model.ProfileResume&embedded=true" class="profile-resume" data-url="https://docs.google.com/gview?url=https://www.devsamedayservicez.com/Uploads/ProfileResume/@Model.Id/@Model.ProfileResume&embedded=true" style="height: 100vh;width:50vw" frameborder="0">
                                             </iframe>
                                         }
                                     </div>

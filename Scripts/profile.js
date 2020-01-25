@@ -704,7 +704,7 @@ $("#dropzoneProfileResume").dropzone({
     dictDefaultMessage: "Upload your resume in PDF.",
     success: function (file, response) {
         swal("We have received your resume", "success");
-       
+        $('.profile-resume').get(0).src = $('.profile-resume').attr('data-url');
        
     },
     error: function (file, response) {

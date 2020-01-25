@@ -141,6 +141,17 @@ namespace SameDayServicezFinal.Controllers
         {
             return View();
         }
+
+
+        public ActionResult EditCategories()
+        {
+            List<Subcategories> Model = new List<Subcategories>();
+            Model = db.Subcategories.Select(p => p).ToList();
+
+            return View(Model);
+        }
+
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
@@ -2181,6 +2192,7 @@ namespace SameDayServicezFinal.Controllers
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
             var ProfilePath = "/Uploads/ProfileImages/" + User.Identity.GetUserId() + "/";
+            var ResumePath = "/Uploads/ProfileResume/" + User.Identity.GetUserId() + "/";
             try
             {
 
@@ -2223,6 +2235,22 @@ namespace SameDayServicezFinal.Controllers
                     {
                         var path = Path.Combine(Server.MapPath(ProfilePath));
                         string pathString = System.IO.Path.Combine(path.ToString() + "id_" + userId + Path.GetExtension(user.IdImage));
+
+                        if (System.IO.File.Exists(pathString))
+                        {
+                            System.IO.File.Delete(pathString);
+                        }
+                        user.IdImage = null;
+                        await UserManager.UpdateAsync(user);
+                    }
+                }
+
+                if (type == "resume")
+                {
+                    if (user.ProfileResume != null)
+                    {
+                        var path = Path.Combine(Server.MapPath(ResumePath));
+                        string pathString = System.IO.Path.Combine(path.ToString() + "resume_" + userId + Path.GetExtension(user.IdImage));
 
                         if (System.IO.File.Exists(pathString))
                         {
