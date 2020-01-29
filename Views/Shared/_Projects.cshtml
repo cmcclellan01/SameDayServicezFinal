@@ -506,7 +506,7 @@
         color: white !important;
     }
 
-    .project-table .label-Closed {
+    .project-table .label-InProgress {
         background-color: #000000 !important;
         color: white !important;
     }
@@ -1077,8 +1077,8 @@
                                                         case SameDayServicezFinal.Models.ProjectStatuses.Draft:
                                                             <span class="label label-Draft"> @item.ProjectStatus</span>
                                                             break;
-                                                        case SameDayServicezFinal.Models.ProjectStatuses.Closed:
-                                                            <span class="label label-Closed"> @item.ProjectStatus</span>
+                                                        case SameDayServicezFinal.Models.ProjectStatuses.InProgress:
+                                                            <span class="label label-InProgress"> @item.ProjectStatus</span>
                                                             break;
 
                                                     }

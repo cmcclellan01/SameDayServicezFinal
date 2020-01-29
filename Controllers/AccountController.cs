@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -811,6 +812,41 @@ namespace SameDayServicezFinal.Controllers
 
             return View(portal);
         }
+
+        public async Task<ActionResult> GetJobAcceptedList(long ProjectId)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            ProjectAcceptance job = new ProjectAcceptance();
+
+            if (user != null)
+            {
+                job.Project = db.Project.Where(p => p.ProjectsId == ProjectId).SingleOrDefault();
+             
+            }
+
+            return PartialView("_JobMessage", job);
+        }
+
+        public void SendEmail()
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+
+            mail.From = new MailAddress("admindev@devsamedayservicez.com");
+            mail.To.Add("melissa.millerzconstruction@gmail.com");
+            mail.Subject = "Test Mail";
+            mail.Body = "This is for testing SMTP mail from GMAIL";
+            mail.IsBodyHtml = true;
+
+            SmtpServer.Port = 587;
+            SmtpServer.Credentials = new System.Net.NetworkCredential("admindev@devsamedayservicez.com", "Mike12Mike12$");
+            SmtpServer.EnableSsl = true;
+           
+            SmtpServer.Send(mail);
+           
+        }
+
         public void UpdatePortal(PortalList portal)
         {
             var users = db.Users.Select(p => p).ToList();
@@ -826,7 +862,7 @@ namespace SameDayServicezFinal.Controllers
             {
 
                 case true:
-                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true).OrderByDescending(p => p.CreationDate).Take(10).ToList();
+                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true && p.ProjectStatus != ProjectStatuses.Completed ).OrderByDescending(p => p.CreationDate).Take(10).ToList();
                     List<Project> prjGroup = new List<Project>();
                     var ProjectApplicants = db.ProjectApplicants.Where(p => p.ApplicantId == userId).ToList();
                     var isInArray = false;
@@ -848,6 +884,13 @@ namespace SameDayServicezFinal.Controllers
                             prjGroup.Add(prj);
                         }
                     }
+
+                    portal.ProjectAcceptance = db.ProjectAcceptance.Where(p => p.ContractorId == userId && p.Read == false).ToList();
+                    foreach (var item in portal.ProjectAcceptance)
+                    {
+                        item.Project = db.Project.Where(p => p.ProjectsId == item.ProjectId).SingleOrDefault();
+                    }
+
 
                     portal.Projects = prjGroup;
                     break;
@@ -960,6 +1003,8 @@ namespace SameDayServicezFinal.Controllers
 
 
             }
+
+            SendEmail();
         }
 
         public List<Conversations> GetChatHeads()
@@ -1518,6 +1563,29 @@ namespace SameDayServicezFinal.Controllers
                 applicant.AssinedToProject = true;
                 db.Entry(applicant).State = EntityState.Modified;
                 db.SaveChanges();
+
+                var project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+                project.ProjectStatus = ProjectStatuses.InProgress;
+                db.Entry(project).State = EntityState.Modified;
+                db.SaveChanges();
+
+
+                ProjectAcceptance prt = new ProjectAcceptance
+                {
+                    Project = project,
+                    Read = false,
+                    Delivered = false,
+                    ContractorId = userId,
+                    AccecptedProject = false,
+                    CreationDate = DateTime.Now,
+                    CustomerId = project.ProjectsUsersId,
+                     CanStartWorkNow  = false
+                        
+                };
+
+                db.ProjectAcceptance.Add(prt);
+                db.SaveChanges();
+
             }
 
             return Json("OK", JsonRequestBehavior.AllowGet);
@@ -1915,7 +1983,7 @@ namespace SameDayServicezFinal.Controllers
                         project.ProjectStatus = ProjectStatuses.Draft;
                         break;
                     case 3:
-                        project.ProjectStatus = ProjectStatuses.Closed;
+                        project.ProjectStatus = ProjectStatuses.InProgress;
                         break;
                 }
 

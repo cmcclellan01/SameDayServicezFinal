@@ -94,6 +94,8 @@ namespace SameDayServicezFinal.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        
+        public DbSet<ProjectAcceptance> ProjectAcceptance { get; set; }
         public DbSet<LoginHistory> LoginHistory { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<Subcategories> Subcategories { get; set; }

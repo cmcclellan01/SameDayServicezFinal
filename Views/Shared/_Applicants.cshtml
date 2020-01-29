@@ -557,8 +557,8 @@
                                  $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
                             }
                            
-
-                            $.ajax({
+                            $('#ProjectStatus').val(3)
+                            @*$.ajax({
                                 type: "POST",
                                 url: "/Account/CreateMessage",
                                 data: {
@@ -573,7 +573,7 @@
                                     swal("Message has been sent.", "", "success");
                                     reloadChat();
                                 }
-                            });
+                            });*@
 
 
 

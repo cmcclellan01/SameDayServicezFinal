@@ -241,7 +241,8 @@ namespace SameDayServicezFinal.Models
         Completed,
         Active,
         Draft,
-        Closed
+        //Closed
+        InProgress
     }
     public class ProjectPosting
     {
@@ -360,8 +361,9 @@ namespace SameDayServicezFinal.Models
     }
 
     [Table("Messages")]
-    public class Messages
-    {
+    public class Messages    {
+       
+
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
@@ -384,7 +386,39 @@ namespace SameDayServicezFinal.Models
         [NotMapped]
         public string JosnDateTime { get; set; }
 
+
+
     }
+
+
+    [Table("ProjectAcceptance")]
+    public class ProjectAcceptance
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+
+        public DateTime CreationDate { get; set; }
+        public DateTime? ReadDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
+        public bool Read { get; set; }
+        public bool Delivered { get; set; }
+        public string CustomerId { get; set; }
+        public string ContractorId { get; set; }
+        public long ProjectId { get; set; }
+
+        [NotMapped]
+        public Project Project { get; set; }
+        [NotMapped]
+        public ApplicationUser Customer { get; set; }
+        [NotMapped]
+        public ApplicationUser Contractor { get; set; }
+
+        public bool AccecptedProject { get; set; }
+        public bool CanStartWorkNow { get; set; }
+    }
+
+
 
     [Table("ProjectRating")]
     public class ProjectRating
@@ -477,6 +511,7 @@ namespace SameDayServicezFinal.Models
             ProjectApplies = new List<ProjectPosting>();
             message = new Messages();
             ProjectRating = new List<ProjectRating>();
+            ProjectAcceptance = new List<ProjectAcceptance>();
         }
 
         public List<Project> Projects { get; set; }     
@@ -491,6 +526,8 @@ namespace SameDayServicezFinal.Models
         public Messages message { get; set; }
 
         public List<ProjectRating> ProjectRating { get; set; }
+
+        public List<ProjectAcceptance> ProjectAcceptance { get; set; }
     }
 
    

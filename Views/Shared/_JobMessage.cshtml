@@ -1,0 +1,38 @@
+﻿@model SameDayServicezFinal.Models.PortalList
+
+
+@foreach (var item in Model.ProjectAcceptance)
+{
+   var messsageGuid = Guid.NewGuid();
+
+
+    <div class="modal fade" id="ModalProjectAcceptance_@messsageGuid" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="messageModalLabel">You have been accepted for @item.Project.ProjectTitle</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Recipient:</label>
+                        <input type="text" class="form-control disabled recipient-name" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Message:</label>
+                        <textarea class="form-control" id="message-text" rows="5"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary " data-senders-id="" data-receiver-id="">Can Start Now?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+
