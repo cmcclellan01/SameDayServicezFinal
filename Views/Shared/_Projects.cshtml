@@ -1083,10 +1083,10 @@
 
                                                     }
 
-                                                    if (item.IsProjectPublished)
+                                                    @*if (item.IsProjectPublished)
                                                     {
                                                         <span class="label label-Active" style="margin-left:5px">Published</span>
-                                                    }
+                                                    }*@
                                                 }
 
 
@@ -1094,7 +1094,10 @@
                                             <td>
                                                 @foreach (var profile in item.ProjectAssignments)
                                                 {
-                                                    <a href="#" data-toggle="tooltip" data-contractor-id="@profile.UsersId" title="@profile.ProfileDisplayName" class="profile-icon-btn"><img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage"><span style="display:none">@profile.ProfileDisplayName</span></a>
+                                                        <a href="#" data-toggle="tooltip" data-contractor-id="@profile.UsersId" title="@profile.ProfileDisplayName" class="profile-icon-btn" style="margin:5px">
+                                                            <img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage">
+                                                        <span style="display:none">@profile.ProfileDisplayName</span>
+                                                        </a>
                                                 }
                                             </td>
 
@@ -1129,7 +1132,7 @@
 
                                             <td>
                                                 <div class="btn-group pull-right">
-                                                    <button class="btn btn-default btn-xs view-project" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
+                                                    <button class="btn btn-default btn-xs view-project d-none" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
                                                     <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
                                                     <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
 

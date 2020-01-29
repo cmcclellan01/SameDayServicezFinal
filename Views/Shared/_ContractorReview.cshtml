@@ -1,0 +1,86 @@
+﻿@model SameDayServicezFinal.Models.ProjectRating
+
+
+@{
+    var specialId = Guid.NewGuid();
+}
+
+<div class="container">
+    @*<span>@Model.Project.ProjectTitle</span>
+
+        <span>@Model.Project.ProjectOwnerName</span>
+        <span id="rateMe" style="font-size:0.75rem">
+            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+        </span>
+        <script>
+            $(document).ready(function () {
+                SetStars($('.rate-popover-@specialId'),@Model.Rating);
+            });
+
+        </script>*@
+    <div class="row">
+        <div class="col-sm-12">
+            <hr />
+            <div class="review-block">
+                <div class="row">
+
+                    <div class="col-12 " style="margin-top:15px">
+                        <div class="review-block-rate text-left">
+                            <span class="review-block-title text-uppercase text-left text-success">Rate Your Contractor:</span>
+                            <span id="rateMe" style="font-size:1.25rem">
+                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                            </span>
+                            <script>
+                                        $(document).ready(function () {
+                                              MouseOverSetStars2($('.rate-popover-@specialId'),@Model.Rating);
+                                        });
+
+                            </script>
+                      
+
+                        </div>
+                        <div class="review-block-title text-uppercase text-left text-success">
+
+                            <textarea class="form-control review-comment" style="background-color:#303030 !important;width:100%" rows="4" cols="50" placeholder="Create your review..."></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-auto"> <span class="btn btn-dark MyFont save-review-btn mx-auto" style="margin:10px" data-contractor-id="@Model.ContractorId">Save Review</span></div>
+                        </div>
+
+
+                    </div>
+                </div>
+                <hr />
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*// SaveUserRating(string ContractorId,long ProjectsId,int Rating,string ProjectOwnerComment)*@
+
+<script>
+      $('.save-review-btn').on('click', function (event) {
+            $.ajax({
+                type: "POST",
+                url: "/Account/SaveUserRating",
+                data: { ContractorId: '@Model.ContractorId',ProjectsId:'@Model.ProjectsId',Rating:$('.StarRatng').val(), ProjectOwnerComment:$(this).find('.review-comment').val() },
+                success: function () {
+                    swal("Thank you for your review.", "", "success");
+                    //  $('body').loading('start');
+                    //LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                    //$("html, body").animate({ scrollTop: 0 }, 0);
+                }
+            });
+        });
+</script>

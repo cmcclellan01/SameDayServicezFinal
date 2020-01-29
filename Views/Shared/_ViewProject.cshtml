@@ -640,50 +640,62 @@
                                                     </div>
 
                                                     <div class="card-body text-center text-light grayscale">
-                                                        <div class="card ">
-                                                            <h4 class="card-title">My Bios</h4>
-                                                            <div class="card-body my-bios " style="max-height:none">
+                                                        @*<div class="card ">
+            <h4 class="card-title">My Bios</h4>
+            <div class="card-body my-bios " style="max-height:none">
 
-                                                                <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.ProfileBios</p>
-                                                            </div>
-                                                        </div>
+                <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.ProfileBios</p>
+            </div>
+        </div>*@
 
-                                                        <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                                                        @*<div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+            <div class="card-body ">
+                <h4 class="card-title">My Job Professions</h4>
+                <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                    <thead>
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var profession in @profile.ProfileProfessions)
+                        {
+                            <tr>
+                                <td style="padding:2px">@profession.SubCatName</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>*@
+
+
+
+                                                        @*<div class="card " style="min-height:200px;max-height:800px;overflow:auto">
+            <div class="card-body ">
+                <h4 class="card-title">My Past Projects</h4>
+                @foreach (var projectrating in Model.ProjectRating)
+                {
+                    @Html.Partial("_ProjectRating", projectrating)
+                }
+            </div>
+        </div>*@
+
+
+
+                                                        <div class="card " style="min-height:200px;max-height:800px;overflow:auto">
                                                             <div class="card-body ">
-                                                                <h4 class="card-title">My Job Professions</h4>
-                                                                <table class=" table-striped text-left " style="width:100%;color:grey !important">
-                                                                    <thead>
-                                                                        <tr>
-                                                                            <th></th>
-                                                                        </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                        @foreach (var profession in @profile.ProfileProfessions)
-                                                                        {
-                                                                            <tr>
-                                                                                <td style="padding:2px">@profession.SubCatName</td>
-                                                                            </tr>
-                                                                        }
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
+                                                                <h4 class="card-title">Show your contactor that you care and write them a review.</h4>
+                                                                @{
+                                                                    var rating = new ProjectRating();
+                                                                    rating.ContractorId = profile.UsersId;
+                                                                    rating.ProjectsId = Model.ProjectsId;
 
-
-
-                                                        <div class="card " style="min-height:200px;max-height:200px;overflow:auto">
-                                                            <div class="card-body ">
-                                                                <h4 class="card-title">My Past Projects</h4>
-                                                                @foreach (var projectrating in Model.ProjectRating)
-                                                                {
-                                                                    @Html.Partial("_ProjectRating", projectrating)
                                                                 }
+                                                                @Html.Partial("_Contractorreview", rating)
+
                                                             </div>
                                                         </div>
-
-
-
-
 
 
                                                         <div class="row justify-content-end">
@@ -691,9 +703,10 @@
                                                                 <span class="btn btn-dark MyFont " data-contractorid="@profile.UsersId" data-contractor-display-name="@profile.ProfileDisplayName" data-toggle="modal" data-target="#messageModal">Message Contractor</span>
                                                             </div>
                                                             <div class="col-auto"> <span class="btn btn-dark MyFont profileA-btn" data-contractor-id="@profile.UsersId">View Full Profile</span></div>
-
-
+                                                          
                                                         </div>
+
+
 
                                                     </div>
                                                 </div>

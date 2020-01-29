@@ -634,6 +634,7 @@
                             $('.project-applicant-count-badge-' + element.attr('data-projectId')).html($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html())
                         }
                     });
+                      element.text = 'Reject';
                 });
 
         }
@@ -664,6 +665,8 @@
                             $('.project-applicant-count-badge-' + element.attr('data-projectId')).html($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html())
                         }
                     });
+
+                    element.text = 'Undo';
                 });
 
 

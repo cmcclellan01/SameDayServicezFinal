@@ -1844,6 +1844,37 @@ namespace SameDayServicezFinal.Controllers
             return Json("OK", JsonRequestBehavior.AllowGet);
         }
 
+
+
+        public ActionResult SaveUserRating(string ContractorId,long ProjectsId,int Rating,string ProjectOwnerComment)
+        {
+            var userId = User.Identity.GetUserId();
+
+            ApplicationUser profile = db.Users.Where(p => p.Id == userId).SingleOrDefault();
+
+            if (profile != null)
+            {
+                var projectOwenerId = db.Project.Where(p => p.ProjectsId == ProjectsId).SingleOrDefault();
+
+                ProjectRating pr = new ProjectRating
+                {
+                    ContractorId = ContractorId,
+                    ProjectsId = ProjectsId,
+                    CreationDate = DateTime.Now,
+                    Rating = Rating,
+                    ProjectOwnerComment = ProjectOwnerComment,
+                    ProjectOwnerId  = projectOwenerId.ProjectsUsersId
+
+                };
+
+                db.ProjectRating.Add(pr);
+                db.SaveChanges();
+            }
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+
         [ValidateInput(false)]
         [SessionTimeout]
         public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,

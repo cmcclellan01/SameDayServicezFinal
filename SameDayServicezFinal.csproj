@@ -996,6 +996,7 @@
     <Content Include="Views\Shared\_Message.cshtml" />
     <Content Include="Views\Shared\_ProjectRating.cshtml" />
     <Content Include="Views\Account\EditCategories.cshtml" />
+    <Content Include="Views\Shared\_ContractorReview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

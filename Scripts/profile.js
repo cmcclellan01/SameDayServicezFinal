@@ -403,6 +403,87 @@ function MouseOverSetStars(star, index) {
 
 }
 
+function MouseOverSetStars2(star, index) {
+
+
+    star.on('mouseover', function () {
+        index = $(this).attr('data-index');
+        markStarsAsActive(index);
+    });
+
+    markStarsAsActive('' + index - 1 + '');
+
+    function markStarsAsActive(index) {
+        unmarkActive();
+
+        for (var i = 0; i <= index; i++) {
+            switch (index) {
+                case '0':
+                    $(star.get(i)).addClass('oneStar');
+
+                    break;
+                case '1':
+                    $(star.get(i)).addClass('twoStars');
+
+                    break;
+                case '2':
+                    $(star.get(i)).addClass('threeStars');
+
+                    break;
+                case '3':
+                    $(star.get(i)).addClass('fourStars');
+
+                    break;
+                case '4':
+                    $(star.get(i)).addClass('fiveStars');
+                    break;
+            }
+        }
+    }
+
+    function unmarkActive() {
+        star.removeClass('oneStar twoStars threeStars fourStars fiveStars');
+    }
+
+    star.on('click', function (e) {
+
+
+        var projectId = $(this).attr('data-projectId');
+        var ApplicantId = $(this).attr('data-applicantId');
+
+
+
+        if (star.hasClass("oneStar")) {
+            $('.StarRatng').val('1');
+            return false;
+        }
+
+        if (star.hasClass("twoStars")) {
+            $('.StarRatng').val('2');
+            return false;
+        }
+
+        if (star.hasClass("threeStars")) {
+            $('.StarRatng').val('3');
+            return false;
+        }
+
+        if (star.hasClass("fourStars")) {
+            $('.StarRatng').val('4');
+            return false;
+        }
+
+        if (star.hasClass("fiveStars")) {
+            $('.StarRatng').val('5');
+            return false;
+        }
+
+    });
+
+
+
+}
+
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
 
