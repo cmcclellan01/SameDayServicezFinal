@@ -1578,12 +1578,13 @@ namespace SameDayServicezFinal.Controllers
                     Project = project,
                     Read = false,
                     Delivered = false,
-                    ContractorId = userId,
+                    ContractorId = ApplicantId,
                     AccecptedProject = false,
                     CreationDate = DateTime.Now,
                     CustomerId = project.ProjectsUsersId,
-                     CanStartWorkNow  = false
-                        
+                     CanStartWorkNow  = false,
+                      ProjectId = project.ProjectsId
+
                 };
 
                 db.ProjectAcceptance.Add(prt);
@@ -1950,11 +1951,11 @@ namespace SameDayServicezFinal.Controllers
 
         [ValidateInput(false)]
         [SessionTimeout]
-        public ActionResult UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
+        public async Task<ActionResult> UpdateProject(string ProjectTitle, string Description, string Address, string City, string State, string ZipCode, long projectID,
             decimal ByTheHourRate, decimal ByTheProjectRate, decimal StartingBidRate, DateTime StartingBidDate, DateTime EndingBidDate,
             long SelectedProjectCompensationPackage, string Notes, long Duration, int NumberOfContractorsNeeded, int NumberOfDaysHelpIsNeeded, int ProjectStatus)
         {
-
+            var userId = User.Identity.GetUserId();
 
             var project = db.Project.Where(p => p.ProjectsId == projectID).FirstOrDefault();
 
@@ -1994,6 +1995,12 @@ namespace SameDayServicezFinal.Controllers
 
                 project.NumberOfContractorsNeeded = NumberOfContractorsNeeded;
                 project.NumberOfDaysHelpIsNeeded = NumberOfDaysHelpIsNeeded;
+
+
+
+                await SaveProjectCompensationPackage(project.ProjectsId, SelectedProjectCompensationPackage, ByTheHourRate, ByTheProjectRate, StartingBidRate, 0, 0, StartingBidDate, EndingBidDate);
+
+
             }
 
             using (var db = new ApplicationDbContext())
@@ -2564,7 +2571,7 @@ namespace SameDayServicezFinal.Controllers
 
         [HttpPost]
         [SessionTimeout]
-        public async Task<ActionResult> SaveProjectCompensationPackage(int projectId, long ProjectCompensationType, decimal ByTheHourRate = 0, decimal ByTheProjectRate = 0, decimal StartingBidRate = 0, decimal EndingBidRate = 0, decimal FloatingBidRate = 0, DateTime StartingBidDate = default, DateTime EndingBidDate = default)
+        public async Task<ActionResult> SaveProjectCompensationPackage(long projectId, long ProjectCompensationType, decimal ByTheHourRate = 0, decimal ByTheProjectRate = 0, decimal StartingBidRate = 0, decimal EndingBidRate = 0, decimal FloatingBidRate = 0, DateTime StartingBidDate = default, DateTime EndingBidDate = default)
         {
 
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -2579,13 +2586,6 @@ namespace SameDayServicezFinal.Controllers
                     if (EndingBidDate == Convert.ToDateTime("01/01/0001 12:00 AM")) { EndingBidDate = Convert.ToDateTime("01/01/2000 12:00 AM"); }
 
                     var pcomp = db.ProjectCompensationPackage.Where(p => p.ProjectId == projectId).FirstOrDefault();
-
-
-
-
-
-
-
 
 
                     if (pcomp != null)
