@@ -155,7 +155,17 @@
                         if (!(bool)Session["IsInContractorMode"])
                         {
                             <li class="nav-item">
-                                <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">Accepted Contactors</a>
+                                <a class="nav-link" id="assigned-contactors-@Model.ProjectsId-tab" data-toggle="tab" href="#assigned-contactors-@Model.ProjectsId" role="tab" aria-controls="assigned-contactors-@Model.ProjectsId" aria-selected="false">
+                                    Accepted Contactors
+                                    @if (Model.ProjectApplicants.Where(p => p.AssinedToProject == true && p.Rejected == false).Count() > 0)
+                                    {
+                                        <span class="badge bg-green badge-corner AssinedToProject-badge">@Model.ProjectApplicants.Where(p => p.AssinedToProject == true && p.Rejected == false).Count()</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-green badge-corner AssinedToProject-badge"></span>
+                                    }
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" id="project-wallet-@Model.ProjectsId-tab" data-toggle="tab" href="#project-wallet-@Model.ProjectsId" role="tab" aria-controls="project-wallet-@Model.ProjectsId" aria-selected="false">Project Wallet</a>

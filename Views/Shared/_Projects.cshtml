@@ -1105,7 +1105,7 @@
                                                 @{
                                                     if (item.ApplicantCount > 0)
                                                     {
-                                                        <span class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId">@item.ApplicantCount</span>
+                                                        <span style="cursor:pointer" class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId">@item.ApplicantCount</span>
 
                                                         <script>
                                                              $('.project-applicant-count-badge-@item.ProjectsId').on('click', function (event) {

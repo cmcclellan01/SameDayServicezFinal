@@ -563,6 +563,17 @@ else
                             } else {
                                  $('.ProjectApplicants-badge').html($('.ProjectApplicants-badge').html() - 1);
                             }
+
+
+                             if (Number( $('.AssinedToProject-badge').html()) == NaN) {
+                                 $('.AssinedToProject-badge').html(0)
+                            }
+                           
+                                 $('.AssinedToProject-badge').html(Number( $('.AssinedToProject-badge').html()) + 1);
+                            
+                         
+
+
                            
                             $('#ProjectStatus').val(3)
                             @*$.ajax({

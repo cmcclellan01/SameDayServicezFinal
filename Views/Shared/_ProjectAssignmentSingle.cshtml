@@ -1,5 +1,7 @@
 ﻿@model SameDayServicezFinal.Models.ProjectAssignment
 @using SameDayServicezFinal.Utils
+@using Microsoft.AspNet.Identity
+@using SameDayServicezFinal.Models
 
 @{
     var s = 1;
@@ -7,136 +9,162 @@
     var profileGuid = Guid.NewGuid();
 }
 
-    
-
-    <div class="col-lg-4">
-        <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
 
-            <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
-                <div class="row mx-auto">
-                    <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
-                        @if (@Model.ProfileImage == null)
-                        {
-                            imagename = "https://randomuser.me/api/portraits/men/" + s + ".jpg";
-
-                            @Html.Image(imagename, "card-profile-img", "", "");
+<div class="col-lg-4">
+    <div class="card card-profile @profileGuid-card " style="border-top-right-radius: 50px;border-top-left-radius: 50px;background-color: black !important;border:1px grey solid;-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);overflow:hidden">
 
 
-                        }
-                        else
-                        {
-                            @Html.Image("/Uploads/ProfileImages/" + @Model.UsersId + "/" + @Model.ProfileImage, "card-profile-img", "", "");
-                        }
-                    </div>
-                    <div class="card-body col-7 ">
-                        <span id="rateMe" data-search="rating" style="font-size:1rem">
-                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                            <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                        </span>
-                        <script>
+        <div class="card bg-light mb-3 col-12" style="background-image:url('/content/images/5d26132c3835b_thumb900.jpg')">
+            <div class="row mx-auto">
+                <div class="card-headerA col-4 " style="background-color:transparent!important;border-bottom:none!important">
+                    @if (@Model.ProfileImage == null)
+                    {
+                        imagename = "https://randomuser.me/api/portraits/men/" + s + ".jpg";
+
+                        @Html.Image(imagename, "card-profile-img", "", "");
+
+
+                    }
+                    else
+                    {
+                        @Html.Image("/Uploads/ProfileImages/" + @Model.UsersId + "/" + @Model.ProfileImage, "card-profile-img", "", "");
+                    }
+                </div>
+                <div class="card-body col-7 ">
+                    <span id="rateMe" data-search="rating" style="font-size:1rem">
+                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                        <i class="fas fa-star py-2 px-1 rate-popover-@profileGuid" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                    </span>
+                    <script>
                             $(document).ready(function () {
                                     SetStars($('.rate-popover-@profileGuid'),@Model.ProfileRating);
                             });
-                        </script>
-                        <h4 class="mb-3 " data-search="displayname">@Model.ProfileDisplayName</h4>
-                        <h5 class="mb-3 " data-search="hourlyrate">Hourly Rate: $@Model.ByTheHourRate</h5>
+                    </script>
+                    <h4 class="mb-3 " data-search="displayname">@Model.ProfileDisplayName</h4>
+                    <h5 class="mb-3 " data-search="hourlyrate">Hourly Rate: $@Model.ByTheHourRate</h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body text-center text-light grayscale">
+         @*   <div class="card ">
+                <h4 class="card-title">My Bios</h4>
+                <div class="card-body my-bios " style="max-height:none">
+
+                    <p class="mb-4 text-left  more" font-size: 1rem;"> @Model.ProfileBios</p>
+                </div>
+            </div>*@
+
+            @* <div class="row">
+            <div class="col">
+                <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                    <div class="card-body ">
+                        <h4 class="card-title">My Past Projects</h4>
+                        <table class="mx-auto table-striped past-projects-@Model.Id  " style="width:100%;color:grey !important">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var pastProject in Model.ProfilePastProjects)
+                                {
+                                    var specialId = Guid.NewGuid();
+                                    <tr>
+                                        <td style="vertical-align:top;white-space: nowrap;">
+                                            <div class="container">
+                                                <span id="rateMe" style="font-size:0.75rem">
+                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
+                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
+                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
+                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
+                                                    <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
+                                                </span>
+                                                <script>
+                                                                                                $(document).ready(function () {
+                                                                                                    SetStars($('.rate-popover-@specialId'),@Model.ProfileRating);
+                                                                                                });
+
+                                                </script>
+                                            </div>
+                                        </td>
+                                        <td style="word-wrap: break-word;vertical-align:top">
+                                            <span>@pastProject.ProjectTitle</span>
+                                        </td>
+                                        <td class="text-left">
+                                            @pastProject.ProjectOwnerName
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            <div class="col">
+                <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
+                    <div class="card-body ">
+                        <h4 class="card-title">My Job Professions</h4>
+                        <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var profession in Model.ProfileProfessions)
+                                {
+                                    <tr>
+                                        <td style="padding:2px">@profession.SubCatName</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
+           <div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.ProjectId">View Full Profile</span></div>
 
-            <div class="card-body text-center text-light grayscale">
-                <div class="card ">
-                    <h4 class="card-title">My Bios</h4>
-                    <div class="card-body my-bios " style="max-height:none">
 
-                        <p class="mb-4 text-left  more" font-size: 1rem;"> @Model.ProfileBios</p>
+            </div>*@
+
+
+
+                <div class="card " style="min-height:200px;max-height:800px;overflow:auto">
+                    <div class="card-body ">
+                        <h4 class="card-title">Show your contactor that you care and write them a review.</h4>
+                        @{
+                            var rating = new ProjectRating();
+                            rating.ContractorId = Model.UsersId;
+                            rating.ProjectsId = Model.ProjectId;
+
+                        }
+                        @Html.Partial("_Contractorreview", rating)
+
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col">
-                        <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-                            <div class="card-body ">
-                                <h4 class="card-title">My Past Projects</h4>
-                                <table class="mx-auto table-striped past-projects-@Model.Id  " style="width:100%;color:grey !important">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                            <th></th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @foreach (var pastProject in Model.ProfilePastProjects)
-                                        {
-                                            var specialId = Guid.NewGuid();
-                                            <tr>
-                                                <td style="vertical-align:top;white-space: nowrap;">
-                                                    <div class="container">
-                                                        <span id="rateMe" style="font-size:0.75rem">
-                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="0" data-html="true" data-toggle="popover" data-placement="top" title="Very bad"></i>
-                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="1" data-html="true" data-toggle="popover" data-placement="top" title="Poor"></i>
-                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="2" data-html="true" data-toggle="popover" data-placement="top" title="OK"></i>
-                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="3" data-html="true" data-toggle="popover" data-placement="top" title="Good"></i>
-                                                            <i class="fas fa-star py-2 px-1 rate-popover-@specialId" data-index="4" data-html="true" data-toggle="popover" data-placement="top" title="Excellent"></i>
-                                                        </span>
-                                                        <script>
-                                                                                                        $(document).ready(function () {
-                                                                                                            SetStars($('.rate-popover-@specialId'),@Model.ProfileRating);
-                                                                                                        });
-
-                                                        </script>
-                                                    </div>
-                                                </td>
-                                                <td style="word-wrap: break-word;vertical-align:top">
-                                                    <span>@pastProject.ProjectTitle</span>
-                                                </td>
-                                                <td class="text-left">
-                                                    @pastProject.ProjectOwnerName
-                                                </td>
-
-                                            </tr>
-
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-                            <div class="card-body ">
-                                <h4 class="card-title">My Job Professions</h4>
-                                <table class=" table-striped text-left " style="width:100%;color:grey !important">
-                                    <thead>
-                                        <tr>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var profession in Model.ProfileProfessions)
-                                        {
-                                            <tr>
-                                                <td style="padding:2px">@profession.SubCatName</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="row justify-content-end">
-                    <div class="col-auto"><span class="btn btn-dark ">Message Contractor</span></div>
-                    @*<div class="col-auto"> <span class="btn btn-dark profile-btn" data-contractor-id="@profile.ProjectId">View Full Profile</span></div>*@
-
+                    <div class="col-auto">
+                        <span class="btn btn-dark MyFont " data-contractorid="@Model.UsersId" data-contractor-display-name="@Model.ProfileDisplayName" data-toggle="modal" data-target="#messageModal">Message Contractor</span>
+                    </div>
+                    <div class="col-auto"> <span class="btn btn-dark MyFont profileA-btn" data-contractor-id="@Model.UsersId">View Full Profile</span></div>
 
                 </div>
+
+  
 
             </div>
         </div>
