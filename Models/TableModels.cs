@@ -253,6 +253,8 @@ namespace SameDayServicezFinal.Models
         public DateTime? DeliveredDate { get; set; }
         public bool Read { get; set; }
         public bool Delivered { get; set; }
+        public bool AssinedToProject { get; set; }
+
     }
 
 

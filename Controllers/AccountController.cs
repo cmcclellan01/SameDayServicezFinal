@@ -828,20 +828,20 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_JobMessage", job);
         }
 
-        public void SendEmail()
+        public void SendEmail(Project prj, ApplicationUser user)
         {
             MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("smtp.office365.com");
+            SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
 
             mail.From = new MailAddress("admindev@devsamedayservicez.com");
-            mail.To.Add("melissa.millerzconstruction@gmail.com");
-            mail.Subject = "Test Mail";
-            mail.Body = "This is for testing SMTP mail from GMAIL";
+            mail.To.Add(user.Email);
+            mail.Subject = "Your application has been accepted.";
+            mail.Body = "You have been accepted for the job titled: " +  prj.ProjectTitle + "<br/> Please log into your dashboard";
             mail.IsBodyHtml = true;
 
-            SmtpServer.Port = 587;
-            SmtpServer.Credentials = new System.Net.NetworkCredential("admindev@devsamedayservicez.com", "Mike12Mike12$");
-            SmtpServer.EnableSsl = true;
+            SmtpServer.Port = 25;
+          //  SmtpServer.Credentials = new System.Net.NetworkCredential("admindev@devsamedayservicez.com", "Mike12Mike12$");
+            //SmtpServer.EnableSsl = true;
            
             SmtpServer.Send(mail);
            
@@ -883,14 +883,16 @@ namespace SameDayServicezFinal.Controllers
                         {
                             prjGroup.Add(prj);
                         }
-                    }
 
+                       
+                    }
+                   
                     portal.ProjectAcceptance = db.ProjectAcceptance.Where(p => p.ContractorId == userId && p.Read == false).ToList();
                     foreach (var item in portal.ProjectAcceptance)
                     {
                         item.Project = db.Project.Where(p => p.ProjectsId == item.ProjectId).SingleOrDefault();
                     }
-
+                  
 
                     portal.Projects = prjGroup;
                     break;
@@ -922,7 +924,8 @@ namespace SameDayServicezFinal.Controllers
                      {
                          p.ProjectsId,
                          p.ProjectTitle,
-                         c.AppliedDate
+                         c.AppliedDate,
+                         c.AssinedToProject
 
                      };
 
@@ -933,7 +936,7 @@ namespace SameDayServicezFinal.Controllers
                     CreationDate = item.AppliedDate,
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
-
+                    AssinedToProject = item.AssinedToProject
                 };
 
                 portal.ProjectApplies.Add(post);
@@ -1004,7 +1007,7 @@ namespace SameDayServicezFinal.Controllers
 
             }
 
-            SendEmail();
+          
         }
 
         public List<Conversations> GetChatHeads()
@@ -1586,6 +1589,8 @@ namespace SameDayServicezFinal.Controllers
                 db.ProjectAcceptance.Add(prt);
                 db.SaveChanges();
 
+                var user = db.Users.Where(p => p.Id == ApplicantId).SingleOrDefault();
+                SendEmail(project, user);
             }
 
             return Json("OK", JsonRequestBehavior.AllowGet);

@@ -485,6 +485,7 @@
                     <tr>
                         <th style="width:180px!important;text-align:center">Date Applied</th>
                         <th style="text-align:left">Project Name</th>
+                        <th style="text-align:left">Have You Been Accepted</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -492,15 +493,16 @@
                 <tbody>
                     @foreach (var ProjectApply in Model.ProjectApplies)
                     {
-                        <tr>
-                            <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
-                            <td style="width:auto !important"> <span>@ProjectApply.ProjectTitle </span></td>
-                            <td>
-                                <div class="btn-group pull-right">
-                                    <button class="btn btn-default btn-xs view-posting" data-projectId="@ProjectApply.ProjectId"><i class="fas fa-folder"></i> View Posting</button>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
+                        <td style="width:auto !important"> <span>@ProjectApply.ProjectTitle </span></td>
+                        <td style="width:auto !important"> <span>@ProjectApply.AssinedToProject </span></td>
+                        <td>
+                            <div class="btn-group pull-right">
+                                <button class="btn btn-default btn-xs view-posting" data-projectId="@ProjectApply.ProjectId"><i class="fas fa-folder"></i> View Posting</button>
+                            </div>
+                        </td>
+                    </tr>
                     }
                 </tbody>
             </table>
