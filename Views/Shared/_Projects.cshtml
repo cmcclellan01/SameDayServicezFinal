@@ -1106,6 +1106,26 @@
                                                     if (item.ApplicantCount > 0)
                                                     {
                                                         <span class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId">@item.ApplicantCount</span>
+
+                                                        <script>
+                                                             $('.project-applicant-count-badge-@item.ProjectsId').on('click', function (event) {
+                                                                 event.preventDefault();
+                                                                var $detailDiv = $('.project-view');
+                                                                $('body').loading('start');
+                                                                $detailDiv.empty();
+                                                                $.get('/Account/GetProject?projectId=' + $(this).attr('data-id'), function (data) {
+
+                                                                    $detailDiv.empty().html(data);
+                                                                    $('.mode').val('e');
+                                                                                                                         
+                                                                   
+                                                                    $('#Applicants-@item.ProjectsId-tab').tab('show')
+                                                                });
+                                                                return false;
+                                                            });
+                                                        </script>
+
+
                                                     }
                                                     else
                                                     {
@@ -1199,6 +1219,10 @@
 
 
     <script>
+
+
+        
+
 
     var projects = [];
 
