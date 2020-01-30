@@ -719,7 +719,8 @@ namespace SameDayServicezFinal.Controllers
                      {
                          p.ProjectsId,
                          p.ProjectTitle,
-                         c.AppliedDate
+                         c.AppliedDate,
+                         c.AssinedToProject
 
                      };
 
@@ -730,6 +731,7 @@ namespace SameDayServicezFinal.Controllers
                     CreationDate = item.AppliedDate,
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
+                     AssinedToProject = item.AssinedToProject
 
                 };
 

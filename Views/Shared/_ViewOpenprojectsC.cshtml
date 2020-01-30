@@ -13,7 +13,7 @@
 
         @foreach (var project in Model.Projects)
         {
-            <div class="col-lg-7 ">
+            <div class="col-lg-7 project-@project.ProjectsId">
                 <div class="card  ">
                     <div class="card-header grayscale-center ">
                         <h4 class="text-capitalize" style="color: #212529;">@project.ProjectTitle</h4>

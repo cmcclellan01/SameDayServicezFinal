@@ -496,7 +496,7 @@ $(document).ready(function () {
         offLabel: 'Customer',
         onLabel: 'Contractor'
     }).on('change', function () {
-
+        $('.dont-forget').show();
 
         switch ($(this).is(":checked")) {
             case true:

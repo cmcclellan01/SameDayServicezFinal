@@ -208,6 +208,7 @@
                                 <div class="form-group  col-md-4 ">
                                     <span class="control-label text-light ">Login Mode:</span> <span class="current-mode" style='color:#015668;font-size:1rem'>@mode</span>
                                     @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                     <div><span class="dont-forget text-warning">Don't forget to click update profile to save your change.</span></div>
                                 </div>
 
 
@@ -409,6 +410,7 @@
 <script>
     $(document).ready(function () {   
 
+        $('.dont-forget').hide();
 
         $('.profile-submit').on('click', function (event) {
             event.preventDefault();

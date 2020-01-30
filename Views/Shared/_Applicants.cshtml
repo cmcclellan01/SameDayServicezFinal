@@ -156,7 +156,14 @@
                                 <div class="col-12">
                                     <div class="float-left text-light" style="margin-left:15px"> Applied on : @profile.AppliedDate.ToShortDateString()</div>
                                     <div class="float-right"> <span data-guid="@profileGuid" data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn btn-info accept-applicant no-edit" style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px;">Accept </span></div>
-                                    <div class="float-right"> <span data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn  reject-applicant no-edit @if (profile.Rejected) { <text>rejected btn-secondary</text>} else { <text> btn-danger </text>} " style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">Reject</span></div>
+                                    <div class="float-right"> <span data-projectId="@profile.ProjectsId" data-applicantId="@profile.ApplicantId" class="btn  reject-applicant no-edit @if (profile.Rejected) { <text>rejected btn-secondary</text>} else { <text> btn-danger </text>} " style="padding: 0.25rem 0.5rem;    font-size: 0.875rem;    line-height: 1.5;    border-radius: 0.2rem;margin-right:15px">
+
+    @if (profile.Rejected)
+    {<text>Undo</text>}
+else
+{ <text> Reject </text>}
+
+</span></div>
                                 </div>
 
                             </div>
@@ -597,9 +604,14 @@
         
         var element = $(this);
 
-
         
-
+        
+        if ($(this).hasClass('rejected')) {
+             element.text('Reject')
+        }
+        else {
+             element.text('Undo')
+        }
 
 
 
@@ -621,6 +633,8 @@
                     element.removeClass('rejected');
                     element.removeClass('btn-secondary');
                     element.addClass('btn-danger');
+                 
+                 
                     $.ajax({
                         type: "POST",
                         url: '/Account/RejectOrUnrejectApplicant?projectId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId') + '&Reject=false',
@@ -634,7 +648,7 @@
                             $('.project-applicant-count-badge-' + element.attr('data-projectId')).html($('#Applicants-' + element.attr('data-projectId') + '-tab .ProjectApplicants-badge').html())
                         }
                     });
-                      element.text = 'Reject';
+                    
                 });
 
         }
@@ -655,7 +669,8 @@
                     element.addClass('rejected');
                     element.addClass('btn-secondary');
                     element.removeClass('btn-danger');
-
+         
+                   
                     $.ajax({
                         type: "POST",
                         url: '/Account/RejectOrUnrejectApplicant?projectId=' + element.attr('data-projectId') + '&ApplicantId=' + element.attr('data-applicantId') + '&Reject=true',
@@ -666,7 +681,7 @@
                         }
                     });
 
-                    element.text = 'Undo';
+                   
                 });
 
 
