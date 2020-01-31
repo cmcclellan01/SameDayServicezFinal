@@ -1985,7 +1985,7 @@ namespace SameDayServicezFinal.Controllers
                         project.ProjectStatus = ProjectStatuses.Completed;
                         break;
                     case 1:
-                        project.ProjectStatus = ProjectStatuses.Active;
+                        project.ProjectStatus = ProjectStatuses.Published;
                         break;
                     case 2:
                         project.ProjectStatus = ProjectStatuses.Draft;
@@ -2020,7 +2020,7 @@ namespace SameDayServicezFinal.Controllers
             var project = db.Project.Where(p => p.ProjectsId == projectID).SingleOrDefault();
             project.IsProjectPublished = true;
             project.IsActive = true;
-            project.ProjectStatus = ProjectStatuses.Active;
+            project.ProjectStatus = ProjectStatuses.Published;
             project.AcceptingContractors = true;
 
             using (var db = new ApplicationDbContext())

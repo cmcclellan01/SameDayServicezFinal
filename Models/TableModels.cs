@@ -239,7 +239,7 @@ namespace SameDayServicezFinal.Models
     public enum ProjectStatuses
     {
         Completed,
-        Active,
+        Published,
         Draft,
         //Closed
         InProgress

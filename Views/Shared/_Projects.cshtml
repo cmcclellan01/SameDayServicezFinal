@@ -492,23 +492,23 @@
     }
 
     .project-table .label-Completed {
-        background-color: #303030 !important;
-        color: white !important;
+        background-color: green !important;
+        color: black !important;
     }
 
-    .project-table .label-Active {
-        background-color: #015668 !important;
-        color: white !important;
+    .project-table .label-published {
+        background-color: blue !important;
+        color: black !important;
     }
 
     .project-table .label-Draft {
-        background-color: #FF550B !important;
-        color: white !important;
+        background-color: red !important;
+        color: black !important;
     }
 
     .project-table .label-InProgress {
-        background-color: #000000 !important;
-        color: white !important;
+        background-color: yellow !important;
+        color: black !important;
     }
 
 
@@ -983,9 +983,9 @@
                                     <select class="form-control select-status" style="width: 100%;margin:10px">
                                         <option value="">All</option>
                                         <option>Completed</option>
-                                        <option>Active</option>
+                                        <option>Published</option>
                                         <option>Draft</option>
-                                        <option>Closed</option>
+                                        <option>InProgress</option>
                                     </select>
                                 </div>
                             </div>
@@ -1071,8 +1071,8 @@
                                                         case SameDayServicezFinal.Models.ProjectStatuses.Completed:
                                                             <span class="label label-Completed"> @item.ProjectStatus</span>
                                                             break;
-                                                        case SameDayServicezFinal.Models.ProjectStatuses.Active:
-                                                            <span class="label label-Active"> @item.ProjectStatus</span>
+                                                        case SameDayServicezFinal.Models.ProjectStatuses.Published:
+                                                            <span class="label label-published"> @item.ProjectStatus</span>
                                                             break;
                                                         case SameDayServicezFinal.Models.ProjectStatuses.Draft:
                                                             <span class="label label-Draft"> @item.ProjectStatus</span>
