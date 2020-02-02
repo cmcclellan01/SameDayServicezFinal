@@ -81,6 +81,8 @@ namespace SameDayServicezFinal.Models
 
         public string ProfileResume { get; set; }
 
+        public bool HideClosedAppliedFor { get; set; }
+
         [NotMapped]
         public List<Conversations> Conversations { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

@@ -1,6 +1,5 @@
 ﻿
 
-
 function LoadProjectTable() {
   
     var $detailDiv = $('.project-view');

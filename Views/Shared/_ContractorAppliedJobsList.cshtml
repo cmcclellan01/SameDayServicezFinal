@@ -503,6 +503,27 @@
         </div>
 
 
+     
+
+        <div class="col-lg-3 HideClosed" style="margin:10px" >
+            <label class="text-light" for="HideClosedAppliedFor">Hide Completed Projects:</label>
+            <input type="checkbox" class="HideClosedAppliedFor" name="HideClosedAppliedFor"  @{
+
+                if (Model.ApplicationUser.HideClosedAppliedFor)
+                {
+                    <text>checked</text>
+                }
+                else
+                {
+                    <text></text>
+                }
+            } >
+
+           
+        </div>
+
+
+
     </div>
 
 
@@ -529,7 +550,7 @@
                     <tr style="cursor:pointer" class="view-posting" data-projectId="@ProjectApply.ProjectId">
                         <td></td>
                         <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
-                        <td style="width:auto !important ;"> <span>@ProjectApply.ProjectTitle </span></td>
+                        <td style="width:auto !important ;" class="text-uppercase"> <span>@ProjectApply.ProjectTitle </span></td>
                         <td style="width:auto !important ;">
 
                             @{
@@ -595,6 +616,11 @@
 
 
 <script>
+
+
+
+    
+
     function LoadAppliedTable() {
           $('.project-applied-table').DataTable().destroy();
           $('#DataTables_Table_0_length > label').hide();
@@ -636,7 +662,7 @@
 
 
             }
-        },
+        },       
         "fnDrawCallback": function (oSettings) {
             //$('.view-posting').on('click', function (evt) {
             //    event.preventDefault();
@@ -733,7 +759,24 @@
                 } else {
 
                 }
-            });
+        });
+
+
+        
+    $('.HideClosedAppliedFor').on('change', function (event) {
+
+        var checked = $('input:checkbox[name="HideClosedAppliedFor"]').is(':checked');
+        event.preventDefault();
+        $('body').loading('start');
+        var $detailDiv = $('.Contractor-Applied-JobsList');
+        $detailDiv.empty();
+        $.get('/Account/GetContractorAppliedForJobsList?Hide=' + checked, function (data) {
+            $detailDiv.empty().html(data);
+            LoadAppliedTable();
+            $('body').loading('stop');
+        });
+        return false;
+    });
     });
    
 </script>

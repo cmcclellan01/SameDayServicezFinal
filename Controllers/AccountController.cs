@@ -705,11 +705,17 @@ namespace SameDayServicezFinal.Controllers
 
 
 
-        public ActionResult GetContractorAppliedForJobsList()
+        public async Task<ActionResult> GetContractorAppliedForJobsList(bool Hide)
         {
             PortalList portal = new PortalList();
-            var userId = User.Identity.GetUserId();
+            var users = db.Users.Select(p => p).ToList();
+            var userId = User.Identity.GetUserId();          
+            var currentuser = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+           
+            currentuser.HideClosedAppliedFor = Hide;
+            IdentityResult result = await UserManager.UpdateAsync(currentuser);
 
+            portal.ApplicationUser = currentuser;
 
             var pp = from c in db.ProjectApplicants
                      join p in db.Project on c.ProjectsId equals p.ProjectsId
@@ -720,7 +726,8 @@ namespace SameDayServicezFinal.Controllers
                          p.ProjectsId,
                          p.ProjectTitle,
                          c.AppliedDate,
-                         c.AssinedToProject
+                         c.AssinedToProject,
+                         p.ProjectStatus
 
                      };
 
@@ -731,14 +738,31 @@ namespace SameDayServicezFinal.Controllers
                     CreationDate = item.AppliedDate,
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
-                     AssinedToProject = item.AssinedToProject
-
+                    AssinedToProject = item.AssinedToProject,
+                    ProjectStatus = item.ProjectStatus
                 };
 
-                portal.ProjectApplies.Add(post);
+                if (currentuser.HideClosedAppliedFor)
+                {
+                    if (post.ProjectStatus != ProjectStatuses.Completed)
+                    {
+                        portal.ProjectApplies.Add(post);
+                    }
+                }
+                else
+                {
+                    portal.ProjectApplies.Add(post);
+                }
+
+                
+
             }
 
-            portal.ProjectApplies =  portal.ProjectApplies.OrderBy(p => p.CreationDate).ThenBy(p => p.AssinedToProject).ToList();
+            portal.ProjectApplies = portal.ProjectApplies.OrderByDescending(p => p.CreationDate).ThenBy(p => p.AssinedToProject).ThenBy(p => p.ProjectStatus).ToList();
+
+            var pager = new Pager(portal.ProjectApplies.Count(),0);
+
+            portal.Pager = pager;
 
             return PartialView("_ContractorAppliedJobsList", portal);
         }
@@ -855,7 +879,7 @@ namespace SameDayServicezFinal.Controllers
             var users = db.Users.Select(p => p).ToList();
             var userId = User.Identity.GetUserId();
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
-
+            var currentuser = db.Users.Where(p => p.Id == userId).SingleOrDefault();
 
             portal.Conversations = GetChatHeads();
 
@@ -944,7 +968,20 @@ namespace SameDayServicezFinal.Controllers
                     ProjectStatus = item.ProjectStatus
                 };
 
-                portal.ProjectApplies.Add(post);
+                if (currentuser.HideClosedAppliedFor)
+                {
+                    if (post.ProjectStatus != ProjectStatuses.Completed)
+                    {
+                        portal.ProjectApplies.Add(post);
+                    }
+                }
+                else
+                {
+                    portal.ProjectApplies.Add(post);
+                }
+
+              
+
             }
 
             portal.ProjectApplies = portal.ProjectApplies.OrderByDescending(p => p.CreationDate).ThenBy(p => p.AssinedToProject).ThenBy(p => p.ProjectStatus).ToList();
