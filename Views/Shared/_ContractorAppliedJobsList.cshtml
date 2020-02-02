@@ -463,6 +463,33 @@
      .project-applied-table tr:hover {
           background-color: #494b54 !important;
         }
+
+
+
+
+
+ .view-posting .label-Completed {
+        background-color: green !important;
+        color: black !important;
+    }
+
+    .view-posting .label-published {
+        background-color: blue !important;
+        color: black !important;
+    }
+
+    .view-posting .label-Draft {
+        background-color: red !important;
+        color: black !important;
+    }
+
+    .view-posting .label-InProgress {
+        background-color: yellow !important;
+        color: black !important;
+    }
+
+
+
 </style>
 
 <div class="card">
@@ -484,13 +511,15 @@
 
         <div class="col-lg-12">
 
-            <table class="table project-applied-table ">
+            <table class="table project-applied-table  ">
                 <thead>
                     <tr>
-                        <th style="width:180px!important;text-align:center">Date Applied</th>
+                        <th></th>
+                        <th style="text-align:center">Date Applied</th>
                         <th style="text-align:left">Project Name</th>
-                        <th style="text-align:left">Have You Been Accepted</th>
-                        @*<th></th>*@
+                        <th style="text-align:left">Project Status</th>
+                        <th style="text-align:left">Application Accepted</th>
+                       
                     </tr>
                 </thead>
 
@@ -498,14 +527,55 @@
                     @foreach (var ProjectApply in Model.ProjectApplies)
                     {
                     <tr style="cursor:pointer" class="view-posting" data-projectId="@ProjectApply.ProjectId">
+                        <td></td>
                         <td style="width:180px!important;text-align:center"> <span>@ProjectApply.CreationDate.ToShortDateString() </span></td>
-                        <td style="width:auto !important ;"  > <span>@ProjectApply.ProjectTitle </span></td>
-                        <td style="width:auto !important"> <span>  @(ProjectApply.AssinedToProject ?"Yes":"No")</span></td>
-                        @*<td>
-                            <div class="btn-group pull-right">
-                                <button class="btn btn-default btn-xs view-posting" data-projectId="@ProjectApply.ProjectId"><i class="fas fa-folder"></i> View Posting</button>
-                            </div>
-                        </td>*@
+                        <td style="width:auto !important ;"> <span>@ProjectApply.ProjectTitle </span></td>
+                        <td style="width:auto !important ;">
+
+                            @{
+                                switch (ProjectApply.ProjectStatus)
+                                {
+                                    case SameDayServicezFinal.Models.ProjectStatuses.Completed:
+                                        <span class="label label-Completed"> @ProjectApply.ProjectStatus</span>
+                                        break;
+                                    case SameDayServicezFinal.Models.ProjectStatuses.Published:
+                                        <span class="label label-published"> @ProjectApply.ProjectStatus</span>
+                                        break;
+                                    case SameDayServicezFinal.Models.ProjectStatuses.Draft:
+                                        <span class="label label-Draft"> @ProjectApply.ProjectStatus</span>
+                                        break;
+                                    case SameDayServicezFinal.Models.ProjectStatuses.InProgress:
+                                        <span class="label label-InProgress"> @ProjectApply.ProjectStatus</span>
+                                        break;
+
+                                }
+                              
+                            }
+
+                        </td>
+                        <td style="width:auto !important">
+                           
+
+
+                                @{
+                                    switch (ProjectApply.AssinedToProject)
+                                    {
+                                        case true:
+                                            <span class="label label-Completed">Yes</span>
+                                            break;
+                                        case false:
+                                            <span class="label label-InProgress">No</span>
+                                            break;
+
+
+                                    }
+
+                                }
+
+                          
+
+                        </td>
+                     
                     </tr>
                     }
                 </tbody>
@@ -525,7 +595,9 @@
 
 
 <script>
-    $('#DataTables_Table_0_length > label').hide();
+    function LoadAppliedTable() {
+          $('.project-applied-table').DataTable().destroy();
+          $('#DataTables_Table_0_length > label').hide();
 
     $.fn.dataTable.ext.classes.sPageButton = 'btn custom-table-buttons ';
     $('.project-applied-search').on('keyup', function () {
@@ -541,30 +613,128 @@
         pageLength: 10,
         header: "jqueryui",
         renderer: "bootstrap",
-        ordering: false,
+        language: {
+            "zeroRecords": "No records to display with the current search.",
+            "emptyTable": "No data available in table"
+        },
+        responsive: {
+            details: {
+                renderer: function (api, rowIdx, columns) {
+                    var data = $.map(columns, function (col, i) {
+                        return col.hidden ?
+                            '<tr data-dt-row="' + col.rowIndex + '" data-dt-column="' + col.columnIndex + '">' +
+                            '<td  class="text-light">' + col.title + ':' + '</td> ' +
+                            '<td>' + col.data + '</td>' +
+                            '</tr>' :
+                            '';
+                    }).join('');
+
+                    return data ?
+                        $('<table/>').append(data) :
+                        false;
+                }
+
+
+            }
+        },
         "fnDrawCallback": function (oSettings) {
-            $('.view-posting').on('click', function (evt) {
-                event.preventDefault();
-                $('body').loading('start');
-                var $detailDiv = $('.past-job');
+            //$('.view-posting').on('click', function (evt) {
+            //    event.preventDefault();
+            //    $('body').loading('start');
+            //    var $detailDiv = $('.past-job');
 
-                $.get('/Account/ViewPastAppliedForProjects?projectId=' + $(this).attr('data-projectId'), function (data) {
+            //    $.get('/Account/ViewPastAppliedForProjects?projectId=' + $(this).attr('data-projectId'), function (data) {
 
-                    $detailDiv.replaceWith('<div class="past-job">' + data + '</div>');
+            //        $detailDiv.replaceWith('<div class="past-job">' + data + '</div>');
 
-                    $('.past-job-modal').modal('show').on('hidden.bs.modal', function (e) {
-                        $detailDiv.html('');
+            //        $('.past-job-modal').modal('show').on('hidden.bs.modal', function (e) {
+            //            $detailDiv.html('');
 
-                    });
-                    $('body').loading('stop');
+            //        });
+            //        $('body').loading('stop');
 
-                });
+            //    });
+            //});
+
+            $('.project-applied-table tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child().show();
+                    tr.addClass('shown');
+                }
             });
-        }
+        } ,
+        columns: [
+            {
+                "data": null,
+                "defaultContent": ""
+            },
+            { name: 'Date Applied' },
+            { name: 'Project Name' },
+            { name: 'Project Status' },
+            { name: 'Application Accepted' },
+          
+        ],
+        columnDefs:
+            [
+                {
+                    className: 'control',
+                    orderable: true,
+                    targets: 0
+
+                },
+                {
+
+                    targets: 1,
+                    className: 'text-center'
+
+                },
+                {
+
+                    targets: 2,
+
+                    className: 'text-center'
+                },
+                {
+
+                    targets: 3,
+                    className: 'text-center'
+                },
+                {
+
+                    targets: 4,
+                    className: 'text-center',                
+
+                },
+                
+            ]
 
     });
 
+    }
+    $(document).ready(function () {
+      //  LoadAppliedTable()
 
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+                var target = $(e.target).attr("href");
+
+                if ((target == '#nav-applied-jobs')) {
+
+                    LoadAppliedTable();
+
+                } else {
+
+                }
+            });
+    });
    
 </script>
 

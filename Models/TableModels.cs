@@ -254,6 +254,7 @@ namespace SameDayServicezFinal.Models
         public bool Read { get; set; }
         public bool Delivered { get; set; }
         public bool AssinedToProject { get; set; }
+       public ProjectStatuses ProjectStatus { get; set; }
 
     }
 

@@ -927,7 +927,8 @@ namespace SameDayServicezFinal.Controllers
                          p.ProjectsId,
                          p.ProjectTitle,
                          c.AppliedDate,
-                         c.AssinedToProject
+                         c.AssinedToProject,
+                         p.ProjectStatus
 
                      };
 
@@ -938,7 +939,8 @@ namespace SameDayServicezFinal.Controllers
                     CreationDate = item.AppliedDate,
                     ProjectId = item.ProjectsId,
                     ProjectTitle = item.ProjectTitle,
-                    AssinedToProject = item.AssinedToProject
+                    AssinedToProject = item.AssinedToProject,
+                    ProjectStatus = item.ProjectStatus
                 };
 
                 portal.ProjectApplies.Add(post);
