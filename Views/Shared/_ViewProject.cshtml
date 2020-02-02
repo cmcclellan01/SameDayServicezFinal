@@ -121,7 +121,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="skills-@Model.ProjectsId-tab" data-toggle="tab" href="#skills-@Model.ProjectsId" role="tab" aria-controls="skills-@Model.ProjectsId" aria-selected="false">
-                             Professions
+                            Professions
                             <span class="badge bg-red badge-corner skills-badge"></span>
                         </a>
                     </li>
@@ -130,7 +130,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="compensation-@Model.ProjectsId-tab" data-toggle="tab" href="#compensation-@Model.ProjectsId" role="tab" aria-controls="compensation-@Model.ProjectsId" aria-selected="false">
-                             Compensation
+                            Compensation
                             <span class="badge bg-red badge-corner compensation-badge"></span>
 
                         </a>
@@ -148,7 +148,7 @@
                             }
 
 
-                            </a>
+                        </a>
                     </li>
 
                     @{
@@ -381,11 +381,11 @@
                                         @for (int i = 0; i < Model.ProjectCategories.ToList().Count(); i++)
                                         {
                                             <div class="result-added text-light project-skills" style="font-size:small">
-                                                <span class="btn btn-outline-danger btn-sm remove no-edit"
+                                                <span class="btn btn-dark btn-sm remove no-edit"
                                                       data-id="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId @Model.ProjectCategories.ToList()[i].ProjectsSubCatId"
                                                       data-mainId="@Model.ProjectCategories.ToList()[i].ProjectsMainCatId"
                                                       data-subId="@Model.ProjectCategories.ToList()[i].ProjectsSubCatId"
-                                                      role="button" style="margin: 5px;">remove</span>
+                                                      role="button" style="margin: 5px;">X</span>
                                                 @Model.ProjectCategories.ToList()[i].ProjectsMainCatName -- @Model.ProjectCategories.ToList()[i].ProjectsSubCatName
                                             </div>
                                         }
@@ -651,45 +651,45 @@
 
                                                     <div class="card-body text-center text-light grayscale">
                                                         @*<div class="card ">
-            <h4 class="card-title">My Bios</h4>
-            <div class="card-body my-bios " style="max-height:none">
+                                                                <h4 class="card-title">My Bios</h4>
+                                                                <div class="card-body my-bios " style="max-height:none">
 
-                <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.ProfileBios</p>
-            </div>
-        </div>*@
+                                                                    <p class="mb-4 text-left  more" font-size: 1rem;"> @profile.ProfileBios</p>
+                                                                </div>
+                                                            </div>*@
 
                                                         @*<div class="card " style="min-height:200px;max-height:200px;overflow:hidden">
-            <div class="card-body ">
-                <h4 class="card-title">My Job Professions</h4>
-                <table class=" table-striped text-left " style="width:100%;color:grey !important">
-                    <thead>
-                        <tr>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var profession in @profile.ProfileProfessions)
-                        {
-                            <tr>
-                                <td style="padding:2px">@profession.SubCatName</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>*@
+                                                                <div class="card-body ">
+                                                                    <h4 class="card-title">My Job Professions</h4>
+                                                                    <table class=" table-striped text-left " style="width:100%;color:grey !important">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th></th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            @foreach (var profession in @profile.ProfileProfessions)
+                                                                            {
+                                                                                <tr>
+                                                                                    <td style="padding:2px">@profession.SubCatName</td>
+                                                                                </tr>
+                                                                            }
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>*@
 
 
 
                                                         @*<div class="card " style="min-height:200px;max-height:800px;overflow:auto">
-            <div class="card-body ">
-                <h4 class="card-title">My Past Projects</h4>
-                @foreach (var projectrating in Model.ProjectRating)
-                {
-                    @Html.Partial("_ProjectRating", projectrating)
-                }
-            </div>
-        </div>*@
+                                                                <div class="card-body ">
+                                                                    <h4 class="card-title">My Past Projects</h4>
+                                                                    @foreach (var projectrating in Model.ProjectRating)
+                                                                    {
+                                                                        @Html.Partial("_ProjectRating", projectrating)
+                                                                    }
+                                                                </div>
+                                                            </div>*@
 
 
 
@@ -713,7 +713,7 @@
                                                                 <span class="btn btn-dark MyFont " data-contractorid="@profile.UsersId" data-contractor-display-name="@profile.ProfileDisplayName" data-toggle="modal" data-target="#messageModal">Message Contractor</span>
                                                             </div>
                                                             <div class="col-auto"> <span class="btn btn-dark MyFont profileA-btn" data-contractor-id="@profile.UsersId">View Full Profile</span></div>
-                                                          
+
                                                         </div>
 
 
@@ -827,7 +827,7 @@
 
 
                             <div class="row">
-                                <div class="col-4">                            
+                                <div class="col-4">
                                     <div style="margin-top:50px;padding:20px;background-color:white;display:none" class="paypal-cc">
                                         <!-- Set up a container element for the button -->
                                         <div id="paypal-button-container" style="background-color:white"></div>
@@ -1055,7 +1055,7 @@
             </div>
 
             <div class="card-footer text-right">
-                <span class="btn btn-info publish-@Model.ProjectsId  no-edit float-left " disabled>Publish Project</span>
+                <span class="btn btn-info publish-@Model.ProjectsId  no-edit float-left " disabled>Make Project Active</span>
 
                 <span class="btn btn-primary submit-@Model.ProjectsId no-edit">Save Project</span>
                 <span class="btn btn-primary close-@Model.ProjectsId">Close</span>
@@ -1105,7 +1105,7 @@
                 $('#ProjectStatus').attr('disabled', true).addClass('disabled');
         }
 
-        console.log(SkillsCount + ':' +  CompensationCount + ':' +  BasicInfoCount)
+        //console.log(SkillsCount + ':' +  CompensationCount + ':' +  BasicInfoCount)
     }
 
     var PublishCount =  setInterval(CheckForPublishCount,1000);
@@ -1239,7 +1239,7 @@
                 url: "/Account/PublishProject",
                 data: { projectID: @Model.ProjectsId },
                 success: function () {
-                    swal("Project has been published.", "", "success");
+                    swal("Project has been made Active.", "", "success");
                       $('body').loading('start');
                     LoadData('user-projects', 'Account', 'UpdateProjectPortal');
                     $("html, body").animate({ scrollTop: 0 }, 0);
@@ -1265,7 +1265,12 @@
 
         $('.submit-@Model.ProjectsId').on('click', function (event) {
             event.preventDefault();
-              clearInterval(PublishCount);
+            clearInterval(PublishCount);
+
+
+
+
+
             var ProjectTitle = $('.basicinformation-@Model.ProjectsId #ProjectTitle').val();
            // var Description = $('.basicinformation-@Model.ProjectsId #Description').val();
             var Description = $('.notes-description').summernote('code');
@@ -1317,10 +1322,64 @@
                 },
                 success: function () {
                     $('.project-id-@Model.ProjectsId').hide();
-                    swal("Project has been updated.", "", "success");
-                    $('body').loading('start');
-                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
-                    $("html, body").animate({ scrollTop: 0 }, 0);
+
+
+
+                    if (SkillsCount == 0 && CompensationCount == 0 && BasicInfoCount == 0) {
+
+                        swal({
+                            title: "Your Project is Ready?",
+                            text: "Your project is ready to be published. Would you like to publish your project?",
+                            type: "info",
+                            showCancelButton: true,
+                            confirmButtonClass: "btn-info",
+                            confirmButtonText: "Publish project",
+                            cancelButtonText: "Just Save project",
+                            closeOnConfirm: true
+                        },
+                            function (isConfirm) {
+
+                                if (isConfirm) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/Account/PublishProject",
+                                        data: { projectID: @Model.ProjectsId },
+                                        success: function () {
+                                            $('body').loading('start');
+                                            swal("Project has been published.", "", "success");
+                                            LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                                            $("html, body").animate({ scrollTop: 0 }, 0);
+                                        }
+                                    });
+                                }
+                                else {
+                                    swal("Project has been updated.", "", "success");
+                                    $('body').loading('start');
+                                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                                    $("html, body").animate({ scrollTop: 0 }, 0);
+                                }
+
+
+
+
+
+
+
+                            });
+
+                    }
+                    else {
+                         swal("Project has been updated.", "", "success");
+                                    $('body').loading('start');
+                                    LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                                    $("html, body").animate({ scrollTop: 0 }, 0);
+    }
+
+
+
+
+
+
 
 
 
@@ -1512,7 +1571,7 @@
                 $('.skills-@Model.ProjectsId #SelectedProfession').val('');
                 $('.skills-@Model.ProjectsId .sublist').hide();
 
-                $('.skills-@Model.ProjectsId .results').append('<div class="result-added new project-skills" id="' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".skills-@Model.ProjectsId #Professions option:selected").text() + ' -- ' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").text() + '</div>')
+                $('.skills-@Model.ProjectsId .results').append('<div class="result-added remove new project-skills" id="' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").val() + '"><span class="btn btn-dark btn-sm " role="button" style="margin: 5px;">X</span>' + $(".skills-@Model.ProjectsId #Professions option:selected").text() + ' -- ' + $(".skills-@Model.ProjectsId #SubProfessions option:selected").text() + '</div>')
 
                 $('#Skills').val($('.project-skills').length);
 
@@ -1535,7 +1594,28 @@
 
 
                 // remove the selected one after we add it
-                $('.skills-@Model.ProjectsId #SubProfessions').find('option:selected').remove().end();
+             //   $('.skills-@Model.ProjectsId #SubProfessions').find('option:selected').remove().end();
+
+
+
+                $('.skills-@Model.ProjectsId .remove').click(function (e) {
+
+                    $(this).parent().remove();
+
+                    var mainID = $(".skills-@Model.ProjectsId #Professions option:selected").val();
+                    var subID = $(".skills-@Model.ProjectsId #SubProfessions option:selected").val().split('_')[1];
+                    var projectID = @Model.ProjectsId;
+
+                    $.post('/Account/RemoveProjectContractorCustomerCategories', { mainId: mainID, subId: subID, projectId: projectID }, function (data) { });
+
+                $('.skills-@Model.ProjectsId .Professions').hide();
+                $('.skills-@Model.ProjectsId .SubProfessions').hide();
+                $('.skills-@Model.ProjectsId .update-professions').hide();
+
+                });
+
+
+
 
 
             }
