@@ -738,6 +738,7 @@ namespace SameDayServicezFinal.Controllers
                 portal.ProjectApplies.Add(post);
             }
 
+            portal.ProjectApplies =  portal.ProjectApplies.OrderBy(p => p.CreationDate).ThenBy(p => p.AssinedToProject).ToList();
 
             return PartialView("_ContractorAppliedJobsList", portal);
         }
@@ -946,7 +947,7 @@ namespace SameDayServicezFinal.Controllers
                 portal.ProjectApplies.Add(post);
             }
 
-
+            portal.ProjectApplies = portal.ProjectApplies.OrderByDescending(p => p.CreationDate).ThenBy(p => p.AssinedToProject).ThenBy(p => p.ProjectStatus).ToList();
 
 
             foreach (var project in portal.Projects)
