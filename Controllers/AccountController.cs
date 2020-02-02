@@ -889,7 +889,7 @@ namespace SameDayServicezFinal.Controllers
             {
 
                 case true:
-                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true && p.ProjectStatus != ProjectStatuses.Completed ).OrderByDescending(p => p.CreationDate).Take(10).ToList();
+                    portal.Projects = db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true && p.ProjectStatus != ProjectStatuses.Completed && p.ProjectsUsersId != userId).OrderByDescending(p => p.CreationDate).Take(10).ToList();
                     List<Project> prjGroup = new List<Project>();
                     var ProjectApplicants = db.ProjectApplicants.Where(p => p.ApplicantId == userId).ToList();
                     var isInArray = false;
@@ -1396,10 +1396,10 @@ namespace SameDayServicezFinal.Controllers
 
             portal.Projects = prjGroup;
 
-            var pager = new Pager(portal.Projects.Distinct().Count(), page);
+            var pager = new Pager(portal.Projects.Distinct().Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true && p.ProjectStatus != ProjectStatuses.Completed && p.ProjectsUsersId != userId).Count(), page);
 
-            portal.Projects = portal.Projects.Distinct().OrderByDescending(p => p.CreationDate).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList();
-
+            portal.Projects = portal.Projects.Distinct().Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true && p.ProjectStatus != ProjectStatuses.Completed && p.ProjectsUsersId != userId).OrderByDescending(p => p.CreationDate).Skip((pager.CurrentPage - 1) * pager.PageSize).Take(pager.PageSize).ToList();
+          
 
             foreach (var project in portal.Projects)
             {
