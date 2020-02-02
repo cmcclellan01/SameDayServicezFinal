@@ -1379,26 +1379,32 @@
 
                 if ($('.new-data').val() == 'true') {
 
-                    swal({
-                        title: "Customer/Contractor change?",
-                        text: "Your view has changed would you like to reload the view?",
-                        type: "info",
-                        showCancelButton: true,
-                        confirmButtonClass: "btn-info",
-                        confirmButtonText: "Ok!",
-                        closeOnConfirm: true
-                    },
-                        function () {
-                            $('body').loading('start');
+                    //swal({
+                    //    title: "Customer/Contractor change?",
+                    //    text: "Your view has changed would you like to reload the view?",
+                    //    type: "info",
+                    //    showCancelButton: true,
+                    //    confirmButtonClass: "btn-info",
+                    //    confirmButtonText: "Ok!",
+                    //    closeOnConfirm: true
+                    //},
+                    //    function () {
+                    //        $('body').loading('start');
+                    //        LoadData('user-projects', 'Account', 'UpdateProjectPortal');
+                    //        //swal("Deleted!", "Your imaginary file has been deleted.", "success");
+                    //        $('.new-data').val('false');
+                    //        $('.contractor-customer-change').val('false');
+
+                    //        $('.contractor-mode-no-view').toggle();
+                    //    });
+
+                     $('body').loading('start');
                             LoadData('user-projects', 'Account', 'UpdateProjectPortal');
                             //swal("Deleted!", "Your imaginary file has been deleted.", "success");
                             $('.new-data').val('false');
                             $('.contractor-customer-change').val('false');
 
                             $('.contractor-mode-no-view').toggle();
-                        });
-
-
 
                 }
             }
