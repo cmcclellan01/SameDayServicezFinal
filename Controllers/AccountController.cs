@@ -99,7 +99,7 @@ namespace SameDayServicezFinal.Controllers
 
         }
 
-        public async Task<ActionResult> CreateNewProject(string projectTitle)
+        public async Task<ActionResult> CreateNewProject(string projectTitle,int type)
         {
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -115,7 +115,7 @@ namespace SameDayServicezFinal.Controllers
                     IsActive = false,
                     latitude = 0,
                     longitude = 0,
-                    SelectedProjectCompensationPackage = 0,
+                    SelectedProjectCompensationPackage = type,
                     AcceptingContractors = false,
                     NumberOfContractorsNeeded = 0,
                     Duration = 0,
@@ -125,6 +125,8 @@ namespace SameDayServicezFinal.Controllers
 
                 db.Project.Add(prj);
                 db.SaveChanges();
+
+                await SaveProjectCompensationPackage(prj.ProjectsId, type);
 
                 return Json(prj.ProjectsId, JsonRequestBehavior.AllowGet);
 
@@ -1813,6 +1815,109 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_ProjectAssignmentSingle", ProjectAssignments);
         }
 
+        public ActionResult GetProjectP(long projectId)
+        {
+            Project project = new Project();
+            var userId = User.Identity.GetUserId();
+            var states = Extensions.GetStatesList();
+            List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
+
+            project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+
+
+            // add the project assignments to the object
+            project.ProjectAssignments = new List<ProjectAssignment>();
+            ProjectAssignments = db.ProjectAssignment.Where(p => p.ProjectId == project.ProjectsId && p.ProjectOwner == userId).ToList();
+
+
+            foreach (var Assignment in ProjectAssignments)
+            {
+                var profile = db.Users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                var projectOwnerName = db.Users.Where(i => i.Id == Assignment.UsersId).SingleOrDefault();
+                var pp = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == Assignment.UsersId);
+                Assignment.ProfileProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == Assignment.UsersId).ToList();
+
+
+                List<Project> ProfilePastProjects = new List<Project>();
+                ProfilePastProjects = db.Project.Where(p => p.ProjectsUsersId == Assignment.UsersId).ToList(); //.Select(x => new Project { ProjectTitle = x.ProjectTitle, CreationDate = x.CreationDate }).ToList(); 
+
+                Assignment.ProfileImage = profile.ProfileImage;
+                Assignment.ProfileDisplayName = profile.DisplayName;
+                Assignment.ProfileBios = profile.Bio;
+                Assignment.ProfileRating = profile.Rating;
+                Assignment.ByTheHourRate = profile.ByTheHourRate;
+                Assignment.ProfilePastProjects = ProfilePastProjects;
+                Assignment.ProjectOwnerName = projectOwnerName.DisplayName;
+                Assignment.UsersId = profile.Id;
+                project.ProjectAssignments.Add(Assignment);
+
+                project.ProjectRating = db.ProjectRating.Where(p => p.ContractorId == Assignment.UsersId).ToList();
+                foreach (var item in project.ProjectRating)
+                {
+                    item.Project = db.Project.Where(p => p.ProjectsId == item.ProjectsId).SingleOrDefault();
+                    item.ProjectOwner = db.Users.Where(p => p.Id == item.ProjectOwnerId).SingleOrDefault();
+                }
+            }
+
+
+            // add the Project Compensation Package to the object
+            var ProjectCompensationPackage = db.ProjectCompensationPackage.Where(p => p.ProjectId == project.ProjectsId).SingleOrDefault();
+            if (ProjectCompensationPackage != null)
+            {
+                project.SelectedProjectCompensationPackage = ProjectCompensationPackage.ProjectCompensationType;
+                project.ByTheHourRate = ProjectCompensationPackage.ByTheHourRate;
+                project.ByTheProjectRate = ProjectCompensationPackage.ByTheProjectRate;
+                project.EndingBidDate = ProjectCompensationPackage.EndingBidDate;
+                project.EndingBidRate = ProjectCompensationPackage.EndingBidRate;
+                project.FloatingBidRate = ProjectCompensationPackage.FloatingBidRate;
+                project.StartingBidDate = ProjectCompensationPackage.StartingBidDate;
+                project.StartingBidRate = ProjectCompensationPackage.StartingBidRate;
+            }
+
+            // add the Project Job Categories to the object
+            project.ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == project.ProjectsId).ToList();
+
+            // add the Project Documents to the object
+            project.ProjectDocuments = db.ProjectDocuments.Where(p => p.ProjectId == project.ProjectsId).ToList();
+
+            // fill the drops downs on the model
+            project.States = GetSelectListItems(states);
+            project.Professions = new List<SelectListItem>();
+            project.SubProfessions = new List<SelectListItem>();
+            project.CompensationTypeList = Extensions.GetCompensationType(true);
+            project.DurationList = Extensions.GetDurationList();
+
+
+
+            project.Conversations = new List<Conversations>();
+            project.ProjectApplicants = db.ProjectApplicants.Where(p => p.ProjectsId == projectId).ToList();
+
+            foreach (var applicant in project.ProjectApplicants)
+            {
+                if (ProjectAssignments.Where(p => p.ProjectId == applicant.ProjectsId && p.ProjectOwner == userId && p.UsersId == applicant.ApplicantId).ToList().Count() > 0)
+                {
+                    applicant.AssinedToProject = true;
+                }
+                else
+                {
+                    applicant.AssinedToProject = false;
+                    applicant.Applicant = db.Users.Where(p => p.Id == applicant.ApplicantId).SingleOrDefault();
+                    applicant.Applicant.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == applicant.ApplicantId).ToList();
+                    applicant.PastProjects = db.Project.Where(p => p.ProjectsUsersId == applicant.ApplicantId).ToList();
+                }
+            }
+
+            project.ProjectApplicants = project.ProjectApplicants.OrderByDescending(p => p.ApplicantRating).ThenByDescending(p => p.Rejected).ToList();
+
+            Session["IsInContractorMode"] = (db.Users.Where(i => i.Id == userId).SingleOrDefault()).IsInContractorMode;
+
+
+
+
+
+
+            return PartialView("_ViewProjectP", project);
+        }
 
         [SessionTimeout]
         public ActionResult GetProject(long projectId)
@@ -1884,7 +1989,7 @@ namespace SameDayServicezFinal.Controllers
             project.States = GetSelectListItems(states);
             project.Professions = new List<SelectListItem>();
             project.SubProfessions = new List<SelectListItem>();
-            project.CompensationTypeList = Extensions.GetCompensationType();
+            project.CompensationTypeList = Extensions.GetCompensationType(false);
             project.DurationList = Extensions.GetDurationList();
 
 

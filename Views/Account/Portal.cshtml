@@ -60,13 +60,13 @@
 
 
                             <li class="nav-item dropdown">
-                                <a id="notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
+                                <a id="notifications" title="Your Notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
                                     <i class="fas fa-bell"></i><span class="badge bg-red badge-corner"></span>
                                 </a>
                             </li>
                             <!-- Messages -->
                             <li class="nav-item dropdown">
-                                <a id="messages" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
+                                <a id="messages" rel="nofollow" title="Your Messsages" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
                                     <i class="fas fa-envelope"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
                                 </a>
                                 <ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">
@@ -102,8 +102,14 @@
                                 }
                                 else
                                 {
-                                    <a class="nav-item nav-link " id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="false">My Projects</a>
+                                    <a class="nav-item nav-link " id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">My Projects</a>
                                     <a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>
+
+                                    <script>
+                                        $(document).ready(function () {
+                                            $('#nav-project-tab').tab('show');
+                                        });
+                                    </script>
                                 }
                             }
 
@@ -437,8 +443,57 @@
                             <div class="form-group col-md-12">
                                 <label class="control-label text-light">Project Title</label>
                                 <input class="form-control new-project-title" style="min-width: 100%!important;" type="text" value="">
-
                             </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-12 ">
+                                    <label class="control-label text-light">Project Type</label>
+                                    <select class="form-control" data-val="true" id="SelectedProjectCompensationPackage" name="SelectedProjectCompensationPackage" style="min-width: 100%!important;" >
+                                        <option selected="selected" value="1">PAY BY THE HOUR</option>
+                                        <option value="2">PAY BY THE PROJECT</option>
+                                        <option value="3">PAY BY PROPOSAL</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="form-row hourly-rate">
+                                <div class="form-group col-md-12 ">
+                                    <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <span class="text-light small">Pay By The Hour:</span> <span class="table-dark small"> This means that for every billable hour you will be charged by the rate that you list in your project.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row project-rate">
+                                <div class="form-group col-md-12 ">
+                                    <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <span class="text-light small">Pay By The Project:</span> <span class="table-dark small"> This means that you will be charged by the rate that you list in your project for the whole entire project.</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div class="form-row project-bid-rate">
+                                <div class="form-group col-md-12 ">
+                                    <div class="card border-primary" style="margin-bottom:25px;border-radius:10px">
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                <span class="text-light small">Pay By Proposal:</span> <span class="table-dark small"> This means that there will be contractors sending proposals for your project</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>*@
+
+
                         </div>
                     </div>
 
@@ -481,7 +536,22 @@
          LoadData('profile-chat', 'Account', 'ReloadChat');
     }
 
-  
+  (function($) {
+    $.fn.onEnter = function(func) {
+        this.bind('keypress', function(e) {
+            if (e.keyCode == 13) func.apply(this, [e]);    
+        });               
+        return this; 
+     };
+})(jQuery);
+    //
+    $(".new-project-title").onEnter( function() {
+        $('.create-new-project').click();
+    });
+
+     $('.new-project-modal').on('show.bs.modal', function (event) {       
+         setTimeout(function (){ $('.new-project-title').focus();}, 1000);
+    });
 
 
     $('#messageModal').on('show.bs.modal', function (event) {
@@ -498,8 +568,8 @@
 
     });
 
-
-
+    
+   
     $(document).ready(function () {
 
         SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
@@ -517,14 +587,20 @@
 
 
         $('.create-new-project').click(function () {
+
+            var type = $('#SelectedProjectCompensationPackage').val();
+    
+
+           
         $.ajax({
             type: "POST",
-            url: '/Account/CreateNewProject?projectTitle=' + $('.new-project-title').val(),
+            url: '/Account/CreateNewProject?projectTitle=' + $('.new-project-title').val() + '&type=' + $('#SelectedProjectCompensationPackage').val(),
             success: function (data) {
 
                 $('#nav-project-tab').tab('show');
                 $('.new-project-modal').modal('hide')
                 $('body').loading('start');
+                $(".new-project-title").val('');
 
                 //swicth to the projects tab
 
@@ -534,12 +610,45 @@
                 $.get('/Account/UpdateProjectPortal', function (data) {
                     $detailDiv = $('.user-projects');
                     $detailDiv.empty().html(data);
+                   
 
-                    $detailDiv = $('.project-view');
-                    $.get('/Account/GetProject?projectId=' + projectId, function (data) {
-                        $detailDiv.empty().html(data);
-                        $('.mode').val('e');
-                    });
+                    switch(type) {
+                        case "1":
+                          
+                           $detailDiv = $('.project-view');
+                            $.get('/Account/GetProject?projectId=' + projectId, function (data) {
+                                $detailDiv.empty().html(data);
+                                $('.mode').val('e');
+                            });
+                            break;
+                        case "2":
+                              
+                            $detailDiv = $('.project-view');
+                            $.get('/Account/GetProject?projectId=' + projectId, function (data) {
+                                $detailDiv.empty().html(data);
+                                $('.mode').val('e');
+                            });
+                            break;
+                        case "3":
+                              
+                             $detailDiv = $('.project-view');
+                            $.get('/Account/GetProjectP?projectId=' + projectId, function (data) {
+                                $detailDiv.empty().html(data);
+                                $('.mode').val('e');
+                            });
+
+                            break;
+                    };
+
+
+
+
+                   
+
+
+
+
+
 
                 });
 

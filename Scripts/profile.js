@@ -151,6 +151,7 @@ function LoadProjectTable() {
             },
             { name: 'Project name' },
             { name: 'Status' },
+            { name: 'Project Type'},
             { name: 'Assigned Contractors' },
             { name: 'Applicants Alert' },
             { name: 'City' },
@@ -175,7 +176,6 @@ function LoadProjectTable() {
                 {
 
                     targets: 2,
-
                     className: 'text-center'
                 },
                 {
@@ -186,21 +186,21 @@ function LoadProjectTable() {
                 {
 
                     targets: 4,
-                    className: 'text-center',
-                    searchable: false,
-                    orderable: false
-
+                    className: 'text-center'
                 },
                 {
 
                     targets: 5,
-                    className: 'text-center'
+                    className: 'text-center',
+                   
 
                 },
                 {
 
                     targets: 6,
-                    className: 'text-center'
+                    className: 'text-center',
+                    searchable: false,
+                    orderable: false
 
                 },
                 {
@@ -209,9 +209,15 @@ function LoadProjectTable() {
                     className: 'text-center'
 
                 },
+                {
+
+                    targets: 8,
+                    className: 'text-center'
+
+                },
 
                 {
-                    targets: [8],
+                    targets: 9,
                     searchable: false,
                     orderable: false
                 }

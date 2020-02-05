@@ -94,6 +94,10 @@
     .table-responsive {
         display: table;
     }
+
+    /*///////////////////*/
+
+  
 </style>
 
 
@@ -214,7 +218,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.NumberOfContractorsNeeded, "Number of Needed Contractors:", new { @class = "control-label text-light" })
-                                                @Html.TextBoxFor(m => m.NumberOfContractorsNeeded, new { @class = "form-control", style = "min-width: 100%!important;", @type = "number" })
+                                                @Html.TextBoxFor(m => m.NumberOfContractorsNeeded, new { @class = "form-control is-number", style = "min-width: 100%!important;", @type = "number" })
                                             </div>
                                         </div>
                                     </div>
@@ -223,7 +227,7 @@
                                         <div class="form-row">
                                             <div class="form-group col-md-12">
                                                 @Html.LabelFor(m => m.NumberOfDaysHelpIsNeeded, "Number of Days Help Is Needed:", new { @class = "control-label text-light" })
-                                                @Html.TextBoxFor(m => m.NumberOfDaysHelpIsNeeded, new { @class = "form-control", style = "min-width: 100%!important;", @type = "number" })
+                                                @Html.TextBoxFor(m => m.NumberOfDaysHelpIsNeeded, new { @class = "form-control is-number", style = "min-width: 100%!important;", @type = "number" })
                                             </div>
                                         </div>
                                     </div>
@@ -540,7 +544,7 @@
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">$</span>
                                             </div>
-                                            @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control hourly-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
+                                            @Html.TextBoxFor(m => m.ByTheHourRate, new { @class = "form-control hourly-rate currency is-number", @onkeypress = "return validateDec(event)", @type = "number" })
 
                                         </div>
                                     </div>
@@ -554,7 +558,7 @@
                                                 <span class="input-group-text">$</span>
                                             </div>
 
-                                            @Html.TextBoxFor(m => m.ByTheProjectRate, new { @class = "form-control project-rate currency", @onkeypress = "return validateDec(event)", @type = "number" })
+                                            @Html.TextBoxFor(m => m.ByTheProjectRate, new { @class = "form-control project-rate currency is-number", @onkeypress = "return validateDec(event)", @type = "number" })
 
                                         </div>
                                     </div>
@@ -1071,6 +1075,22 @@
     var SkillsCount = 0;
     var CompensationCount = 0;
     var BasicInfoCount = 0;
+
+
+    $('.is-number').on('click', function (evt) {
+        if ($(this).val() == 0) {
+            $(this).val('')
+        }
+    });
+
+    $('.is-number').on('focusout', function (evt) {
+        if ($(this).val() == '') {
+            $(this).val('0')
+        }
+    });
+     
+
+
 
 
     $('.profileA-btn').on('click', function (evt) {

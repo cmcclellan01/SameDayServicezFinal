@@ -344,13 +344,29 @@ namespace SameDayServicezFinal.Utils
             return states;
         }
 
-        public static IEnumerable<SelectListItem> GetCompensationType()
+        public static IEnumerable<SelectListItem> GetCompensationType(bool proposal)
         {
             IList<SelectListItem> ProjectCompensation = new List<SelectListItem>();
 
             foreach (var item in db.ProjectCompensations.Select(p => p))
             {
-                ProjectCompensation.Add(new SelectListItem() { Text = item.CompensationTypeText, Value = item.Id.ToString()});
+                if(proposal)
+                {
+                    if(item.CompensationTypeText == "PAY BY PROPOSAL")
+                    {
+                        ProjectCompensation.Add(new SelectListItem() { Text = item.CompensationTypeText, Value = item.Id.ToString() });
+                    }
+                   
+                }
+                else
+                {
+                    if (item.CompensationTypeText != "PAY BY PROPOSAL")
+                    {
+                        ProjectCompensation.Add(new SelectListItem() { Text = item.CompensationTypeText, Value = item.Id.ToString() });
+                    }
+                }
+
+               
             }
 
             return ProjectCompensation;

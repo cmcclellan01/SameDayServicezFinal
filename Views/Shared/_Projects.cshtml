@@ -497,7 +497,7 @@
     }
 
     .project-table .label-published {
-        background-color: blue !important;
+        background-color: #0066ff82 !important;
         color: black !important;
     }
 
@@ -1026,7 +1026,11 @@
 
 
 
-
+                            <div class="col-lg-5">                             
+                                <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project">
+                                <span class="btn btn-dark  MyFont pull-right" font-family: Verdana;">New Project</span>
+                                </a>
+                            </div>
 
 
                         </div>
@@ -1042,6 +1046,7 @@
                                         <th></th>
                                         <th>Project name</th>
                                         <th>Status</th>
+                                        <th>Project Type</th>
                                         <th>Assigned Contractors</th>
                                         <th>Applicants Alert</th>
                                         <th>City</th>
@@ -1054,60 +1059,82 @@
                                 <tbody>
                                     @foreach (var item in Model.Projects)
                                     {
-                                        <tr >
-                                            <td></td>
+                                    <tr data-projectId="@item.ProjectsId"  data-ptype="@{switch (item.SelectedProjectCompensationPackage){case 1:<text>by-the-hour</text>break;case 2:<text>by-the-project</text>break;case 3:<text>by-the-proposal</text>break; } }">
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        <td></td>
 
-                                            <td class="edit-project" data-id="@item.ProjectsId" style="cursor:pointer">
-                                                <span>@item.ProjectTitle</span>
-
-
-                                            </td>
-                                            <td>
-
-
-                                                @{
-                                                    switch (item.ProjectStatus)
-                                                    {
-                                                        case SameDayServicezFinal.Models.ProjectStatuses.Completed:
-                                                            <span class="label label-Completed"> @item.ProjectStatus</span>
-                                                            break;
-                                                        case SameDayServicezFinal.Models.ProjectStatuses.Published:
-                                                            <span class="label label-published"> @item.ProjectStatus</span>
-                                                            break;
-                                                        case SameDayServicezFinal.Models.ProjectStatuses.Draft:
-                                                            <span class="label label-Draft"> @item.ProjectStatus</span>
-                                                            break;
-                                                        case SameDayServicezFinal.Models.ProjectStatuses.InProgress:
-                                                            <span class="label label-InProgress"> @item.ProjectStatus</span>
-                                                            break;
-
-                                                    }
-
-                                                    @*if (item.IsProjectPublished)
-                                                    {
-                                                        <span class="label label-Active" style="margin-left:5px">Published</span>
-                                                    }*@
-                                                }
+                                        <td class="edit-project" data-id="@item.ProjectsId" style="cursor:pointer">
+                                            <span>@item.ProjectTitle</span>
 
 
-                                            </td>
-                                            <td>
-                                                @foreach (var profile in item.ProjectAssignments)
+                                        </td>
+                                        <td>
+
+
+                                            @{
+                                                switch (item.ProjectStatus)
                                                 {
-                                                        <a href="#" data-toggle="tooltip" data-contractor-id="@profile.UsersId" title="@profile.ProfileDisplayName" class="profile-icon-btn" style="margin:5px">
-                                                            <img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage">
-                                                        <span style="display:none">@profile.ProfileDisplayName</span>
-                                                        </a>
+                                                    case SameDayServicezFinal.Models.ProjectStatuses.Completed:
+                                                        <span class="label label-Completed"> @item.ProjectStatus</span>
+                                                        break;
+                                                    case SameDayServicezFinal.Models.ProjectStatuses.Published:
+                                                        <span class="label label-published"> @item.ProjectStatus</span>
+                                                        break;
+                                                    case SameDayServicezFinal.Models.ProjectStatuses.Draft:
+                                                        <span class="label label-Draft"> @item.ProjectStatus</span>
+                                                        break;
+                                                    case SameDayServicezFinal.Models.ProjectStatuses.InProgress:
+                                                        <span class="label label-InProgress"> @item.ProjectStatus</span>
+                                                        break;
+
                                                 }
-                                            </td>
+                                             
+                                            }
 
-                                            <td >
-                                                @{
-                                                    if (item.ApplicantCount > 0)
-                                                    {
-                                                        <span style="cursor:pointer" class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId">@item.ApplicantCount</span>
 
-                                                        <script>
+                                        </td>
+                                        <td>
+
+
+                                            @{
+                                                switch (item.SelectedProjectCompensationPackage)
+                                                {
+                                                    case 1:
+                                                             <span class="label label-Completed">PAY BY THE HOUR</span>
+                                                        break;
+                                                    case 2:
+                                                            <span class="label label-published"> PAY BY THE PROJECT</span>
+                                                        break;
+                                                    case 3:
+                                                            <span class="label label-InProgress"> PAY BY PROPOSAL</span>
+                                                        break;                                                  
+
+                                                }                                             
+                                            }
+
+
+                                        </td>
+                                        <td>
+                                            @foreach (var profile in item.ProjectAssignments)
+                                            {
+                                                <a href="#" data-toggle="tooltip" data-contractor-id="@profile.UsersId" title="@profile.ProfileDisplayName" class="profile-icon-btn" style="margin:5px">
+                                                    <img alt="image" class=" image-md " style="border-radius:25px !important;border:1px solid #000 !important;" src="/Uploads/ProfileImages/@profile.UsersId/@profile.ProfileImage">
+                                                    <span style="display:none">@profile.ProfileDisplayName</span>
+                                                </a>
+                                            }
+                                        </td>
+
+                                        <td>
+                                            @{
+                                                if (item.ApplicantCount > 0)
+                                                {
+                                                    <span style="cursor:pointer" class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId">@item.ApplicantCount</span>
+
+                                                    <script>
                                                              $('.project-applicant-count-badge-@item.ProjectsId').on('click', function (event) {
                                                                  event.preventDefault();
                                                                 var $detailDiv = $('.project-view');
@@ -1117,50 +1144,50 @@
 
                                                                     $detailDiv.empty().html(data);
                                                                     $('.mode').val('e');
-                                                                                                                         
-                                                                   
+
+
                                                                     $('#Applicants-@item.ProjectsId-tab').tab('show')
                                                                 });
                                                                 return false;
                                                             });
-                                                        </script>
+                                                    </script>
 
 
-                                                    }
-                                                    else
-                                                    {
-                                                        <span class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId"></span>
-                                                    }
                                                 }
-                                            </td>
+                                                else
+                                                {
+                                                    <span class="badge bg-orange badge-corner project-applicant-count-badge-@item.ProjectsId" data-id="@item.ProjectsId"></span>
+                                                }
+                                            }
+                                        </td>
 
-                                            <td>
-                                                <span>@item.City</span>
-                                            </td>
-                                            <td>
-                                                <span>@item.State</span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    @if (item.ZipCode != "00000")
-                                                    {
-                                                        @item.ZipCode
-                                                    }
+                                        <td>
+                                            <span>@item.City</span>
+                                        </td>
+                                        <td>
+                                            <span>@item.State</span>
+                                        </td>
+                                        <td>
+                                            <span>
+                                                @if (item.ZipCode != "00000")
+                                                {
+                                                    @item.ZipCode
+                                                }
 
-                                                </span>
-                                            </td>
+                                            </span>
+                                        </td>
 
-                                            <td>
-                                                <div class="btn-group pull-right">
-                                                    <button class="btn btn-default btn-xs view-project d-none" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
-                                                    <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
-                                                    <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <button class="btn btn-default btn-xs view-project d-none" data-id="@item.ProjectsId"><i class="fas fa-folder"></i> View</button>
+                                                <button class="btn btn-default btn-xs edit-project" data-id="@item.ProjectsId"><i class="fas fa-pencil-alt"></i>Edit</button>
+                                                <button class="btn btn-default btn-xs notes-project" data-id="@item.ProjectsId"><i class="fas fa-sticky-note"></i> Notes</button>
 
 
 
-                                                </div>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
