@@ -2024,7 +2024,7 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_ViewProject", project);
         }
         [SessionTimeout]
-        public async Task<ActionResult> UpdateProfile(string DisplayName, string Bio, string Email, string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate, bool IsInContractorMode, string OldPassword, string NewPassword, bool InWorkMode)
+        public async Task<ActionResult> UpdateProfile(string DisplayName, string Bio, string Email, string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate, bool IsInContractorMode, string OldPassword, string NewPassword, bool InWorkMode,bool ContactByEmail,bool ContactByPhone)
         {
 
             var userId = User.Identity.GetUserId();
@@ -2049,6 +2049,8 @@ namespace SameDayServicezFinal.Controllers
                 profile.IsInContractorMode = IsInContractorMode;
                 profile.IsInCustomerMode = !IsInContractorMode;
                 profile.InWorkMode = InWorkMode;
+                profile.ContactWithEmail = ContactByEmail;
+                profile.ContactWithPhone = ContactByPhone;
 
                 if (OldPassword != null && NewPassword != null)
                 {

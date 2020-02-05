@@ -208,7 +208,7 @@
                                 <div class="form-group  col-md-4 ">
                                     <span class="control-label text-light ">Login Mode:</span> <span class="current-mode" style='color:#015668;font-size:1rem'>@mode</span>
                                     @Html.CheckBoxFor(m => m.IsInContractorMode, new { @class = "IsContractor form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                                     <div><span class="dont-forget text-warning">Don't forget to click update profile to save your change.</span></div>
+                                    <div><span class="dont-forget text-warning">Don't forget to click update profile to save your change.</span></div>
                                 </div>
 
 
@@ -234,12 +234,40 @@
                                 </div>
 
 
+                                <div class="form-group  col-md-4 ">
+                                    <span class="control-label text-light ">Contact By Email:</span>
+                                    <span class="ContactByEmailMode" style='color:#015668;font-size:1rem'>
+                                        @{switch (Model.ContactWithEmail)
+                                            {
+                                                case true:<text>Yes</text> break;
+                                            case false:<text>No</text>break;
+                                    }}
+                                </span>
+                                @Html.CheckBoxFor(m => m.ContactWithEmail, new { @class = "ContactByEmail form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                            </div>
 
+                            <div class="form-group  col-md-4 ">
+                                <span class="control-label text-light ">Contact By Phone:</span>
+                                <span class="ContactByPhoneMode" style='color:#015668;font-size:1rem'>
+                                    @{switch (Model.ContactWithPhone)
+                                        {
+                                            case true:<text>Yes</text> break;
+                                        case false:<text>No</text>break;
+                                }}
+                            </span>
+                            @Html.CheckBoxFor(m => m.ContactWithPhone, new { @class = "ContactByPhone form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                            </div>
 
                             </div>
 
+
+                           
+
+
+
+
+                            </div>
                         </div>
-                    </div>
 
                     <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
                         <div class="skills ApplicationUser-skills">
@@ -433,6 +461,8 @@
             var OldPassword = $('#OldPassword').val();
             var NewPassword = $('#NewPassword').val();
             var InWorkMode = $('.InWorkMode').prop('checked');
+            var ContactByEmail = $('.ContactByEmail').prop('checked');
+            var ContactByPhone = $('.ContactByPhone').prop('checked');
 
             $.ajax({
                 type: "POST",
@@ -440,7 +470,7 @@
                     "&Address=" + Address + "&City=" + City + "&State=" + State +
                     "&ZipCode=" + ZipCode + "&FirstName=" + FirstName + "&MiddleName=" + MiddleName +
                     "&LastName=" + LastName + "&PhoneNumber=" + PhoneNumber + "&ByTheHourRate=" + ByTheHourRate +
-                    "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode,
+                    "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode + "&ContactByEmail=" + ContactByEmail + "&ContactByPhone=" + ContactByPhone,
                 success: function () {
 
                     var ret = LoadData('profileDiv', 'Account', 'ReloadProfile');

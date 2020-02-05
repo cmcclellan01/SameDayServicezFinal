@@ -83,6 +83,10 @@ namespace SameDayServicezFinal.Models
 
         public bool HideClosedAppliedFor { get; set; }
 
+        public bool ContactWithEmail { get; set; }
+
+        public bool ContactWithPhone { get; set; }
+
         [NotMapped]
         public List<Conversations> Conversations { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

@@ -541,6 +541,50 @@ $(document).ready(function () {
 
     });
 
+    $('.ContactByEmail').checkboxpicker({
+        html: true,
+        offLabel: 'No',
+        onLabel: 'Yes'
+    }).on('change', function () {
+
+
+        switch ($(this).is(":checked")) {
+            case true:
+                $('.ContactByEmail').prop('checked', true);
+                $('.ContactByEmailMode').html('<span style="color:#015668;font-size:1rem">Yes</span>');
+                break;
+            case false:
+                $('.ContactByEmail').prop('checked', false);
+                $('.ContactByEmailMode').html('<span style="color:#015668;font-size:1rem">No</span>');
+                break;
+        }
+
+    });
+
+    $('.ContactByPhone').checkboxpicker({
+        html: true,
+        offLabel: 'No',
+        onLabel: 'Yes'
+    }).on('change', function () {
+
+
+        switch ($(this).is(":checked")) {
+            case true:
+                $('.ContactByPhone').prop('checked', true);
+                $('.ContactByPhoneMode').html('<span style="color:#015668;font-size:1rem">Yes</span>');
+                break;
+            case false:
+                $('.ContactByPhone').prop('checked', false);
+                $('.ContactByPhoneMode').html('<span style="color:#015668;font-size:1rem">No</span>');
+                break;
+        }
+
+    });
+
+
+
+    
+
     $('a[data-toggle="tooltip"]').tooltip({
         animated: 'fade',
         placement: 'bottom',
