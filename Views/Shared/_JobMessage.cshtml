@@ -3,7 +3,7 @@
 
 @foreach (var item in Model.ProjectAcceptance)
 {
-   var messsageGuid = Guid.NewGuid();
+    var messsageGuid = Guid.NewGuid();
 
 
     <div class="modal fade" id="ModalProjectAcceptance_@messsageGuid" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
@@ -20,7 +20,7 @@
                         <tr>
                             <th>Project Title</th>
                             <th>Project Timeline</th>
-                            
+
                         </tr>
                         <tr>
                             <td style="color:#015668 !important">@item.Project.ProjectTitle</td>
@@ -47,10 +47,10 @@
 
                                     / Day(s) Needed :@item.Project.NumberOfDaysHelpIsNeeded
                                 </span>
-</td>
-                           
+                            </td>
+
                         </tr>
-                       
+
                     </table>
                 </div>
                 <div class="modal-footer">
@@ -66,5 +66,4 @@
         $('#ModalProjectAcceptance_@messsageGuid').modal('show');
     </script>
 }
-
 

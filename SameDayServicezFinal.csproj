@@ -194,6 +194,24 @@
     <Compile Include="Utils\Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="android-icon-144x144.png" />
+    <Content Include="android-icon-192x192.png" />
+    <Content Include="android-icon-36x36.png" />
+    <Content Include="android-icon-48x48.png" />
+    <Content Include="android-icon-72x72.png" />
+    <Content Include="android-icon-96x96.png" />
+    <Content Include="apple-icon-114x114.png" />
+    <Content Include="apple-icon-120x120.png" />
+    <Content Include="apple-icon-144x144.png" />
+    <Content Include="apple-icon-152x152.png" />
+    <Content Include="apple-icon-180x180.png" />
+    <Content Include="apple-icon-57x57.png" />
+    <Content Include="apple-icon-60x60.png" />
+    <Content Include="apple-icon-72x72.png" />
+    <Content Include="apple-icon-76x76.png" />
+    <Content Include="apple-icon-precomposed.png" />
+    <Content Include="apple-icon.png" />
+    <Content Include="browserconfig.xml" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\brands.css" />
@@ -436,9 +454,16 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\v4-shims.css" />
     <Content Include="Content\v4-shims.min.css" />
+    <Content Include="favicon-16x16.png" />
+    <Content Include="favicon-32x32.png" />
+    <Content Include="favicon-96x96.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="ms-icon-144x144.png" />
+    <Content Include="ms-icon-150x150.png" />
+    <Content Include="ms-icon-310x310.png" />
+    <Content Include="ms-icon-70x70.png" />
     <Content Include="Scripts\bootstrap-checkbox.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
@@ -655,6 +680,7 @@
     <Content Include="Content\stroke.ttf" />
     <Content Include="Content\bootstrap-select.css.map" />
     <Content Include="Content\MidAmericanBill.pdf" />
+    <Content Include="manifest.json" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -917,6 +943,7 @@
     <Content Include="Uploads\ProfileImages\f61d1823-73d1-4897-9489-501c6732fcdf\profile_f61d1823-73d1-4897-9489-501c6732fcdf.jpg" />
     <Content Include="Uploads\ProfileImages\fa7be246-6721-4650-a4ad-973e7595fb4c\profile_fa7be246-6721-4650-a4ad-973e7595fb4c.jpg" />
     <Content Include="Uploads\ProfileImages\fa884a51-98d1-45ed-bdf5-d2ad6cb94e72\profile_fa884a51-98d1-45ed-bdf5-d2ad6cb94e72.jpg" />
+    <Content Include="Views\Shared\acceptedEmail.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

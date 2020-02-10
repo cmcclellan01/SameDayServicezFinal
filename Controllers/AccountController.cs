@@ -857,27 +857,29 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_JobMessage", job);
         }
 
-        public void SendEmail(Project prj, ApplicationUser user)
+        public void SendEmail(Project prj, ApplicationUser user,string Body,string Subject)
         {
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
 
+            //email.secureserver.net
             mail.From = new MailAddress("admindev@devsamedayservicez.com");
-            mail.To.Add(user.Email);
-            mail.Subject = "Your application has been accepted.";
-            mail.Body = "You have been accepted for the job titled: " +  prj.ProjectTitle + "<br/> Please log into your dashboard";
+           // mail.To.Add(user.Email);
+            mail.To.Add("christopher.mcclellan@gmail.com");
+            mail.To.Add("jm.millerzconstruction@gmail.com");            
+            mail.Subject = Subject;           
+            mail.Body = Body;          
             mail.IsBodyHtml = true;
-
-            SmtpServer.Port = 25;
-          //  SmtpServer.Credentials = new System.Net.NetworkCredential("admindev@devsamedayservicez.com", "Mike12Mike12$");
-            //SmtpServer.EnableSsl = true;
-           
+            SmtpServer.Port = 25;          
             SmtpServer.Send(mail);
            
         }
 
+       
+
         public void UpdatePortal(PortalList portal)
-        {
+        {          
+
             var users = db.Users.Select(p => p).ToList();
             var userId = User.Identity.GetUserId();
             List<ProjectAssignment> ProjectAssignments = new List<ProjectAssignment>();
@@ -885,7 +887,7 @@ namespace SameDayServicezFinal.Controllers
 
             portal.Conversations = GetChatHeads();
 
-
+           
 
             switch (portal.ApplicationUser.IsInContractorMode)
             {
@@ -1635,7 +1637,9 @@ namespace SameDayServicezFinal.Controllers
                 db.SaveChanges();
 
                 var user = db.Users.Where(p => p.Id == ApplicantId).SingleOrDefault();
-                SendEmail(project, user);
+                string Body = System.IO.File.ReadAllText(Server.MapPath("/Views/Shared/acceptedEmail.html"));
+
+               SendEmail(project, user,Body, "Your application has been accepted.");
             }
 
             return Json("OK", JsonRequestBehavior.AllowGet);
