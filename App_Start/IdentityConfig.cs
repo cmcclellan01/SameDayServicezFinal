@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -19,6 +20,18 @@ namespace SameDayServicezFinal
         public Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
+
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
+            mail.From = new MailAddress("samedayservicez-noreply@devsamedayservicez.com"); 
+            mail.To.Add(message.Destination);           
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;           
+            mail.IsBodyHtml = true;
+            SmtpServer.Port = 25;
+            SmtpServer.Send(mail);
+
+
             return Task.FromResult(0);
         }
     }

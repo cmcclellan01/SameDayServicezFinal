@@ -208,13 +208,28 @@ namespace SameDayServicezFinal.Controllers
                 return View(model);
             }
 
+
+
+            // Require the user to have a confirmed email before they can log on.
+            var user = await UserManager.FindByNameAsync(model.Email);
+            if (user != null)
+            {
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    ViewBag.errorMessage = "You must have a confirmed email to log on.";
+                    return View("Error");
+                }
+            }
+
+
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
 
             if (result == SignInStatus.Success)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+
                 user.Online = true;
                 Session["FullName"] = user.FirstName + " " + user.LastName;
                 Session["ID"] = user.Id;
@@ -357,15 +372,24 @@ namespace SameDayServicezFinal.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                   // await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    
+                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
-                    return RedirectToAction("Portal", "Account", new { nr = true });
+
+                    ViewBag.Message = "Check your email and confirm your account, you must be confirmed "
+                         + "before you can log in.";
+
+                    return View("Info");
+
+
+
+                    //return RedirectToAction("Portal", "Account", new { nr = true });
                 }
                 AddErrors(result);
             }
@@ -413,10 +437,11 @@ namespace SameDayServicezFinal.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -857,23 +882,7 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_JobMessage", job);
         }
 
-        public void SendEmail(Project prj, ApplicationUser user,string Body,string Subject)
-        {
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
 
-            //email.secureserver.net
-            mail.From = new MailAddress("admindev@devsamedayservicez.com");
-           // mail.To.Add(user.Email);
-            mail.To.Add("christopher.mcclellan@gmail.com");
-            mail.To.Add("jm.millerzconstruction@gmail.com");            
-            mail.Subject = Subject;           
-            mail.Body = Body;          
-            mail.IsBodyHtml = true;
-            SmtpServer.Port = 25;          
-            SmtpServer.Send(mail);
-           
-        }
 
        
 
@@ -1637,12 +1646,154 @@ namespace SameDayServicezFinal.Controllers
                 db.SaveChanges();
 
                 var user = db.Users.Where(p => p.Id == ApplicantId).SingleOrDefault();
-                string Body = System.IO.File.ReadAllText(Server.MapPath("/Views/Shared/acceptedEmail.html"));
+                             
 
-               SendEmail(project, user,Body, "Your application has been accepted.");
+               SendEmail(project, user, ReplaceAcceptedEmailData(project, user), "Your application has been accepted.");
             }
 
             return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
+        public void SendEmail(Project prj, ApplicationUser user, string Body, string Subject)
+        {
+            MailMessage mail = new MailMessage();
+            SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
+            mail.From = new MailAddress("samedayservicez-noreply@devsamedayservicez.com");
+           // mail.To.Add(user.Email);
+            mail.To.Add("christopher.mcclellan@gmail.com");
+            mail.To.Add("jm.millerzconstruction@gmail.com");
+            mail.Subject = Subject;
+            mail.Body = Body;
+            mail.IsBodyHtml = true;
+            SmtpServer.Port = 25;
+            SmtpServer.Send(mail);
+
+        }
+
+        private bool SendEmailToApplicants(Project prj)
+        {
+            var ProjectCategories = db.ProjectCategories.Where(p => p.ProjectsId == prj.ProjectsId).ToList();
+            var ProjectCategoriesA = "";
+            var UserList = new List<ApplicationUser>();
+            var ContractorCustomerCategories = new List<ContractorCustomerCategories>();
+
+            foreach (var item in ProjectCategories)
+            {
+                var c = db.ContractorCustomerCategories.Where(p => p.SubCatId == item.ProjectsSubCatId).ToList();
+
+                foreach (var i in c)
+                {
+                    var user = db.Users.Where(p => p.Id == i.ContractorCustomerId).FirstOrDefault();
+                    if (user != null)
+                    {
+                        UserList.Add(user);
+                    }
+                }
+
+                ProjectCategoriesA += item.ProjectsSubCatName + ",";
+            }          
+       
+
+            ProjectCategoriesA.Trim(',');
+
+            foreach (var user in UserList)
+            {
+                SendEmail(prj, user, ReplaceNewProjectAvailEmailData(prj, ProjectCategoriesA), "A new project that fits your skills has been posted.");
+            }
+
+
+            return true;
+
+        }
+
+        public string ReplaceNewProjectAvailEmailData(Project prj, string ProjectCategoriesA)
+        {
+            string body = System.IO.File.ReadAllText(Server.MapPath("/Views/Shared/NewProject.html"));
+
+            string Duration = "";
+            switch (prj.Duration)
+            {
+                case 1:
+                    Duration = "Short Term / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+
+                case 2:
+                    Duration = "Long Term  / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+
+                case 3:
+
+                    Duration = "Proposal / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+            }
+
+       
+
+            body = body.Replace("~ProjectTitle", prj.ProjectTitle).Replace("~Skills", ProjectCategoriesA).Replace("~ProjectTimeline", Duration).Replace("~Compensation", "$" + prj.ByTheHourRate.ToString() + " / hourly").Replace("~JobDescription", prj.Description);
+
+            return body;
+        }
+
+
+        public string ReplaceNewApplicantEmailData(Project prj, ApplicationUser applicant)
+        {
+            string body = System.IO.File.ReadAllText(Server.MapPath("/Views/Shared/NewApplicant.html"));
+
+            string Duration = "";
+            switch (prj.Duration)
+            {
+                case 1:
+                    Duration = "Short Term / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+
+                case 2:
+                    Duration = "Long Term  / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+
+                case 3:
+
+                    Duration = "Proposal / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+            }
+
+            var ProfilePath = "/Uploads/ProfileImages/" + applicant.Id + "/";
+
+            string pathString = "https://www.devsamedayservicez.com" + ProfilePath.ToString() + "profile_" + applicant.Id + Path.GetExtension(applicant.ProfileImage);
+
+            body = body.Replace("~ProfileImageUrl", pathString).Replace("~FullName", applicant.DisplayName).Replace("~ProjectTitle", prj.ProjectTitle).Replace("~ProjectTimeline", Duration).Replace("~Compensation", "$" + prj.ByTheHourRate.ToString() + " / hourly").Replace("~JobDescription", prj.Description);
+
+            return body;
+        }
+
+
+        public string ReplaceAcceptedEmailData(Project prj,ApplicationUser applicant)
+        {
+            string body = System.IO.File.ReadAllText(Server.MapPath("/Views/Shared/acceptedEmail.html"));
+
+            string Duration="";
+            switch (prj.Duration)
+                {
+                    case 1:
+                    Duration = "Short Term / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+
+                    case 2:
+                    Duration = "Long Term  / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+
+                    case 3:
+
+                    Duration = "Proposal / Day(s) Needed: " + prj.NumberOfDaysHelpIsNeeded;
+                    break;
+            }
+
+            var ProfilePath = "/Uploads/ProfileImages/" + applicant.Id + "/";
+   
+            string pathString = "https://www.devsamedayservicez.com" + ProfilePath.ToString() + "profile_" + applicant.Id + Path.GetExtension(applicant.ProfileImage);
+
+            body = body.Replace("~ProfileImageUrl", pathString).Replace("~FullName", applicant.DisplayName).Replace("~ProjectTitle", prj.ProjectTitle).Replace("~ProjectTimeline", Duration).Replace("~Compensation", "$" + prj.ByTheHourRate.ToString() + " / hourly").Replace("~JobDescription", prj.Description);
+
+            return body;
         }
 
         [HttpPost]
@@ -1651,6 +1802,8 @@ namespace SameDayServicezFinal.Controllers
             var userId = User.Identity.GetUserId();
             var contrator = db.Users.Where(p => p.Id == userId).SingleOrDefault();
             var project = db.Project.Where(p => p.ProjectsId == projectId).SingleOrDefault();
+            var projectOwner = db.Users.Where(p => p.Id == project.ProjectsUsersId).SingleOrDefault();
+
 
             ProjectApplicants applicant = new ProjectApplicants
             {
@@ -1666,7 +1819,10 @@ namespace SameDayServicezFinal.Controllers
             if (HasAppliedBefore == 0)
             {
                 db.ProjectApplicants.Add(applicant);
-                db.SaveChanges();
+                db.SaveChanges();                                         
+                
+                SendEmail(project, projectOwner, ReplaceNewApplicantEmailData(project, contrator), "A new applicant has applied for your project.");
+
                 return Json("OK", JsonRequestBehavior.AllowGet);
             }
             else
@@ -2180,8 +2336,16 @@ namespace SameDayServicezFinal.Controllers
                 db.SaveChanges();
             }
 
+            SendEmailToApplicants(project);
+
+
+
+
+
             return Json(projectID, JsonRequestBehavior.AllowGet);
         }
+
+       
 
 
         [SessionTimeout]
@@ -2196,6 +2360,14 @@ namespace SameDayServicezFinal.Controllers
             List<Subcategories> catList = new List<Subcategories>();
 
             wholeList.RemoveAll(x => UserProfessions.Any(y => y.SubCatId == x.Id));
+
+            return Json(wholeList, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public JsonResult GetFullProjectASubCategoryList(int Id)
+        {
+            var wholeList = db.Subcategories.Where(x => x.MainCatId == Id).ToList();        
 
             return Json(wholeList, JsonRequestBehavior.AllowGet);
 

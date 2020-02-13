@@ -493,7 +493,7 @@ Dropzone.autoDiscover = false;
 $(document).ready(function () {
 
 
-
+    
 
     // this is for the is contractor checkbox that makes it 'customer or contractor'
     $('.IsContractor').checkboxpicker({
@@ -696,6 +696,8 @@ $(document).ready(function () {
     });
 
     $('.ApplicationUser-add').click(function () {
+
+        var json="";
 
         if ($(".ApplicationUser-SubProfessions option:selected").val() !== '- Please Select A Job Title -') {      
 

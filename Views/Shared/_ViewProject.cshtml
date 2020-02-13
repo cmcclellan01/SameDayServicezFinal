@@ -1564,7 +1564,7 @@
         });
 
         $('.skills-@Model.ProjectsId #Professions').change(function (event, ui) {
-            $.get('/Account/GetSubCategoryList', { Id: this.value }, function (data) {
+            $.get('/Account/GetFullProjectASubCategoryList', { Id: this.value }, function (data) {
 
                 $(".skills-@Model.ProjectsId #SubProfessions").empty();
                 $(".skills-@Model.ProjectsId .SubProfessions").show();
