@@ -366,8 +366,12 @@ namespace SameDayServicezFinal.Controllers
                     PercentDone = 10,
                     DisplayName = model.FirstName + " " + model.LastName,
                     UserName = model.Email,
-                    CreationDate = DateTime.Now
+                    CreationDate = DateTime.Now,
+                    ContactWithEmail = true,
+                    ContactWithPhone = true
                 };
+
+                user.PercentDone = 6.666666666666667 * 4;
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
