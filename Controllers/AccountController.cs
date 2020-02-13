@@ -363,7 +363,7 @@ namespace SameDayServicezFinal.Controllers
                     LastName = model.LastName,
                     IsInContractorMode = model.IsInContractorMode,
                     IsInCustomerMode = model.IsInCustomerMode,
-                    PercentDone = 20,
+                    PercentDone = 10,
                     DisplayName = model.FirstName + " " + model.LastName,
                     UserName = model.Email,
                     CreationDate = DateTime.Now
@@ -1062,7 +1062,94 @@ namespace SameDayServicezFinal.Controllers
 
             }
 
-          
+
+            if (currentuser.PercentDone != 100)
+            {
+                currentuser.PercentDone = 0;
+
+                if (!string.IsNullOrWhiteSpace(currentuser.DisplayName))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.Bio))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.Email))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.Address))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.City))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.State))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+
+                if (!string.IsNullOrWhiteSpace(currentuser.ZipCode))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.FirstName))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.MiddleName))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.PhoneNumber))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (currentuser.ByTheHourRate != 0)
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.BirthDate))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                var job = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+                if (job.Count() != 0)
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.ProfileImage))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+
+                if (!string.IsNullOrWhiteSpace(currentuser.ProfileResume))
+                {
+                    currentuser.PercentDone += 6.666666666666667;
+                }
+            }
+
+
+
+            //currentuser.PercentDone = Math.Round(currentuser.PercentDone);
+
         }
 
         public List<Conversations> GetChatHeads()
@@ -2216,6 +2303,93 @@ namespace SameDayServicezFinal.Controllers
                 {
                     IdentityResult passwordresult = await UserManager.ChangePasswordAsync(userId, OldPassword, NewPassword);
                 }
+
+                
+                    profile.PercentDone = 0;
+
+                    if (!string.IsNullOrWhiteSpace(profile.DisplayName))
+                    {                      
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.Bio))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.Email))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.Address))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.City))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.State))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+
+                    if (!string.IsNullOrWhiteSpace(profile.ZipCode))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.FirstName))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.MiddleName))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.PhoneNumber))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (profile.ByTheHourRate != 0)
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.BirthDate))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    var job = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+                    if (job.Count() != 0)
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.ProfileImage))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(profile.ProfileResume))
+                    {
+                        profile.PercentDone += 6.666666666666667;
+                    }
+               
+
+               
+
+                //profile.PercentDone = Math.Round(profile.PercentDone);
+
             }
 
 

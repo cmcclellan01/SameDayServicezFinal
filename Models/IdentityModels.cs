@@ -35,7 +35,7 @@ namespace SameDayServicezFinal.Models
         public string Bio { get; set; }
         public bool IsInContractorMode { get; set; }
         public bool IsInCustomerMode { get; set; }
-        public int PercentDone { get; set; }
+        public double PercentDone { get; set; }
 
         [NotMapped]
         public IEnumerable<SelectListItem> States { get; set; }

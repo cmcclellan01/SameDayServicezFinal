@@ -665,7 +665,7 @@ $(document).ready(function () {
 
     $('.ApplicationUser-Professions').hide();
     $('.ApplicationUser-SubProfessions').hide();
-
+    $('.ApplicationUser-add').hide();
 
     $('.ApplicationUser-skills .Alphabetical').click(function () {
         $('.ApplicationUser-Professions').show();
@@ -695,13 +695,21 @@ $(document).ready(function () {
         });
     });
 
+    $('.ApplicationUser-SubProfessions').change(function (event, ui) {
+        if ($(".ApplicationUser-SubProfessions option:selected").val() !== '- Please Select A Job Title -') {
+            $('.ApplicationUser-add').show();
+        }
+    });
+
+   
+ 
     $('.ApplicationUser-add').click(function () {
 
         var json="";
 
         if ($(".ApplicationUser-SubProfessions option:selected").val() !== '- Please Select A Job Title -') {      
 
-            $('.ApplicationUser-result').append('<div class="result-added new" id="' + $(".ApplicationUser-SubProfessions option:selected").val() + '"><span class="btn btn-outline-danger btn-sm " role="button" style="margin: 5px;">remove</span>' + $(".ApplicationUser-Professions option:selected").text() + ' -- ' + $(".ApplicationUser-SubProfessions option:selected").text() + '</div>')
+            $('.ApplicationUser-result').append('<div class="result-added new" id="' + $(".ApplicationUser-SubProfessions option:selected").val() + '"><span class="btn btn-dark btn-sm " role="button" style="margin: 5px;">X</span>' + $(".ApplicationUser-Professions option:selected").text() + ' -- ' + $(".ApplicationUser-SubProfessions option:selected").text() + '</div>')
 
             // updates the hidden field
             $('.ApplicationUser-skills .new').each(function (index, value) {

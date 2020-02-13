@@ -7,16 +7,23 @@
 
 <div class="row">
     <div class="col-lg-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title">Profile Completion: @Model.PercentDone% of your profile has been completed</h5>
-            </div>
-            <div class="card-body text-center text-light">
-                <div class="progress">
-                    <div class="progress-bar bg-success " role="progressbar" style="width: @Model.PercentDone%;color:white" aria-valuenow="@Model.PercentDone" aria-valuemin="0" aria-valuemax="100"></div>
+
+        @{ if (Math.Round(Model.PercentDone) != 100)
+            {
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Profile Completion: @Model.PercentDone% of your profile has been completed</h5>
+                    </div>
+                    <div class="card-body text-center text-light">
+                        <div class="progress">
+                            <div class="progress-bar bg-success " role="progressbar" style="width: @Model.PercentDone%;color:white" aria-valuenow="@Model.PercentDone" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
+            }
+
+        }
+
 
 
         <div class="card card-profile">
@@ -339,8 +346,8 @@
                                     @for (int i = 0; i < Model.UserProfessions.ToList().Count(); i++)
                                     {
                                         @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
-
-                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-outline-danger btn-sm remove ApplicationUser-remove" data-id="@Model.UserProfessions.ToList()[i].MainCatId @Model.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">remove</span> @Model.UserProfessions.ToList()[i].MainCatName -- @Model.UserProfessions.ToList()[i].SubCatName</div>
+                          
+                                        <div class="result-added text-light" style="font-size:small"> <span class="btn btn-dark btn-sm remove ApplicationUser-remove" data-id="@Model.UserProfessions.ToList()[i].MainCatId @Model.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">X</span> @Model.UserProfessions.ToList()[i].MainCatName -- @Model.UserProfessions.ToList()[i].SubCatName</div>
                                     }
                                 </div>
                             </div>
