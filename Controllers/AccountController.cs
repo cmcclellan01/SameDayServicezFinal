@@ -942,7 +942,17 @@ namespace SameDayServicezFinal.Controllers
                     break;
 
                 case false:
-                    portal.Projects = db.Project.Where(p => p.ProjectsUsersId == userId).OrderByDescending(p => p.CreationDate).ToList();
+                    var Inprogress = db.Project.Where(p => p.ProjectsUsersId == userId && p.ProjectStatus == ProjectStatuses.InProgress).OrderByDescending(p => p.LastUpdated).ToList();
+                    var Published = db.Project.Where(p => p.ProjectsUsersId == userId && p.ProjectStatus == ProjectStatuses.Published).OrderByDescending(p => p.LastUpdated).ToList();
+                    var Draft = db.Project.Where(p => p.ProjectsUsersId == userId && p.ProjectStatus == ProjectStatuses.Draft).OrderByDescending(p => p.LastUpdated).ToList();
+                    var Completed = db.Project.Where(p => p.ProjectsUsersId == userId && p.ProjectStatus == ProjectStatuses.Completed).OrderByDescending(p => p.LastUpdated).ToList();
+
+                    portal.Projects.AddRange(Inprogress);
+                    portal.Projects.AddRange(Published);
+                    portal.Projects.AddRange(Draft);
+                    portal.Projects.AddRange(Completed);
+                 
+                    
 
                     foreach (var item in portal.Projects)
                     {
@@ -1747,18 +1757,20 @@ namespace SameDayServicezFinal.Controllers
 
         public void SendEmail(Project prj, ApplicationUser user, string Body, string Subject)
         {
-            MailMessage mail = new MailMessage();
-            SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
-            mail.From = new MailAddress("samedayservicez-noreply@devsamedayservicez.com");
-           // mail.To.Add(user.Email);
-            mail.To.Add("christopher.mcclellan@gmail.com");
-            mail.To.Add("jm.millerzconstruction@gmail.com");
-            mail.Subject = Subject;
-            mail.Body = Body;
-            mail.IsBodyHtml = true;
-            SmtpServer.Port = 25;
-            SmtpServer.Send(mail);
-
+            if (user.ContactWithEmail)
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
+                mail.From = new MailAddress("samedayservicez-noreply@devsamedayservicez.com");
+                // mail.To.Add(user.Email);
+                mail.To.Add("christopher.mcclellan@gmail.com");
+                mail.To.Add("jm.millerzconstruction@gmail.com");
+                mail.Subject = Subject;
+                mail.Body = Body;
+                mail.IsBodyHtml = true;
+                SmtpServer.Port = 25;
+                SmtpServer.Send(mail);
+            }        
         }
 
         private bool SendEmailToApplicants(Project prj)

@@ -170,29 +170,32 @@ function LoadProjectTable() {
                 {
 
                     targets: 1,
-                    className: 'text-center'
-
+                    className: 'text-center',
+                     orderable: true,
                 },
                 {
 
                     targets: 2,
-                    className: 'text-center'
+                    className: 'text-center',
+                     orderable: true
                 },
                 {
 
                     targets: 3,
-                    className: 'text-center'
+                    className: 'text-center',
+                    orderable: true,
                 },
                 {
 
                     targets: 4,
-                    className: 'text-center'
+                    className: 'text-center',
+                    orderable: false
                 },
                 {
 
                     targets: 5,
                     className: 'text-center',
-                   
+                    orderable: false     
 
                 },
                 {
@@ -206,14 +209,14 @@ function LoadProjectTable() {
                 {
 
                     targets: 7,
-                    className: 'text-center'
-
+                    className: 'text-center',
+                     orderable: false
                 },
                 {
 
                     targets: 8,
-                    className: 'text-center'
-
+                    className: 'text-center',
+                     orderable: false
                 },
 
                 {
