@@ -22,7 +22,7 @@
         var renew = 0;
         var hold = 0;
         var counter = 30; // Count down timer for Popup modal in seconds
-        var sessoff = "/Account/Login?l=off"; //logout action url
+        var sessoff = "/Account/Login?ReturnUrl=lo"; //logout action url
         var sessurl = "/Account/KeepSessionAlive";
         var hbeat;
         var abeat;
@@ -42,7 +42,8 @@
         });
         $("#btnLogoutNow").click(function() {
             $("#session-expire-warning-modal").modal('hide');
-            window.location = sessoff;
+           // window.location = sessoff;
+            $('#logoutForm').submit();
         });
         function HeartBeat() {
             hbeat = setTimeout(function () {
@@ -55,7 +56,8 @@
                     setTimeout(function () {
                         if (renew == 0) {
                             $("#session-expire-warning-modal").modal('hide');
-                            window.location = sessoff;
+                          //  window.location = sessoff;
+                            $('#logoutForm').submit();
                         }
                     }, counter * 1000);
                 }

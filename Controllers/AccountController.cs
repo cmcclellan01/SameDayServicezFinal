@@ -161,8 +161,9 @@ namespace SameDayServicezFinal.Controllers
         //
         // GET: /Account/Login
         [AllowAnonymous]
-        public ActionResult Login(bool IsContractor = true)
+        public async Task<ActionResult> Login(bool IsContractor = true)
         {
+             
 
             LoginViewModel model = new LoginViewModel();
 
@@ -272,10 +273,7 @@ namespace SameDayServicezFinal.Controllers
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
 
-            if (returnUrl.ToLowerInvariant().StartsWith("/Account/Login?l=off"))
-            {
-                await LogOff();
-            }
+          
 
             if (!ModelState.IsValid)
             {
