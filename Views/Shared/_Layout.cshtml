@@ -268,16 +268,16 @@
     </style>
     <div class="container-fluid">
         <section style="height:80px;"></section>
-       
+
         <!----------- Footer ------------>
         <footer class="footer-bs">
             <div class="row ">
                 <div class="col-md-3 footer-brand animated fadeInLeft mx-auto">
-                     <img src="~/Content/images/logo.png" class="img-fluid " style="height:160px;float:left" />
+                    <img src="~/Content/images/logo.png" class="img-fluid " style="height:160px;float:left" />
                     <p class="text-justify" style="padding:20px">Suspendisse hendrerit tellus laoreet luctus pharetra. Aliquam porttitor vitae orci nec ultricies. Curabitur vehicula, libero eget faucibus faucibus, purus erat eleifend enim, porta pellentesque ex mi ut sem.</p>
                     <p>© 2019 SameDayServicez.com</p>
                 </div>
-                <div class="col-md-2 footer-nav animated fadeInUp mx-auto">                                  
+                <div class="col-md-2 footer-nav animated fadeInUp mx-auto">
                     <div class="col-md-12">
                         <ul class="list">
                             <li>@Html.ActionLink("About Us", "About", "Home", null, new { @class = "nav-link text-primary" })</li>
@@ -292,16 +292,21 @@
                     <h4>Follow Us</h4>
                     <ul>
                         <li><a href="#"><i style="font-size:3rem" class="fab fa-lg fa-facebook"></i></a></li>
-                        <li><a href="#"><i style="font-size:3rem"  class="fab fa-lg fa-twitter"></i></a></li>
+                        <li><a href="#"><i style="font-size:3rem" class="fab fa-lg fa-twitter"></i></a></li>
                         <li><a href="#"><i style="font-size:3rem" class="fab fa-lg fa-instagram"></i></a></li>
-                       
+
                     </ul>
                 </div>
-               
+
             </div>
         </footer>
-     
+
 
     </div>
+
+    @if (Request.IsAuthenticated)
+    {
+        @Html.Partial("~/Views/Shared/_KeepAlive.cshtml")
+    }
 </body>
 </html>

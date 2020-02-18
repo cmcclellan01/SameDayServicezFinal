@@ -6,9 +6,12 @@ using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
+using Google.Authenticator;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -28,7 +31,7 @@ namespace SameDayServicezFinal.Controllers
         private string MainProjectPath = "/Uploads/Projects/";
         private string MainResumePath = "/Uploads/ProfileResume/";
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private const string GAuthPrivKey = "c8abd10610c54eebabbf2ed08e33eadc";
 
         public enum DatabaseTypeToRemove
         {
@@ -193,7 +196,72 @@ namespace SameDayServicezFinal.Controllers
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             LogOutTime(User.Identity.Name);
+
+            Session["UserName"] = null;
+            FormsAuthentication.SignOut();           
+
+            HttpCookie TwoFCookie = Request.Cookies["TwoFCookie"];
+            if(TwoFCookie != null)
+            {
+                TwoFCookie.Expires = DateTime.Now.AddDays(-100);
+                Response.Cookies.Add(TwoFCookie);
+            }
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+            FormsAuthentication.RedirectToLoginPage();
+
             return RedirectToAction("Index", "Home");
+        }
+
+
+       
+
+        [HttpPost]
+        [AllowAnonymous]
+
+        public ActionResult TwoFactorAuthenticate()
+        {
+            var token = Request["CodeDigit"];
+            TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+            string UserUniqueKey = Session["UserUniqueKey"].ToString();
+
+
+            bool isValid = TwoFacAuth.ValidateTwoFactorPIN(UserUniqueKey, token);
+            LoginViewModel model = (LoginViewModel)Session["model"];
+            string returnUrl = Session["returnUrl"].ToString();
+
+           
+
+            if (isValid)
+            {
+                HttpCookie TwoFCookie = new HttpCookie("TwoFCookie");
+                string UserCode = Convert.ToBase64String(MachineKey.Protect(Encoding.UTF8.GetBytes(UserUniqueKey)));
+
+                TwoFCookie.Values.Add("UserCode", UserCode);
+                TwoFCookie.Expires = DateTime.Now.AddDays(30);
+                Response.Cookies.Add(TwoFCookie);
+                Session["IsValidTwoFactorAuthentication"] = true;
+
+                if (returnUrl == "")
+                {
+                    return RedirectToAction("Portal", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                }
+                else
+                {
+                    return RedirectToLocal(returnUrl);
+                }
+
+
+                //return RedirectToAction("UserProfile", "Login");
+            }
+
+
+           
+
+
+            ViewBag.errorMessage = "Invalid login attempt.";
+            return View("Error");
         }
 
         //
@@ -203,6 +271,12 @@ namespace SameDayServicezFinal.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+
+            if (returnUrl.ToLowerInvariant().StartsWith("/Account/Login?l=off"))
+            {
+                await LogOff();
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -226,20 +300,95 @@ namespace SameDayServicezFinal.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-
+ 
             if (result == SignInStatus.Success)
             {
+                Session["model"] = model;
+                Session["returnUrl"] = returnUrl;
+                string message = "";
+                bool status = false;
+                //
+                //check UserName and password form our database here
+                
+                string UserUniqueKey = (user.UserName + GAuthPrivKey);
 
+                status = true;
                 user.Online = true;
                 Session["FullName"] = user.FirstName + " " + user.LastName;
+                Session["UserName"] = user.UserName;
                 Session["ID"] = user.Id;
                 await UserManager.UpdateAsync(user);
                 await LoginTime(model.Email);
-            }
 
-            switch (result)
-            {
-                case SignInStatus.Success:
+
+                if (user.GAuthEnable)
+                {
+                    HttpCookie TwoFCookie = Request.Cookies["TwoFCookie"];
+                    int k = 0;
+                    if (TwoFCookie == null)
+                    {
+                        k = 1;
+                    }
+                    else
+                    {
+
+                        if (!string.IsNullOrEmpty(TwoFCookie.Values["UserCode"]))
+                        {
+                            string UserCodeE = TwoFCookie.Values["UserCode"].ToString();
+                            string UserCodeD = Encoding.UTF8.GetString(MachineKey.Unprotect(Convert.FromBase64String(UserCodeE)));
+
+
+                            if (UserUniqueKey == UserCodeD)
+                            {
+                                FormsAuthentication.SetAuthCookie(Session["Username"].ToString(), false);
+                                // ViewBag.Message = "Welcome to Mr. " + Session["Username"].ToString();
+                                //return View("UserProfile");
+                                // return RedirectToAction("UserProfile");
+                                if (returnUrl == "")
+                                {
+                                    return RedirectToAction("Portal", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                                }
+                                else
+                                {
+                                    return RedirectToLocal(returnUrl);
+                                }
+
+                            }
+                            else
+                            {
+                                k = 1;
+                            }
+
+
+                        }
+                    }
+
+                    if (k == 1)
+                    {
+
+                        message = "Two Factor Authentication Verification using Google Authenticator";
+
+                        //Two Factor Authentication Setup
+                        TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+                       
+                        Session["UserUniqueKey"] = UserUniqueKey;
+
+                        var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", user.UserName, UserUniqueKey, false, 300);
+                       
+                        ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+                        ViewBag.SetupCode = setupInfo.ManualEntryKey;
+                        ViewBag.Message = message;
+                        ViewBag.Status = status;
+
+                    }
+                }
+                else
+                {
+                    FormsAuthentication.SetAuthCookie(Session["Username"].ToString(), true);
+                    //ViewBag.Message = "Welcome to Mr. " + Session["Username"].ToString();
+                    ////       return View("UserProfile");
+                    //return RedirectToAction("UserProfile");
+
                     if (returnUrl == "")
                     {
                         return RedirectToAction("Portal", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
@@ -248,18 +397,33 @@ namespace SameDayServicezFinal.Controllers
                     {
                         return RedirectToLocal(returnUrl);
                     }
+                }
+
+
+
+
+
+
+
+
+
+            }
+
+            switch (result)
+            {
+
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
-                    TempData["loginError"] = "Invalid login attempt. Please check your username or password";
-                    ViewBag.ErrorResult = "Invalid login attempt. Please check your username or password";
-                    return View(model);
+                   ViewBag.errorMessage = "Invalid login attempt. Please check your username or password";
+                    return View("Error");
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
+         
         }
 
         //
@@ -3313,6 +3477,16 @@ namespace SameDayServicezFinal.Controllers
 
             return Json(portal, JsonRequestBehavior.AllowGet);
 
+        }
+
+        [HttpPost]
+        public JsonResult KeepSessionAlive()
+        {
+
+            return new JsonResult
+            {
+                Data = "Beat Generated"
+            };
         }
 
         protected override void Dispose(bool disposing)

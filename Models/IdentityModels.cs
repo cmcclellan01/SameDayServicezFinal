@@ -87,7 +87,9 @@ namespace SameDayServicezFinal.Models
 
         public bool ContactWithPhone { get; set; }
 
-        [NotMapped]
+        public bool GAuthEnable { get; set; }
+
+       [NotMapped]
         public List<Conversations> Conversations { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

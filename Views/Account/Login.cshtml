@@ -6,88 +6,127 @@
 
 <link href="~/Content/login.css" rel="stylesheet" />
 
-@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+
+
+
+
+
+@if (ViewBag.Status == null || !ViewBag.Status)
 {
-    @Html.AntiForgeryToken()
-    <form class="needs-validation" data-toggle="validator">
+    using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
 
-        <div class="container h-100">
-            <div class="d-flex justify-content-center h-100">
-                <div class="user_card">
-                    <div class="d-flex justify-content-center" style="padding-top:140px">
-                        <div class="brand_logo_container">
-                            <img src="~/Content/images/logo.png" class="brand_logo" alt="Logo">
-                            @*<span class="text-light">@Model.Type  Login </span>*@
+        <form class="needs-validation" data-toggle="validator">
+
+            <div class="container h-100">
+                <div class="d-flex justify-content-center h-100">
+                    <div class="user_card">
+                        <div class="d-flex justify-content-center" style="padding-top:140px">
+                            <div class="brand_logo_container">
+                                <img src="~/Content/images/logo.png" class="brand_logo" alt="Logo">
+                                @*<span class="text-light">@Model.Type  Login </span>*@
 
 
 
 
-                        </div>
-                    </div>
-                    <div class="justify-content-center ">
-
-                        <div class="form-row d-flex justify-content-center">
-                            <div class="form-group  col-md-10">
-                                @*<input type="text" name="" class="form-control input_user" value="" placeholder="email">*@
-
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control input_user", @placeholder = "email", @value = "" })
-                                @Html.ValidationMessageFor(model => model.Email)
                             </div>
                         </div>
-                        <div class="form-row d-flex justify-content-center">
-                            <div class="form-group  col-md-10">
-                                @*<input type="password" name="" class="form-control input_pass" value="" placeholder="password">*@
+                        <div class="justify-content-center ">
 
-                                @Html.TextBoxFor(m => m.Password, new { @class = "form-control input_pass", @type = "password", @placeholder = "password", @value = "" })
-                                @Html.ValidationMessageFor(model => model.Password)
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group  col-md-10">
+                                    @*<input type="text" name="" class="form-control input_user" value="" placeholder="email">*@
+
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control input_user", @placeholder = "email", @value = "" })
+                                    @Html.ValidationMessageFor(model => model.Email)
+                                </div>
+                            </div>
+                            <div class="form-row d-flex justify-content-center">
+                                <div class="form-group  col-md-10">
+                                    @*<input type="password" name="" class="form-control input_pass" value="" placeholder="password">*@
+
+                                    @Html.TextBoxFor(m => m.Password, new { @class = "form-control input_pass", @type = "password", @placeholder = "password", @value = "" })
+                                    @Html.ValidationMessageFor(model => model.Password)
+                                </div>
+                            </div>
+                            <div class="form-group d-flex justify-content-center">
+                                <div class="custom-control custom-checkbox">
+                                    @*<input type="checkbox" class="custom-control-input" id="customControlInline">
+                                        <label class="custom-control-label text-light" for="customControlInline">Remember me</label>*@
+                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                    @Html.LabelFor(m => m.RememberMe)
+                                </div>
                             </div>
                         </div>
-                        <div class="form-group d-flex justify-content-center">
-                            <div class="custom-control custom-checkbox">
-                                @*<input type="checkbox" class="custom-control-input" id="customControlInline">
-                                    <label class="custom-control-label text-light" for="customControlInline">Remember me</label>*@
-                                @Html.CheckBoxFor(m => m.RememberMe)
-                                @Html.LabelFor(m => m.RememberMe)
+                        <div class="d-flex justify-content-center  login_container">
+                            <button type="submit" class="btn login_btn">Login</button>
+                        </div>
+                        <div class="mt-4">
+                            <div class="d-flex justify-content-center links text-light">
+                                Don't have an account?
+                                @*@Html.ActionLink("Register as a new user", "Register")*@
+                                <a href="@Url.Action("Register", "Account")" class="ml-2 text-light">Sign Up</a>
+                            </div>
+                            <div class="d-flex justify-content-center links">
+                                <a href=" @Url.Action("ForgotPassword", "Account")" class=" text-primary">Forgot your password?</a>
+
+
                             </div>
                         </div>
-                    </div>
-                    <div class="d-flex justify-content-center  login_container">
-                        <button type="submit" class="btn login_btn">Login</button>
-                    </div>
-                    <div class="mt-4">
-                        <div class="d-flex justify-content-center links text-light">
-                            Don't have an account?
-                            @*@Html.ActionLink("Register as a new user", "Register")*@
-                            <a href="@Url.Action("Register", "Account")" class="ml-2 text-light">Sign Up</a>
+
+                        <div class="mt-4">
+                            <p class="text-danger">@ViewBag.ErrorResult</p>
                         </div>
-                        <div class="d-flex justify-content-center links">
-                            <a href=" @Url.Action("ForgotPassword", "Account")" class=" text-primary">Forgot your password?</a>
-
-
-                        </div>
-                    </div>
-
-                    <div class="mt-4">
-                        <p class="text-danger">@ViewBag.ErrorResult</p>
                     </div>
                 </div>
             </div>
-        </div>
-        @Html.HiddenFor(m => m.ReturnUrl)
+            @Html.HiddenFor(m => m.ReturnUrl)
 
-    </form>
-
-    <script>
- 
-     $(document).ready(function () {
-         $('#ReturnUrl').val(getUrlParameter('ReturnUrl'))
-         $('.footer-bs').hide();
-     });
+        </form>
 
 
-    </script>
+
+    }
 
 }
+else
+{
+    <div>@ViewBag.Message</div>
+    <div>
+        <img class="img-thumbnail" style="height:150px" src="@ViewBag.BarcodeImageUrl" />
+    </div>
+    <div>
+        Manual Setup Code : @ViewBag.SetupCode
+    </div>
+    <div>
+        @using (Html.BeginForm("TwoFactorAuthenticate", "Account", FormMethod.Post))
+        {
+
+
+            <input type="text" name="CodeDigit" />
+            <input type="submit" class="btn btn-primary" />
+        }
+    </div>
+
+    <figure><a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank" rel="noopener noreferrer"><img class="size-full wp-image-623 alignleft" src="http://itechempire.com/wp-content/uploads/2016/08/app-store.png" alt="Download From App Store" width="158" height="50"></a></figure>
+    <figure><a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en" target="_blank" rel="noopener noreferrer"><img class="alignleft size-full wp-image-624" src="http://itechempire.com/wp-content/uploads/2016/08/googleplay-store.png" alt="Download from Google Play store" width="153" height="50" srcset="https://cdn.itechempires.com/wp-content/uploads/2016/08/googleplay-store.png 153w, https://cdn.itechempires.com/wp-content/uploads/2016/08/googleplay-store-150x50.png 150w" sizes="(max-width: 153px) 100vw, 153px"></a></figure>
+}
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+        $('#ReturnUrl').val(getUrlParameter('ReturnUrl'))
+        $('.footer-bs').hide();
+    });
+
+
+</script>
+
+
 
 
 @section Scripts {

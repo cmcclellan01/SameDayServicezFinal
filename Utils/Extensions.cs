@@ -15,6 +15,8 @@ using System.Web.Mvc;
 namespace SameDayServicezFinal.Utils
 {
 
+   
+
     public class Pager
     {
         public Pager(int totalItems, int? page, int pageSize = 10)
@@ -63,7 +65,7 @@ namespace SameDayServicezFinal.Utils
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             //HttpContext ctx = HttpContext.Current;
-            //if (HttpContext.Current.Session["ID"] == null)
+            //if (HttpContext.Current.Session["UserName"] == null)
             //{
 
             //    filterContext.Result = new RedirectResult("~/Account/Login");
