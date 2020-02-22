@@ -584,8 +584,26 @@ $(document).ready(function () {
 
     });
 
+    $('.Verification-chk').checkboxpicker({
+        html: true,
+        offLabel: 'No',
+        onLabel: 'Yes'
+    }).on('change', function () {
 
 
+        switch ($(this).is(":checked")) {
+            case true:
+                $('.Verification-chk').prop('checked', true);
+                $('.Verification-mode').html('<span style="color:#015668;font-size:1rem">Yes</span>');
+                break;
+            case false:
+                $('.Verification-chk').prop('checked', false);
+                $('.Verification-mode').html('<span style="color:#015668;font-size:1rem">No</span>');
+                break;
+        }
+
+    });
+    
     
 
     $('a[data-toggle="tooltip"]').tooltip({

@@ -248,32 +248,7 @@ namespace SameDayServicezFinal.Controllers
         }
 
 
-        //
-        // GET: /Account/Login
-        [AllowAnonymous]
-        public async Task<ActionResult> Login(bool IsContractor = true)
-        {
-            LogoutOldUsers();
-
-            LoginViewModel model = new LoginViewModel();
-
-            if (IsContractor)
-            {
-
-                model.Type = "Contractor";
-                Utils.Extensions.IsInContractorMode = true;
-                Utils.Extensions.IsInCustomerMode = false;
-            }
-            else
-            {
-                model.Type = "Customer";
-                Utils.Extensions.IsInCustomerMode = true;
-                Utils.Extensions.IsInContractorMode = false;
-            }
-
-            return View(model);
-        }
-
+      
 
         [HttpPost]
         public async Task<ActionResult> forecdLogoff()
@@ -283,7 +258,7 @@ namespace SameDayServicezFinal.Controllers
             await UserManager.UpdateAsync(user);
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            LogOutTime(User.Identity.GetUserId());
+            await LogOutTime(User.Identity.GetUserId());
 
             Session["UserName"] = null;
             FormsAuthentication.SignOut();
@@ -314,7 +289,7 @@ namespace SameDayServicezFinal.Controllers
             await UserManager.UpdateAsync(user);
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            LogOutTime(User.Identity.GetUserId());
+            await LogOutTime(User.Identity.GetUserId());
 
             Session["UserName"] = null;
             FormsAuthentication.SignOut();           
@@ -358,7 +333,7 @@ namespace SameDayServicezFinal.Controllers
                 string UserCode = Convert.ToBase64String(MachineKey.Protect(Encoding.UTF8.GetBytes(UserUniqueKey)));
 
                 TwoFCookie.Values.Add("UserCode", UserCode);
-                TwoFCookie.Expires = DateTime.Now.AddDays(30);
+                TwoFCookie.Expires = DateTime.MinValue; //DateTime.Now.AddMinutes(30);
                 Response.Cookies.Add(TwoFCookie);
                 Session["IsValidTwoFactorAuthentication"] = true;
 
@@ -382,6 +357,33 @@ namespace SameDayServicezFinal.Controllers
             ViewBag.errorMessage = "Invalid login attempt.";
             return View("Error");
         }
+
+        //
+        // GET: /Account/Login
+        [AllowAnonymous]
+        public async Task<ActionResult> Login(bool IsContractor = true)
+        {
+            await LogoutOldUsers();
+
+            LoginViewModel model = new LoginViewModel();
+
+            if (IsContractor)
+            {
+
+                model.Type = "Contractor";
+                Utils.Extensions.IsInContractorMode = true;
+                Utils.Extensions.IsInCustomerMode = false;
+            }
+            else
+            {
+                model.Type = "Customer";
+                Utils.Extensions.IsInCustomerMode = true;
+                Utils.Extensions.IsInContractorMode = false;
+            }
+
+            return View(model);
+        }
+
 
         //
         // POST: /Account/Login
@@ -415,7 +417,7 @@ namespace SameDayServicezFinal.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, false, shouldLockout: false);
  
             if (result == SignInStatus.Success)
             {
@@ -427,6 +429,7 @@ namespace SameDayServicezFinal.Controllers
                 //check UserName and password form our database here
                 
                 string UserUniqueKey = (user.UserName + GAuthPrivKey);
+                Session["Key"] = UserUniqueKey;
 
                 status = true;
                 user.Online = true;
@@ -434,7 +437,7 @@ namespace SameDayServicezFinal.Controllers
                 Session["UserName"] = user.UserName;
                 Session["ID"] = user.Id;
                 await UserManager.UpdateAsync(user);
-                LoginTime(user);
+                await LoginTime(user);
 
               
 
@@ -490,7 +493,7 @@ namespace SameDayServicezFinal.Controllers
                        
                         Session["UserUniqueKey"] = UserUniqueKey;
 
-                        var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", user.UserName, UserUniqueKey, false, 300);
+                        var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", user.UserName, UserUniqueKey, false, 3);
                        
                         ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
                         ViewBag.SetupCode = setupInfo.ManualEntryKey;
@@ -996,6 +999,10 @@ namespace SameDayServicezFinal.Controllers
 
             UpdatePortal(portal);
 
+
+
+           
+
             return View(portal);
 
         }
@@ -1126,7 +1133,7 @@ namespace SameDayServicezFinal.Controllers
 
                 UpdatePortal(portal);
 
-
+              
 
                 //var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
                 //foreach (var contractor in contractors)
@@ -1442,6 +1449,18 @@ namespace SameDayServicezFinal.Controllers
             }
 
 
+            string message = "Two Factor Authentication Verification using Google Authenticator";
+
+            //Two Factor Authentication Setup
+            TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+            string UserUniqueKey = (portal.ApplicationUser.UserName + GAuthPrivKey);
+            Session["UserUniqueKey"] = UserUniqueKey;
+
+            var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", portal.ApplicationUser.UserName, UserUniqueKey, false, 3);
+
+            ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+            ViewBag.SetupCode = setupInfo.ManualEntryKey;
+            ViewBag.Message = message;
 
             //currentuser.PercentDone = Math.Round(currentuser.PercentDone);
 
@@ -1644,6 +1663,19 @@ namespace SameDayServicezFinal.Controllers
             portal.ApplicationUser.SubProfessions = new List<SelectListItem>();
             portal.ApplicationUser.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
             portal.ApplicationUser.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
+
+            string message = "Two Factor Authentication Verification using Google Authenticator";
+
+            //Two Factor Authentication Setup
+            TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+            string UserUniqueKey = (portal.ApplicationUser.UserName + GAuthPrivKey);
+            Session["UserUniqueKey"] = UserUniqueKey;
+
+            var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", portal.ApplicationUser.UserName, UserUniqueKey, false, 3);
+
+            ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+            ViewBag.SetupCode = setupInfo.ManualEntryKey;
+            ViewBag.Message = message;
             return PartialView("_Profile", portal.ApplicationUser);
         }
         [SessionTimeout]
@@ -2568,7 +2600,7 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_ViewProject", project);
         }
         [SessionTimeout]
-        public async Task<ActionResult> UpdateProfile(string DisplayName, string Bio, string Email, string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate, bool IsInContractorMode, string OldPassword, string NewPassword, bool InWorkMode,bool ContactByEmail,bool ContactByPhone)
+        public async Task<ActionResult> UpdateProfile(string DisplayName, string Bio, string Email, string Address, string City, string State, string ZipCode, string FirstName, string MiddleName, string LastName, string PhoneNumber, decimal ByTheHourRate, string BirthDate, bool IsInContractorMode, string OldPassword, string NewPassword, bool InWorkMode,bool ContactByEmail,bool ContactByPhone,bool GAuthEnable)
         {
 
             var userId = User.Identity.GetUserId();
@@ -2595,6 +2627,7 @@ namespace SameDayServicezFinal.Controllers
                 profile.InWorkMode = InWorkMode;
                 profile.ContactWithEmail = ContactByEmail;
                 profile.ContactWithPhone = ContactByPhone;
+                profile.GAuthEnable = GAuthEnable;
 
                 if (OldPassword != null && NewPassword != null)
                 {
@@ -2693,6 +2726,9 @@ namespace SameDayServicezFinal.Controllers
 
             db.Entry(profile).State = EntityState.Modified;
             db.SaveChanges();
+
+
+           
 
 
             return Json("OK", JsonRequestBehavior.AllowGet);

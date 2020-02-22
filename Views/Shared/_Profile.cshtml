@@ -114,6 +114,9 @@
                     <li class="nav-item">
                         <a class="nav-link" id="payment-tab" data-toggle="tab" href="#payment" role="tab" aria-controls="payment" aria-selected="false">Payment</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="authentication-tab" data-toggle="tab" href="#authentication" role="tab" aria-controls="authentication" aria-selected="false">Two Factor Authentication</a>
+                    </li>
                 </ul>
 
                 <div class="tab-content" id="myTabContent">
@@ -249,32 +252,32 @@
                                                 case true:<text>Yes</text> break;
                                             case false:<text>No</text>break;
                                     }}
-                                </span>
-                                @Html.CheckBoxFor(m => m.ContactWithEmail, new { @class = "ContactByEmail form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                            </div>
+                                    </span>
+                                    @Html.CheckBoxFor(m => m.ContactWithEmail, new { @class = "ContactByEmail form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                </div>
 
-                            <div class="form-group  col-md-4 ">
-                                <span class="control-label text-light ">Contact By Phone:</span>
-                                <span class="ContactByPhoneMode" style='color:#015668;font-size:1rem'>
-                                    @{switch (Model.ContactWithPhone)
-                                        {
-                                            case true:<text>Yes</text> break;
-                                        case false:<text>No</text>break;
-                                }}
-                            </span>
-                            @Html.CheckBoxFor(m => m.ContactWithPhone, new { @class = "ContactByPhone form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
-                            </div>
-
-                            </div>
-
-
-                           
-
-
-
+                                <div class="form-group  col-md-4 ">
+                                    <span class="control-label text-light ">Contact By Phone:</span>
+                                    <span class="ContactByPhoneMode" style='color:#015668;font-size:1rem'>
+                                        @{switch (Model.ContactWithPhone)
+                                            {
+                                                case true:<text>Yes</text> break;
+                                            case false:<text>No</text>break;
+                                    }}
+                                    </span>
+                                    @Html.CheckBoxFor(m => m.ContactWithPhone, new { @class = "ContactByPhone form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                                </div>
 
                             </div>
+
+
+
+
+
+
+
                         </div>
+                    </div>
 
                     <div class="tab-pane fade" id="skills" role="tabpanel" aria-labelledby="skills-tab">
                         <div class="skills ApplicationUser-skills">
@@ -346,7 +349,7 @@
                                     @for (int i = 0; i < Model.UserProfessions.ToList().Count(); i++)
                                     {
                                         @*<li class="text-light" id="demo_@i">@Model.UserProfessions.ToList()[i].MainCatName</li>*@
-                          
+
                                         <div class="result-added text-light" style="font-size:small"> <span class="btn btn-dark btn-sm remove ApplicationUser-remove" data-id="@Model.UserProfessions.ToList()[i].MainCatId @Model.UserProfessions.ToList()[i].SubCatId" role="button" style="margin: 5px;">X</span> @Model.UserProfessions.ToList()[i].MainCatName -- @Model.UserProfessions.ToList()[i].SubCatName</div>
                                     }
                                 </div>
@@ -409,7 +412,7 @@
                             <div class="card" style="min-height: 264px">
                                 <div class="card-body">
                                     <div class="dropzone dz-clickable" id="dropzoneProfileResume" style="background-color:#6f6f6f;margin-bottom:20px;"> </div>
-                                    
+
                                     <div class="ProfileResume">
 
                                         @if (!string.IsNullOrEmpty(Model.ProfileResume))
@@ -428,6 +431,49 @@
 
                         test 3
                     </div>
+                    <div class="tab-pane fade" id="authentication" role="tabpanel" aria-labelledby="authentication-tab">                      
+
+                        <br />
+                        <div class="form-group  col-md-4 ">
+                            <span class="control-label text-light ">Turn on 2-Step Verification:</span>
+                            <span class="Verification-mode" style='color:#015668;font-size:1rem'>
+                                @{switch (Model.GAuthEnable)
+                                    {
+                                        case true:<text>Yes</text> break;
+                                    case false:<text>No</text>break;
+                            }}
+                            </span>
+                            @Html.CheckBoxFor(m => m.GAuthEnable, new { @class = "Verification-chk form-control", data_cls = "btn-secondary", data_off_cls = "null", data_on_cls = "null", data_on_active_cls = "null", data_off_active_cls = "null" })
+                        </div>
+
+                        <div class="card-body text-center text-light">
+                            <p class="mb-4 text-left">
+                                Google Authenticator generates 2-Step Verification codes on your phone.
+
+                                2-Step Verification provides stronger security for your Account by requiring a second step of verification when you sign in. In addition to your password, you’ll also need a code generated by the Google Authenticator app on your phone.
+
+                                <br />
+                                Permission notice:
+                                Camera: Needed to add accounts using QR codes
+
+                                <figure><a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en" target="_blank" rel="noopener noreferrer"><img class="alignleft size-full wp-image-624" src="http://itechempire.com/wp-content/uploads/2016/08/googleplay-store.png" alt="Download from Google Play store" width="153" height="50" srcset="https://cdn.itechempires.com/wp-content/uploads/2016/08/googleplay-store.png 153w, https://cdn.itechempires.com/wp-content/uploads/2016/08/googleplay-store-150x50.png 150w" sizes="(max-width: 153px) 100vw, 153px"></a></figure>
+
+                                <figure><a href="https://apps.apple.com/us/app/google-authenticator/id388497605" target="_blank" rel="noopener noreferrer"><img class="size-full wp-image-623 alignleft" src="http://itechempire.com/wp-content/uploads/2016/08/app-store.png" alt="Download From App Store" width="158" height="50"></a></figure>
+                            </p>
+
+                            <div>
+                                After you download the Google Authenticator app just scan the QR code below or copy/paste the manual key to complete the setup.
+                                <br />
+                                <img class="img-thumbnail" style="height:150px" src="@ViewBag.BarcodeImageUrl" />
+                            </div>
+
+                            <div>
+                                Manual Setup Code :<br /> @ViewBag.SetupCode
+                            </div>
+
+                        </div>
+                    </div>
+                    
                 </div>
 
 
@@ -470,6 +516,8 @@
             var InWorkMode = $('.InWorkMode').prop('checked');
             var ContactByEmail = $('.ContactByEmail').prop('checked');
             var ContactByPhone = $('.ContactByPhone').prop('checked');
+            var GAuthEnable = $('.Verification-chk').prop('checked');
+            
 
             $.ajax({
                 type: "POST",
@@ -477,7 +525,7 @@
                     "&Address=" + Address + "&City=" + City + "&State=" + State +
                     "&ZipCode=" + ZipCode + "&FirstName=" + FirstName + "&MiddleName=" + MiddleName +
                     "&LastName=" + LastName + "&PhoneNumber=" + PhoneNumber + "&ByTheHourRate=" + ByTheHourRate +
-                    "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode + "&ContactByEmail=" + ContactByEmail + "&ContactByPhone=" + ContactByPhone,
+                    "&BirthDate=" + BirthDate + "&IsInContractorMode=" + IsInContractorMode + "&OldPassword=" + OldPassword + "&NewPassword=" + NewPassword + "&InWorkMode=" + InWorkMode + "&ContactByEmail=" + ContactByEmail + "&ContactByPhone=" + ContactByPhone + "&GAuthEnable=" + GAuthEnable,
                 success: function () {
 
                     var ret = LoadData('profileDiv', 'Account', 'ReloadProfile');
