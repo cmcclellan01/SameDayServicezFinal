@@ -75,30 +75,120 @@ namespace SameDayServicezFinal.Controllers
             }
         }
 
-        public async Task LoginTime(string email)
+        [HttpPost]
+        public JsonResult KeepSessionAlive()
         {
-            var user = await UserManager.FindByNameAsync(email);
-            //  var user = db.LoginHistory.Where(x=> x.UserId == userName).FirstOrDefault();
+            var userId = User.Identity.GetUserId();
 
-            var model = new LoginHistory
+            var loginHistory = db.LoginHistory.Where(p => p.UserId == userId).SingleOrDefault();
+
+
+            if(loginHistory != null)
             {
-                UserId = user.UserName,
-                LoginTime = DateTime.Now,
-                LogoutTime = null,
+                loginHistory.LastKeepAliveUpdate = DateTime.Now;
+
+                using (var db = new ApplicationDbContext())
+                {
+                    db.Entry(loginHistory).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+  
+
+            return new JsonResult
+            {
+                Data = "Beat Generated"
             };
-            db.LoginHistory.Add(model);
-            db.SaveChanges();
-
         }
-        public void LogOutTime(string email)
+
+        public async Task<ActionResult> LogoutOldUsers()
         {
-            var model = db.LoginHistory.Where(u => u.UserId == email).OrderByDescending(u => u.Id).FirstOrDefault();
-            if (model != null)
+            var loginHistory = db.LoginHistory.Where(p => p.LogoutTime == null).ToList();
+
+            foreach (var item in loginHistory)
             {
-                model.LogoutTime = DateTime.Now;
+                if(item.LastKeepAliveUpdate != null)
+                {
+                    if (DateTime.Now > DateTime.Parse(item.LastKeepAliveUpdate.ToString()).AddSeconds(60 * 60))
+                    {
+                        using (var db = new ApplicationDbContext())
+                        {
+                            item.LogoutTime = DateTime.Now;
+                            db.Entry(item).State = EntityState.Modified;
+                            db.SaveChanges();
+                        }
+
+
+                        var _user = await UserManager.FindByIdAsync(item.UserId);
+                        _user.Online = false;
+                        await UserManager.UpdateAsync(_user);
+
+                    }
+                }      
+            }
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> LoginTime(ApplicationUser user)
+        {           
+
+            var loginHistory = db.LoginHistory.Where(p => p.UserId == user.Id).SingleOrDefault();
+
+            if (loginHistory != null)
+            {
+                loginHistory.LoginTime = DateTime.Now;
+                loginHistory.LogoutTime = null;
+                loginHistory.LastKeepAliveUpdate = null;
+
+                using (var db = new ApplicationDbContext())
+                {
+                    db.Entry(loginHistory).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            else
+            {
+                var model = new LoginHistory
+                {
+                    UserId = user.Id,
+                    LoginTime = DateTime.Now,
+                    LogoutTime = null,
+                    UserName = user.UserName,
+                    LastKeepAliveUpdate = null
+                };
+                db.LoginHistory.Add(model);
                 db.SaveChanges();
             }
 
+            var _user = await UserManager.FindByIdAsync(user.Id);
+            _user.Online = true;
+            await UserManager.UpdateAsync(_user);
+
+
+            return Json("", JsonRequestBehavior.AllowGet);
+        }
+
+        public async Task<ActionResult> LogOutTime(string id)
+        {
+            var model = db.LoginHistory.Where(u => u.UserId == id).FirstOrDefault();
+
+            if (model != null)
+            {
+                model.LogoutTime = DateTime.Now;
+
+                using (var db = new ApplicationDbContext())
+                {                  
+                    db.Entry(model).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+               
+
+                var user = await UserManager.FindByIdAsync(id);
+                user.Online = false;
+                await UserManager.UpdateAsync(user);
+            }
+            return Json("", JsonRequestBehavior.AllowGet);
 
         }
 
@@ -163,7 +253,7 @@ namespace SameDayServicezFinal.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Login(bool IsContractor = true)
         {
-             
+            LogoutOldUsers();
 
             LoginViewModel model = new LoginViewModel();
 
@@ -184,6 +274,34 @@ namespace SameDayServicezFinal.Controllers
             return View(model);
         }
 
+
+        [HttpPost]
+        public async Task<ActionResult> forecdLogoff()
+        {
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            user.Online = false;
+            await UserManager.UpdateAsync(user);
+
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            LogOutTime(User.Identity.GetUserId());
+
+            Session["UserName"] = null;
+            FormsAuthentication.SignOut();
+
+            HttpCookie TwoFCookie = Request.Cookies["TwoFCookie"];
+            if (TwoFCookie != null)
+            {
+                TwoFCookie.Expires = DateTime.Now.AddDays(-100);
+                Response.Cookies.Add(TwoFCookie);
+            }
+            Session.Clear();
+            Session.RemoveAll();
+            Session.Abandon();
+            FormsAuthentication.RedirectToLoginPage();
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+        }
+
         //
         //POST: //Account/LogOff
         [HttpPost]
@@ -196,7 +314,7 @@ namespace SameDayServicezFinal.Controllers
             await UserManager.UpdateAsync(user);
 
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            LogOutTime(User.Identity.Name);
+            LogOutTime(User.Identity.GetUserId());
 
             Session["UserName"] = null;
             FormsAuthentication.SignOut();           
@@ -316,8 +434,9 @@ namespace SameDayServicezFinal.Controllers
                 Session["UserName"] = user.UserName;
                 Session["ID"] = user.Id;
                 await UserManager.UpdateAsync(user);
-                await LoginTime(model.Email);
+                LoginTime(user);
 
+              
 
                 if (user.GAuthEnable)
                 {
@@ -399,7 +518,7 @@ namespace SameDayServicezFinal.Controllers
 
 
 
-
+               
 
 
 
@@ -3477,15 +3596,7 @@ namespace SameDayServicezFinal.Controllers
 
         }
 
-        [HttpPost]
-        public JsonResult KeepSessionAlive()
-        {
-
-            return new JsonResult
-            {
-                Data = "Beat Generated"
-            };
-        }
+      
 
         protected override void Dispose(bool disposing)
         {

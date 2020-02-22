@@ -17,8 +17,13 @@ namespace SameDayServicezFinal.Models
         public long Id { get; set; }
         public DateTime LoginTime { get; set; }
         public DateTime? LogoutTime { get; set; }
+
         [StringLength(128)]
         public string UserId { get; set; }
+
+        public string UserName { get; set; }
+
+        public DateTime? LastKeepAliveUpdate { get; set; }
     }
 
 

@@ -642,7 +642,10 @@
                                     </div>
                                     <div class="peer peer-greed pL-20">
                                         <h6 class="mB-0 lh-1 fw-400">@item.ConversationSubOwner.DisplayName</h6>
-                                        <small class="lh-1 c-green-500">Online</small>
+                                        @if (@item.ConversationOwner.Online)
+                                        {
+                                            <small class="lh-1 c-green-500">Online</small>
+                                        }
                                         <span class="badge bg-orange badge-corner unread-messsage-count" style="margin-left:10px"></span>
                                     </div>
                                 </div>
@@ -658,7 +661,10 @@
                                     </div>
                                     <div class="peer peer-greed pL-20">
                                         <h6 class="mB-0 lh-1 fw-400">@item.ConversationOwner.DisplayName</h6>
-                                        <small class="lh-1 c-green-500">Online</small>
+                                        @if (@item.ConversationOwner.Online)
+                                        {
+                                            <small class="lh-1 c-green-500">Online</small>
+                                        }
                                         <span class="badge bg-orange badge-corner  unread-messsage-count" style="margin-left:10px"></span>
                                     </div>
                                 </div>
