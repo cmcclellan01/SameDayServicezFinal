@@ -1,4 +1,4 @@
-﻿
+﻿Dropzone.autoDiscover = false;
 
 function LoadProjectTable() {
   
@@ -492,11 +492,11 @@ function MouseOverSetStars2(star, index) {
 
 }
 
-Dropzone.autoDiscover = false;
+
 $(document).ready(function () {
 
 
-    
+
 
     // this is for the is contractor checkbox that makes it 'customer or contractor'
     $('.IsContractor').checkboxpicker({

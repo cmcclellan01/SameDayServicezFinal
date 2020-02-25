@@ -89,7 +89,34 @@ namespace SameDayServicezFinal.Models
 
         public bool GAuthEnable { get; set; }
 
-       [NotMapped]
+
+
+        public int GACode1 { get; set; }
+        public int GACode2 { get; set; }
+        public int GACode3 { get; set; }
+        public int GACode4 { get; set; }
+        public int GACode5 { get; set; }
+        public int GACode6 { get; set; }
+        public int GACode7 { get; set; }
+        public int GACode8 { get; set; }
+        public int GACode9 { get; set; }
+        public int GACode10 { get; set; }
+
+        public bool GACode1Used { get; set; }
+        public bool GACode2Used { get; set; }
+        public bool GACode3Used { get; set; }
+        public bool GACode4Used { get; set; }
+        public bool GACode5Used { get; set; }
+        public bool GACode6Used { get; set; }
+        public bool GACode7Used { get; set; }
+        public bool GACode8Used { get; set; }
+        public bool GACode9Used { get; set; }
+        public bool GACode10Used { get; set; }
+
+
+
+
+        [NotMapped]
         public List<Conversations> Conversations { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {

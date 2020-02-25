@@ -417,6 +417,7 @@
     <Content Include="Content\regular.min.css" />
     <Content Include="Content\solid.css" />
     <Content Include="Content\solid.min.css" />
+    <Content Include="Content\summernote-bs4.css" />
     <Content Include="Content\svg-with-js.css" />
     <Content Include="Content\svg-with-js.min.css" />
     <Content Include="Content\sweetalert.css" />
@@ -691,6 +692,7 @@
     <Content Include="Content\bootstrap-select.css.map" />
     <Content Include="Content\MidAmericanBill.pdf" />
     <Content Include="manifest.json" />
+    <Content Include="Content\fontAwesome47.css" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
@@ -843,6 +845,7 @@
     <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\profile.js" />
     <Content Include="Scripts\register.js" />
+    <Content Include="Scripts\summernote-bs4.js" />
     <Content Include="Scripts\sweetalert.js" />
     <Content Include="Scripts\umd\popper-utils.js" />
     <Content Include="Scripts\umd\popper-utils.min.js" />

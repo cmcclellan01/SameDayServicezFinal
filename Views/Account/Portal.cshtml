@@ -8,6 +8,14 @@
 @using SameDayServicezFinal.Utils
 @using System.Text
 
+
+@Scripts.RenderFormat("<script  src='{0}'></script>", "~/bundles/DropZone")
+@Scripts.RenderFormat("<script  src='{0}'></script>", "~/bundles/Datatables")
+@Scripts.RenderFormat("<script  src='{0}'></script>", "~/bundles/portal")
+@Styles.Render("~/Content/fontawesome")
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote-bs4.css" rel="stylesheet">
+
 <style>
     .nav-tabs {
         border-bottom: none;
@@ -606,6 +614,8 @@
 
 
     $(document).ready(function () {
+
+        Dropzone.autoDiscover = false;
 
         SetStars($('.rate-popover'),@Model.ApplicationUser.Rating);
 
