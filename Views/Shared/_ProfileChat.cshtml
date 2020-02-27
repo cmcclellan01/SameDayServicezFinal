@@ -864,6 +864,7 @@
                             var convId = $(ele).parent().parent().parent().attr('data-converstation-id');
                             if (conv.Id == convId) {
                                 $(ele).html(conv.SenderUnreadMessageCount);
+                                OverAllCount += 1;
                             }
                         });
 
@@ -874,19 +875,29 @@
                         $unreadmsg.removeClass('li-msg');
                         $('.unread-message-top').append($unreadmsg);
 
-                        $('.top-unread-message').on('click', function (event) {
+                        
+                        $('.message-no-items').on('click', function (event) {
                             $('#nav-contact-tab').tab('show')
                             event.preventDefault();
                         });
 
+                        //$('.top-unread-message').on('click', function (event) {
+                        //    $('#nav-contact-tab').tab('show')
+                        //    event.preventDefault();
+                        //});
+
                     });  
 
-                    $('.unread-message-top').append('<li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong class="top-unread-message">Read all messages   </strong></a></li>');
+                   // $('.unread-message-top').append('<li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong class="top-unread-message">Read all messages   </strong></a></li>');
 
-                    $('.top-unread-message').on('click', function (event) {
-                        $('#nav-contact-tab').tab('show')
-                        event.preventDefault();
-                    });
+                      $('.message-no-items').on('click', function (event) {
+                            $('#nav-contact-tab').tab('show')
+                            event.preventDefault();
+                        });
+                    //$('.top-unread-message').on('click', function (event) {
+                    //    $('#nav-contact-tab').tab('show')
+                    //    event.preventDefault();
+                    //});
                 }
             });
 
