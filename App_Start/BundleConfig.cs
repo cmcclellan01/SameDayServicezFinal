@@ -27,11 +27,11 @@ namespace SameDayServicezFinal
 
 
             bundles.Add(new ScriptBundle("~/bundles/portal").Include(                       
-                        "~/Scripts/bootstrap-checkbox.js",                       
-                        "~/Scripts/profile.js",
+                        "~/Scripts/bootstrap-checkbox.js",                      
                         "~/Scripts/summernote-bs4.js",
                         "~/Scripts/sweetalert.js",
-                        "~/Scripts/jquery.loading.js"));
+                        "~/Scripts/jquery.loading.js",
+                        "~/Scripts/profile.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate.min"));
@@ -47,18 +47,14 @@ namespace SameDayServicezFinal
 
 
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
-                              "~/Content/themes/base/jquery-ui-min.css",
-                              "~/Scripts/dropzone/dropzone.min.css",
-                              "~/Content/themes/base/datepicker.css",
-                              "~/Content/DataTables/media/css/dataTables.bootstrap4.min.css",
-                              "~/Content/DataTables/extensions/Responsive/css/responsive.bootstrap4.min.css",
-                              "~/Content/bootstrap.css",
-                              "~/Content/sweetalert.cs",
-                              "~/Content/loading.css",         
-                              "~/Content/site.css", 
-                              "~/Content/theme.css", 
-                              "~/Content/custom.css"));
+            //bundles.Add(new StyleBundle("~/Content/css").Include(
+            //                  "~/Content/themes/base/jquery-ui-min.css",
+            //                  "~/Scripts/dropzone/dropzone.min.css",
+            //                  "~/Content/themes/base/datepicker.css",
+            //                  "~/Content/DataTables/media/css/dataTables.bootstrap4.min.css",
+            //                  "~/Content/DataTables/extensions/Responsive/css/responsive.bootstrap4.min.css",                            
+            //                  "~/Content/sweetalert.cs",
+            //                  "~/Content/loading.css"));
 
             BundleTable.EnableOptimizations = true;
         }

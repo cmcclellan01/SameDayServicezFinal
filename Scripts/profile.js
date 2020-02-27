@@ -1,4 +1,4 @@
-﻿Dropzone.autoDiscover = false;
+﻿
 
 function LoadProjectTable() {
   
@@ -595,10 +595,12 @@ $(document).ready(function () {
             case true:
                 $('.Verification-chk').prop('checked', true);
                 $('.Verification-mode').html('<span style="color:#015668;font-size:1rem">Yes</span>');
+                $('.div-GAuthEnable').show();
                 break;
             case false:
                 $('.Verification-chk').prop('checked', false);
                 $('.Verification-mode').html('<span style="color:#015668;font-size:1rem">No</span>');
+                $('.div-GAuthEnable').hide();
                 break;
         }
 

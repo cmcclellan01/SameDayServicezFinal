@@ -1,6 +1,7 @@
 ﻿using SameDayServicezFinal.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.IO;
@@ -19,6 +20,8 @@ namespace SameDayServicezFinal.Utils
 
     public class Pager
     {
+
+
         public Pager(int totalItems, int? page, int pageSize = 10)
         {
             // calculate total, start and end pages
@@ -80,6 +83,8 @@ namespace SameDayServicezFinal.Utils
 
     public static class Extensions
     {
+
+       
 
         public static MvcHtmlString Image(this HtmlHelper helper, string src, string classname,string altText, string height)
         {

@@ -1,0 +1,68 @@
+﻿@model SameDayServicezFinal.Models.ApplicationUser
+@using SameDayServicezFinal.Utils
+
+<div class="form-row">
+    <div class="form-group  col-md-12  text-left">
+
+        @if (Model.GACode1 != null)
+        {
+            <text> Results: <span style="color:green !important"> Code Successfully Verified.</span></text>
+        }
+        else
+        {
+            <text> Results: <span style="color:red !important"> Code Unsuccessfully Verified.</span></text>
+        }
+
+
+    </div>
+</div>
+
+
+@if (Model.GACode1 != null)
+{
+    
+    <div class="form-row printMe">
+        <div class="text-primary col-md-12">
+            Put the codes below in a safe place. You can use these codes below in place of your Google Authenticator code.
+            <br />
+            NOTE: YOU CAN ONLY USE THESE CODES BELOW 1 TIME.
+            <br />
+            If you lose your device and do not have these recovery codes you will lose access to your account.
+        </div>
+    </div>
+
+    <div class="form-row printMe">
+        <div class="form-group  col-md-12  ">
+            <table class="table table-dark">
+                <tr>
+                    <td>@Extensions.Decrypt(Model.GACode1)</td>
+                    <td>@Extensions.Decrypt(Model.GACode2)</td>
+                </tr>
+                <tr>
+                    <td>@Extensions.Decrypt(Model.GACode3)</td>
+                    <td>@Extensions.Decrypt(Model.GACode4)</td>
+                </tr>
+                <tr>
+                    <td>@Extensions.Decrypt(Model.GACode5)</td>
+                    <td>@Extensions.Decrypt(Model.GACode6)</td>
+                </tr>
+                <tr>
+                    <td>@Extensions.Decrypt(Model.GACode7)</td>
+                    <td>@Extensions.Decrypt(Model.GACode8)</td>
+                </tr>
+                <tr>
+                    <td>@Extensions.Decrypt(Model.GACode9)</td>
+                    <td>@Extensions.Decrypt(Model.GACode10)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group  col-md-12  text-left">
+            <span class="btn btn-primary " id="btnPrint">Print Codes</span>
+        </div>
+    </div>
+}
+
+

@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>SamedayServicez</title>
 
-
     @Scripts.RenderFormat("<script async src='{0}'></script>", "~/bundles/modernizr")
     @*@Scripts.RenderFormat("<script  src='{0}'></script>", "~/bundles/jquery")*@
     @Scripts.RenderFormat("<script  src='{0}'></script>", "~/bundles/jqueryT")
-    @Scripts.RenderFormat("<script async src='{0}'></script>", "~/bundles/utilities")
+    @*@Scripts.RenderFormat("<script  src='{0}'></script>", "~/bundles/utilities")*@
 
+    <script src="~/Scripts/utilities.js"></script>
 
     @*<link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
         <link href="~/Content/DataTables/extensions/Responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />*@
@@ -46,8 +46,10 @@
     @RenderSection("scripts", required: false)
 
 
-    @Styles.Render("~/Content/css")
-
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />   
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/theme.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
 
 
 
@@ -306,5 +308,14 @@
     </script>
 
 
+    <link href="~/Scripts/dropzone/dropzone.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/datepicker.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/media/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/extensions/Responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/Content/fontawesome-all.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/sweetalert.css" rel="stylesheet" />
+   
+    <link href="~/Content/loading.css" rel="stylesheet" />
 </body>
 </html>

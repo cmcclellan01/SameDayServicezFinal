@@ -314,7 +314,7 @@ namespace SameDayServicezFinal.Controllers
         [HttpPost]
         [AllowAnonymous]
 
-        public ActionResult TwoFactorAuthenticate()
+        public async Task<ActionResult> TwoFactorAuthenticate()
         {
             var token = Request["CodeDigit"];
             TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
@@ -325,7 +325,81 @@ namespace SameDayServicezFinal.Controllers
             LoginViewModel model = (LoginViewModel)Session["model"];
             string returnUrl = Session["returnUrl"].ToString();
 
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
            
+            if (!string.IsNullOrEmpty(UserUniqueKey) && isValid == false)
+            {
+                if (Extensions.Decrypt(user.GACode1) == token && user.GACode1Used == false)
+                {
+                    isValid = true;
+                    user.GACode1Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode2) == token && user.GACode2Used == false)
+                {
+                    isValid = true;
+                    user.GACode2Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode3) == token && user.GACode3Used == false)
+                {
+                    isValid = true;
+                    user.GACode3Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode4) == token && user.GACode4Used == false)
+                {
+                    isValid = true;
+                    user.GACode4Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode5) == token && user.GACode5Used == false)
+                {
+                    isValid = true;
+                    user.GACode5Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode6) == token && user.GACode6Used == false)
+                {
+                    isValid = true;
+                    user.GACode6Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode7) == token && user.GACode7Used == false)
+                {
+                    isValid = true;
+                    user.GACode7Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode8) == token && user.GACode8Used == false)
+                {
+                    isValid = true;
+                    user.GACode8Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode9) == token && user.GACode9Used == false)
+                {
+                    isValid = true;
+                    user.GACode9Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+
+                if (Extensions.Decrypt(user.GACode10) == token && user.GACode10Used == false)
+                {
+                    isValid = true;
+                    user.GACode10Used = true;
+                    await UserManager.UpdateAsync(user);
+                }
+            }
 
             if (isValid)
             {
@@ -356,6 +430,77 @@ namespace SameDayServicezFinal.Controllers
 
             ViewBag.errorMessage = "Invalid login attempt.";
             return View("Error");
+        }
+
+        public async Task<ActionResult> TestCode(string token)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            PortalList portal = new PortalList();
+
+            string UserUniqueKey = Session["UserUniqueKey"].ToString();
+
+            TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+            bool isValid = TwoFacAuth.ValidateTwoFactorPIN(UserUniqueKey, token);
+
+
+            if (isValid)
+            {
+                 await CreateBackupCodes(user);
+
+                user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+                portal.ApplicationUser = user;
+            }
+
+             return PartialView("_GaCodes", portal.ApplicationUser);
+        }
+
+        private async Task<ActionResult> CreateBackupCodes(ApplicationUser u)
+        {
+            int count = 10;
+            List<string> list = new List<string>();
+
+            Random generator = new Random();
+            while (list.Count < count)
+            {
+                var num = generator.Next(0, 1000000).ToString("000000");
+                if (!list.Contains(num))
+                {
+                    list.Add(num);
+                }
+            }
+
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            user.GACode1 = Extensions.Encrypt(list[0]);
+            user.GACode2 = Extensions.Encrypt(list[1]);
+            user.GACode3 = Extensions.Encrypt(list[2]);
+            user.GACode4 = Extensions.Encrypt(list[3]);
+            user.GACode5 = Extensions.Encrypt(list[4]);
+            user.GACode6 = Extensions.Encrypt(list[5]);
+            user.GACode7 = Extensions.Encrypt(list[6]);
+            user.GACode8 = Extensions.Encrypt(list[7]);
+            user.GACode9 = Extensions.Encrypt(list[8]);
+            user.GACode10 = Extensions.Encrypt(list[9]);
+
+            user.GACode1Used = false;
+            user.GACode2Used = false;
+            user.GACode3Used = false;
+            user.GACode4Used = false;
+            user.GACode5Used = false;
+            user.GACode6Used = false;
+            user.GACode7Used = false;
+            user.GACode8Used = false;
+            user.GACode9Used = false;
+            user.GACode10Used = false;
+
+
+
+            await UserManager.UpdateAsync(user);
+
+            return Json("OK", JsonRequestBehavior.AllowGet);
+
         }
 
         //
@@ -413,7 +558,7 @@ namespace SameDayServicezFinal.Controllers
                 }
             }
 
-
+           // Extensions.CreateBackupCodes(user);
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -430,6 +575,7 @@ namespace SameDayServicezFinal.Controllers
                 
                 string UserUniqueKey = (user.UserName + GAuthPrivKey);
                 Session["Key"] = UserUniqueKey;
+                Session["UserUniqueKey"] = UserUniqueKey;
 
                 status = true;
                 user.Online = true;

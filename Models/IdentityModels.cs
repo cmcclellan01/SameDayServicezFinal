@@ -91,16 +91,16 @@ namespace SameDayServicezFinal.Models
 
 
 
-        public int GACode1 { get; set; }
-        public int GACode2 { get; set; }
-        public int GACode3 { get; set; }
-        public int GACode4 { get; set; }
-        public int GACode5 { get; set; }
-        public int GACode6 { get; set; }
-        public int GACode7 { get; set; }
-        public int GACode8 { get; set; }
-        public int GACode9 { get; set; }
-        public int GACode10 { get; set; }
+        public string GACode1 { get; set; }
+        public string GACode2 { get; set; }
+        public string GACode3 { get; set; }
+        public string GACode4 { get; set; }
+        public string GACode5 { get; set; }
+        public string GACode6 { get; set; }
+        public string GACode7 { get; set; }
+        public string GACode8 { get; set; }
+        public string GACode9 { get; set; }
+        public string GACode10 { get; set; }
 
         public bool GACode1Used { get; set; }
         public bool GACode2Used { get; set; }
