@@ -65,6 +65,8 @@ namespace SameDayServicezFinal.Models
         public string Type { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public bool IsInContractorMode { get; set; }
     }
 
     public class RegisterViewModel

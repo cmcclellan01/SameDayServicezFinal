@@ -535,7 +535,7 @@ namespace SameDayServicezFinal.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl, bool IsContractor = true)
         {
 
           
@@ -576,12 +576,26 @@ namespace SameDayServicezFinal.Controllers
                 string UserUniqueKey = (user.UserName + GAuthPrivKey);
                 Session["Key"] = UserUniqueKey;
                 Session["UserUniqueKey"] = UserUniqueKey;
-
-                status = true;
-                user.Online = true;
                 Session["FullName"] = user.FirstName + " " + user.LastName;
                 Session["UserName"] = user.UserName;
                 Session["ID"] = user.Id;
+
+                status = true;
+                user.Online = true;
+
+
+                if (model.IsInContractorMode)
+                {
+                    user.IsInContractorMode = true;
+                    user.IsInCustomerMode = false;
+                }
+                else
+                {
+                    user.IsInContractorMode = false;
+                    user.IsInCustomerMode = true;
+                }
+
+               
                 await UserManager.UpdateAsync(user);
                 await LoginTime(user);
 
