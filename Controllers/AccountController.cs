@@ -2220,7 +2220,7 @@ namespace SameDayServicezFinal.Controllers
             {
                 MailMessage mail = new MailMessage();
                 SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
-                mail.From = new MailAddress("samedayservicez-noreply@devsamedayservicez.com");
+                mail.From = new MailAddress("samedayservicez-noreply@samedayservicez.com");
                 // mail.To.Add(user.Email);
                 mail.To.Add("christopher.mcclellan@gmail.com");
                 mail.To.Add("jm.millerzconstruction@gmail.com");
@@ -2320,7 +2320,7 @@ namespace SameDayServicezFinal.Controllers
 
             var ProfilePath = "/Uploads/ProfileImages/" + applicant.Id + "/";
 
-            string pathString = "https://www.devsamedayservicez.com" + ProfilePath.ToString() + "profile_" + applicant.Id + Path.GetExtension(applicant.ProfileImage);
+            string pathString = "https://www.samedayservicez.com" + ProfilePath.ToString() + "profile_" + applicant.Id + Path.GetExtension(applicant.ProfileImage);
 
             body = body.Replace("~ProfileImageUrl", pathString).Replace("~FullName", applicant.DisplayName).Replace("~ProjectTitle", prj.ProjectTitle).Replace("~ProjectTimeline", Duration).Replace("~Compensation", "$" + prj.ByTheHourRate.ToString() + " / hourly").Replace("~JobDescription", prj.Description);
 
@@ -2351,7 +2351,7 @@ namespace SameDayServicezFinal.Controllers
 
             var ProfilePath = "/Uploads/ProfileImages/" + applicant.Id + "/";
    
-            string pathString = "https://www.devsamedayservicez.com" + ProfilePath.ToString() + "profile_" + applicant.Id + Path.GetExtension(applicant.ProfileImage);
+            string pathString = "https://www.samedayservicez.com" + ProfilePath.ToString() + "profile_" + applicant.Id + Path.GetExtension(applicant.ProfileImage);
 
             body = body.Replace("~ProfileImageUrl", pathString).Replace("~FullName", applicant.DisplayName).Replace("~ProjectTitle", prj.ProjectTitle).Replace("~ProjectTimeline", Duration).Replace("~Compensation", "$" + prj.ByTheHourRate.ToString() + " / hourly").Replace("~JobDescription", prj.Description);
 

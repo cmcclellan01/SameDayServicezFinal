@@ -23,7 +23,7 @@ namespace SameDayServicezFinal
 
             MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("relay-hosting.secureserver.net");
-            mail.From = new MailAddress("samedayservicez-noreply@devsamedayservicez.com"); 
+            mail.From = new MailAddress("samedayservicez-noreply@samedayservicez.com"); 
             mail.To.Add(message.Destination);           
             mail.Subject = message.Subject;
             mail.Body = message.Body;           

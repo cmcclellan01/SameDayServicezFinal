@@ -693,7 +693,6 @@
     <Content Include="Content\MidAmericanBill.pdf" />
     <Content Include="manifest.json" />
     <Content Include="Content\fontAwesome47.css" />
-    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <Content Include="Scripts\i18n\defaults-am_ET.js" />
     <Content Include="Scripts\i18n\defaults-am_ET.min.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
@@ -809,7 +808,7 @@
     <Content Include="Scripts\i18n\defaults-am_ET.js.map" />
     <Content Include="Scripts\bootstrap-select.min.js.map" />
     <Content Include="Scripts\bootstrap-select.js.map" />
-    <None Include="Properties\PublishProfiles\devsamedayservicez.com - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\samedayservicez.com - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\fontawesome\all.js" />
     <Content Include="Scripts\fontawesome\all.min.js" />
