@@ -15,7 +15,7 @@
 @*@Styles.Render("~/Content/fontawesome")*@
 
 
-
+    <link href="~/Content/profile.css" rel="stylesheet" />
 
 
 
@@ -97,7 +97,7 @@
                                     <strong>Dashboard</strong>
                                 </div>
                             </a>
-
+                           
                         </div>
                         <!-- Navbar Menu -->
                         <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
@@ -130,8 +130,15 @@
                                     <i class="fas fa-envelope message-no-items"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
                                 </a>
                                 @*<ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">
-                                </ul>*@
+            </ul>*@
                             </li>
+
+                            <li class="nav-item dropdown">
+                                <a href="/Account/UserProfile" title="User Profile" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-user"></i></a>
+                             
+                            </li>
+
+
                             <!-- Logout    -->
                             <li class="nav-item dropdown">
 
@@ -152,7 +159,7 @@
                 <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
                     <nav>
                         <div class="nav nav-tabs " id="nav-tab" role="tablist" style="font-size:smaller">
-                            <a class="nav-item nav-link text-center" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>
+                            @*<a class="nav-item nav-link text-center" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>*@
 
 
                             @{
@@ -203,11 +210,11 @@
                             </div>
                         </div>
 
-                        <div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        @*<div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
                                 @Html.Partial("_Profile", Model.ApplicationUser)
                             </div>
-                        </div>
+                        </div>*@
 
 
 

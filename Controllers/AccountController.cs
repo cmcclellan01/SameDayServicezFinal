@@ -793,7 +793,7 @@ namespace SameDayServicezFinal.Controllers
         [AllowAnonymous]      
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-
+            return View(model);
             //var states = Utils.Extensions.GetStatesList();
 
             //model.States = GetSelectListItems(states);
@@ -1068,6 +1068,25 @@ namespace SameDayServicezFinal.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> UserProfile()
+        {
+            var states = Utils.Extensions.GetStatesList();
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+                user.States = GetSelectListItems(states);
+                user.Professions = new List<SelectListItem>();
+                user.SubProfessions = new List<SelectListItem>();
+                user.InfoTabOpen = "0";
+                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                user.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
+            }
+
+            return View(user);
         }
 
         [HttpPost]
