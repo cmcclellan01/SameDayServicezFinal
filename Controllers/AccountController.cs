@@ -1071,6 +1071,19 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> Wallet()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user != null)
+            {
+
+            }
+
+            return View(user);
+        }
+
+        [HttpGet]
         public async Task<ActionResult> UserProfile()
         {
             var states = Utils.Extensions.GetStatesList();
@@ -1084,6 +1097,105 @@ namespace SameDayServicezFinal.Controllers
                 user.InfoTabOpen = "0";
                 user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
                 user.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
+
+
+                if (user.PercentDone != 100)
+                {
+                    user.PercentDone = 0;
+
+                    if (!string.IsNullOrWhiteSpace(user.DisplayName))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.Bio))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.Email))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.Address))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.City))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.State))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+
+                    if (!string.IsNullOrWhiteSpace(user.ZipCode))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.FirstName))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.MiddleName))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.PhoneNumber))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (user.ByTheHourRate != 0)
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.BirthDate))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    var job = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+                    if (job.Count() != 0)
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.ProfileImage))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(user.ProfileResume))
+                    {
+                        user.PercentDone += 6.666666666666667;
+                    }
+                }
+
+
+                string message = "Two Factor Authentication Verification using Google Authenticator";
+
+                //Two Factor Authentication Setup
+                TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+                string UserUniqueKey = (user.UserName + GAuthPrivKey);
+                Session["UserUniqueKey"] = UserUniqueKey;
+
+                var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", user.UserName, UserUniqueKey, false, 3);
+
+                ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+                ViewBag.SetupCode = setupInfo.ManualEntryKey;
+                ViewBag.Message = message;
+
             }
 
             return View(user);

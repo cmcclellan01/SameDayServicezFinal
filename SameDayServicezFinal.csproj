@@ -400,10 +400,12 @@
     <Content Include="Content\images\dollar-sign.png" />
     <Content Include="Content\images\forward_disabled.png" />
     <Content Include="Content\images\forward_enabled.png" />
+    <Content Include="Content\images\have-work.png" />
     <Content Include="Content\images\hire-a-handyman-home-repair-microjb-temp-worker-white.jpg" />
     <Content Include="Content\images\kqm_icon.ico" />
     <Content Include="Content\images\logo.ico" />
     <Content Include="Content\images\LOGO.png" />
+    <Content Include="Content\images\need-work.png" />
     <Content Include="Content\images\project_Icon.png" />
     <Content Include="Content\images\sc1.jpg" />
     <Content Include="Content\images\sc2.jpg" />
@@ -1048,6 +1050,7 @@
     <Content Include="Views\Account\LogOff.cshtml" />
     <Content Include="Views\Shared\_GaCodes.cshtml" />
     <Content Include="Views\Account\UserProfile.cshtml" />
+    <Content Include="Views\Account\Wallet.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

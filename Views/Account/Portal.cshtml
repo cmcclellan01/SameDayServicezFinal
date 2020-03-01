@@ -92,9 +92,9 @@
                         <!-- Navbar Header-->
                         <div class="navbar-header">
                             <!-- Navbar Brand -->
-                            <a href="/" class="navbar-brand  d-sm-inline-block ">
+                            <a href="/Account/Portal" class="navbar-brand  d-sm-inline-block " style="border: black 1px solid;border-radius: 24px;padding: 10px;font-size:small">
                                 <div class="brand-text  d-lg-inline-block">
-                                    <strong>Dashboard</strong>
+                                    <strong>Dashboard Home</strong>
                                 </div>
                             </a>
                            
@@ -134,8 +134,13 @@
                             </li>
 
                             <li class="nav-item dropdown">
-                                <a href="/Account/UserProfile" title="User Profile" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-user"></i></a>
-                             
+                                <a href="/Account/UserProfile" title="Your Profile" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-user"></i></a>
+
+                            </li>
+
+                            <li class="nav-item dropdown">
+                                <a href="/Account/Wallet" title="Your Wallet" class="nav-link dashboard-header-icon-font-size" style="color:green"> <i class="fas fa-dollar-sign"></i></a>
+
                             </li>
 
 
@@ -170,7 +175,7 @@
                                 else
                                 {
                                     <a class="nav-item nav-link " id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">My Projects</a>
-                                    <a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>
+                                    @*<a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>*@
 
                                     <script>
                                         $(document).ready(function () {
@@ -181,10 +186,9 @@
                             }
 
                             <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Appiled For</a>
-                            <a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Messaging</a>
+                            @*<a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>*@
                             <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
-
+                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Messaging</a>
                             @{
                                 if (Model.ApplicationUser.IsInContractorMode)
                                 {
@@ -584,7 +588,7 @@
 
 
 
-@Html.Partial("_JobMessage", Model)
+@*@Html.Partial("_JobMessage", Model)*@
 
 
 
