@@ -1,13 +1,12 @@
-﻿@model SameDayServicezFinal.Models.ApplicationUser
+﻿@model SameDayServicezFinal.Models.PortalList
+
 @{
-    ViewBag.Title = "Wallet";
+    ViewBag.Title = "My Messages";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <link href="~/Content/profile.css" rel="stylesheet" />
+<link href="~/Content/profile.css" rel="stylesheet" />
 <script src="~/Scripts/profile.js"></script>
 <script src="~/Scripts//bootstrap-checkbox.js"></script>
-<script src="~/Scripts/jquery.loading.js"></script>
-<script src="~/Scripts/sweetalert.js"></script>
 
 
 <div class="page">
@@ -30,7 +29,7 @@
                     <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
 
                         @{
-                            if (!Model.IsInContractorMode)
+                            if (!Model.ApplicationUser.IsInContractorMode)
                             {
                                 <li class="nav-item dropdown">
                                     <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project"><i class="fas fa-file"></i></a>
@@ -87,12 +86,7 @@
 
     <div class="page-content d-flex align-items-stretch">
         <div class="content-inner" style="padding-bottom: 59px;padding-top: 30px;">
-         
-
-
-
-
-
+            @Html.Partial("_ProfileChat", Model)
             <!-- Page Footer-->
             <footer class="main-footer">
                 <div class="container-fluid">

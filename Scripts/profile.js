@@ -495,8 +495,79 @@ function MouseOverSetStars2(star, index) {
 
 $(document).ready(function () {
 
+    setInterval(GetMessageCounts, 5000);
+
+    var senderId = '';
+    var receiverid = '';
+    var ConversationId = '';
 
 
+    function GetMessageCounts() {
+        var OverAllCount = 0;
+        $.ajax({
+            type: "GET",
+            url: "/Account/GetUnreadMessages",
+            data: {},
+            success: function (data) {
+                $('.unread-message-badge-count').html('');
+                $('.unread-messsage-count').html('');
+                $('.unread-message-top').empty();
+
+                //
+
+                $.each(data, function (key, conv) {
+                    $.each($('.unread-messsage-count'), function (key1, ele) {
+                        var convId = $(ele).parent().parent().parent().attr('data-converstation-id');
+                        if (conv.Id == convId) {
+                            $(ele).html(conv.SenderUnreadMessageCount);
+                            OverAllCount += 1;
+                        }
+                    });
+
+                    $('.unread-message-badge-count').html(conv.SenderUnreadMessageCount);
+                    var $unreadmsg = $('.unread-message-msg .li-msg').clone();
+                    $unreadmsg.find('.unread-profile-image').attr('src', '/Uploads/ProfileImages/' + conv.Message[0].SenderId + '/' + conv.SenderProfileDisplayImage)
+                    $unreadmsg.find('.unread-display-name').html(conv.SenderProfileDisplayName);
+                    $unreadmsg.removeClass('li-msg');
+                    $('.unread-message-top').append($unreadmsg);
+
+
+                    $('.message-no-items').on('click', function (event) {
+                        //$('#nav-contact-tab').tab('show')
+                        window.location = '/Account/MyMessages';
+                        event.preventDefault();
+                    });
+
+                    //$('.top-unread-message').on('click', function (event) {
+                    //    $('#nav-contact-tab').tab('show')
+                    //    event.preventDefault();
+                    //});
+
+                });
+
+                // $('.unread-message-top').append('<li><a rel="nofollow" href="#" class="dropdown-item all-notifications text-center"> <strong class="top-unread-message">Read all messages   </strong></a></li>');
+
+                $('.message-no-items').on('click', function (event) {
+                    //$('#nav-contact-tab').tab('show')
+                    window.location = '/Account/MyMessages';
+                    event.preventDefault();
+                });
+                //$('.top-unread-message').on('click', function (event) {
+                //    $('#nav-contact-tab').tab('show')
+                //    event.preventDefault();
+                //});
+            }
+        });
+
+
+    }
+
+
+    $('.message-no-items').on('click', function (event) {
+        //$('#nav-contact-tab').tab('show')
+        window.location = '/Account/MyMessages';
+        event.preventDefault();
+    });
 
     // this is for the is contractor checkbox that makes it 'customer or contractor'
     $('.IsContractor').checkboxpicker({

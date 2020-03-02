@@ -1084,6 +1084,40 @@ namespace SameDayServicezFinal.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult> MyMessages()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            PortalList portal = new PortalList();
+            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true).Count(), 0);
+
+            portal.Pager = pager;
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+              
+                user.Professions = new List<SelectListItem>();
+                user.SubProfessions = new List<SelectListItem>();
+                user.InfoTabOpen = "0";
+                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                user.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
+
+                portal.ApplicationUser = user;
+
+                UpdatePortal(portal);
+                               
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View(portal);
+
+        }
+
+        [HttpGet]
         public async Task<ActionResult> UserProfile()
         {
             var states = Utils.Extensions.GetStatesList();
@@ -1199,6 +1233,64 @@ namespace SameDayServicezFinal.Controllers
             }
 
             return View(user);
+        }
+
+
+
+        [HttpGet]
+        [SessionTimeout]
+        public async Task<ActionResult> Portal()
+        {
+            var states = Extensions.GetStatesList();
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            PortalList portal = new PortalList();
+            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true).Count(), 0);
+
+            portal.Pager = pager;
+
+            if (user != null)
+            {
+                Session["FullName"] = user.FirstName + " " + user.LastName;
+                user.States = GetSelectListItems(states);
+                user.Professions = new List<SelectListItem>();
+                user.SubProfessions = new List<SelectListItem>();
+                user.InfoTabOpen = "0";
+                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+                user.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
+
+
+
+
+
+                portal.ApplicationUser = user;
+
+                UpdatePortal(portal);
+
+
+
+                //var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
+                //foreach (var contractor in contractors)
+                //{
+                //    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
+                //    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
+
+
+                //    ContractorSearchList contractorList = new ContractorSearchList
+                //    {
+                //        Contractor = contractor,
+                //        PastProjects = pastprojects
+                //    };
+                //    portal.ContractorList.Add(contractorList);
+                //}
+
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            return View(portal);
         }
 
         [HttpPost]
@@ -1394,61 +1486,7 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_ProfileChat", portal);
         }
 
-        [HttpGet]
-        [SessionTimeout]
-        public async Task<ActionResult> Portal()
-        {
-            var states = Extensions.GetStatesList();
-            var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            PortalList portal = new PortalList();
-            var pager = new Pager(db.Project.Where(p => p.IsActive == true && p.AcceptingContractors == true && p.IsProjectPublished == true).Count(), 0);
-
-            portal.Pager = pager;
-
-            if (user != null)
-            {
-                Session["FullName"] = user.FirstName + " " + user.LastName;
-                user.States = GetSelectListItems(states);
-                user.Professions = new List<SelectListItem>();
-                user.SubProfessions = new List<SelectListItem>();
-                user.InfoTabOpen = "0";
-                user.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-                user.Conversations = db.Conversations.Where(p => p.ConversationOwnerId == userId).ToList();
-
-
-
-
-
-                portal.ApplicationUser = user;
-
-                UpdatePortal(portal);
-
-              
-
-                //var contractors = db.Users.Where(p => p.IsInContractorMode == true).ToList();
-                //foreach (var contractor in contractors)
-                //{
-                //    var pastprojects = db.Project.Where(p => p.ProjectsUsersId == contractor.Id).ToList();
-                //    contractor.UserProfessions = db.ContractorCustomerCategories.Where(p => p.ContractorCustomerId == userId).ToList();
-
-
-                //    ContractorSearchList contractorList = new ContractorSearchList
-                //    {
-                //        Contractor = contractor,
-                //        PastProjects = pastprojects
-                //    };
-                //    portal.ContractorList.Add(contractorList);
-                //}
-
-            }
-            else
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            return View(portal);
-        }
+      
 
         public async Task<ActionResult> GetJobAcceptedList(long ProjectId)
         {
