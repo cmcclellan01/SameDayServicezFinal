@@ -1,114 +1,143 @@
-﻿@model SameDayServicezFinal.Models.ApplicationUser
+﻿@model SameDayServicezFinal.Models.PortalList
 @{
     ViewBag.Title = "Wallet";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <link href="~/Content/profile.css" rel="stylesheet" />
+<link href="~/Content/profile.css" rel="stylesheet" />
 <script src="~/Scripts/profile.js"></script>
 <script src="~/Scripts//bootstrap-checkbox.js"></script>
 <script src="~/Scripts/jquery.loading.js"></script>
 <script src="~/Scripts/sweetalert.js"></script>
+<script src="~/Scripts/miniApps.js"></script>
+<script src="~/Scripts/moment.js"></script>
 
+<script>
+    $(function () {
+        $("#datepicker").datepicker();
+    });
+</script>
 
 <div class="page">
     <!-- Main Navbar-->
-    <header class="header">
-        <nav class="navbar">
 
-            <div class="container-fluid">
-                <div class="navbar-holder d-flex align-items-center justify-content-between">
-                    <!-- Navbar Header-->
-                    <div class="navbar-header">
-                        <!-- Navbar Brand -->
-                        <a href="/Account/Portal" class="navbar-brand  d-sm-inline-block btn-primary" style="border: black 1px solid;border-radius: 24px;padding: 10px;font-size:small">
-                            <div class="brand-text  d-lg-inline-block">
-                                <strong>Dashboard Home</strong>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Navbar Menu -->
-                    <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
+    @Html.Partial("_PortalMenu", Model.ApplicationUser)
 
-                        @{
-                            if (!Model.IsInContractorMode)
-                            {
-                                <li class="nav-item dropdown">
-                                    <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project"><i class="fas fa-file"></i></a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="nav-item dropdown">
-                                    <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project" style="display:none"><i class="fas fa-file"></i></a>
-                                </li>
-                            }
-                        }
-
-
-
-                        <li class="nav-item dropdown">
-                            <a id="notifications" title="Your Notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
-                                <i class="fas fa-bell"></i><span class="badge bg-red badge-corner"></span>
-                            </a>
-                        </li>
-                        <!-- Messages -->
-                        <li class="nav-item dropdown">
-                            <a id="messages" rel="nofollow" title="Your Messsages" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
-                                <i class="fas fa-envelope message-no-items"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
-                            </a>
-                            @*<ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">
-            </ul>*@
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a href="/Account/UserProfile" title="Your Profile" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-user"></i></a>
-
-                        </li>
-
-                        <li class="nav-item dropdown">
-                            <a href="/Account/Wallet" title="Your Wallet" class="nav-link dashboard-header-icon-font-size" style="color:green"> <i class="fas fa-dollar-sign"></i></a>
-
-                        </li>
-                        <!-- Logout    -->
-                        @* <li class="nav-item dropdown">
-
-
-        <i class="fas fa-lock">@Ajax.ActionLink("LogOff", "LogOff", new AjaxOptions { HttpMethod = "POST" })</i>
-                        <a href="javascript:document.getElementById('logoutForm').submit()" title="LogOff" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-lock"></i></a>
-
-
-
-                        </li>*@
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
 
     <div class="page-content d-flex align-items-stretch">
         <div class="content-inner" style="padding-bottom: 59px;padding-top: 30px;">
-         
 
 
 
 
+            <div class="row">
+                <div class="col-3">
+                    <div class="input-group ">
+                        <label class="text-light" style="margin-left:10px;font-size: 0.8rem;color: #212529;font-weight:bold;">Choose Your Project:</label>
+                        <select class="form-control " style="width: 100%;margin:10px">
 
-            <!-- Page Footer-->
-            <footer class="main-footer">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <p> </p>
-                        </div>
-                        <div class="col-sm-6 text-right">
-                            <p>Version 1.0.0</p>
-                        </div>
+                            @foreach (var item in Model.ProjectApplies)
+                            {
+                                <option>@item.ProjectTitle</option>
+                            }
+                        </select>
+
                     </div>
                 </div>
-            </footer>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Your Project Hours</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="miniAppContainer col-12" data-miniapptype="time-duration-calculator" id="miniAppContainer">
+                                <div id="miniAppContent">
+                                  
+                                    <table class="table table-dark">
+                                        <tbody>
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Duration</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" id="datepicker"></td>
+                                                <td>
+                                                    <input class="inpTime roundedInput" id="inputTime1" style="width: 100px; text-align: center;" type="text" /><br>
+                                                    <span style="font-size: .8em;">(eg 8:00 am)</span>
+                                                </td>
+                                                <td>
+                                                    <input class="inpTime roundedInput" id="inputTime2" style="width: 100px; text-align: center;" type="text" /><br>
+                                                    <span style="font-size: .8em;">(eg 5:00 pm)</span>
+                                                </td>
+                                                <td>
+                                                    @*<div id="timeDurationDecimal" style="font-size: 2em;display:inline-block;margin-right:5px"> </div>*@
+                                                    <div id="timeDurationHoursMinutes" style="font-size: 1em;display:inline-block"> </div>
+                                                </td>
+                                                <td>
+                                                    <div>
+                                                        <input id="butReset" type="button" value="Add Time" class="btn btn-primary">
+                                                        <input id="butReset" type="button" value="Reset Time" class="btn btn-primary">
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                   
+
+
+                </div>
+            </div>
+
+
+
+
+           
+
+
+
+
+
+
+
+
+                    <!-- End of OnTheClock code -->
+                    <!-- Page Footer-->
+                    <footer class="main-footer">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <p> </p>
+                                </div>
+                                <div class="col-sm-6 text-right">
+                                    <p>Version 1.0.0</p>
+                                </div>
+                            </div>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+
+
         </div>
-    </div>
-
-
-</div>
 

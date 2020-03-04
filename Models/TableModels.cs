@@ -475,6 +475,35 @@ namespace SameDayServicezFinal.Models
         public DateTime EndingBidDate { get; set; }
     }
 
+
+    [Table("ProjectHours")]
+    public class ProjectHours
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public long Id { get; set; }
+
+        public long ProjectId { get; set; }
+
+
+
+        public string UsersId { get; set; }
+
+        public DateTime CreationDate { get; set; }
+
+        public TimeSpan StartTime { get; set; }
+
+        public TimeSpan StopTime { get; set; }
+
+        public decimal Duration { get; set; }
+
+        public bool  TimeVerified { get; set; }
+
+        [NotMapped]
+        public string ProjectTitle { get; set; }
+    }
+
+
     [Table("ProjectCompensations")]
     public class ProjectCompensations
     {
@@ -563,4 +592,9 @@ namespace SameDayServicezFinal.Models
 
 
     }
+
+
+
+
+
 }

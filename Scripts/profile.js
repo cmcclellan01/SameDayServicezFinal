@@ -518,7 +518,7 @@ $(document).ready(function () {
                 $.each(data, function (key, conv) {
                     $.each($('.unread-messsage-count'), function (key1, ele) {
                         var convId = $(ele).parent().parent().parent().attr('data-converstation-id');
-                        if (conv.Id == convId) {
+                        if (conv.Id === convId) {
                             $(ele).html(conv.SenderUnreadMessageCount);
                             OverAllCount += 1;
                         }

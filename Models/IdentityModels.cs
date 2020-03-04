@@ -155,6 +155,8 @@ namespace SameDayServicezFinal.Models
 
         public DbSet<ProjectRating> ProjectRating { get; set; }
 
+        public DbSet<ProjectHours> ProjectHours { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

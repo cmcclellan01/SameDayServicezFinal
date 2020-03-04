@@ -1073,15 +1073,66 @@ namespace SameDayServicezFinal.Controllers
         [HttpGet]
         public async Task<ActionResult> Wallet()
         {
+
+            var users = db.Users.Select(p => p).ToList();
             var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            if (user != null)
+            var currentuser = db.Users.Where(p => p.Id == userId).SingleOrDefault();
+
+            PortalList portal = new PortalList();
+            portal.ApplicationUser = currentuser;
+
+            var pp = from c in db.ProjectApplicants
+                     join p in db.Project on c.ProjectsId equals p.ProjectsId
+                     where c.ApplicantId == userId && c.AssinedToProject == true && p.ProjectStatus == ProjectStatuses.InProgress
+                     orderby c.AppliedDate descending
+                     select new
+                     {
+                         p.ProjectsId,
+                         p.ProjectTitle,
+                         c.AppliedDate,
+                         c.AssinedToProject,
+                         p.ProjectStatus
+
+                     };
+
+            foreach (var item in pp)
             {
+                ProjectPosting post = new ProjectPosting
+                {
+                    CreationDate = item.AppliedDate,
+                    ProjectId = item.ProjectsId,
+                    ProjectTitle = item.ProjectTitle,
+                    AssinedToProject = item.AssinedToProject,
+                    ProjectStatus = item.ProjectStatus
+                };
+
+                if (currentuser.HideClosedAppliedFor)
+                {
+                    if (post.ProjectStatus != ProjectStatuses.Completed)
+                    {
+                        portal.ProjectApplies.Add(post);
+                    }
+                }
+                else
+                {
+                    portal.ProjectApplies.Add(post);
+                }
+
+
 
             }
 
-            return View(user);
+            portal.ProjectApplies = portal.ProjectApplies.OrderByDescending(p => p.CreationDate).ThenBy(p => p.AssinedToProject).ThenBy(p => p.ProjectStatus).ToList();
+
+
+
+
+
+            return View(portal);
         }
+
+
+
 
         [HttpGet]
         public async Task<ActionResult> MyMessages()
@@ -1405,6 +1456,7 @@ namespace SameDayServicezFinal.Controllers
             return PartialView("_Projects", portal);
         }
 
+           
 
 
         public async Task<ActionResult> GetContractorAppliedForJobsList(bool Hide)
@@ -1694,7 +1746,7 @@ namespace SameDayServicezFinal.Controllers
             }
 
 
-            if (currentuser.PercentDone != 100)
+            if (Math.Round(currentuser.PercentDone) != 100)
             {
                 currentuser.PercentDone = 0;
 
@@ -1777,21 +1829,23 @@ namespace SameDayServicezFinal.Controllers
                 }
             }
 
+            if (currentuser.GAuthEnable)
+            {
 
-            string message = "Two Factor Authentication Verification using Google Authenticator";
+                string message = "Two Factor Authentication Verification using Google Authenticator";
 
-            //Two Factor Authentication Setup
-            TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
-            string UserUniqueKey = (portal.ApplicationUser.UserName + GAuthPrivKey);
-            Session["UserUniqueKey"] = UserUniqueKey;
+                //Two Factor Authentication Setup
+                TwoFactorAuthenticator TwoFacAuth = new TwoFactorAuthenticator();
+                string UserUniqueKey = (portal.ApplicationUser.UserName + GAuthPrivKey);
+                Session["UserUniqueKey"] = UserUniqueKey;
 
-            var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", portal.ApplicationUser.UserName, UserUniqueKey, false, 3);
+                var setupInfo = TwoFacAuth.GenerateSetupCode("samedayservicez.com", portal.ApplicationUser.UserName, UserUniqueKey, false, 3);
 
-            ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
-            ViewBag.SetupCode = setupInfo.ManualEntryKey;
-            ViewBag.Message = message;
-
-            //currentuser.PercentDone = Math.Round(currentuser.PercentDone);
+                ViewBag.BarcodeImageUrl = setupInfo.QrCodeSetupImageUrl;
+                ViewBag.SetupCode = setupInfo.ManualEntryKey;
+                ViewBag.Message = message;
+            }
+            currentuser.PercentDone = Math.Round(currentuser.PercentDone);
 
         }
 

@@ -82,139 +82,66 @@
     }
 
 
-    <div class="page">
-        <!-- Main Navbar-->
-        <header class="header">
-            <nav class="navbar">
+<div class="page">
+    <!-- Main Navbar-->
+    @Html.Partial("_PortalMenu", Model.ApplicationUser)
 
-                <div class="container-fluid">
-                    <div class="navbar-holder d-flex align-items-center justify-content-between">
-                        <!-- Navbar Header-->
-                        <div class="navbar-header">
-                            <!-- Navbar Brand -->
-                            <a href="/Account/Portal" class="navbar-brand  d-sm-inline-block btn-primary" style="border: black 1px solid;border-radius: 24px;padding: 10px;font-size:small">
-                                <div class="brand-text  d-lg-inline-block">
-                                    <strong>Dashboard Home</strong>
-                                </div>
-                            </a>
-                           
-                        </div>
-                        <!-- Navbar Menu -->
-                        <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center" style="    border: 1px solid black;    border-radius: 21px;    margin-right: 36px;    box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);">
+    <div class="page-content d-flex align-items-stretch">
+        <div class="content-inner" style="padding-bottom: 59px;">
+            <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
+                <nav>
+                    <div class="nav nav-tabs " id="nav-tab" role="tablist" style="font-size:smaller">
+                        @*<a class="nav-item nav-link text-center" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>*@
 
-                            @{
-                                if (!Model.ApplicationUser.IsInContractorMode)
-                                {
-                                    <li class="nav-item dropdown">
-                                        <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project"><i class="fas fa-file"></i></a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class="nav-item dropdown">
-                                        <a rel="nofollow" data-target=".new-project-modal" href="#" data-toggle="modal" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size contractor-mode-no-view" title="New Project" style="display:none"><i class="fas fa-file"></i></a>
-                                    </li>
-                                }
+
+                        @{
+                            if (Model.ApplicationUser.IsInContractorMode)
+                            {
+                                <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Search Projects</a>
                             }
+                            else
+                            {
+                                <a class="nav-item nav-link " id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">My Projects</a>
+                                @*<a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>*@
 
+                                <script>
+                                    $(document).ready(function () {
+                                        $('#nav-project-tab').tab('show');
+                                    });
+                                </script>
+                            }
+                        }
 
+                        <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Appiled For</a>
+                        @*<a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>*@
+                        <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
+                        @*<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Messaging</a>*@
+                        @{
+                            if (Model.ApplicationUser.IsInContractorMode)
+                            {
 
-                            <li class="nav-item dropdown">
-                                <a id="notifications" title="Your Notifications" rel="nofollow" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
-                                    <i class="fas fa-bell"></i><span class="badge bg-red badge-corner"></span>
-                                </a>
-                            </li>
-                            <!-- Messages -->
-                            <li class="nav-item dropdown">
-                                <a id="messages" rel="nofollow" title="Your Messsages" data-target="#" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dashboard-header-icon-font-size">
-                                    <i class="fas fa-envelope message-no-items"></i><span class="badge bg-orange badge-corner unread-message-badge-count"></span>
-                                </a>
-                                @*<ul aria-labelledby="notifications" class="dropdown-menu unread-message-top">
-            </ul>*@
-                            </li>
+                            }
+                        }
 
-                            <li class="nav-item dropdown">
-                                <a href="/Account/UserProfile" title="Your Profile" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-user"></i></a>
-
-                            </li>
-
-                            <li class="nav-item dropdown">
-                                <a href="/Account/Wallet" title="Your Wallet" class="nav-link dashboard-header-icon-font-size" style="color:green"> <i class="fas fa-dollar-sign"></i></a>
-
-                            </li>
-
-
-                            <!-- Logout    -->
-                            @* <li class="nav-item dropdown">
-
-
-        <i class="fas fa-lock">@Ajax.ActionLink("LogOff", "LogOff", new AjaxOptions { HttpMethod = "POST" })</i>
-                            <a href="javascript:document.getElementById('logoutForm').submit()" title="LogOff" class="nav-link dashboard-header-icon-font-size"> <i class="fas fa-lock"></i></a>
-
-
-
-                            </li>*@
-                        </ul>
                     </div>
-                </div>
-            </nav>
-        </header>
-        <div class="page-content d-flex align-items-stretch">
-            <div class="content-inner" style="padding-bottom: 59px;">
-                <div class="card" style="    margin-bottom: -50px !important;margin-top: 0px;padding: 10px;border-radius: 0;">
-                    <nav>
-                        <div class="nav nav-tabs " id="nav-tab" role="tablist" style="font-size:smaller">
-                            @*<a class="nav-item nav-link text-center" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>*@
+                </nav>
+            </div>
+            <section>
 
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
+                        <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">
+                            @Html.Partial("_Projects", Model)
+                        </div>
+                    </div>
+                    <div class="tab-pane fade  " id="nav-accepted-project" role="tabpanel" aria-labelledby="nav-accepted-project-tab">
+                        <div class="container-fluid " style="background-color:#2f323b;padding:20px">
 
-                            @{
-                                if (Model.ApplicationUser.IsInContractorMode)
-                                {
-                                    <a class="nav-item nav-link active" id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">Search Projects</a>
-                                }
-                                else
-                                {
-                                    <a class="nav-item nav-link " id="nav-project-tab" data-toggle="tab" href="#nav-project" role="tab" aria-controls="nav-project" aria-selected="true">My Projects</a>
-                                    @*<a class="nav-item nav-link" id="nav-accepted-project-tab" data-toggle="tab" href="#nav-accepted-project" role="tab" aria-controls="nav-accepted-project" aria-selected="false">Accepted Projects</a>*@
-
-                                    <script>
-                                        $(document).ready(function () {
-                                            $('#nav-project-tab').tab('show');
-                                        });
-                                    </script>
-                                }
-                            }
-
-                            <a class="nav-item nav-link" id="nav-applied-jobs-tab" data-toggle="tab" href="#nav-applied-jobs" role="tab" aria-controls="nav-applied-jobs" aria-selected="false">Appiled For</a>
-                            @*<a class="nav-item nav-link" id="nav-wallet-search-tab" data-toggle="tab" href="#nav-wallet-search" role="tab" aria-controls="nav-wallet-search" aria-selected="false">Wallet</a>*@
-                            <a class="nav-item nav-link" id="nav-contractor-search-tab" data-toggle="tab" href="#nav-contractor-search" role="tab" aria-controls="nav-contractor-search" aria-selected="false">Contractor Search</a>
-                            @*<a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Messaging</a>*@
-                            @{
-                                if (Model.ApplicationUser.IsInContractorMode)
-                                {
-
-                                }
-                            }
 
                         </div>
-                    </nav>
-                </div>
-                <section>
+                    </div>
 
-                    <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-project" role="tabpanel" aria-labelledby="nav-project-tab">
-                            <div class="container-fluid user-projects" style="background-color:#2f323b;padding:20px">
-                                @Html.Partial("_Projects", Model)
-                            </div>
-                        </div>
-                        <div class="tab-pane fade  " id="nav-accepted-project" role="tabpanel" aria-labelledby="nav-accepted-project-tab">
-                            <div class="container-fluid " style="background-color:#2f323b;padding:20px">
-
-
-                            </div>
-                        </div>
-
-                        @*<div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    @*<div class="tab-pane fade  " id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <div class="container-fluid profileDiv" style="background-color:#2f323b;padding:20px">
                                 @Html.Partial("_Profile", Model.ApplicationUser)
                             </div>
@@ -222,7 +149,7 @@
 
 
 
-                        @*<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+                    @*<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
                             <div class="container-fluid" style="background-color:#2f323b;padding:20px">
                                 <div class="col-lg-12">
                                     <div class="card profile-chat">
@@ -231,263 +158,263 @@
                                 </div>
                             </div>
                         </div>*@
-                        <div class="tab-pane fade" id="nav-contractor-search" role="tabpanel" aria-labelledby="nav-contractor-search-tab">
-                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="panel card" style="padding:10px">
-                                            <div class="panel-body">
-                                                <div class="row">
+                    <div class="tab-pane fade" id="nav-contractor-search" role="tabpanel" aria-labelledby="nav-contractor-search-tab">
+                        <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel card" style="padding:10px">
+                                        <div class="panel-body">
+                                            <div class="row">
 
-                                                    <div class="col-lg-2">
-                                                        <div class="input-group ">
-                                                            <label class="text-light" style="margin-left:10px">Rating Filter:</label>
-                                                            <select class="form-control rating-select" style="min-width: 100%;margin:10px">
-                                                                <option value="">All</option>
-                                                                <option value="1">1 Star</option>
-                                                                <option value="2">2 Star</option>
-                                                                <option value="3">3 Star</option>
-                                                                <option value="4">4 Star</option>
-                                                                <option value="5">5 Star</option>
-                                                            </select>
-                                                        </div>
+                                                <div class="col-lg-2">
+                                                    <div class="input-group ">
+                                                        <label class="text-light" style="margin-left:10px">Rating Filter:</label>
+                                                        <select class="form-control rating-select" style="min-width: 100%;margin:10px">
+                                                            <option value="">All</option>
+                                                            <option value="1">1 Star</option>
+                                                            <option value="2">2 Star</option>
+                                                            <option value="3">3 Star</option>
+                                                            <option value="4">4 Star</option>
+                                                            <option value="5">5 Star</option>
+                                                        </select>
                                                     </div>
-                                                    <div class="col-lg-2">
-                                                        <div class="input-group">
-                                                            <label class="text-light" style="margin-left:10px">Hourly Rate:</label>
-                                                            <select class="form-control hourly-select" style="width: 100%;margin:10px">
-                                                                <option value="">- Please Select A Hourly Rate -</option>
-                                                                @foreach (var item in Extensions.GetHourlyRateList())
-                                                                {
-                                                                    <option value="@item.Value">@item.Text</option>
-                                                                }
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-2">
-                                                        <div class="input-group ">
-                                                            <label class="text-light" style="margin-left:10px">Contractor Search:</label>
-                                                            <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-2">
-                                                        <div class="input-group SubProfessions">
-                                                            <label class="text-light" style="margin-left:10px">Job Title:</label>
-                                                            <select class="form-control  search-profession" style="width: 100%;margin:10px">
-                                                                <option value="">- Please Select A Job Title -</option>
-                                                            </select>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-2 ">
-                                                        <div class="input-group ">
-                                                            <label class="text-light" style="margin-left:10px">Online Status:</label>
-                                                            <select class="form-control  search-online-status" style="width: 100%;margin:10px">
-                                                                <option value="">- Online Status -</option>
-                                                                <option value="true">Online</option>
-                                                                <option value="false">Offline</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-
-                                                    @*int rating,string HourlyRange,string displayName,long Profession,bool OnlineStatus*@
-                                                    <div class="col-lg-2 my-auto">
-                                                        <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-dark btn-sm ">Search</button>
-                                                    </div>
-
-
                                                 </div>
+                                                <div class="col-lg-2">
+                                                    <div class="input-group">
+                                                        <label class="text-light" style="margin-left:10px">Hourly Rate:</label>
+                                                        <select class="form-control hourly-select" style="width: 100%;margin:10px">
+                                                            <option value="">- Please Select A Hourly Rate -</option>
+                                                            @foreach (var item in Extensions.GetHourlyRateList())
+                                                            {
+                                                                <option value="@item.Value">@item.Text</option>
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <div class="input-group ">
+                                                        <label class="text-light" style="margin-left:10px">Contractor Search:</label>
+                                                        <input type="text" class="form-control contractor-search" placeholder="Search for a Contractor by Name" style="margin:10px">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2">
+                                                    <div class="input-group SubProfessions">
+                                                        <label class="text-light" style="margin-left:10px">Job Title:</label>
+                                                        <select class="form-control  search-profession" style="width: 100%;margin:10px">
+                                                            <option value="">- Please Select A Job Title -</option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-2 ">
+                                                    <div class="input-group ">
+                                                        <label class="text-light" style="margin-left:10px">Online Status:</label>
+                                                        <select class="form-control  search-online-status" style="width: 100%;margin:10px">
+                                                            <option value="">- Online Status -</option>
+                                                            <option value="true">Online</option>
+                                                            <option value="false">Offline</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                @*int rating,string HourlyRange,string displayName,long Profession,bool OnlineStatus*@
+                                                <div class="col-lg-2 my-auto">
+                                                    <button data-url="/Account/ContractorSearch?" class="js-reload-details btn btn-dark btn-sm ">Search</button>
+                                                </div>
+
+
                                             </div>
-
-                                        </div>
-
-
-                                        <div class="loader">
-                                            <div id="detailsDiv"></div>
                                         </div>
 
                                     </div>
 
+
+                                    <div class="loader">
+                                        <div id="detailsDiv"></div>
+                                    </div>
+
                                 </div>
-                                <script>
-                                    var pageNumber = 0;
-                                    $(document).ready(function () {
+
+                            </div>
+                            <script>
+                                var pageNumber = 0;
+                                $(document).ready(function () {
 
 
 
-                                        $.get('/Account/GetFullSubCategoryList', function (data) {
+                                    $.get('/Account/GetFullSubCategoryList', function (data) {
 
-                                            $('.search-profession').empty();
-                                            $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
-                                            $.each(data, function (index, row) {
-                                                $('.search-profession').append("<option value='" + row.SubCatName + "'>" + row.SubCatName + "</option>");
-                                            });
+                                        $('.search-profession').empty();
+                                        $('.search-profession').append("<option value=''>- Please Select A Job Title -</option>");
+                                        $.each(data, function (index, row) {
+                                            $('.search-profession').append("<option value='" + row.SubCatName + "'>" + row.SubCatName + "</option>");
                                         });
+                                    });
 
 
 
 
 
-                                        $('.js-reload-details').on('click', function (evt) {
-                                            evt.preventDefault();
-                                            evt.stopPropagation();
-                                            $('body').loading('start');
-                                            var $detailDiv = $('#detailsDiv');
+                                    $('.js-reload-details').on('click', function (evt) {
+                                        evt.preventDefault();
+                                        evt.stopPropagation();
+                                        $('body').loading('start');
+                                        var $detailDiv = $('#detailsDiv');
 
-                                            var rating = $('.rating-select option:selected').val();
-                                            var hourly = $('.hourly-select option:selected').val();
-                                            var displayName = $('.contractor-search').val();
-                                            var sub = $('.search-profession option:selected').val();
-                                            var onlineStatus = $('.search-online-status option:selected').val();
-                                            var all = 'false';
+                                        var rating = $('.rating-select option:selected').val();
+                                        var hourly = $('.hourly-select option:selected').val();
+                                        var displayName = $('.contractor-search').val();
+                                        var sub = $('.search-profession option:selected').val();
+                                        var onlineStatus = $('.search-online-status option:selected').val();
+                                        var all = 'false';
 
-                                            if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
-                                                all = true;
-                                            }
+                                        if (rating == '' && hourly == '' && displayName == '' && sub == '' && onlineStatus == '') {
+                                            all = true;
+                                        }
 
 
-                                            $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=&All=' + all + '&page=' + pageNumber, function (data) {
-                                                $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
-                                                $('body').loading('stop');
-                                            });
+                                        $.get($(this).data('url') + 'rating=' + rating + '&HourlyRange=' + hourly + '&displayName=' + displayName + '&Profession=' + sub + '&OnlineStatus=&All=' + all + '&page=' + pageNumber, function (data) {
+                                            $detailDiv.replaceWith('<div id="detailsDiv">' + data + '</div>');
+                                            $('body').loading('stop');
                                         });
+                                    });
 
 
 
-                                        $('.search-professions').hide();
-                                        $('.search-subprofessions').hide();
-                                        $('.SelectedProfession').hide();
-                                        $('.search-add').hide();
+                                    $('.search-professions').hide();
+                                    $('.search-subprofessions').hide();
+                                    $('.SelectedProfession').hide();
+                                    $('.search-add').hide();
 
 
-                                        $('#professions-start').change(function (event, ui) {
+                                    $('#professions-start').change(function (event, ui) {
 
-                                            $.getJSON('/Account/AutoComplete', { term: $("#professions-start option:selected").text() }, function (item) {
-                                                $('.search-professions').show();
-                                                $(".search-professions").empty();
-                                                $(".search-professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
+                                        $.getJSON('/Account/AutoComplete', { term: $("#professions-start option:selected").text() }, function (item) {
+                                            $('.search-professions').show();
+                                            $(".search-professions").empty();
+                                            $(".search-professions").append("<option value='- Please Select A Profession Category -'>- Please Select A Profession Category -</option>");
 
-                                                $.each(item, function (index, data) {
-                                                    $(".search-professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
-                                                });
-
+                                            $.each(item, function (index, data) {
+                                                $(".search-professions").append("<option value='" + data.ID + "'>" + data.Name + "</option>");
                                             });
-                                        });
-
-                                        $('.search-professions').change(function (event, ui) {
-                                            $.get('/Account/GetProjectSubCategoryList', { Id: this.value }, function (data) {
-
-                                                // $(".demo").empty();
-                                                $(".search-subprofessions").empty();
-                                                $(".search-subprofessions").show();
-                                                $('.SelectedProfession').show();
-
-
-
-                                                $('.search-subprofessions').append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
-                                                $.each(data, function (index, row) {
-                                                    $('.search-subprofessions').append("<option data-info='" + $(".ApplicationUser-Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
-
-                                                });
-
-
-
-
-                                                $('.search-add').show();
-                                            });
-                                        });
-
-                                        // add new sub(s) from list
-                                        $('.search-add').click(function () {
-
-                                            if ($(".search-subprofessions option:selected").val() !== '- Please Select A Job Title -') {
-
-                                                $('.search-results').append('<div class="search-result-added search-new" id="' + $(".search-subprofessions option:selected").val() + '"><span class="btn btn-danger btn-sm search-remove" data-mainId="' + $(".search-professions option:selected").val() + '" data-subId="' + $(".search-subprofessions option:selected").val() + '" role="button" style="margin: 5px;">remove</span>' + $(".search-professions option:selected").text() + ' -- ' + $(".search-subprofessions option:selected").text() + '</div>')
-
-                                                var json = '';
-
-                                                $('.search-new').each(function (index, value) {
-                                                    console.log($(this).find('span').attr('data-subId'))
-                                                    json += $(this).find('span').attr('data-subId') + ','
-                                                    //json += $(".search-subprofessions option:selected").val() + ',';
-                                                });
-
-
-                                                //sets the hidden field for postback
-                                                $('#SearchJsonProfession').val(json);
-
-
-
-                                                // remove cat and sub cat
-                                                $('.search-remove').click(function (e) {
-                                                    $(this).parent().remove();
-                                                });
-
-                                                // remove the selected one after we add it
-                                                $('.search-subprofessions').find('option:selected').remove().end();
-
-                                                $('.search-professions').hide();
-                                                $('.search-subprofessions').hide();
-                                                $('#professions-start').prop("selectedIndex", 0);
-
-
-
-                                                //empty the textbox and setup for next search
-                                                $('.search-subprofessions').val('');
-                                                $('.sublist').hide();
-
-                                                $('.search-add').hide();
-
-                                            }
-                                            else {
-                                                alert('Please Select A Job Title');
-                                            }
 
                                         });
                                     });
-                                </script>
-                            </div>
-                        </div>
 
-                        <div class="tab-pane fade" id="nav-wallet-search" role="tabpanel" aria-labelledby="nav-wallet-search-tab">
-                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                                    $('.search-professions').change(function (event, ui) {
+                                        $.get('/Account/GetProjectSubCategoryList', { Id: this.value }, function (data) {
+
+                                            // $(".demo").empty();
+                                            $(".search-subprofessions").empty();
+                                            $(".search-subprofessions").show();
+                                            $('.SelectedProfession').show();
+
+
+
+                                            $('.search-subprofessions').append("<option value='- Please Select A Job Title -'>- Please Select A Job Title -</option>");
+                                            $.each(data, function (index, row) {
+                                                $('.search-subprofessions').append("<option data-info='" + $(".ApplicationUser-Professions option:selected").text() + "'  value='" + this.MainCatId + '_' + row.Id + "'>" + row.SubCatNames + "</option>");
+
+                                            });
 
 
 
 
-                            </div>
-                        </div>
+                                            $('.search-add').show();
+                                        });
+                                    });
 
-                        <div class="tab-pane fade" id="nav-applied-jobs" role="tabpanel" aria-labelledby="nav-applied-jobs-tab">
-                            <div class="container-fluid" style="background-color:#2f323b;padding:20px">
-                                <div class="Contractor-Applied-JobsList">
-                                    @Html.Partial("_ContractorAppliedJobsList")
-                                </div>
+                                    // add new sub(s) from list
+                                    $('.search-add').click(function () {
 
-                            </div>
+                                        if ($(".search-subprofessions option:selected").val() !== '- Please Select A Job Title -') {
+
+                                            $('.search-results').append('<div class="search-result-added search-new" id="' + $(".search-subprofessions option:selected").val() + '"><span class="btn btn-danger btn-sm search-remove" data-mainId="' + $(".search-professions option:selected").val() + '" data-subId="' + $(".search-subprofessions option:selected").val() + '" role="button" style="margin: 5px;">remove</span>' + $(".search-professions option:selected").text() + ' -- ' + $(".search-subprofessions option:selected").text() + '</div>')
+
+                                            var json = '';
+
+                                            $('.search-new').each(function (index, value) {
+                                                console.log($(this).find('span').attr('data-subId'))
+                                                json += $(this).find('span').attr('data-subId') + ','
+                                                //json += $(".search-subprofessions option:selected").val() + ',';
+                                            });
+
+
+                                            //sets the hidden field for postback
+                                            $('#SearchJsonProfession').val(json);
+
+
+
+                                            // remove cat and sub cat
+                                            $('.search-remove').click(function (e) {
+                                                $(this).parent().remove();
+                                            });
+
+                                            // remove the selected one after we add it
+                                            $('.search-subprofessions').find('option:selected').remove().end();
+
+                                            $('.search-professions').hide();
+                                            $('.search-subprofessions').hide();
+                                            $('#professions-start').prop("selectedIndex", 0);
+
+
+
+                                            //empty the textbox and setup for next search
+                                            $('.search-subprofessions').val('');
+                                            $('.sublist').hide();
+
+                                            $('.search-add').hide();
+
+                                        }
+                                        else {
+                                            alert('Please Select A Job Title');
+                                        }
+
+                                    });
+                                });
+                            </script>
                         </div>
                     </div>
-                </section>
+
+                    <div class="tab-pane fade" id="nav-wallet-search" role="tabpanel" aria-labelledby="nav-wallet-search-tab">
+                        <div class="container-fluid" style="background-color:#2f323b;padding:20px">
 
 
-                <!-- Page Footer-->
-                <footer class="main-footer">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <p> </p>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                <p>Version 1.0.0</p>
-                            </div>
+
+
                         </div>
                     </div>
-                </footer>
-            </div>
+
+                    <div class="tab-pane fade" id="nav-applied-jobs" role="tabpanel" aria-labelledby="nav-applied-jobs-tab">
+                        <div class="container-fluid" style="background-color:#2f323b;padding:20px">
+                            <div class="Contractor-Applied-JobsList">
+                                @Html.Partial("_ContractorAppliedJobsList")
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+            <!-- Page Footer-->
+            <footer class="main-footer">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p> </p>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <p>Version 1.0.0</p>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
     </div>
+</div>
 
     <input class="form-control d-none" id="InfoTabOpen" name="InfoTabOpen" type="text" value="@Model.ApplicationUser.InfoTabOpen" />
     <input class="form-control d-none" id="JsonProfession" name="JsonProfession" type="text" value="@Model.ApplicationUser.JsonProfession" />
