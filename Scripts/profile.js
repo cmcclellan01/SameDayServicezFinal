@@ -30,6 +30,8 @@ function LoadProjectTable() {
 
             }
         },
+
+      
         "fnDrawCallback": function (oSettings) {
 
             $('.project-table').on('click', '.view-project', function (event) {
@@ -96,6 +98,20 @@ function LoadProjectTable() {
                 }
             });
 
+            $('.profile-icon-btn').on('click', function (evt) {
+                var $detailDiv = $('body');
+
+                $.get('/Account/FullProfile?Id=' + $(this).attr('data-contractor-id'), function (data) {
+                    $detailDiv.append(data);
+
+                    $('.bd-example-modal-lg').modal('show').on('hidden.bs.modal', function (e) {
+
+                        $('.bd-example-modal-lg').remove();
+                    });
+
+                });
+            });
+
         },
         initComplete: function () {
 
@@ -154,10 +170,10 @@ function LoadProjectTable() {
             { name: 'Project Type'},
             { name: 'Assigned Contractors' },
             { name: 'Applicants Alert' },
-            { name: 'City' },
-            { name: 'State' },
-            { name: 'ZipCode' },
-            { name: 'Actions' }
+            //{ name: 'City' },
+            //{ name: 'State' },
+            //{ name: 'ZipCode' },
+            //{ name: 'Actions' }
         ],
         columnDefs:
             [
@@ -198,32 +214,32 @@ function LoadProjectTable() {
                     orderable: false     
 
                 },
-                {
+                //{
 
-                    targets: 6,
-                    className: 'text-center',
-                    searchable: false,
-                    orderable: false
+                //    targets: 6,
+                //    className: 'text-center',
+                //    searchable: false,
+                //    orderable: false
 
-                },
-                {
+                //},
+                //{
 
-                    targets: 7,
-                    className: 'text-center',
-                     orderable: false
-                },
-                {
+                //    targets: 7,
+                //    className: 'text-center',
+                //     orderable: false
+                //},
+                //{
 
-                    targets: 8,
-                    className: 'text-center',
-                     orderable: false
-                },
+                //    targets: 8,
+                //    className: 'text-center',
+                //     orderable: false
+                //},
 
-                {
-                    targets: 9,
-                    searchable: false,
-                    orderable: false
-                }
+                //{
+                //    targets: 9,
+                //    searchable: false,
+                //    orderable: false
+                //}
             ]
     });
 
